@@ -50,6 +50,15 @@ const AddProduct = () => {
     }));
   };
 
+  
+  const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = e.target;
     const fileList = e.target.files;
@@ -65,68 +74,6 @@ const AddProduct = () => {
 
   return (
     <>
-      {/* <div className="container mt-3">
-        <form onSubmit={handleSubmit}>
-          <div className="form-row">
-            <div className="form-group col-md-6">
-              <label htmlFor="inputEmail4">Product Name</label>
-              <input
-                value={product.title}
-                onChange={handleChange}
-                type="text"
-                name="title"
-                className="form-control"
-                id="inputEmail4"
-                placeholder="Enter product name"
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <label htmlFor="inputEmail4">Description</label>
-              <input
-                value={product.description}
-                onChange={handleChange}
-                type="text"
-                name="description"
-                className="form-control"
-                id="inputEmail4"
-                placeholder="Enter description"
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <label htmlFor="inputEmail4">price</label>
-              <input
-                value={product.product_price}
-                name="product_price"
-                onChange={handleChange}
-                type="text"
-                className="form-control"
-                id="inputEmail4"
-                placeholder="Enter price"
-              />
-            </div>
-            <div className="form-group col-md-6">
-              <label htmlFor="inputPassword4">Password</label>
-              <input
-                type="file"
-                name="product_image"
-                onChange={handleChangeImage}
-                className="form-control"
-                id="inputPassword4"
-                placeholder="upload image"
-              />
-            </div>
-          </div>
-          <div className="row mt-3">
-            <div className="pb-5 d-flex justify-content-center">
-              <button type="submit" className="btn btn-success mr-3 ml-3 ">
-                Submit
-              </button>
-              <br />
-            </div>
-          </div>
-        </form>
-      </div> */}
-
       <div
         className="nk-add-product toggle-slide toggle-slide-right"
         data-content="addProduct"
@@ -145,83 +92,85 @@ const AddProduct = () => {
         </div>
         <div className="nk-block">
           <form onSubmit={handleSubmit}>
-          <div className="row g-3">
-            <div className="col-12">
-              <div className="form-group">
-                <label className="form-label">Product Title</label>
-                <div className="form-control-wrap">
-                  <input
-                    value={product.title}
-                    onChange={handleChange}
-                    type="text"
-                    name="title"
-                    className="form-control"
-                    id="inputEmail4"
-                    placeholder="Enter product name"
-                  />
+            <div className="row g-3">
+              <div className="col-12">
+                <div className="form-group">
+                  <label className="form-label">Product Title</label>
+                  <div className="form-control-wrap">
+                    <input
+                      required
+                      value={product.title}
+                      onChange={handleChange}
+                      type="text"
+                      name="title"
+                      className="form-control"
+                      id="inputEmail4"
+                      placeholder="Enter product name"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-mb-6">
-              <div className="form-group">
-                <label className="form-label">Sale Price</label>
-                <div className="form-control-wrap">
-                  <input
-                    className="form-control"
-                    value={product.product_price}
-                    name="product_price"
-                    onChange={handleChange}
-                    type="number"
-                    placeholder="Enter price"
-                    id="sale-price"
-                  />
+              <div className="col-mb-6">
+                <div className="form-group">
+                  <label className="form-label">Sale Price</label>
+                  <div className="form-control-wrap">
+                    <input
+                      required
+                      className="form-control"
+                      value={product.product_price}
+                      name="product_price"
+                      onChange={handleChange}
+                      type="number"
+                      placeholder="Enter price"
+                      id="sale-price"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+              <div className="col-mb-6">
+                <div className="form-group">
+                  <label className="form-label">Stock</label>
+                  <div className="form-control-wrap">
+                    <input type="text" className="form-control" id="stock" />
+                  </div>
+                </div>
+              </div>
 
-            <div className="col-mb-6">
-              <div className="form-group">
-                <label className="form-label">Stock</label>
-                <div className="form-control-wrap">
-                  <input type="text" className="form-control" id="stock" />
+              <div className="col-12">
+                <div className="form-group">
+                  <label className="form-label">Description</label>
+                  <div className="form-control-wrap">
+                    <textarea
+                      required
+                      className="form-control"
+                      value={product.description}
+                      onChange={handleChangeTextArea}
+                      name="description"
+                      id="inputEmail4"
+                      placeholder="Enter description"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="col-12">
-              <div className="form-group">
-                <label className="form-label">Description</label>
-                <div className="form-control-wrap">
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={product.description}
-                    onChange={handleChange}
-                    name="description"
-                    id="inputEmail4"
-                    placeholder="Enter description"
-                  />
+              <div className="col-12">
+                <div className="form-group">
+                  <label className="form-label">Upload Image</label>
+                  <div className="form-control-wrap">
+                    <input
+                      required
+                      type="file"
+                      name="product_image"
+                      onChange={handleChangeImage}
+                      className="form-control"
+                      id="inputPassword4"
+                      placeholder="upload image"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="col-12">
-              <div className="form-group">
-                <label className="form-label">Upload Image</label>
-                <div className="form-control-wrap">
-                  <input
-                    type="file"
-                    name="product_image"
-                    onChange={handleChangeImage}
-                    className="form-control"
-                    id="inputPassword4"
-                    placeholder="upload image"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* <div className="col-12">
+              {/* <div className="col-12">
               <div className="upload-zone small bg-lighter my-2">
                 <div className="dz-message">
                   <span className="dz-message-text">Drag and drop file</span>
@@ -229,13 +178,13 @@ const AddProduct = () => {
               </div>
             </div> */}
 
-            <div className="col-12">
-              <button  type="submit" className="btn btn-primary">
-                <em className="icon ni ni-plus"></em>
-                <span>Add New</span>
-              </button>
+              <div className="col-12">
+                <button type="submit" className="btn btn-primary">
+                  <em className="icon ni ni-plus"></em>
+                  <span>Add New</span>
+                </button>
+              </div>
             </div>
-          </div>
           </form>
         </div>
       </div>

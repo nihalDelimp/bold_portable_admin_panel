@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import moment from "moment";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-function Users() {
+function Users(prosp : any) {
+  const {setLoading} =  prosp
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -11,15 +13,18 @@ function Users() {
   }, []);
 
   const getUsersListData = async () => {
+    setLoading(true)
     await authAxios()
       .get("/auth/get-all-users")
       .then(
         (response) => {
+          setLoading(false)
           if (response.data.status === 1) {
             setUsers(response.data.data);
           }
         },
         (error) => {
+          setLoading(false)
           toast.error(error.response.data.message);
         }
       )
@@ -348,4 +353,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default IsLoadingHOC( Users);

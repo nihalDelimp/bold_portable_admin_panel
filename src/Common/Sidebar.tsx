@@ -73,7 +73,7 @@ function Sidebar() {
                 </Link>
               </li>
               <li className="nk-menu-item">
-                <Link to="/users" className="nk-menu-link">
+                <Link to="/customers" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-users-fill"></em>
                   </span>

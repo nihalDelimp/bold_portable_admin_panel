@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-const  UserProducts = () => {
+const UserProducts = (props : any) => {
+  const{ setLoading } =  props
   const [products, setProduct] = useState([]);
 
   useEffect(() => {
@@ -10,6 +12,7 @@ const  UserProducts = () => {
   }, []);
 
   const getProductsListData = async () => {
+    setLoading(true)
     await authAxios()
       .get("/product/get-products")
       .then(
@@ -28,26 +31,31 @@ const  UserProducts = () => {
   };
   return (
     <div>
-      <div className="p-3" >
-      <div className="card-deck">
-        {products?.map((item : any , index) => (
-        <div key = {index + 1} className="card w-100">
-          <img  style={{ width: "100%" , height : "60%"}}  src={`${process.env.REACT_APP_BASEURL}/${item.product_image}`} className="card-img-top" alt="..." />
-          <div className="card-body">
-            <h5 className="card-title">{item.title} </h5>
-            <p className="card-text">
-            {item.description}
-            </p>
-          </div>
-          <div className="card-footer">
-            <button className="btn btn-primary text-center">Add to Cart</button>
-          </div>
+      <div className="p-3">
+        <div className="card-deck">
+          {products?.map((item: any, index) => (
+            <div key={index + 1} className="card w-100">
+              <img
+                style={{ width: "100%", height: "60%" }}
+                src={`${process.env.REACT_APP_BASEURL}/${item.product_image}`}
+                className="card-img-top"
+                alt="..."
+              />
+              <div className="card-body">
+                <h5 className="card-title">{item.title} </h5>
+                <p className="card-text">{item.description}</p>
+              </div>
+              <div className="card-footer">
+                <button className="btn btn-primary text-center">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
-        ))}
       </div>
     </div>
-    </div>
   );
-}
+};
 
-export default UserProducts;
+export default IsLoadingHOC(UserProducts);

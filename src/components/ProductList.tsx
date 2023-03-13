@@ -2,24 +2,32 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import AddProduct from "./AddProduct";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
+import EditProduct from "./EditProduct";
+import { Link } from 'react-router-dom';
 
-function ProductList() {
+function ProductList(props: any) {
   const [products, setProduct] = useState([]);
-
+  const [editProductModal, setEditProductModal] = useState(false);
+  const [productId, setProductId] = useState(0);
+  const { setLoading } = props;
   useEffect(() => {
     getProductsListData();
   }, []);
 
   const getProductsListData = async () => {
+    setLoading(true);
     await authAxios()
       .get("/product/get-products")
       .then(
         (response) => {
+          setLoading(false);
           if (response.data.status === 1) {
             setProduct(response.data.data);
           }
         },
         (error) => {
+          setLoading(false);
           toast.error(error.response.data.message);
         }
       )
@@ -28,43 +36,37 @@ function ProductList() {
       });
   };
 
+  const handleDeleteProduct = async (product_id: string) => {
+    setLoading(true);
+    await authAxios()
+      .delete(`/product/delete-products/${product_id}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data.message);
+            getProductsListData();
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const handleEditModal = (product_id: number) => {
+    setProductId(product_id);
+    setEditProductModal(true);
+  };
+
   return (
     <>
-      {/* <div className="container pt-2">
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Decsription</th>
-              <th scope="col">Image</th>
-              <th scope="col">Price</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {products?.map((item: any, index) => (
-              <tr key={index + 1}>
-                <th scope="row">{index + 1}</th>
-                <td>{item.title}</td>
-                <td>{item.description}</td>
-                <td>
-                  <img
-                    style={{ width: "60px", height: "60px" }}
-                    src={`${process.env.REACT_APP_BASEURL}/${item.product_image}`}
-                    alt="prodict"
-                  />
-                </td>
-                <td>{item.product_price}</td>
-                <td>
-                  <button className="btn btn-primary">Edit</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div> */}
-
       <div className="nk-content ">
         <div className="container-fluid">
           <div className="nk-content-inner">
@@ -179,85 +181,90 @@ function ProductList() {
                     </div>
                   </div>
 
-                  {products?.map((item: any, index) => (
-                  <div className="nk-tb-item">
-                    <div className="nk-tb-col nk-tb-col-check">
-                      <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="pid10"
-                        />
-                        <label className="custom-control-label"></label>
+                  {products?.map((item: any) => (
+                    <div key={item.id} className="nk-tb-item">
+                      <div className="nk-tb-col nk-tb-col-check">
+                        <div className="custom-control custom-control-sm custom-checkbox notext">
+                          <input
+                            type="checkbox"
+                            className="custom-control-input"
+                            id="pid10"
+                          />
+                          <label className="custom-control-label"></label>
+                        </div>
+                      </div>
+                      <div className="nk-tb-col tb-col-sm">
+                        <span className="tb-product">
+                          <img
+                            src={`${process.env.REACT_APP_BASEURL}/${item.product_image}`}
+                            alt=""
+                            className="thumb"
+                          />
+                          <span className="title">{item.title}</span>
+                        </span>
+                      </div>
+
+                      <div className="nk-tb-col">
+                        <span className="tb-lead">{item.product_price}</span>
+                      </div>
+
+                      <div className="nk-tb-col tb-col-md">
+                        <span className="tb-sub">{item.description}</span>
+                      </div>
+
+                      <div className="nk-tb-col nk-tb-col-tools">
+                        <ul className="nk-tb-actions gx-1 my-n1">
+                          <li className="me-n1">
+                            <div className="dropdown">
+                              <a
+                                href="#"
+                                className="dropdown-toggle btn btn-icon btn-trigger"
+                                data-bs-toggle="dropdown"
+                              >
+                                <em className="icon ni ni-more-h"></em>
+                              </a>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                <ul className="link-list-opt no-bdr">
+                                  <li>
+                                    <a
+                                      className="cursor_ponter"
+                                      onClick={() => handleEditModal(item.id)}
+                                    >
+                                      <em className="icon ni ni-edit"></em>
+                                      <span>Edit Product</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <Link to = {`/view-product/${item.id}`}>
+                                      <em className="icon ni ni-eye"></em>
+                                      <span>View Product</span>
+                                    </Link>
+                                  </li>
+                                  <li>
+                                    <a href="#">
+                                      <em className="icon ni ni-activity-round"></em>
+                                      <span>Product Orders</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      className="cursor_ponter"
+                                      onClick={() =>
+                                        handleDeleteProduct(item.id)
+                                      }
+                                    >
+                                      <em className="icon ni ni-trash"></em>
+                                      <span>Remove Product</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
                       </div>
                     </div>
-                    <div className="nk-tb-col tb-col-sm">
-                      <span className="tb-product">
-                        <img
-                          src={`${process.env.REACT_APP_BASEURL}/${item.product_image}`}
-                          alt=""
-                          className="thumb"
-                        />
-                        <span className="title">{item.title}</span>
-                      </span>
-                    </div>
-                  
-                    <div className="nk-tb-col">
-                      <span className="tb-lead">{item.product_price}</span>
-                    </div>
-                  
-                    <div className="nk-tb-col tb-col-md">
-                      <span className="tb-sub">{item.description}</span>
-                    </div>
-                 
-                    
-                    <div className="nk-tb-col nk-tb-col-tools">
-                      <ul className="nk-tb-actions gx-1 my-n1">
-                        <li className="me-n1">
-                          <div className="dropdown">
-                            <a
-                              href="#"
-                              className="dropdown-toggle btn btn-icon btn-trigger"
-                              data-bs-toggle="dropdown"
-                            >
-                              <em className="icon ni ni-more-h"></em>
-                            </a>
-                            <div className="dropdown-menu dropdown-menu-end">
-                              <ul className="link-list-opt no-bdr">
-                                <li>
-                                  <a href="#">
-                                    <em className="icon ni ni-edit"></em>
-                                    <span>Edit Product</span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <em className="icon ni ni-eye"></em>
-                                    <span>View Product</span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <em className="icon ni ni-activity-round"></em>
-                                    <span>Product Orders</span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <em className="icon ni ni-trash"></em>
-                                    <span>Remove Product</span>
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
                   ))}
-
-
                 </div>
                 <div className="card">
                   <div className="card-inner">
@@ -338,138 +345,21 @@ function ProductList() {
                   </div>
                 </div>
               </div>
-
-
               <AddProduct />
-
-
-              {/* <div
-                className="nk-add-product toggle-slide toggle-slide-right"
-                data-content="addProduct"
-                data-toggle-screen="any"
-                data-toggle-overlay="true"
-                data-toggle-body="true"
-                data-simplebar
-              >
-                <div className="nk-block-head">
-                  <div className="nk-block-head-content">
-                    <h5 className="nk-block-title">New Product</h5>
-                    <div className="nk-block-des">
-                      <p>Add information and add new product.</p>
-                    </div>
-                  </div>
-                </div>
-                <div className="nk-block">
-                  <div className="row g-3">
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label className="form-label">Product Title</label>
-                        <div className="form-control-wrap">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="product-title"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-mb-6">
-                      <div className="form-group">
-                        <label className="form-label">Regular Price</label>
-                        <div className="form-control-wrap">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="regular-price"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-mb-6">
-                      <div className="form-group">
-                        <label className="form-label">Sale Price</label>
-                        <div className="form-control-wrap">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="sale-price"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-mb-6">
-                      <div className="form-group">
-                        <label className="form-label">Stock</label>
-                        <div className="form-control-wrap">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="stock"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-mb-6">
-                      <div className="form-group">
-                        <label className="form-label">SKU</label>
-                        <div className="form-control-wrap">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="SKU"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label className="form-label">Category</label>
-                        <div className="form-control-wrap">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="category"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="form-group">
-                        <label className="form-label">Tags</label>
-                        <div className="form-control-wrap">
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="tags"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <div className="upload-zone small bg-lighter my-2">
-                        <div className="dz-message">
-                          <span className="dz-message-text">
-                            Drag and drop file
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-12">
-                      <button className="btn btn-primary">
-                        <em className="icon ni ni-plus"></em>
-                        <span>Add New</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-
             </div>
           </div>
         </div>
       </div>
+      {editProductModal && (
+        <EditProduct
+          productId={productId}
+          editProductModal={editProductModal}
+          setEditProductModal={setEditProductModal}
+          getProductsListData={getProductsListData}
+        />
+      )}
     </>
   );
 }
 
-export default ProductList;
+export default IsLoadingHOC(ProductList);

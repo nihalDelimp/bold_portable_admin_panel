@@ -12,8 +12,10 @@ import { RootState } from "../Redux/rootReducer";
 import { useAppDispatch } from "../Redux/store";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-const Login = () => {
+const Login = (props: any) => {
+  const { setLoading } = props;
   const navigate = useNavigate();
   const { accessToken } = useSelector((state: RootState) => state.auth);
 
@@ -33,10 +35,12 @@ const Login = () => {
     event.preventDefault();
     console.log("user", userInput);
     const payload = userInput;
+    setLoading(true);
     await withoutAuthAxios()
       .post("/auth/login", payload)
       .then(
         (response) => {
+          setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
             const user = resData.user;
@@ -47,8 +51,7 @@ const Login = () => {
               dispatch(setIsAuthenticated(true));
               navigate("/");
               window.location.reload();
-            }
-            else {
+            } else {
               toast.error(`You don't have access to login`);
             }
           } else {
@@ -56,6 +59,7 @@ const Login = () => {
           }
         },
         (error) => {
+          setLoading(false);
           toast.error(error.response.data.message);
         }
       )
@@ -106,15 +110,15 @@ const Login = () => {
                 <div className="form-group">
                   <div className="form-label-group">
                     <label className="form-label" htmlFor="default-01">
-                      Email or Username
+                      Email
                     </label>
                   </div>
                   <div className="form-control-wrap">
                     <input
-                      type="text"
+                      type="email"
                       className="form-control form-control-lg"
                       id="default-01"
-                      placeholder="Enter your email address or username"
+                      placeholder="Enter your email address"
                       required
                       value={userInput.email}
                       onChange={handleChange}
@@ -280,4 +284,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default IsLoadingHOC(Login);
