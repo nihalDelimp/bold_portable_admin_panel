@@ -12,17 +12,17 @@ function Sidebar() {
           <a href="html/index.html" className="logo-link nk-sidebar-logo">
             <img
               className="logo-light logo-img"
-              src={require("../images/logo.png")}
+              src={require("../images/bold_port.png")}
               alt="logo"
             />
             <img
               className="logo-dark logo-img"
-              src={require("../images/logo-dark.png")}
+              src={require("../images/bold_port.png")}
               alt="logo-dark"
             />
             <img
               className="logo-small logo-img logo-img-small"
-              src={require("../images/logo-small.png")}
+              src={require("../images/bold_port.png")}
               alt="logo-small"
             />
           </a>

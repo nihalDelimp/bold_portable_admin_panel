@@ -84,12 +84,12 @@ const Login = (props: any) => {
             <a href="html/index.html" className="logo-link">
               <img
                 className="logo-light logo-img logo-img-lg"
-                src="./images/logo.png"
+                src={require("../images/bold_port.png")}
                 alt="logo"
               />
               <img
                 className="logo-dark logo-img logo-img-lg"
-                src="./images/logo-dark.png"
+                src={require("../images/bold_port.png")}
                 alt="logo-dark"
               />
             </a>
@@ -101,7 +101,7 @@ const Login = (props: any) => {
                   <h4 className="nk-block-title">Sign-In</h4>
                   <div className="nk-block-des">
                     <p>
-                      Access the Dashlite panel using your email and passcode.
+                      Access the Bpld Portable panel using your email and passcode.
                     </p>
                   </div>
                 </div>
