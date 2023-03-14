@@ -229,14 +229,14 @@ function ProductList(props: any) {
                                   <li>
                                     <a
                                       className="cursor_ponter"
-                                      onClick={() => handleEditModal(item.id)}
+                                      onClick={() => handleEditModal(item._id)}
                                     >
                                       <em className="icon ni ni-edit"></em>
                                       <span>Edit Product</span>
                                     </a>
                                   </li>
                                   <li>
-                                    <Link to = {`/view-product/${item.id}`}>
+                                    <Link to = {`/view-product/${item._id}`}>
                                       <em className="icon ni ni-eye"></em>
                                       <span>View Product</span>
                                     </Link>
@@ -251,7 +251,7 @@ function ProductList(props: any) {
                                     <a
                                       className="cursor_ponter"
                                       onClick={() =>
-                                        handleDeleteProduct(item.id)
+                                        handleDeleteProduct(item._id)
                                       }
                                     >
                                       <em className="icon ni ni-trash"></em>
