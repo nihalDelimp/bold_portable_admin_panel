@@ -101,7 +101,7 @@ const Login = (props: any) => {
                   <h4 className="nk-block-title">Sign-In</h4>
                   <div className="nk-block-des">
                     <p>
-                      Access the Bpld Portable panel using your email and passcode.
+                      Access the Bold Portable panel using your email and passcode.
                     </p>
                   </div>
                 </div>
