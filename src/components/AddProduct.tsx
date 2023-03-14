@@ -112,7 +112,7 @@ const AddProduct = () => {
               </div>
               <div className="col-mb-6">
                 <div className="form-group">
-                  <label className="form-label">Sale Price</label>
+                  <label className="form-label">Rent Price</label>
                   <div className="form-control-wrap">
                     <input
                       required
@@ -121,20 +121,20 @@ const AddProduct = () => {
                       name="product_price"
                       onChange={handleChange}
                       type="number"
-                      placeholder="Enter price"
+                      placeholder="Rent price"
                       id="sale-price"
                     />
                   </div>
                 </div>
               </div>
-              <div className="col-mb-6">
+              {/* <div className="col-mb-6">
                 <div className="form-group">
                   <label className="form-label">Stock</label>
                   <div className="form-control-wrap">
                     <input type="text" className="form-control" id="stock" />
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className="col-12">
                 <div className="form-group">
