@@ -6,7 +6,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 
 function Users(prosp : any) {
   const {setLoading} =  prosp
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<string[]>([]);
 
   useEffect(() => {
     getUsersListData();

@@ -7,10 +7,11 @@ import EditProduct from "./EditProduct";
 import { Link } from 'react-router-dom';
 
 function ProductList(props: any) {
-  const [products, setProduct] = useState([]);
-  const [editProductModal, setEditProductModal] = useState(false);
-  const [productId, setProductId] = useState(0);
+  const [products, setProduct] = useState<string[]>([]);
+  const [editProductModal, setEditProductModal] = useState<boolean>(false);
+  const [productId, setProductId] = useState<number>(0);
   const { setLoading } = props;
+
   useEffect(() => {
     getProductsListData();
   }, []);

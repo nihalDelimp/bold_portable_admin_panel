@@ -13,6 +13,7 @@ import Users from "../components/Users";
 import PageNoteFound from "../Common/PageNoteFound";
 import AdminProfile from "../Common/AdminProfile";
 import ViewProduct from "../components/ViewProduct";
+import Orders from "../components/Orders";
 
 function RootRouter() {
   const { accessToken } = useSelector((state: RootState) => state.auth);
@@ -37,6 +38,7 @@ function PrivateRouter(props: any) {
           <Route path="/view-product/:id" element={<ViewProduct />} />
           <Route path="/customers" element={<Users />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
         <Footer />
