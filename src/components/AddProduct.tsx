@@ -3,7 +3,8 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const AddProduct = () => {
+const AddProduct = (props : any) => {
+  const {getProductsListData} =  props
   const [product, setProduct] = useState({
     title: "",
     description: "",
@@ -28,6 +29,7 @@ const AddProduct = () => {
           if (response.data.status === 1) {
             toast.success("product add successfully");
             navigate("/products");
+            getProductsListData();
           } else {
             toast.error(response.data.message);
           }

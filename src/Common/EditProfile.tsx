@@ -3,8 +3,11 @@ import { useSelector } from "react-redux";
 import { authAxios } from "../config/config";
 import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
+import { setuser } from "../Redux/Reducers/auth";
+import { useDispatch } from "react-redux";
 
 function EditProfile() {
+  const dispatch = useDispatch()
   const { user } = useSelector((state: RootState) => state.auth);
   const [userProfile, setUserProfile] = useState({
     name: "",
@@ -42,7 +45,8 @@ function EditProfile() {
         (response) => {
           if (response.data.status === 1) {
             toast.success("User update successfully");
-            console.log("resposnse Data", response.data.data);
+            const user =  response.data.data
+            dispatch(setuser(user));
           } else {
             toast.error(response.data.message);
           }
@@ -109,6 +113,7 @@ function EditProfile() {
                           Email
                         </label>
                         <input
+                          disabled
                           type="email"
                           required
                           onChange={handleChange}
@@ -127,7 +132,6 @@ function EditProfile() {
                         <input
                           type="text"
                           className="form-control"
-                          required
                           onChange={handleChange}
                           name="mobile"
                           value={userProfile.mobile}
@@ -135,37 +139,6 @@ function EditProfile() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="birth-day">
-                          Date of Birth
-                        </label>
-                        <input
-                          required
-                          onChange={handleChange}
-                          name="dateOfBirth"
-                          value={userProfile.dateOfBirth}
-                          type="text"
-                          className="form-control date-picker"
-                          id="birth-day"
-                          placeholder="02/24/2021"
-                        />
-                      </div>
-                    </div>
-                    {/* <div className="col-md-6">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="nationality">
-                          Nationality
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control date-picker"
-                          id="nationality"
-                          value="Canadian"
-                        />
-                      </div>
-                    </div> */}
-
                     <div className="col-12">
                       <div className="custom-control custom-switch">
                         <input
@@ -189,7 +162,8 @@ function EditProfile() {
                           </button>
                         </li>
                         <li>
-                          <button type="button"
+                          <button
+                            type="button"
                             data-bs-dismiss="modal"
                             className="link link-light"
                           >
@@ -285,6 +259,7 @@ function EditProfile() {
                   </div>
                 </div>
               </div> */}
+              
             </div>
           </div>
         </div>

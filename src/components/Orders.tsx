@@ -155,58 +155,13 @@ const  Orders = (props :  any) => {
                   <div className="nk-tb-col tb-col-md">
                     <span>Purchased</span>
                   </div>
-                  <div className="nk-tb-col">
+                  <div className="nk-tb-col tb-col-md">
                     <span>Total</span>
                   </div>
-                  <div className="nk-tb-col nk-tb-col-tools">
-                    <ul className="nk-tb-actions gx-1 my-n1">
-                      <li>
-                        <div className="drodown">
-                          <a
-                            href="#"
-                            className="dropdown-toggle btn btn-icon btn-trigger me-n1"
-                            data-bs-toggle="dropdown"
-                          >
-                            <em className="icon ni ni-more-h"></em>
-                          </a>
-                          <div className="dropdown-menu dropdown-menu-end">
-                            <ul className="link-list-opt no-bdr">
-                              <li>
-                                <a href="#">
-                                  <em className="icon ni ni-edit"></em>
-                                  <span>Update Status</span>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#">
-                                  <em className="icon ni ni-truck"></em>
-                                  <span>Mark as Delivered</span>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#">
-                                  <em className="icon ni ni-money"></em>
-                                  <span>Mark as Paid</span>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#">
-                                  <em className="icon ni ni-report-profit"></em>
-                                  <span>Send Invoice</span>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="#">
-                                  <em className="icon ni ni-trash"></em>
-                                  <span>Remove Orders</span>
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
+                  <div className="nk-tb-col tb-col-md">
+                    <span>Action</span>
                   </div>
+                 
                 </div>
                 <div className="nk-tb-item">
                   <div className="nk-tb-col nk-tb-col-check">

@@ -214,7 +214,7 @@ function ProductList(props: any) {
                       </div>
 
                       <div className="nk-tb-col nk-tb-col-tools">
-                        <ul className="nk-tb-actions gx-1 my-n1">
+                        <ul className="gx-1 my-n1">
                           <li className="me-n1">
                             <div className="dropdown">
                               <a
@@ -346,7 +346,9 @@ function ProductList(props: any) {
                   </div>
                 </div>
               </div>
-              <AddProduct />
+              <AddProduct
+              getProductsListData = {getProductsListData}
+               />
             </div>
           </div>
         </div>

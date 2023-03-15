@@ -3,16 +3,17 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import moment from "moment";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { Link } from 'react-router-dom';
 
-function Users(prosp : any) {
+function Customers(prosp : any) {
   const {setLoading} =  prosp
-  const [users, setUsers] = useState<string[]>([]);
+  const [customers, setCustomers] = useState<string[]>([]);
 
   useEffect(() => {
-    getUsersListData();
+    getCustomerListData();
   }, []);
 
-  const getUsersListData = async () => {
+  const getCustomerListData = async () => {
     setLoading(true)
     await authAxios()
       .get("/auth/get-all-users")
@@ -20,7 +21,7 @@ function Users(prosp : any) {
         (response) => {
           setLoading(false)
           if (response.data.status === 1) {
-            setUsers(response.data.data);
+            setCustomers(response.data.data);
           }
         },
         (error) => {
@@ -35,7 +36,7 @@ function Users(prosp : any) {
 
   return (
     <>
-      <div className="nk-content ">
+      <div className="nk-content">
         <div className="container-fluid">
           <div className="nk-content-inner">
             <div className="nk-content-body">
@@ -152,7 +153,7 @@ function Users(prosp : any) {
                     </div>
                   </div>
 
-                  {users.map((item: any, index) => (
+                  {customers.map((item: any, index) => (
                     <div key={index + 1} className="nk-tb-item">
                       <div className="nk-tb-col nk-tb-col-check">
                         <div className="custom-control custom-control-sm custom-checkbox notext">
@@ -186,34 +187,12 @@ function Users(prosp : any) {
                       <div className="nk-tb-col tb-col-lg">
                         <span>{item.email}</span>
                       </div>
-
                       <div className="nk-tb-col tb-col-md">
                         <span className="tb-status text-success">Active</span>
                       </div>
                       <div className="nk-tb-col nk-tb-col-tools">
-                        <ul className="nk-tb-actions gx-1">
-                          <li className="nk-tb-action-hidden">
-                            <a
-                              href="#"
-                              className="btn btn-trigger btn-icon"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title="Send Email"
-                            >
-                              <em className="icon ni ni-mail-fill"></em>
-                            </a>
-                          </li>
-                          <li className="nk-tb-action-hidden">
-                            <a
-                              href="#"
-                              className="btn btn-trigger btn-icon"
-                              data-bs-toggle="tooltip"
-                              data-bs-placement="top"
-                              title="Suspend"
-                            >
-                              <em className="icon ni ni-user-cross-fill"></em>
-                            </a>
-                          </li>
+                        <ul className="gx-1">
+                        
                           <li>
                             <div className="drodown">
                               <a
@@ -226,10 +205,10 @@ function Users(prosp : any) {
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <a href="html/ecommerce/customer-details.html">
+                                    <Link to = {`/view-user/${item._id}`}>
                                       <em className="icon ni ni-eye"></em>
                                       <span>View Details</span>
-                                    </a>
+                                    </Link>
                                   </li>
                                   <li>
                                     <a href="#">
@@ -353,4 +332,4 @@ function Users(prosp : any) {
   );
 }
 
-export default IsLoadingHOC( Users);
+export default IsLoadingHOC( Customers);

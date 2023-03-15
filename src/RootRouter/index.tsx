@@ -9,10 +9,11 @@ import Footer from "../Common/Footer";
 import Home from "../components/Home";
 import ProductList from "../components/ProductList";
 import AddProduct from "../components/AddProduct";
-import Users from "../components/Users";
+import Customers from "../components/Customers";
 import PageNoteFound from "../Common/PageNoteFound";
 import AdminProfile from "../Common/AdminProfile";
 import ViewProduct from "../components/ViewProduct";
+import ViewCustomer from "../components/ViewCustomer";
 import Orders from "../components/Orders";
 
 function RootRouter() {
@@ -36,7 +37,8 @@ function PrivateRouter(props: any) {
           <Route path="/products" element={<ProductList />} />
           <Route path="/add-product" element={<AddProduct />} />
           <Route path="/view-product/:id" element={<ViewProduct />} />
-          <Route path="/customers" element={<Users />} />
+          <Route path="/view-user/:id" element={<ViewCustomer />} />
+          <Route path="/customers" element={<Customers />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="*" element={<PageNoteFound />} />
