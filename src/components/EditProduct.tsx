@@ -35,7 +35,7 @@ function EditProduct(props: any) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            const userFields = ["title", "product_price", "description"];
+            const userFields = ["title", "product_price", "description" , "product_image"];
             userFields.forEach((field) => {
               setProduct((prev) => ({
                 ...prev,
@@ -194,14 +194,12 @@ function EditProduct(props: any) {
                         ></textarea>
                       </div>
                     </div>
-
                     <div className="col-md-6">
-                      <div className="form-group">
+                      <div className="form-group product_details_image">
                         <label className="form-label" htmlFor="phone-no">
                           Upload Image
                         </label>
                         <input
-                          required
                           type="file"
                           name="product_image"
                           onChange={handleChangeImage}
@@ -209,6 +207,13 @@ function EditProduct(props: any) {
                           id="inputPassword4"
                           placeholder="upload image"
                         />
+                         <span className="data-value">
+                                <img
+                                  src={`${process.env.REACT_APP_BASEURL}/${product?.product_image}`}
+                                  alt=""
+                                  className="thumb"
+                                />
+                              </span>
                       </div>
                     </div>
                     <div className="col-12">

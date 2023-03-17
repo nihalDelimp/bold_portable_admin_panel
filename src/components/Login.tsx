@@ -50,7 +50,7 @@ const Login = (props: any) => {
               dispatch(setuser(resData.user));
               dispatch(setIsAuthenticated(true));
               navigate("/");
-              window.location.reload();
+             // window.location.reload();
             } else {
               toast.error(`You don't have access to login`);
             }
