@@ -1,7 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 
 function Sidebar() {
+  const navigate = useNavigate()
+
+  const PageRefresh = () => {
+    navigate('/products')
+    window.location.reload()
+  }
   return (
     <div
       className="nk-sidebar nk-sidebar-fixed is-light "
@@ -65,12 +71,12 @@ function Sidebar() {
                 </Link>
               </li>
               <li className="nk-menu-item">
-                <Link to="/products" className="nk-menu-link">
+                <a href="#" onClick={PageRefresh} className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-package-fill"></em>
                   </span>
                   <span className="nk-menu-text">Products</span>
-                </Link>
+                </a>
               </li>
               <li className="nk-menu-item">
                 <Link to="/customers" className="nk-menu-link">

@@ -211,30 +211,30 @@ function Customers(prosp : any) {
                                     </Link>
                                   </li>
                                   <li>
-                                    <a href="#">
+                                    <Link to ="/orders">
                                       <em className="icon ni ni-repeat"></em>
                                       <span>Orders</span>
-                                    </a>
+                                    </Link>
                                   </li>
-                                  <li>
+                                  {/* <li>
                                     <a href="#">
                                       <em className="icon ni ni-activity-round"></em>
                                       <span>Activities</span>
                                     </a>
-                                  </li>
-                                  <li className="divider"></li>
-                                  <li>
+                                  </li> */}
+                                  {/* <li className="divider"></li> */}
+                                  {/* <li>
                                     <a href="#">
                                       <em className="icon ni ni-shield-star"></em>
                                       <span>Reset Pass</span>
                                     </a>
-                                  </li>
-                                  <li>
+                                  </li> */}
+                                  {/* <li>
                                     <a href="#">
                                       <em className="icon ni ni-na"></em>
                                       <span>Suspend</span>
                                     </a>
-                                  </li>
+                                  </li> */}
                                 </ul>
                               </div>
                             </div>

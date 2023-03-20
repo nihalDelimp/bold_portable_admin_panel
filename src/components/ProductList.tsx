@@ -197,12 +197,12 @@ function ProductList(props: any) {
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-product">
                           {item.product_images && item.product_images.length > 0 &&
-                          item.product_images.map((image : any) =>(
+                          // item.product_images.map((image : any) =>(
                            <img
-                            src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
+                            src={`${process.env.REACT_APP_BASEURL}/${item.product_images[0].image_path}`}
                             alt=""
                             className="thumb"
-                          />))
+                          />
                           }
                           <span className="title">{item.title}</span>
                         </span>
@@ -244,12 +244,12 @@ function ProductList(props: any) {
                                       <span>View Product</span>
                                     </Link>
                                   </li>
-                                  <li>
+                                  {/* <li>
                                     <a href="#">
                                       <em className="icon ni ni-activity-round"></em>
                                       <span>Product Orders</span>
                                     </a>
-                                  </li>
+                                  </li> */}
                                   <li>
                                     <a
                                       className="cursor_ponter"
