@@ -1,4 +1,6 @@
 import React from 'react';
+import IsLoggedinHOC from '../Common/IsLoggedInHOC';
+import IsLoadingHOC from '../Common/IsLoadingHOC';
 
 const Home = () => {
   return (
@@ -354,4 +356,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default  IsLoadingHOC(IsLoggedinHOC(Home))

@@ -3,7 +3,13 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-const UserProducts = (props : any) => {
+
+
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+const UserProducts = (props : MyComponentProps) => {
   const{ setLoading } =  props
   const [products, setProduct] = useState([]);
 

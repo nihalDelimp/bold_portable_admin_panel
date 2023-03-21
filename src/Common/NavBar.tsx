@@ -12,7 +12,7 @@ function NavBar() {
   const { user } = useSelector((state: RootState) => state.auth);
 
   const handleLogout = () => {
-    dispatch(logout(true));
+    dispatch(logout(false));
     navigate("/");
   };
 

@@ -3,7 +3,13 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const AddProduct = (props: any) => {
+
+
+interface MyComponentProps {
+  getProductsListData: () => void;
+}
+
+const AddProduct = (props: MyComponentProps) => {
   const { getProductsListData } = props;
   const [product, setProduct] = useState({
     title: "",

@@ -2,13 +2,11 @@ import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import Login from "../components/Login";
-import Signup from "../components/Signup";
 import NavBar from "../Common/NavBar";
 import Sidebar from "../Common/Sidebar";
 import Footer from "../Common/Footer";
 import Home from "../components/Home";
 import ProductList from "../components/ProductList";
-import AddProduct from "../components/AddProduct";
 import Customers from "../components/Customers";
 import PageNoteFound from "../Common/PageNoteFound";
 import AdminProfile from "../Common/AdminProfile";
@@ -35,7 +33,6 @@ function PrivateRouter(props: any) {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
-          <Route path="/add-product" element={<AddProduct />} />
           <Route path="/view-product/:id" element={<ViewProduct />} />
           <Route path="/view-user/:id" element={<ViewCustomer />} />
           <Route path="/customers" element={<Customers />} />
@@ -53,7 +50,6 @@ function PublicRouter() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
       <Route path="*" element={<PageNoteFound />} />
     </Routes>
   );

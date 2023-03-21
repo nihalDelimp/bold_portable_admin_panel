@@ -4,12 +4,19 @@ import { toast } from "react-toastify";
 import AddProduct from "./AddProduct";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import EditProduct from "./EditProduct";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import DeleteConfirmationModal from "../Common/DeleteConfirmation";
 
-function ProductList(props: any) {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+function ProductList(props: MyComponentProps) {
   const [products, setProduct] = useState<string[]>([]);
   const [editProductModal, setEditProductModal] = useState<boolean>(false);
-  const [productId, setProductId] = useState<number>(0);
+  const [productId, setProductId] = useState<string>("");
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const { setLoading } = props;
 
   useEffect(() => {
@@ -37,23 +44,24 @@ function ProductList(props: any) {
       });
   };
 
-  const handleDeleteProduct = async (product_id: string) => {
+  const handleDeleteProduct = async () => {
     setLoading(true);
     await authAxios()
-      .delete(`/product/delete-products/${product_id}`)
+      .delete(`/product/delete-products/${productId}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data.message);
+            toast.success(response.data?.message);
+            setDeleteModal(false);
             getProductsListData();
           } else {
-            toast.error(response.data.message);
+            toast.error(response.data?.message);
           }
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data.message);
+          toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
@@ -61,9 +69,19 @@ function ProductList(props: any) {
       });
   };
 
-  const handleEditModal = (product_id: number) => {
+  const handleEditModal = (product_id: string) => {
     setProductId(product_id);
     setEditProductModal(true);
+  };
+
+  const handleDeleteModal = (product_id: string) => {
+    setProductId(product_id);
+    setDeleteModal(true);
+  };
+
+  const closeModal = () => {
+    setDeleteModal(false);
+    setEditProductModal(false);
   };
 
   return (
@@ -183,7 +201,7 @@ function ProductList(props: any) {
                   </div>
 
                   {products?.map((item: any) => (
-                    <div key={item.id} className="nk-tb-item">
+                    <div key={item._id} className="nk-tb-item">
                       <div className="nk-tb-col nk-tb-col-check">
                         <div className="custom-control custom-control-sm custom-checkbox notext">
                           <input
@@ -196,14 +214,15 @@ function ProductList(props: any) {
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-product">
-                          {item.product_images && item.product_images.length > 0 &&
-                          // item.product_images.map((image : any) =>(
-                           <img
-                            src={`${process.env.REACT_APP_BASEURL}/${item.product_images[0].image_path}`}
-                            alt=""
-                            className="thumb"
-                          />
-                          }
+                          {item.product_images &&
+                            item.product_images.length > 0 && (
+                              // item.product_images.map((image : any) =>(
+                              <img
+                                src={`${process.env.REACT_APP_BASEURL}/${item.product_images[0].image_path}`}
+                                alt=""
+                                className="thumb"
+                              />
+                            )}
                           <span className="title">{item.title}</span>
                         </span>
                       </div>
@@ -221,7 +240,6 @@ function ProductList(props: any) {
                           <li className="me-n1">
                             <div className="dropdown">
                               <a
-                                href="#"
                                 className="dropdown-toggle btn btn-icon btn-trigger"
                                 data-bs-toggle="dropdown"
                               >
@@ -231,7 +249,6 @@ function ProductList(props: any) {
                                 <ul className="link-list-opt no-bdr">
                                   <li>
                                     <a
-                                      className="cursor_ponter"
                                       onClick={() => handleEditModal(item._id)}
                                     >
                                       <em className="icon ni ni-edit"></em>
@@ -239,7 +256,7 @@ function ProductList(props: any) {
                                     </a>
                                   </li>
                                   <li>
-                                    <Link to = {`/view-product/${item._id}`}>
+                                    <Link to={`/view-product/${item._id}`}>
                                       <em className="icon ni ni-eye"></em>
                                       <span>View Product</span>
                                     </Link>
@@ -254,7 +271,7 @@ function ProductList(props: any) {
                                     <a
                                       className="cursor_ponter"
                                       onClick={() =>
-                                        handleDeleteProduct(item._id)
+                                        handleDeleteModal(item._id)
                                       }
                                     >
                                       <em className="icon ni ni-trash"></em>
@@ -349,9 +366,7 @@ function ProductList(props: any) {
                   </div>
                 </div>
               </div>
-              <AddProduct
-              getProductsListData = {getProductsListData}
-               />
+              <AddProduct getProductsListData={getProductsListData} />
             </div>
           </div>
         </div>
@@ -362,10 +377,18 @@ function ProductList(props: any) {
           editProductModal={editProductModal}
           setEditProductModal={setEditProductModal}
           getProductsListData={getProductsListData}
+          closeModal={closeModal}
+        />
+      )}
+      {deleteModal && (
+        <DeleteConfirmationModal
+          modal={deleteModal}
+          closeModal={closeModal}
+          confirmedDelete={handleDeleteProduct}
         />
       )}
     </>
   );
 }
 
-export default IsLoadingHOC(ProductList);
+export default IsLoadingHOC(IsLoggedinHOC(ProductList));

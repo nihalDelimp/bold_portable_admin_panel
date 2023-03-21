@@ -14,7 +14,11 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 
-const Login = (props: any) => {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+const Login = (props: MyComponentProps) => {
   const { setLoading } = props;
   const navigate = useNavigate();
   const { accessToken } = useSelector((state: RootState) => state.auth);
@@ -50,7 +54,6 @@ const Login = (props: any) => {
               dispatch(setuser(resData.user));
               dispatch(setIsAuthenticated(true));
               navigate("/");
-             // window.location.reload();
             } else {
               toast.error(`You don't have access to login`);
             }
@@ -101,7 +104,8 @@ const Login = (props: any) => {
                   <h4 className="nk-block-title">Sign-In</h4>
                   <div className="nk-block-des">
                     <p>
-                      Access the Bold Portable panel using your email and passcode.
+                      Access the Bold Portable panel using your email and
+                      passcode.
                     </p>
                   </div>
                 </div>

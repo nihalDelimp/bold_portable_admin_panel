@@ -2,10 +2,13 @@ import React , {useState , useEffect}  from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import {toast} from 'react-toastify' ;
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
 
-
-const  Orders = (props :  any) => {
+const  Orders = (props :  MyComponentProps) => {
     const {setLoading} =  props
     const [orders , setOrders] =  useState<string[]>([])
 
@@ -782,4 +785,4 @@ const  Orders = (props :  any) => {
   );
 }
 
-export default IsLoadingHOC(Orders)
+export default IsLoadingHOC(IsLoggedinHOC(Orders))

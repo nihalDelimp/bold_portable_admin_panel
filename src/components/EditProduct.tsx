@@ -5,13 +5,14 @@ import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 function EditProduct(props: any) {
   const {
     setLoading,
     productId,
     editProductModal,
-    setEditProductModal,
+    closeModal,
     getProductsListData,
   } = props;
 
@@ -35,7 +36,12 @@ function EditProduct(props: any) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            const userFields = ["title", "product_price", "description" , "product_image"];
+            const userFields = [
+              "title",
+              "product_price",
+              "description",
+              "product_image",
+            ];
             userFields.forEach((field) => {
               setProduct((prev) => ({
                 ...prev,
@@ -96,7 +102,7 @@ function EditProduct(props: any) {
         (response) => {
           if (response.data.status === 1) {
             toast.success("Data updated successfully");
-            setEditProductModal(false);
+            closeModal();
             getProductsListData();
           } else {
             toast.error(response.data.message);
@@ -121,7 +127,7 @@ function EditProduct(props: any) {
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content">
           <a
-            onClick={() => setEditProductModal(false)}
+            onClick={() => closeModal()}
             className="close cursor_ponter"
             data-bs-dismiss="modal"
           >
@@ -207,13 +213,13 @@ function EditProduct(props: any) {
                           id="inputPassword4"
                           placeholder="upload image"
                         />
-                         <span className="data-value">
-                                <img
-                                  src={`${process.env.REACT_APP_BASEURL}/${product?.product_image}`}
-                                  alt=""
-                                  className="thumb"
-                                />
-                              </span>
+                        <span className="data-value">
+                          <img
+                            src={`${process.env.REACT_APP_BASEURL}/${product?.product_image}`}
+                            alt=""
+                            className="thumb"
+                          />
+                        </span>
                       </div>
                     </div>
                     <div className="col-12">
@@ -225,7 +231,7 @@ function EditProduct(props: any) {
                         </li>
                         <li>
                           <button
-                            onClick={() => setEditProductModal(false)}
+                            onClick={() => closeModal()}
                             type="button"
                             data-bs-dismiss="modal"
                             className="link link-light"
@@ -246,4 +252,4 @@ function EditProduct(props: any) {
   );
 }
 
-export default IsLoadingHOC(EditProduct);
+export default IsLoadingHOC(IsLoggedinHOC(EditProduct));

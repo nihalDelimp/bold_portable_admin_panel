@@ -6,8 +6,13 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import IsLoggedinHOC from "./../Common/IsLoggedInHOC";
 
-const ViewCustomer = (props: any) => {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+const ViewCustomer = (props: MyComponentProps) => {
   const { setLoading } = props;
   const params = useParams();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -15,7 +20,7 @@ const ViewCustomer = (props: any) => {
   const [customer, setCustomer] = useState({
     name: "",
     email: "",
-    mobile : "" ,
+    mobile: "",
     profile_image: "",
   });
 
@@ -68,11 +73,9 @@ const ViewCustomer = (props: any) => {
                             <div className="nk-block-des"></div>
                           </div>
                           <div className="d-flex align-center">
-                            <div className="nk-tab-actions me-n1">
-                            </div>
+                            <div className="nk-tab-actions me-n1"></div>
                             <div className="nk-block-head-content align-self-start d-lg-none">
                               <a
-                                href="#"
                                 className="toggle btn btn-icon btn-trigger"
                                 data-target="userAside"
                               >
@@ -136,4 +139,4 @@ const ViewCustomer = (props: any) => {
   );
 };
 
-export default IsLoadingHOC(ViewCustomer);
+export default IsLoadingHOC(IsLoggedinHOC(ViewCustomer));

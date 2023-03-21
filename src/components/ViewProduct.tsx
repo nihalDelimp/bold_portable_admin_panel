@@ -6,8 +6,13 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import IsLoggedinHOC from "./../Common/IsLoggedInHOC";
 
-const ViewProduct = (props: any) => {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+const ViewProduct = (props: MyComponentProps) => {
   const { setLoading } = props;
   const params = useParams();
   const { user } = useSelector((state: RootState) => state.auth);
@@ -84,7 +89,6 @@ const ViewProduct = (props: any) => {
                             </div>
                             <div className="nk-block-head-content align-self-start d-lg-none">
                               <a
-                                href="#"
                                 className="toggle btn btn-icon btn-trigger"
                                 data-target="userAside"
                               >
@@ -123,7 +127,6 @@ const ViewProduct = (props: any) => {
                               </span>
                             </div>
                           </div>
-
                           <div className="data-item" data-tab-target="#address">
                             <div className="data-col">
                               <span className="data-label">Address</span>
@@ -137,17 +140,17 @@ const ViewProduct = (props: any) => {
                           <div className="data-item product_details_image">
                             <div className="data-col">
                               <span className="data-label">Product Images</span>
-                                {product.product_images &&
-                                  product.product_images.length > 0 &&
-                                  product.product_images.map((image: any) => (
-                                    <span className="data-value">
+                              {product.product_images &&
+                                product.product_images.length > 0 &&
+                                product.product_images.map((image: any) => (
+                                  <span className="data-value">
                                     <img
                                       src={`${process.env.REACT_APP_BASEURL}/${image.image_path}`}
                                       alt=""
                                       className="thumb"
                                     />
-                                     </span>
-                                  ))}
+                                  </span>
+                                ))}
                             </div>
                           </div>
                         </div>
@@ -165,4 +168,4 @@ const ViewProduct = (props: any) => {
   );
 };
 
-export default IsLoadingHOC(ViewProduct);
+export default IsLoadingHOC(IsLoggedinHOC(ViewProduct));

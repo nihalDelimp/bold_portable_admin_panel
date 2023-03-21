@@ -3,10 +3,17 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import moment from "moment";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
-function Customers(prosp : any) {
-  const {setLoading} =  prosp
+
+
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+function Customers(prosp: MyComponentProps) {
+  const { setLoading } = prosp;
   const [customers, setCustomers] = useState<string[]>([]);
 
   useEffect(() => {
@@ -14,18 +21,18 @@ function Customers(prosp : any) {
   }, []);
 
   const getCustomerListData = async () => {
-    setLoading(true)
+    setLoading(true);
     await authAxios()
       .get("/auth/get-all-users")
       .then(
         (response) => {
-          setLoading(false)
+          setLoading(false);
           if (response.data.status === 1) {
             setCustomers(response.data.data);
           }
         },
         (error) => {
-          setLoading(false)
+          setLoading(false);
           toast.error(error.response.data.message);
         }
       )
@@ -104,7 +111,7 @@ function Customers(prosp : any) {
                           </li>
                           <li className="nk-block-tools-opt">
                             <button
-                               type="button"
+                              type="button"
                               className="btn btn-icon btn-primary d-md-none"
                             >
                               <em className="icon ni ni-plus"></em>
@@ -192,7 +199,6 @@ function Customers(prosp : any) {
                       </div>
                       <div className="nk-tb-col nk-tb-col-tools">
                         <ul className="gx-1">
-                        
                           <li>
                             <div className="drodown">
                               <a
@@ -205,13 +211,13 @@ function Customers(prosp : any) {
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <Link to = {`/view-user/${item._id}`}>
+                                    <Link to={`/view-user/${item._id}`}>
                                       <em className="icon ni ni-eye"></em>
                                       <span>View Details</span>
                                     </Link>
                                   </li>
                                   <li>
-                                    <Link to ="/orders">
+                                    <Link to="/orders">
                                       <em className="icon ni ni-repeat"></em>
                                       <span>Orders</span>
                                     </Link>
@@ -332,4 +338,4 @@ function Customers(prosp : any) {
   );
 }
 
-export default IsLoadingHOC( Customers);
+export default IsLoadingHOC(IsLoggedinHOC(Customers));
