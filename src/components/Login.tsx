@@ -178,23 +178,6 @@ const Login = (props: MyComponentProps) => {
                   Create an account
                 </a>
               </div> */}
-              <div className="text-center pt-4 pb-3">
-                <h6 className="overline-title overline-title-sap">
-                  <span>OR</span>
-                </h6>
-              </div>
-              <ul className="nav justify-center gx-4">
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Facebook
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">
-                    Google
-                  </a>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
