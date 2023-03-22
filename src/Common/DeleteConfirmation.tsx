@@ -1,6 +1,13 @@
 import React from "react";
 
-function DeleteConfirmationModal(props: any) {
+
+interface MyComponentProps {
+  modal: boolean;
+  closeModal: () => void;
+  confirmedDelete: () => void;
+}
+
+function DeleteConfirmationModal(props: MyComponentProps) {
   const { modal, closeModal, confirmedDelete } = props;
 
   return (

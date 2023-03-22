@@ -7,7 +7,17 @@ import { useNavigate } from "react-router-dom";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
-function EditProduct(props: any) {
+
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+  productId: string;
+  editProductModal: boolean;
+  closeModal: () => void;
+  confirmedDelete: () => void;
+  getProductsListData: () => void;
+}
+
+function EditProduct(props: MyComponentProps) {
   const {
     setLoading,
     productId,
@@ -101,7 +111,7 @@ function EditProduct(props: any) {
       .then(
         (response) => {
           if (response.data.status === 1) {
-            toast.success("Data updated successfully");
+            toast.success(response.data.message);
             closeModal();
             getProductsListData();
           } else {

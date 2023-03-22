@@ -83,8 +83,8 @@ const Login = (props: MyComponentProps) => {
     <div className="nk-wrap nk-wrap-nosidebar">
       <div className="nk-content ">
         <div className="nk-block nk-block-middle nk-auth-body  wide-xs">
-          <div className="brand-logo pb-4 text-center">
-            <a href="html/index.html" className="logo-link">
+          <div className="brand-logo pb-3 pt-3 text-center bg-white">
+            <a  className="logo-link">
               <img
                 className="logo-light logo-img logo-img-lg"
                 src={require("../images/bold_port.png")}

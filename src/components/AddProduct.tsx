@@ -3,41 +3,44 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-
-
 interface MyComponentProps {
   getProductsListData: () => void;
 }
 
+interface MyState {
+  title: string;
+  description: string;
+  product_images: any[];
+  product_price: number;
+}
+
 const AddProduct = (props: MyComponentProps) => {
+  const navigate = useNavigate();
   const { getProductsListData } = props;
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<MyState>({
     title: "",
     description: "",
     product_images: [],
-    product_price: "",
+    product_price: 0,
   });
 
-  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("user", product);
     const formData = new FormData();
-
     product.product_images.forEach((file) => {
       formData.append(`product_image`, file);
     });
 
     formData.append("title", product.title);
     formData.append("description", product.description);
-    formData.append("product_price", product.product_price);
+    formData.append("product_price", product.product_price.toString());
     await authAxios()
       .post("/product/add-products", formData)
       .then(
         (response) => {
           if (response.data.status === 1) {
-            toast.success("product add successfully");
+            toast.success(response.data.message);
             navigate("/products");
             getProductsListData();
           } else {
@@ -50,16 +53,23 @@ const AddProduct = (props: MyComponentProps) => {
         }
       )
       .catch((error) => {
-        console.log("errorrrr", error);
+        console.log("errorr", error);
       });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setProduct((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    if (name === "product_price") {
+      setProduct((prev) => ({
+        ...prev,
+        [name]: parseInt(value),
+      }));
+    } else {
+      setProduct((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -127,6 +137,7 @@ const AddProduct = (props: MyComponentProps) => {
                   <div className="form-control-wrap">
                     <input
                       required
+                      min={0}
                       className="form-control"
                       value={product.product_price}
                       name="product_price"

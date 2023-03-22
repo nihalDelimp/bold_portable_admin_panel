@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { setuser } from "../Redux/Reducers/auth";
 import { useDispatch } from "react-redux";
 
+
 function EditProfile() {
   const dispatch = useDispatch()
   const { user } = useSelector((state: RootState) => state.auth);
