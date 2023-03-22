@@ -127,16 +127,6 @@ const ViewProduct = (props: MyComponentProps) => {
                               </span>
                             </div>
                           </div>
-                          <div className="data-item" data-tab-target="#address">
-                            <div className="data-col">
-                              <span className="data-label">Address</span>
-                              <span className="data-value">
-                                132 Ashok Nagar, New Delhi
-                                <br />
-                                Delhi, India
-                              </span>
-                            </div>
-                          </div>
                           <div className="data-item product_details_image">
                             <div className="data-col">
                               <span className="data-label">Product Images</span>
