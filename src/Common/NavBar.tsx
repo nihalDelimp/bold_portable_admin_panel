@@ -1,15 +1,39 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect ,useRef  } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import io, { Socket } from 'socket.io-client';
 
 function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
+  const socketRef = useRef<Socket>();
+ 
+
+  useEffect(() => {
+    // Connect to the server
+    socketRef.current = io('http://localhost:4000');
+
+    console.log(" socketRef.current" ,  socketRef.current)
+    // Handle incoming messages
+    socketRef.current.on('new_orders', (data : string) => {
+      console.log(data);
+    });
+
+    // Cleanup function to disconnect from the server
+    return () => {
+      socketRef.current?.disconnect();
+    };
+  }, []);
+
+
+  const sendMessage = () => {
+    // Emit a message to the server
+    socketRef.current?.emit('cancel_order', 'Order hase been cancelled!');
+  };
 
   const handleLogout = () => {
     dispatch(logout(false));
@@ -54,7 +78,6 @@ function NavBar() {
             </div>
             <div className="nk-header-tools">
               <ul className="nk-quick-nav">
-             
                 <li className="dropdown notification-dropdown">
                   <a
                     href="#"
@@ -170,8 +193,12 @@ function NavBar() {
                         <em className="icon ni ni-user-alt"></em>
                       </div>
                       <div className="user-info d-none d-xl-block">
-                      <div className="user-status user-status-active">Administator</div>
-                        <div className="user-name dropdown-indicator">{user?.name}</div>
+                        <div className="user-status user-status-active">
+                          Administator
+                        </div>
+                        <div className="user-name dropdown-indicator">
+                          {user?.name}
+                        </div>
                       </div>
                     </div>
                   </a>
@@ -208,7 +235,6 @@ function NavBar() {
                             <span>Login Activity</span>
                           </a>
                         </li> */}
-
                       </ul>
                     </div>
                     <div className="dropdown-inner">
