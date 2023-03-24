@@ -1,38 +1,34 @@
-import React, { useEffect ,useRef  } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/auth";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import io, { Socket } from 'socket.io-client';
+import { socket } from "../config/socketService";
 
 function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
-  const socketRef = useRef<Socket>();
- 
 
   useEffect(() => {
     // Connect to the server
-    socketRef.current = io('http://localhost:4000');
-
-    console.log(" socketRef.current" ,  socketRef.current)
-    // Handle incoming messages
-    socketRef.current.on('new_orders', (data : string) => {
-      console.log(data);
+    socket.connect()
+    socket.on("new_order", (data: string) => {
+      console.log("Dataatat", data);
     });
+
+    console.log("Socket admin", socket);
 
     // Cleanup function to disconnect from the server
     return () => {
-      socketRef.current?.disconnect();
+      socket.disconnect();
     };
   }, []);
 
-
   const sendMessage = () => {
     // Emit a message to the server
-    socketRef.current?.emit('cancel_order', 'Order hase been cancelled!');
+    socket?.emit("cancel_order", "Order hase been cancelled!");
   };
 
   const handleLogout = () => {
