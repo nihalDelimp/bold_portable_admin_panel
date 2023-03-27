@@ -3,6 +3,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import {toast} from 'react-toastify' ;
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import Pagination from "../Common/Pagination";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -11,6 +12,11 @@ interface MyComponentProps {
 const  Orders = (props :  MyComponentProps) => {
     const {setLoading} =  props
     const [orders , setOrders] =  useState<string[]>([])
+    const [totalCount, setTotalCount] = useState<number>(0)
+    const [currentPage, setcurrentPage] = useState<number>(1);
+    const [itemsPerPage , setItemPerPage] = useState<number>(10);
+    const [maxPageNumberLimit, setmaxPageNumberLimit] = useState<number>(5);
+    const [minPageNumberLimit, setminPageNumberLimit] = useState<number>(0);
 
 
     useEffect(() => {
@@ -699,84 +705,17 @@ const  Orders = (props :  MyComponentProps) => {
                   </div>
                 </div>
               </div>
-              <div className="card">
-                <div className="card-inner">
-                  <div className="nk-block-between-md g-3">
-                    <div className="g">
-                      <ul className="pagination justify-content-center justify-content-md-start">
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            <em className="icon ni ni-chevrons-left"></em>
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            1
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            2
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <span className="page-link">
-                            <em className="icon ni ni-more-h"></em>
-                          </span>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            6
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            7
-                          </a>
-                        </li>
-                        <li className="page-item">
-                          <a className="page-link" href="#">
-                            <em className="icon ni ni-chevrons-right"></em>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="g">
-                      <div className="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
-                        <div>Page</div>
-                        <div>
-                          <select
-                            className="form-select js-select2"
-                            data-search="on"
-                            data-dropdown="xs center"
-                          >
-                            <option value="page-1">1</option>
-                            <option value="page-2">2</option>
-                            <option value="page-4">4</option>
-                            <option value="page-5">5</option>
-                            <option value="page-6">6</option>
-                            <option value="page-7">7</option>
-                            <option value="page-8">8</option>
-                            <option value="page-9">9</option>
-                            <option value="page-10">10</option>
-                            <option value="page-11">11</option>
-                            <option value="page-12">12</option>
-                            <option value="page-13">13</option>
-                            <option value="page-14">14</option>
-                            <option value="page-15">15</option>
-                            <option value="page-16">16</option>
-                            <option value="page-17">17</option>
-                            <option value="page-18">18</option>
-                            <option value="page-19">19</option>
-                            <option value="page-20">20</option>
-                          </select>
-                        </div>
-                        <div>OF 102</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <Pagination
+                 totalCount={totalCount}
+                 currentPage={currentPage}
+                 itemsPerPage={itemsPerPage}
+                 maxPageNumberLimit={maxPageNumberLimit}
+                 minPageNumberLimit={minPageNumberLimit}
+                 setcurrentPage={setcurrentPage}
+                 setItemPerPage = {setItemPerPage}
+                 setmaxPageNumberLimit={setmaxPageNumberLimit}
+                 setminPageNumberLimit={setminPageNumberLimit}
+                  />
             </div>
           </div>
         </div>

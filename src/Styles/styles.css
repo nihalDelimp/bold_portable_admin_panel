@@ -25,3 +25,9 @@ a {
     background:#ffffff;
 }
 
+.card .page-item .btn_active {
+    color:#ffffff;
+    cursor: pointer;
+    background-color : #755DD9
+}
+

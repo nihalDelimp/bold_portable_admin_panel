@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useState , useRef } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import {
+  useJsApiLoader,
+  GoogleMap,
+  MarkerF,
+  Autocomplete
+} from "@react-google-maps/api";
+
 
 interface MyComponentProps {
   getProductsListData: () => void;
@@ -12,18 +19,38 @@ interface MyState {
   description: string;
   product_images: any[];
   product_price: number;
+  product_type: string;
 }
 
 const AddProduct = (props: MyComponentProps) => {
   const navigate = useNavigate();
   const { getProductsListData } = props;
+  const [map, setMap] = useState(null);
+  const autocompleteRef = useRef();
+
+  const [autocomplete, setAutocomplete] = useState<Autocomplete | null>(null);
+
+
   const [product, setProduct] = useState<MyState>({
     title: "",
     description: "",
     product_images: [],
     product_price: 0,
+    product_type: "",
   });
 
+
+  const { isLoaded  ,loadError } = useJsApiLoader(
+    {
+         id: 'google-map-script',
+         googleMapsApiKey: `${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`,
+        libraries: ["places"],
+    }
+);
+
+function handleLoad(maps : any) {
+    setMap(maps);
+}
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -35,6 +62,7 @@ const AddProduct = (props: MyComponentProps) => {
     formData.append("title", product.title);
     formData.append("description", product.description);
     formData.append("product_price", product.product_price.toString());
+    formData.append("product_type", product.product_type);
     await authAxios()
       .post("/product/add-products", formData)
       .then(
@@ -133,6 +161,23 @@ const AddProduct = (props: MyComponentProps) => {
               </div>
               <div className="col-mb-6">
                 <div className="form-group">
+                  <label className="form-label">Product Type</label>
+                  <div className="form-control-wrap">
+                    <input
+                      required
+                      className="form-control"
+                      value={product.product_type}
+                      name="product_type"
+                      onChange={handleChange}
+                      type="text"
+                      placeholder="Enter product type"
+                      id="sale-price"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="col-mb-6">
+                <div className="form-group">
                   <label className="form-label">Rent Price</label>
                   <div className="form-control-wrap">
                     <input
@@ -164,6 +209,7 @@ const AddProduct = (props: MyComponentProps) => {
                   <div className="form-control-wrap">
                     <textarea
                       required
+                      rows={2}
                       className="form-control"
                       value={product.description}
                       onChange={handleChangeTextArea}
