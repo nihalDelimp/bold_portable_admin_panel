@@ -144,7 +144,7 @@ function handleLoad(maps : any) {
             <div className="row g-3">
               <div className="col-12">
                 <div className="form-group">
-                  <label className="form-label">Product Title</label>
+                  <label className="form-label">Title</label>
                   <div className="form-control-wrap">
                     <input
                       required
@@ -161,7 +161,7 @@ function handleLoad(maps : any) {
               </div>
               <div className="col-mb-6">
                 <div className="form-group">
-                  <label className="form-label">Product Type</label>
+                  <label className="form-label">Type</label>
                   <div className="form-control-wrap">
                     <input
                       required

@@ -86,10 +86,10 @@ function Pagination(props: MyComponentProps) {
           key={number}
           onClick={() => paginate(number)}
           className={
-            currentPage === number ? "active page-item " : "none page-item"
+            currentPage === number ? "active page-item" : "none page-item"
           }
         >
-          <a className="page-link"> {number} </a>
+          <a className="page-link page_num"> {number} </a>
         </li>
       );
     } else {
@@ -97,10 +97,12 @@ function Pagination(props: MyComponentProps) {
     }
   });
 
-  const handleChangePageLimit = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const {value} = event.target
-    setItemPerPage(parseInt(value))
-  }
+  const handleChangePageLimit = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const { value } = event.target;
+    setItemPerPage(parseInt(value));
+  };
 
   return (
     <div className="card">
@@ -108,36 +110,33 @@ function Pagination(props: MyComponentProps) {
         <div className="nk-block-between-md g-3">
           <div className="g">
             <ul className="pagination justify-content-center justify-content-md-start">
-              <li className="page-item">
-                {/* <a className="page-link" href="#">
-                  <em className="icon ni ni-chevrons-left"></em>
-                </a> */}
-                <span
-                  className={`page-link ${
-                    currentPage !== pages[0] && "btn_active"
-                  }`}
-                  onClick={handlePrevbtn}
-                >
-                  Previous
-                </span>
-              </li>
+              {currentPage !== pages[0] && (
+                <li className="page-item">
+                  <span
+                    className={`page-link ${
+                      currentPage !== pages[0] && "btn_active"
+                    }`}
+                    onClick={handlePrevbtn}
+                  >
+                    Prev
+                  </span>
+                </li>
+              )}
               {pageDecrementBtn}
               {renderPageNumbers}
               {pageIncrementBtn}
-
-              <li className="page-item">
-                {/* <a className="page-link" href="#">
-                  <em className="icon ni ni-chevrons-right"></em>
-                </a> */}
-                <span
-                  className={`page-link ${
-                    currentPage !== pages[pages.length - 1] && "btn_active"
-                  }`}
-                  onClick={handleNextbtn}
-                >
-                  Next
-                </span>
-              </li>
+              {currentPage !== pages[pages.length - 1] && (
+                <li className="page-item">
+                  <span
+                    className={`page-link ${
+                      currentPage !== pages[pages.length - 1] && "btn_active"
+                    }`}
+                    onClick={handleNextbtn}
+                  >
+                    Next
+                  </span>
+                </li>
+              )}
             </ul>
           </div>
           <div className="g">

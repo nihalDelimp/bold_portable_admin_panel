@@ -26,8 +26,13 @@ a {
 }
 
 .card .page-item .btn_active {
-    color:#ffffff;
+    color:#755DD9;
     cursor: pointer;
-    background-color : #755DD9
+    font-weight: 600
+}
+
+.card .page-item .page_num {
+    cursor: pointer;
+    font-weight: 600
 }
 
