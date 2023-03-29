@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import { logout } from "../Redux/Reducers/auth";
+import { logout } from "../Redux/Reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { socket } from "../config/socketService";

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { logout } from "../Redux/Reducers/auth";
+import { logout } from "../Redux/Reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 
 function SessionExpiredModal() {

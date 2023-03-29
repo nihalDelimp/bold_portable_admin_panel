@@ -5,7 +5,7 @@ import moment from "moment";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import Pagination from "../Common/Pagination";
+import Pagination from "../Common/PaginationNew";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -14,11 +14,10 @@ interface MyComponentProps {
 function Customers(prosp: MyComponentProps) {
   const { setLoading } = prosp;
   const [customers, setCustomers] = useState<string[]>([]);
-  const [totalCount, setTotalCount] = useState<number>(0)
-  const [currentPage, setcurrentPage] = useState<number>(1);
-  const [itemsPerPage , setItemPerPage] = useState<number>(10);
-  const [maxPageNumberLimit, setmaxPageNumberLimit] = useState<number>(5);
-  const [minPageNumberLimit, setminPageNumberLimit] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(1000);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [itemsPerPage, setItemPerPage] = useState<number>(10);
+
 
   useEffect(() => {
     getCustomerListData();
@@ -254,19 +253,15 @@ function Customers(prosp: MyComponentProps) {
                     </div>
                   ))}
                 </div>
-                {customers && customers.length > 0 &&
-                 <Pagination
-                 totalCount={totalCount}
-                 currentPage={currentPage}
-                 itemsPerPage={itemsPerPage}
-                 setItemPerPage = {setItemPerPage}
-                 maxPageNumberLimit={maxPageNumberLimit}
-                 minPageNumberLimit={minPageNumberLimit}
-                 setcurrentPage={setcurrentPage}
-                 setmaxPageNumberLimit={setmaxPageNumberLimit}
-                 setminPageNumberLimit={setminPageNumberLimit}
+                {customers && customers.length > 0 && (
+                  <Pagination
+                    totalCount={totalCount}
+                    onPageChange={(page: number) => setCurrentPage(page)}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemPerPage={setItemPerPage}
                   />
-                  }
+                )}
               </div>
             </div>
           </div>

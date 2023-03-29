@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { authAxios } from "../config/config";
 import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
-import { setuser } from "../Redux/Reducers/auth";
+import { setuser } from "../Redux/Reducers/authSlice";
 import { useDispatch } from "react-redux";
 
 
