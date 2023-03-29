@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { authAxios } from "../config/config";
+import { authAxios } from "../Config/config";
 import { toast } from "react-toastify";
 import AddProduct from "./AddProduct";
 import IsLoadingHOC from "../Common/IsLoadingHOC";

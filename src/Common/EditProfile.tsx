@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { authAxios } from "../config/config";
+import { authAxios } from "../Config/config";
 import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
 import { setuser } from "../Redux/Reducers/authSlice";

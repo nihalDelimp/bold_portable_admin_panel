@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { withoutAuthAxios } from "../config/config";
+import { withoutAuthAxios } from "../Config/config";
 import {
   setAccessToken,
   setIsAuthenticated,

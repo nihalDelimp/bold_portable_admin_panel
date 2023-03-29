@@ -4,7 +4,7 @@ import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { socket } from "../config/socketService";
+import { socket } from "../Config/socketService";
 
 function NavBar() {
   const dispatch = useDispatch();
