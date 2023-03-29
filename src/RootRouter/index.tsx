@@ -1,10 +1,7 @@
+import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
+import PrivateRoute from "./PrivateRoute";
 import Login from "../components/Login";
-import NavBar from "../Common/NavBar";
-import Sidebar from "../Common/Sidebar";
-import Footer from "../Common/Footer";
 import Home from "../components/Home";
 import ProductList from "../components/ProductList";
 import Customers from "../components/Customers";
@@ -15,43 +12,71 @@ import ViewCustomer from "../components/ViewCustomer";
 import Orders from "../components/Orders";
 
 function RootRouter() {
-  const { accessToken } = useSelector((state: RootState) => state.auth);
-
   return (
-    <>
-      <Router>{accessToken ? <PrivateRouter /> : <PublicRouter />}</Router>
-    </>
-  );
-}
-
-function PrivateRouter(props: any) {
-  return (
-    <>
-      <Sidebar />
-      <div className="nk-wrap">
-        <NavBar />
+    <React.Fragment>
+      <Router>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/view-product/:id" element={<ViewProduct />} />
-          <Route path="/view-user/:id" element={<ViewCustomer />} />
-          <Route path="/customers" element={<Customers />} />
-          <Route path="/admin-profile" element={<AdminProfile />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <PrivateRoute>
+                <ProductList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/view-product/:id"
+            element={
+              <PrivateRoute>
+                <ViewProduct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/view-user/:id"
+            element={
+              <PrivateRoute>
+                <ViewCustomer />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/customers"
+            element={
+              <PrivateRoute>
+                <Customers />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin-profile"
+            element={
+              <PrivateRoute>
+                <AdminProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/orders"
+            element={
+              <PrivateRoute>
+                <Orders />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<PageNoteFound />} />
         </Routes>
-        <Footer />
-      </div>
-    </>
-  );
-}
-
-function PublicRouter() {
-  return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="*" element={<PageNoteFound />} />
-    </Routes>
+      </Router>
+    </React.Fragment>
   );
 }
 

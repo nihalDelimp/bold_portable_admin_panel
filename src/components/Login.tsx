@@ -31,7 +31,7 @@ const Login = (props: MyComponentProps) => {
 
   useEffect(() => {
     if (accessToken) {
-      navigate("/products");
+      navigate("/");
     }
   });
 
