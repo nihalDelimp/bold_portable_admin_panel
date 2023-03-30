@@ -1,35 +1,16 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { socket } from "../Config/socketService";
+import Notification from "./Notification";
 
 function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
-
-  useEffect(() => {
-    // Connect to the server
-    socket.connect()
-    socket.on("new_order", (data: string) => {
-      console.log("Dataatat", data);
-    });
-
-    console.log("Socket admin", socket);
-
-    // Cleanup function to disconnect from the server
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
-
-  const sendMessage = () => {
-    // Emit a message to the server
-    socket?.emit("cancel_order", "Order hase been cancelled!");
-  };
 
   const handleLogout = () => {
     dispatch(logout(false));
@@ -74,110 +55,8 @@ function NavBar() {
             </div>
             <div className="nk-header-tools">
               <ul className="nk-quick-nav">
-                <li className="dropdown notification-dropdown">
-                  <a
-                    href="#"
-                    className="dropdown-toggle nk-quick-nav-icon"
-                    data-bs-toggle="dropdown"
-                  >
-                    <div className="icon-status icon-status-info">
-                      <em className="icon ni ni-bell"></em>
-                    </div>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-xl dropdown-menu-end">
-                    <div className="dropdown-head">
-                      <span className="sub-title nk-dropdown-title">
-                        Notifications
-                      </span>
-                      <a href="#">Mark All as Read</a>
-                    </div>
-                    <div className="dropdown-body">
-                      <div className="nk-notification">
-                        <div className="nk-notification-item dropdown-inner">
-                          <div className="nk-notification-icon">
-                            <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                          </div>
-                          <div className="nk-notification-content">
-                            <div className="nk-notification-text">
-                              You have requested to <span>Widthdrawl</span>
-                            </div>
-                            <div className="nk-notification-time">
-                              2 hrs ago
-                            </div>
-                          </div>
-                        </div>
-                        <div className="nk-notification-item dropdown-inner">
-                          <div className="nk-notification-icon">
-                            <em className="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                          </div>
-                          <div className="nk-notification-content">
-                            <div className="nk-notification-text">
-                              Your <span>Deposit Order</span> is placed
-                            </div>
-                            <div className="nk-notification-time">
-                              2 hrs ago
-                            </div>
-                          </div>
-                        </div>
-                        <div className="nk-notification-item dropdown-inner">
-                          <div className="nk-notification-icon">
-                            <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                          </div>
-                          <div className="nk-notification-content">
-                            <div className="nk-notification-text">
-                              You have requested to <span>Widthdrawl</span>
-                            </div>
-                            <div className="nk-notification-time">
-                              2 hrs ago
-                            </div>
-                          </div>
-                        </div>
-                        <div className="nk-notification-item dropdown-inner">
-                          <div className="nk-notification-icon">
-                            <em className="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                          </div>
-                          <div className="nk-notification-content">
-                            <div className="nk-notification-text">
-                              Your <span>Deposit Order</span> is placed
-                            </div>
-                            <div className="nk-notification-time">
-                              2 hrs ago
-                            </div>
-                          </div>
-                        </div>
-                        <div className="nk-notification-item dropdown-inner">
-                          <div className="nk-notification-icon">
-                            <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                          </div>
-                          <div className="nk-notification-content">
-                            <div className="nk-notification-text">
-                              You have requested to <span>Widthdrawl</span>
-                            </div>
-                            <div className="nk-notification-time">
-                              2 hrs ago
-                            </div>
-                          </div>
-                        </div>
-                        <div className="nk-notification-item dropdown-inner">
-                          <div className="nk-notification-icon">
-                            <em className="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
-                          </div>
-                          <div className="nk-notification-content">
-                            <div className="nk-notification-text">
-                              Your <span>Deposit Order</span> is placed
-                            </div>
-                            <div className="nk-notification-time">
-                              2 hrs ago
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="dropdown-foot center">
-                      <a href="#">View All</a>
-                    </div>
-                  </div>
-                </li>
+             
+                <Notification/>
                 <li className="dropdown user-dropdown">
                   <a
                     href="#"
@@ -189,12 +68,8 @@ function NavBar() {
                         <em className="icon ni ni-user-alt"></em>
                       </div>
                       <div className="user-info d-none d-xl-block">
-                        <div className="user-status user-status-active">
-                          Administator
-                        </div>
-                        <div className="user-name dropdown-indicator">
-                          {user?.name}
-                        </div>
+                      <div className="user-status user-status-active">Administator</div>
+                        <div className="user-name dropdown-indicator">{user?.name}</div>
                       </div>
                     </div>
                   </a>
@@ -231,6 +106,7 @@ function NavBar() {
                             <span>Login Activity</span>
                           </a>
                         </li> */}
+
                       </ul>
                     </div>
                     <div className="dropdown-inner">
