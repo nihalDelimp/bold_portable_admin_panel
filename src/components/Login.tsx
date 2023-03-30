@@ -133,13 +133,8 @@ const Login = (props: MyComponentProps) => {
                 <div className="form-group">
                   <div className="form-label-group">
                     <label className="form-label" htmlFor="password">
-                      Passcode
+                      Password
                     </label>
-                    {/* <a
-                      className="link link-primary link-sm"
-                      href="html/pages/auths/auth-reset-v2.html">
-                      Forgot Code?
-                    </a> */}
                   </div>
                   <div className="form-control-wrap">
                     <a
@@ -154,7 +149,7 @@ const Login = (props: MyComponentProps) => {
                       type="password"
                       className="form-control form-control-lg"
                       id="password"
-                      placeholder="Enter your passcode"
+                      placeholder="Enter your password"
                       required
                       value={userInput.password}
                       name="password"
@@ -162,7 +157,7 @@ const Login = (props: MyComponentProps) => {
                     />
                   </div>
                 </div>
-                <div className="form-group">
+                <div className="form-group pt-3">
                   <button
                     type="submit"
                     className="btn btn-lg btn-primary btn-block"
@@ -171,101 +166,9 @@ const Login = (props: MyComponentProps) => {
                   </button>
                 </div>
               </form>
-              {/* <div className="form-note-s2 text-center pt-4">
-                {" "}
-                New on our platform?{" "}
-                <a href="#">
-                  Create an account
-                </a>
-              </div> */}
             </div>
           </div>
         </div>
-        {/* <div className="nk-footer nk-auth-footer-full">
-          <div className="container wide-lg">
-            <div className="row g-3">
-              <div className="col-lg-6 order-lg-last">
-                <ul className="nav nav-sm justify-content-center justify-content-lg-end">
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      Terms & Condition
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="#">
-                      Help
-                    </a>
-                  </li>
-                  <li className="nav-item dropup">
-                    <a
-                      className="dropdown-toggle dropdown-indicator has-indicator nav-link"
-                      data-bs-toggle="dropdown"
-                      data-offset="0,10"
-                    >
-                      <span>English</span>
-                    </a>
-                    <div className="dropdown-menu dropdown-menu-sm dropdown-menu-end">
-                      <ul className="language-list">
-                        <li>
-                          <a href="#" className="language-item">
-                            <img
-                              src="./images/flags/english.png"
-                              alt=""
-                              className="language-flag"
-                            />
-                            <span className="language-name">English</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#" className="language-item">
-                            <img
-                              src="./images/flags/spanish.png"
-                              alt=""
-                              className="language-flag"
-                            />
-                            <span className="language-name">Español</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#" className="language-item">
-                            <img
-                              src="./images/flags/french.png"
-                              alt=""
-                              className="language-flag"
-                            />
-                            <span className="language-name">Français</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#" className="language-item">
-                            <img
-                              src="./images/flags/turkey.png"
-                              alt=""
-                              className="language-flag"
-                            />
-                            <span className="language-name">Türkçe</span>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-              <div className="col-lg-6">
-                <div className="nk-block-content text-center text-lg-left">
-                  <p className="text-soft">
-                    &copy; 2022 Dashlite. All Rights Reserved.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </div>
     </div>
   );

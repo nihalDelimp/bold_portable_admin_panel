@@ -2,7 +2,7 @@ import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../Components/Login";
-import Home from "../Components/Home";
+import Home from "../Components/Dashboard";
 import ProductList from "../Components/ProductList";
 import Customers from "../Components/Customers";
 import PageNoteFound from "../Common/PageNoteFound";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , ComponentType } from "react";
 import { Circles } from "react-loader-spinner";
 
 const Loading = () => {
@@ -14,15 +14,14 @@ const Loading = () => {
           wrapperClass=""
           visible={true}
         />
-        {/* <Loader type="Bars" color="#FFC300" height={80} width={80} /> */}
       </div>
     </div>
   );
 };
 
-const IsLoadingHOC = (WrappedComponent: any) => {
+const IsLoadingHOC = (WrappedComponent : any) => {
   function HOC(props: any) {
-    const [isLoading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState<boolean>(false);
 
     const setLoadingState = (isComponentLoading: boolean) => {
       setLoading(isComponentLoading);
