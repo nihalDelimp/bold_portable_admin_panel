@@ -55,7 +55,6 @@ function NavBar() {
             </div>
             <div className="nk-header-tools">
               <ul className="nk-quick-nav">
-             
                 <Notification/>
                 <li className="dropdown user-dropdown">
                   <a
@@ -68,8 +67,12 @@ function NavBar() {
                         <em className="icon ni ni-user-alt"></em>
                       </div>
                       <div className="user-info d-none d-xl-block">
-                      <div className="user-status user-status-active">Administator</div>
-                        <div className="user-name dropdown-indicator">{user?.name}</div>
+                        <div className="user-status user-status-active">
+                          Administator
+                        </div>
+                        <div className="user-name dropdown-indicator">
+                          {user?.name}
+                        </div>
                       </div>
                     </div>
                   </a>
@@ -106,7 +109,6 @@ function NavBar() {
                             <span>Login Activity</span>
                           </a>
                         </li> */}
-
                       </ul>
                     </div>
                     <div className="dropdown-inner">

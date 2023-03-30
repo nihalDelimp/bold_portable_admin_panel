@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { authAxios } from "../Config/config";
+import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";

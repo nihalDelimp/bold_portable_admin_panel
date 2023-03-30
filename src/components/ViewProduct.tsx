@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { authAxios } from "../Config/config";
+import { authAxios } from "../config/config";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";

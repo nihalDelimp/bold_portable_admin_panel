@@ -1,8 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import auth from './Reducers/authSlice';
+import notification from './Reducers/notificationSlice';
 
 const rootReducer = combineReducers({
-    auth
+    auth ,
+    notification
 })
 
 export type RootState = ReturnType<typeof rootReducer>

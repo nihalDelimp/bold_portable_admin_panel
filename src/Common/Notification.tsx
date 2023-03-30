@@ -1,95 +1,101 @@
-import  { useCallback, useEffect, useState } from 'react'
-import io from 'socket.io-client';
-
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState , useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import IsLoggedinHOC from "./../Common/IsLoggedInHOC";
-const socket = io('http://localhost:4000');
+import { addNewOrderMsg } from "../Redux/Reducers/notificationSlice";
+import {io} from "socket.io-client";
+const socket = io("http://localhost:4000");
 
 const Notification = () => {
-    const[newOrder ,setNewOrder]= useState<any>([])
-    const[userName ,setuserName]= useState<String>("")
-    const[hoursAgo ,setHoursAgo]= useState<any>(null)
+  const dispatch = useDispatch();
+  const { newOrdersMsg } = useSelector(
+    (state: RootState) => state.notification
+  );
+  
 
-    useEffect(()=>{
-        socket.on('new_order_recieved',(recieved_order)=>{
-            setNewOrder(recieved_order);
-            getCustomerDetailsData(recieved_order.user);
-        })
-      },[])
-      
-     const getCustomerDetailsData=  useCallback(async (userId:any) => {
-        console.log(userId)
-        await authAxios()
-          .get(`/auth/get-specific-user/${userId}`)
-          .then(
-            (response) => {
-              if (response.data.status === 1) {
-                const resData = response.data.data;
-                console.log(resData,"resDataresDataresDataresData")
-                setuserName(resData.name)
-              }
-            },
-            (error) => {
-              toast.error(error.response.data.message);
-            }
-          )
-          .catch((error) => {
-            console.log("errorrrr", error);
-          });
-      }, [newOrder]);
-      console.log(userName,"1userNameuserNameuserName")
+  console.log("SocketIo", socket);
 
-      
+  useEffect(() => {
+    socket.on("new_order_recieved", (recieved_order) => {
+      console.log("recieved_order", recieved_order);
+      getCustomerDetailsData(recieved_order);
+    });
+  }, []);
+
+  const getCustomerDetailsData = async (orderDetail: any) => {
+    let placedOrder = orderDetail;
+    console.log(orderDetail);
+    await authAxios()
+      .get(`/auth/get-specific-user/${orderDetail.user}`)
+      .then(
+        (response) => {
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            console.log(resData, "resDataresDataresDataresData");
+            placedOrder["userName"] = resData.name;
+            dispatch(addNewOrderMsg(placedOrder));
+          }
+        },
+        (error) => {
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  console.log("OrderNotification", newOrdersMsg);
+
   return (
     <li className="dropdown notification-dropdown">
-                  <a
-                    href="#"
-                    className="dropdown-toggle nk-quick-nav-icon"
-                    data-bs-toggle="dropdown"
-                  >
-                    <div className="icon-status icon-status-info">
-                      <em className="icon ni ni-bell"></em>
+      <a
+        href="#"
+        className="dropdown-toggle nk-quick-nav-icon"
+        data-bs-toggle="dropdown"
+      >
+        <div className="icon-status icon-status-info">
+          <em className="icon ni ni-bell"></em>
+        </div>
+      </a>
+      <div className="dropdown-menu dropdown-menu-xl dropdown-menu-end">
+        <div className="dropdown-head">
+          <span className="sub-title nk-dropdown-title">Notifications</span>
+          <a href="#">Mark All as Read</a>
+        </div>
+        <div className="dropdown-body">
+          <div className="nk-notification">
+            {newOrdersMsg &&
+              newOrdersMsg.length > 0 &&
+              newOrdersMsg.map((item: any, index: number) => (
+                <div
+                  key={index + 1}
+                  className="nk-notification-item dropdown-inner"
+                >
+                  <div className="nk-notification-icon">
+                    <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
+                  </div>
+                  <div className="nk-notification-content">
+                    <div className="nk-notification-text">
+                      {`${item?.userName} has Placed an order`}
                     </div>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-xl dropdown-menu-end">
-                    <div className="dropdown-head">
-                      <span className="sub-title nk-dropdown-title">
-                        Notifications
-                      </span>
-                      <a href="#">Mark All as Read</a>
-                    </div>
-  
-                    <div  className="dropdown-body">
-                        <div className="nk-notification">
-                            <div className="nk-notification-item dropdown-inner">
-                            {userName &&
-                            <div className="nk-notification-icon">
-                                <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                            </div>
-                            }
-                            <div className="nk-notification-content">
-                                <div className="nk-notification-text">
-                                {userName && `${userName} has Placed an order`} 
-                                {/* You have requested to <span>{request.type}</span> */}
-                                </div>
-                                <div className="nk-notification-time">
-                            <span>{hoursAgo && "Hours Ago"}</span> 
-                                </div>
-                            </div>
-                            </div>
-                        </div>
-                        </div>
-                    <div className="dropdown-foot center">
-                      <a href="#">View All</a>
+                    <div className="nk-notification-time">
+                      <span>{"2 Hours Ago"}</span>
                     </div>
                   </div>
-                </li>
-  )
-}
+                </div>
+              ))}
+          </div>
+        </div>
 
-export default Notification
+        <div className="dropdown-foot center">
+          <a href="#">View All</a>
+        </div>
+      </div>
+    </li>
+  );
+};
+
+export default Notification;

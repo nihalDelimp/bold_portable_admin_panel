@@ -1,6 +1,6 @@
 import React , {useState , useEffect}  from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { authAxios } from "../Config/config";
+import { authAxios } from "../config/config";
 import {toast} from 'react-toastify' ;
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";

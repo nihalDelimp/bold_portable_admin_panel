@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { authAxios } from "../Config/config";
+import { authAxios } from "../config/config";
 import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";

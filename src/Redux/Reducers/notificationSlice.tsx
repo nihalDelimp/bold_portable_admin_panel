@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface NotificationState {
-  newOrdersMsg: any;
+  newOrdersMsg: any[];
 }
 
 const initialState: NotificationState = {
@@ -13,10 +13,10 @@ export const notificationSlice = createSlice({
   initialState,
   reducers: {
     addNewOrderMsg: (state, action: PayloadAction<any>) => {
-      state.newOrdersMsg = action.payload;
+      state.newOrdersMsg.push({ ...action.payload});
     },
     removeReadMsg: (state, action: PayloadAction<any>) => {
-        state.newOrdersMsg = action.payload;
+        state.newOrdersMsg = [];
       },
   },
 });
