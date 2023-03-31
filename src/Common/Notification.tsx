@@ -5,6 +5,9 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import { addNewOrderMsg } from "../Redux/Reducers/notificationSlice";
 import io, { Socket } from "socket.io-client";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 const Notification = () => {
   const dispatch = useDispatch();
@@ -13,15 +16,18 @@ const Notification = () => {
     (state: RootState) => state.notification
   );
 
-  socket.current = io("http://localhost:4000");
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("new_order_recieved", (recieved_order) => {
         console.log("recieved_order", recieved_order);
-         getCustomerDetailsData(recieved_order);
+        getCustomerDetailsData(recieved_order);
       });
     }
+    return () => {
+      socket.current?.disconnect();
+    };
   }, []);
 
   const getCustomerDetailsData = async (orderDetail: any) => {
@@ -82,14 +88,13 @@ const Notification = () => {
                       {`${item?.userName} has Placed an order`}
                     </div>
                     <div className="nk-notification-time">
-                      <span>{"2 Hours Ago"}</span>
+                      <span>{dayjs(item.createdAt).fromNow()}</span>
                     </div>
                   </div>
                 </div>
               ))}
           </div>
         </div>
-
         <div className="dropdown-foot center">
           <a href="#">View All</a>
         </div>

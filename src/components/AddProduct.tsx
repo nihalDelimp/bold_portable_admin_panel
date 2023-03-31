@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import {acceptedFileTypes} from '../Helper'
 
 interface MyComponentProps {
   getProductsListData: () => void;
@@ -246,6 +247,7 @@ const AddProduct = (props: MyComponentProps) => {
                       className="form-control"
                       id="inputPassword4"
                       placeholder="upload image"
+                      accept={acceptedFileTypes}
                     />
                      <div className="invalid-feedback">
                       {errors.product_images ? 'This field is required' : '' }
