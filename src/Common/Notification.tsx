@@ -75,7 +75,7 @@ const Notification = () => {
           <div className="nk-notification">
             {newOrdersMsg &&
               newOrdersMsg.length > 0 &&
-              newOrdersMsg.map((item: any, index: number) => (
+              newOrdersMsg.slice(0).reverse().map((item: any, index: number) => (
                 <div
                   key={index + 1}
                   className="nk-notification-item dropdown-inner"
