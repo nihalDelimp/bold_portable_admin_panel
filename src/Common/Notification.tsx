@@ -1,27 +1,27 @@
-import { useCallback, useEffect, useState , useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { authAxios } from "../config/config";
-import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { addNewOrderMsg } from "../Redux/Reducers/notificationSlice";
-import {io} from "socket.io-client";
-const socket = io("http://localhost:4000");
+import io, { Socket } from "socket.io-client";
 
 const Notification = () => {
   const dispatch = useDispatch();
+  const socket = useRef<Socket>();
   const { newOrdersMsg } = useSelector(
     (state: RootState) => state.notification
   );
-  
 
-  console.log("SocketIo", socket);
+  socket.current = io("http://localhost:4000");
 
   useEffect(() => {
-    socket.on("new_order_recieved", (recieved_order) => {
-      console.log("recieved_order", recieved_order);
-      getCustomerDetailsData(recieved_order);
-    });
+    if (socket.current) {
+      socket.current.on("new_order_recieved", (recieved_order) => {
+        console.log("recieved_order", recieved_order);
+         getCustomerDetailsData(recieved_order);
+      });
+    }
   }, []);
 
   const getCustomerDetailsData = async (orderDetail: any) => {
