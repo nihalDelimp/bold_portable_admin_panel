@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "../Common/Pagination";
-import IsLoadingHOC from "./../Common/IsLoadingHOC";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { useFetch } from "../CustomHooks/useFetch";
+import IsLoggedinHOC from "./../Common/IsLoggedInHOC";
+import { Link } from "react-router-dom";
+
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function Invoices(props: MyComponentProps) {
+function InvoicesList(props: MyComponentProps) {
   const { setLoading } = props;
   const [
     listData,
@@ -31,9 +34,9 @@ function Invoices(props: MyComponentProps) {
             <div className="nk-block-head">
               <div className="nk-block-between g-3">
                 <div className="nk-block-head-content">
-                  <h3 className="nk-block-title page-title">Invoices</h3>
+                  <h3 className="nk-block-title page-title">InvoicesList</h3>
                   <div className="nk-block-des text-soft">
-                    <p>You have total 937 invoices.</p>
+                    <p>You have total 937 InvoicesList.</p>
                   </div>
                 </div>
                 <div className="nk-block-head-content">
@@ -203,19 +206,12 @@ function Invoices(props: MyComponentProps) {
                           </td>
                           <td className="tb-odr-action">
                             <div className="tb-odr-btns d-none d-sm-inline">
-                              <a
-                                href="html/invoice-print.html"
-                                target="_blank"
-                                className="btn btn-icon btn-white btn-dim btn-sm btn-primary"
-                              >
-                                <em className="icon ni ni-printer-fill"></em>
-                              </a>
-                              <a
-                                href="html/invoice-details.html"
+                              <Link
+                                to={`/invoice-detail/123456`}
                                 className="btn btn-dim btn-sm btn-primary"
                               >
                                 View
-                              </a>
+                              </Link>
                             </div>
                             <a
                               href="html/invoice-details.html"
@@ -245,20 +241,13 @@ function Invoices(props: MyComponentProps) {
                             </span>
                           </td>
                           <td className="tb-odr-action">
-                            <div className="tb-odr-btns d-none d-sm-inline">
-                              <a
-                                href="html/invoice-print.html"
-                                target="_blank"
-                                className="btn btn-icon btn-white btn-dim btn-sm btn-primary"
-                              >
-                                <em className="icon ni ni-printer-fill"></em>
-                              </a>
-                              <a
-                                href="html/invoice-details.html"
+                          <div className="tb-odr-btns d-none d-sm-inline">
+                              <Link
+                                to={`/invoice-detail/123456`}
                                 className="btn btn-dim btn-sm btn-primary"
                               >
                                 View
-                              </a>
+                              </Link>
                             </div>
                             <a
                               href="html/invoice-details.html"
@@ -288,20 +277,13 @@ function Invoices(props: MyComponentProps) {
                             </span>
                           </td>
                           <td className="tb-odr-action">
-                            <div className="tb-odr-btns d-none d-sm-inline">
-                              <a
-                                href="html/invoice-print.html"
-                                target="_blank"
-                                className="btn btn-icon btn-white btn-dim btn-sm btn-primary"
-                              >
-                                <em className="icon ni ni-printer-fill"></em>
-                              </a>
-                              <a
-                                href="html/invoice-details.html"
+                          <div className="tb-odr-btns d-none d-sm-inline">
+                              <Link
+                                to={`/invoice-detail/123456`}
                                 className="btn btn-dim btn-sm btn-primary"
                               >
                                 View
-                              </a>
+                              </Link>
                             </div>
                             <a
                               href="html/invoice-details.html"
@@ -332,13 +314,6 @@ function Invoices(props: MyComponentProps) {
                           </td>
                           <td className="tb-odr-action">
                             <div className="tb-odr-btns d-none d-sm-inline">
-                              <a
-                                href="html/invoice-print.html"
-                                target="_blank"
-                                className="btn btn-icon btn-white btn-dim btn-sm btn-primary"
-                              >
-                                <em className="icon ni ni-printer-fill"></em>
-                              </a>
                               <a
                                 href="html/invoice-details.html"
                                 className="btn btn-dim btn-sm btn-primary"
@@ -374,20 +349,13 @@ function Invoices(props: MyComponentProps) {
                             </span>
                           </td>
                           <td className="tb-odr-action">
-                            <div className="tb-odr-btns d-none d-sm-inline">
-                              <a
-                                href="html/invoice-print.html"
-                                target="_blank"
-                                className="btn btn-icon btn-white btn-dim btn-sm btn-primary"
-                              >
-                                <em className="icon ni ni-printer-fill"></em>
-                              </a>
-                              <a
-                                href="html/invoice-details.html"
+                          <div className="tb-odr-btns d-none d-sm-inline">
+                              <Link
+                                to={`/invoice-detail/123456`}
                                 className="btn btn-dim btn-sm btn-primary"
                               >
                                 View
-                              </a>
+                              </Link>
                             </div>
                             <a
                               href="html/invoice-details.html"
@@ -419,4 +387,4 @@ function Invoices(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(Invoices);
+export default IsLoadingHOC(IsLoggedinHOC(InvoicesList));

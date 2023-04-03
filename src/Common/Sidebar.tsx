@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
@@ -10,12 +11,12 @@ function Sidebar() {
   };
   return (
     <div
-      className="nk-sidebar nk-sidebar-fixed is-light "
+      className="nk-sidebar nk-sidebar-fixed is-light"
       data-content="sidebarMenu"
     >
       <div className="nk-sidebar-element nk-sidebar-head">
         <div className="nk-sidebar-brand">
-          <a href="html/index.html" className="logo-link nk-sidebar-logo">
+          <NavLink to="/" className="logo-link nk-sidebar-logo">
             <img
               className="logo-light logo-img"
               src={require("../images/bold_port.png")}
@@ -31,7 +32,7 @@ function Sidebar() {
               src={require("../images/bold_port.png")}
               alt="logo-small"
             />
-          </a>
+          </NavLink>
         </div>
         <div className="nk-menu-trigger me-n2">
           <a
@@ -94,7 +95,6 @@ function Sidebar() {
                   </span>
                   <span className="nk-menu-text">Invoices</span>
                 </Link>
-              
               </li>
             </ul>
           </div>

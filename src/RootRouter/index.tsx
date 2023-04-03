@@ -5,12 +5,14 @@ import Login from "../Components/Login";
 import Home from "../Components/Dashboard";
 import ProductList from "../Components/ProductList";
 import Customers from "../Components/Customers";
-import PageNoteFound from "../Common/PageNoteFound";
+import PageNoteFound from "../Components/PageNotFound";
 import AdminProfile from "../Common/AdminProfile";
 import ViewProduct from "../Components/ViewProduct";
 import ViewCustomer from "../Components/ViewCustomer";
 import Orders from "../Components/Orders";
-import Invoices from "../Components/Invoices";
+import InvoicesList from "../Components/InvoicesList";
+import InvoiceDetail from "../Components/InvoiceDetail";
+
 
 function RootRouter() {
   return (
@@ -78,7 +80,15 @@ function RootRouter() {
             path="/invoices"
             element={
               <PrivateRoute>
-                <Invoices />
+                <InvoicesList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/invoice-detail/:id"
+            element={
+              <PrivateRoute>
+                <InvoiceDetail />
               </PrivateRoute>
             }
           />
