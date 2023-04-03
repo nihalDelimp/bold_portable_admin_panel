@@ -10,6 +10,7 @@ import AdminProfile from "../Common/AdminProfile";
 import ViewProduct from "../Components/ViewProduct";
 import ViewCustomer from "../Components/ViewCustomer";
 import Orders from "../Components/Orders";
+import Invoices from "../Components/Invoices";
 
 function RootRouter() {
   return (
@@ -70,6 +71,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <Orders />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/invoices"
+            element={
+              <PrivateRoute>
+                <Invoices />
               </PrivateRoute>
             }
           />

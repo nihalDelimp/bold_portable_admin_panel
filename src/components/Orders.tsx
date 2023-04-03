@@ -13,10 +13,9 @@ const  Orders = (props :  MyComponentProps) => {
     const {setLoading} =  props
     const [orders , setOrders] =  useState<string[]>([])
     const [totalCount, setTotalCount] = useState<number>(0)
-    const [currentPage, setcurrentPage] = useState<number>(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage , setItemPerPage] = useState<number>(10);
-    const [maxPageNumberLimit, setmaxPageNumberLimit] = useState<number>(5);
-    const [minPageNumberLimit, setminPageNumberLimit] = useState<number>(0);
+  
 
 
     useEffect(() => {
@@ -707,15 +706,11 @@ const  Orders = (props :  MyComponentProps) => {
               </div>
               <Pagination
                  totalCount={totalCount}
+                 onPageChange={(page: number) => setCurrentPage(page)}
                  currentPage={currentPage}
                  itemsPerPage={itemsPerPage}
-                 maxPageNumberLimit={maxPageNumberLimit}
-                 minPageNumberLimit={minPageNumberLimit}
-                 setcurrentPage={setcurrentPage}
-                 setItemPerPage = {setItemPerPage}
-                 setmaxPageNumberLimit={setmaxPageNumberLimit}
-                 setminPageNumberLimit={setminPageNumberLimit}
-                  />
+                 setItemPerPage={setItemPerPage}
+               />
             </div>
           </div>
         </div>

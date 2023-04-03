@@ -19,10 +19,8 @@ function ProductList(props: MyComponentProps) {
   const [productId, setProductId] = useState<string>("");
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [currentPage, setcurrentPage] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [maxPageNumberLimit, setmaxPageNumberLimit] = useState<number>(5);
-  const [minPageNumberLimit, setminPageNumberLimit] = useState<number>(0);
   const { setLoading } = props;
 
   useEffect(() => {
@@ -294,17 +292,13 @@ function ProductList(props: MyComponentProps) {
                   ))}
                 </div>
                 {products && products.length > 0 && (
-                  <Pagination
-                    totalCount={totalCount}
-                    currentPage={currentPage}
-                    itemsPerPage={itemsPerPage}
-                    maxPageNumberLimit={maxPageNumberLimit}
-                    minPageNumberLimit={minPageNumberLimit}
-                    setcurrentPage={setcurrentPage}
-                    setItemPerPage={setItemPerPage}
-                    setmaxPageNumberLimit={setmaxPageNumberLimit}
-                    setminPageNumberLimit={setminPageNumberLimit}
-                  />
+                 <Pagination
+                 totalCount={totalCount}
+                 onPageChange={(page: number) => setCurrentPage(page)}
+                 currentPage={currentPage}
+                 itemsPerPage={itemsPerPage}
+                 setItemPerPage={setItemPerPage}
+               />
                 )}
               </div>
               <AddProduct getProductsListData={getProductsListData} />

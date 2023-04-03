@@ -5,14 +5,14 @@ import moment from "moment";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import Pagination from "../Common/PaginationNew";
+import Pagination from "../Common/Pagination";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function Customers(prosp: MyComponentProps) {
-  const { setLoading } = prosp;
+function Customers(props: MyComponentProps) {
+  const { setLoading } = props;
   const [customers, setCustomers] = useState<string[]>([]);
   const [totalCount, setTotalCount] = useState<number>(1000);
   const [currentPage, setCurrentPage] = useState<number>(1);

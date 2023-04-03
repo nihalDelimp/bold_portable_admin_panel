@@ -1,13 +1,13 @@
 import React from "react";
-import { Link , useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Sidebar() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const PageRefresh = () => {
-    navigate('/products')
-    window.location.reload()
-  }
+    navigate("/products");
+    window.location.reload();
+  };
   return (
     <div
       className="nk-sidebar nk-sidebar-fixed is-light "
@@ -87,46 +87,15 @@ function Sidebar() {
                 </Link>
               </li>
 
-              {/* <li className="nk-menu-item">
-                <Link to="/supports" className="nk-menu-link">
+              <li className="nk-menu-item has-sub">
+                <Link to="/invoices" className="nk-menu-link">
                   <span className="nk-menu-icon">
-                    <em className="icon ni ni-chat-fill"></em>
+                    <em className="icon ni ni-file-docs"></em>
                   </span>
-                  <span className="nk-menu-text">Supports</span>
+                  <span className="nk-menu-text">Invoices</span>
                 </Link>
+              
               </li>
-              <li className="nk-menu-item">
-                <Link to="settings" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-opt-alt-fill"></em>
-                  </span>
-                  <span className="nk-menu-text">Settings</span>
-                </Link>
-              </li>
-              <li className="nk-menu-item">
-                <Link to="/integrations" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-server-fill"></em>
-                  </span>
-                  <span className="nk-menu-text">Integration</span>
-                </Link>
-              </li> */}
-
-              {/* <li className="nk-menu-heading">
-                                    <h6 className="overline-title text-primary-alt">Return to</h6>
-                                </li>
-                                <li className="nk-menu-item">
-                                    <a href="html/index.html" className="nk-menu-link">
-                                        <span className="nk-menu-icon"><em className="icon ni ni-dashlite-alt"></em></span>
-                                        <span className="nk-menu-text">Main Dashboard</span>
-                                    </a>
-                                </li>
-                                <li className="nk-menu-item">
-                                    <a href="html/components.html" className="nk-menu-link">
-                                        <span className="nk-menu-icon"><em className="icon ni ni-layers-fill"></em></span>
-                                        <span className="nk-menu-text">All Components</span>
-                                    </a>
-                                </li> */}
             </ul>
           </div>
         </div>

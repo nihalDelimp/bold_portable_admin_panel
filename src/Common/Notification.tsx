@@ -15,7 +15,6 @@ const Notification = () => {
   const { newOrdersMsg } = useSelector(
     (state: RootState) => state.notification
   );
-
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
@@ -62,7 +61,13 @@ const Notification = () => {
         className="dropdown-toggle nk-quick-nav-icon"
         data-bs-toggle="dropdown"
       >
-        <div className="icon-status icon-status-info">
+        <div
+          className={
+            newOrdersMsg && newOrdersMsg.length > 0
+              ? "icon-status icon-status-info"
+              : ""
+          }
+        >
           <em className="icon ni ni-bell"></em>
         </div>
       </a>
@@ -75,24 +80,27 @@ const Notification = () => {
           <div className="nk-notification">
             {newOrdersMsg &&
               newOrdersMsg.length > 0 &&
-              newOrdersMsg.slice(0).reverse().map((item: any, index: number) => (
-                <div
-                  key={index + 1}
-                  className="nk-notification-item dropdown-inner"
-                >
-                  <div className="nk-notification-icon">
-                    <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                  </div>
-                  <div className="nk-notification-content">
-                    <div className="nk-notification-text">
-                      {`${item?.userName} has Placed an order`}
+              newOrdersMsg
+                .slice(0)
+                .reverse()
+                .map((item: any, index: number) => (
+                  <div
+                    key={index + 1}
+                    className="nk-notification-item dropdown-inner"
+                  >
+                    <div className="nk-notification-icon">
+                      <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
                     </div>
-                    <div className="nk-notification-time">
-                      <span>{dayjs(item.createdAt).fromNow()}</span>
+                    <div className="nk-notification-content">
+                      <div className="nk-notification-text">
+                        {`${item?.userName} has Placed an order`}
+                      </div>
+                      <div className="nk-notification-time">
+                        <span>{dayjs(item.createdAt).fromNow()}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
           </div>
         </div>
         <div className="dropdown-foot center">

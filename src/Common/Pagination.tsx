@@ -1,101 +1,65 @@
-import React, { useState } from "react";
+import React from "react";
+import { usePagination, DOTS } from "./UsePagination";
 
 interface MyComponentProps {
   totalCount: number;
   currentPage: number;
   itemsPerPage: number;
-  maxPageNumberLimit: number;
-  minPageNumberLimit: number;
-  setcurrentPage: (currentPage: number) => void;
+  onPageChange: (currentPage: number) => void;
   setItemPerPage: (pageLimit: number) => void;
-  setmaxPageNumberLimit: (maxPage: number) => void;
-  setminPageNumberLimit: (minPage: number) => void;
 }
 
 function Pagination(props: MyComponentProps) {
-  const [pageNumberLimit] = useState(5);
-  let {
-    totalCount,
-    currentPage,
-    itemsPerPage,
-    maxPageNumberLimit,
-    minPageNumberLimit,
-    setcurrentPage,
-    setItemPerPage,
-    setmaxPageNumberLimit,
-    setminPageNumberLimit,
-  } = props;
+  let siblingCount: number = 1;
+  let { totalCount, currentPage, itemsPerPage, onPageChange, setItemPerPage } =
+    props;
 
-  const pages: number[] = [];
-  for (let i = 1; i <= Math.ceil(100 / itemsPerPage); i++) {
-    pages.push(i);
+  const paginationRange = usePagination({
+    currentPage,
+    totalCount,
+    siblingCount,
+    itemsPerPage,
+  });
+
+  if (currentPage === 0 || paginationRange.length < 2) {
+    return null;
   }
 
   const paginate = (pageNumber: number) => {
-    setcurrentPage(pageNumber);
+    onPageChange(pageNumber);
   };
 
   const handleNextbtn = () => {
-    if (currentPage === pages[pages.length - 1]) {
-      return;
-    }
-    setcurrentPage(currentPage + 1);
-    if (currentPage + 1 > maxPageNumberLimit) {
-      setmaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
-      setminPageNumberLimit(minPageNumberLimit + pageNumberLimit);
-    }
+    onPageChange(currentPage + 1);
   };
 
   const handlePrevbtn = () => {
-    if (currentPage === pages[0]) {
-      return;
-    }
-    setcurrentPage(currentPage - 1);
-    if ((currentPage - 1) % pageNumberLimit === 0) {
-      setmaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
-      setminPageNumberLimit(minPageNumberLimit - pageNumberLimit);
-    }
+    onPageChange(currentPage - 1);
   };
 
-  let pageIncrementBtn = null;
-  if (pages.length > maxPageNumberLimit) {
-    pageIncrementBtn = (
-      <li onClick={handleNextbtn} className="page-item">
-        <span className="page-link">
-          <em className="icon ni ni-more-h"></em>
-        </span>
-      </li>
-    );
-  }
+  const renderPageNumbers = paginationRange.map(
+    (pageNumber: any, index: number) => {
+      if (pageNumber === DOTS) {
+        return (
+          <li key={index + 1} className="page-item">
+            <span className="page-link">
+              <em className="icon ni ni-more-h"></em>
+            </span>
+          </li>
+        );
+      }
 
-  let pageDecrementBtn = null;
-  if (minPageNumberLimit >= 1) {
-    pageDecrementBtn = (
-      <li onClick={handlePrevbtn} className="page-item">
-        <span className="page-link">
-          <em className="icon ni ni-more-h"></em>
-        </span>
-      </li>
-    );
-  }
-
-  const renderPageNumbers = pages.map((number) => {
-    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
       return (
         <li
-          key={number}
-          onClick={() => paginate(number)}
-          className={
-            currentPage === number ? "active page-item" : "none page-item"
-          }
+          key={index + 1}
+          onClick={() => paginate(pageNumber)}
+          className={`page-item ${currentPage === pageNumber && "active"}`}
         >
-          <a className="page-link page_num"> {number} </a>
+          <a className="page-link page_num"> {pageNumber} </a>
         </li>
       );
-    } else {
-      return null;
     }
-  });
+  );
 
   const handleChangePageLimit = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -110,11 +74,11 @@ function Pagination(props: MyComponentProps) {
         <div className="nk-block-between-md g-3">
           <div className="g">
             <ul className="pagination justify-content-center justify-content-md-start">
-              {currentPage !== pages[0] && (
+              {currentPage !== paginationRange[0] && (
                 <li className="page-item">
                   <span
                     className={`page-link ${
-                      currentPage !== pages[0] && "btn_active"
+                      currentPage !== paginationRange[0] && "btn_active"
                     }`}
                     onClick={handlePrevbtn}
                   >
@@ -122,14 +86,14 @@ function Pagination(props: MyComponentProps) {
                   </span>
                 </li>
               )}
-              {pageDecrementBtn}
               {renderPageNumbers}
-              {pageIncrementBtn}
-              {currentPage !== pages[pages.length - 1] && (
+              {currentPage !== paginationRange[paginationRange.length - 1] && (
                 <li className="page-item">
                   <span
                     className={`page-link ${
-                      currentPage !== pages[pages.length - 1] && "btn_active"
+                      currentPage !==
+                        paginationRange[paginationRange.length - 1] &&
+                      "btn_active"
                     }`}
                     onClick={handleNextbtn}
                   >
