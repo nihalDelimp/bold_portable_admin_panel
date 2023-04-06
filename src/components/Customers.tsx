@@ -13,7 +13,7 @@ interface MyComponentProps {
 
 function Customers(props: MyComponentProps) {
   const { setLoading } = props;
-  const [customers, setCustomers] = useState<string[]>([]);
+  const [customers, setCustomers] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(1000);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
@@ -163,7 +163,8 @@ function Customers(props: MyComponentProps) {
                     </div>
                   </div>
 
-                  {customers.map((item: any, index) => (
+                  {customers && customers.length > 0 &&
+                  customers.map((item: any, index) => (
                     <div key={index + 1} className="nk-tb-item">
                       <div className="nk-tb-col nk-tb-col-check">
                         <div className="custom-control custom-control-sm custom-checkbox notext">
