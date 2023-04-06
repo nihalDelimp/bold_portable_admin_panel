@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Pagination from "../Common/Pagination";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { useFetch } from "../CustomHooks/useFetch";
-import IsLoggedinHOC from "./../Common/IsLoggedInHOC";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import { Link } from "react-router-dom";
 
 

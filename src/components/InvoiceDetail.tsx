@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import IsLoadingHOC from "./../Common/IsLoadingHOC";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 
 function InvoiceDetail() {
   return (

@@ -1,17 +1,17 @@
 import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
-import Login from "../Components/Login";
-import Home from "../Components/Dashboard";
-import ProductList from "../Components/ProductList";
-import Customers from "../Components/Customers";
-import PageNoteFound from "../Components/PageNotFound";
+import Login from "../components/Login";
+import Home from "../components/Dashboard";
+import ProductList from "../components/ProductList";
+import Customers from "../components/Customers";
+import PageNoteFound from "../components/PageNotFound";
 import AdminProfile from "../Common/AdminProfile";
-import ViewProduct from "../Components/ViewProduct";
-import ViewCustomer from "../Components/ViewCustomer";
-import Orders from "../Components/Orders";
-import InvoicesList from "../Components/InvoicesList";
-import InvoiceDetail from "../Components/InvoiceDetail";
+import ViewProduct from "../components/ViewProduct";
+import ViewCustomer from "../components/ViewCustomer";
+import Orders from "../components/Orders";
+import InvoicesList from "../components/InvoicesList";
+import InvoiceDetail from "../components/InvoiceDetail";
 
 
 function RootRouter() {
