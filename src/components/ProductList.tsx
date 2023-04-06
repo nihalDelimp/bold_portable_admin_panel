@@ -35,7 +35,7 @@ function ProductList(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            setProduct(response.data.data);
+            setProduct(response.data.data.products);
           }
         },
         (error) => {

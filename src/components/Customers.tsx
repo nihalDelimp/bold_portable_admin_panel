@@ -31,7 +31,7 @@ function Customers(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            setCustomers(response.data.data);
+            setCustomers(response.data.data.users);
           }
         },
         (error) => {
