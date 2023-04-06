@@ -14,7 +14,7 @@ interface MyComponentProps {
 }
 
 function ProductList(props: MyComponentProps) {
-  const [products, setProduct] = useState<string[]>([]);
+  const [products, setProduct] = useState<any[]>([]);
   const [editProductModal, setEditProductModal] = useState<boolean>(false);
   const [productId, setProductId] = useState<string>("");
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
@@ -204,101 +204,105 @@ function ProductList(props: MyComponentProps) {
                     </div>
                   </div>
 
-                  {products?.map((item: any) => (
-                    <div key={item._id} className="nk-tb-item">
-                      <div className="nk-tb-col nk-tb-col-check">
-                        <div className="custom-control custom-control-sm custom-checkbox notext">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="pid10"
-                          />
-                          <label className="custom-control-label"></label>
+                  {products &&
+                    products.length > 0 &&
+                    products?.map((item: any) => (
+                      <div key={item._id} className="nk-tb-item">
+                        <div className="nk-tb-col nk-tb-col-check">
+                          <div className="custom-control custom-control-sm custom-checkbox notext">
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              id="pid10"
+                            />
+                            <label className="custom-control-label"></label>
+                          </div>
                         </div>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-product">
-                          {item.product_images &&
-                            item.product_images.length > 0 && (
-                              // item.product_images.map((image : any) =>(
-                              <img
-                                src={`${process.env.REACT_APP_BASEURL}/${item.product_images[0].image_path}`}
-                                alt=""
-                                className="thumb"
-                              />
-                            )}
-                          <span className="title">{item.title}</span>
-                        </span>
-                      </div>
+                        <div className="nk-tb-col tb-col-sm">
+                          <span className="tb-product">
+                            {item.product_images &&
+                              item.product_images.length > 0 && (
+                                // item.product_images.map((image : any) =>(
+                                <img
+                                  src={`${process.env.REACT_APP_BASEURL}/${item.product_images[0].image_path}`}
+                                  alt=""
+                                  className="thumb"
+                                />
+                              )}
+                            <span className="title">{item.title}</span>
+                          </span>
+                        </div>
 
-                      <div className="nk-tb-col">
-                        <span className="tb-lead">{item.product_price}</span>
-                      </div>
+                        <div className="nk-tb-col">
+                          <span className="tb-lead">{item.product_price}</span>
+                        </div>
 
-                      <div className="nk-tb-col tb-col-md">
-                        <span className="tb-sub">{item.description}</span>
-                      </div>
+                        <div className="nk-tb-col tb-col-md">
+                          <span className="tb-sub">{item.description}</span>
+                        </div>
 
-                      <div className="nk-tb-col nk-tb-col-tools">
-                        <ul className="gx-1 my-n1">
-                          <li className="me-n1">
-                            <div className="dropdown">
-                              <a
-                                className="dropdown-toggle btn btn-icon btn-trigger"
-                                data-bs-toggle="dropdown"
-                              >
-                                <em className="icon ni ni-more-h"></em>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <a
-                                      onClick={() => handleEditModal(item._id)}
-                                    >
-                                      <em className="icon ni ni-edit"></em>
-                                      <span>Edit Product</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <Link to={`/view-product/${item._id}`}>
-                                      <em className="icon ni ni-eye"></em>
-                                      <span>View Product</span>
-                                    </Link>
-                                  </li>
-                                  {/* <li>
+                        <div className="nk-tb-col nk-tb-col-tools">
+                          <ul className="gx-1 my-n1">
+                            <li className="me-n1">
+                              <div className="dropdown">
+                                <a
+                                  className="dropdown-toggle btn btn-icon btn-trigger"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <em className="icon ni ni-more-h"></em>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-end">
+                                  <ul className="link-list-opt no-bdr">
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          handleEditModal(item._id)
+                                        }
+                                      >
+                                        <em className="icon ni ni-edit"></em>
+                                        <span>Edit Product</span>
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <Link to={`/view-product/${item._id}`}>
+                                        <em className="icon ni ni-eye"></em>
+                                        <span>View Product</span>
+                                      </Link>
+                                    </li>
+                                    {/* <li>
                                     <a href="#">
                                       <em className="icon ni ni-activity-round"></em>
                                       <span>Product Orders</span>
                                     </a>
                                   </li> */}
-                                  <li>
-                                    <a
-                                      className="cursor_ponter"
-                                      onClick={() =>
-                                        handleDeleteModal(item._id)
-                                      }
-                                    >
-                                      <em className="icon ni ni-trash"></em>
-                                      <span>Remove Product</span>
-                                    </a>
-                                  </li>
-                                </ul>
+                                    <li>
+                                      <a
+                                        className="cursor_ponter"
+                                        onClick={() =>
+                                          handleDeleteModal(item._id)
+                                        }
+                                      >
+                                        <em className="icon ni ni-trash"></em>
+                                        <span>Remove Product</span>
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
                               </div>
-                            </div>
-                          </li>
-                        </ul>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
                 {products && products.length > 0 && (
-                 <Pagination
-                 totalCount={totalCount}
-                 onPageChange={(page: number) => setCurrentPage(page)}
-                 currentPage={currentPage}
-                 itemsPerPage={itemsPerPage}
-                 setItemPerPage={setItemPerPage}
-               />
+                  <Pagination
+                    totalCount={totalCount}
+                    onPageChange={(page: number) => setCurrentPage(page)}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemPerPage={setItemPerPage}
+                  />
                 )}
               </div>
               <AddProduct getProductsListData={getProductsListData} />

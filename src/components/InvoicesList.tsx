@@ -5,7 +5,6 @@ import { useFetch } from "../CustomHooks/useFetch";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import { Link } from "react-router-dom";
 
-
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
@@ -241,7 +240,7 @@ function InvoicesList(props: MyComponentProps) {
                             </span>
                           </td>
                           <td className="tb-odr-action">
-                          <div className="tb-odr-btns d-none d-sm-inline">
+                            <div className="tb-odr-btns d-none d-sm-inline">
                               <Link
                                 to={`/invoice-detail/123456`}
                                 className="btn btn-dim btn-sm btn-primary"
@@ -277,7 +276,7 @@ function InvoicesList(props: MyComponentProps) {
                             </span>
                           </td>
                           <td className="tb-odr-action">
-                          <div className="tb-odr-btns d-none d-sm-inline">
+                            <div className="tb-odr-btns d-none d-sm-inline">
                               <Link
                                 to={`/invoice-detail/123456`}
                                 className="btn btn-dim btn-sm btn-primary"
@@ -349,7 +348,7 @@ function InvoicesList(props: MyComponentProps) {
                             </span>
                           </td>
                           <td className="tb-odr-action">
-                          <div className="tb-odr-btns d-none d-sm-inline">
+                            <div className="tb-odr-btns d-none d-sm-inline">
                               <Link
                                 to={`/invoice-detail/123456`}
                                 className="btn btn-dim btn-sm btn-primary"

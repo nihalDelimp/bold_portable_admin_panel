@@ -21,7 +21,7 @@ const Notification = () => {
     if (socket.current) {
       socket.current.on("new_order_recieved", (recieved_order) => {
         console.log("recieved_order", recieved_order);
-        getCustomerDetailsData(recieved_order);
+        dispatch(addNewOrderMsg(recieved_order));
       });
     }
     return () => {
@@ -29,28 +29,28 @@ const Notification = () => {
     };
   }, []);
 
-  const getCustomerDetailsData = async (orderDetail: any) => {
-    let placedOrder = orderDetail;
-    console.log(orderDetail);
-    await authAxios()
-      .get(`/auth/get-specific-user/${orderDetail.user}`)
-      .then(
-        (response) => {
-          if (response.data.status === 1) {
-            const resData = response.data.data;
-            console.log(resData, "resDataresDataresDataresData");
-            placedOrder["userName"] = resData.name;
-            dispatch(addNewOrderMsg(placedOrder));
-          }
-        },
-        (error) => {
-          toast.error(error.response.data.message);
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
-  };
+  // const getCustomerDetailsData = async (orderDetail: any) => {
+  //   let placedOrder = orderDetail;
+  //   console.log(orderDetail);
+  //   await authAxios()
+  //     .get(`/auth/get-specific-user/${orderDetail.user}`)
+  //     .then(
+  //       (response) => {
+  //         if (response.data.status === 1) {
+  //           const resData = response.data.data;
+  //           console.log(resData, "resDataresDataresDataresData");
+  //           placedOrder["userName"] = resData.name;
+  //           dispatch(addNewOrderMsg(placedOrder));
+  //         }
+  //       },
+  //       (error) => {
+  //         toast.error(error.response.data.message);
+  //       }
+  //     )
+  //     .catch((error) => {
+  //       console.log("errorrrr", error);
+  //     });
+  // };
 
   console.log("OrderNotification", newOrdersMsg);
 
@@ -93,7 +93,7 @@ const Notification = () => {
                     </div>
                     <div className="nk-notification-content">
                       <div className="nk-notification-text">
-                        {`${item?.userName} has Placed an order`}
+                        {`${item.user.name} has Placed an order`}
                       </div>
                       <div className="nk-notification-time">
                         <span>{dayjs(item.createdAt).fromNow()}</span>
