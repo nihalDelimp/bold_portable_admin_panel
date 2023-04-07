@@ -11,6 +11,7 @@ import ViewProduct from "../components/ViewProduct";
 import ViewCustomer from "../components/ViewCustomer";
 import Orders from "../components/Orders";
 import InvoicesList from "../components/InvoicesList";
+import NotificationDetails from "../components/NotificationDetails";
 import InvoiceDetail from "../components/InvoiceDetail";
 
 
@@ -81,6 +82,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <InvoicesList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/notification-details/:id"
+            element={
+              <PrivateRoute>
+                <NotificationDetails />
               </PrivateRoute>
             }
           />

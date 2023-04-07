@@ -8,6 +8,7 @@ import IsLoadingHOC from "./IsLoadingHOC";
 import io, { Socket } from "socket.io-client";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { Link } from "react-router-dom";
 dayjs.extend(relativeTime);
 
 interface MyComponentProps {
@@ -134,7 +135,7 @@ const Notification = (props: MyComponentProps) => {
       <div className="dropdown-menu dropdown-menu-xl dropdown-menu-end">
         <div className="dropdown-head">
           <span className="sub-title nk-dropdown-title">Notifications</span>
-          <a href="#" onClick={markAllNotificationsSeen}>Mark All as Read</a>
+          <a href="#" onClick={markAllNotificationsSeen}>{allNotifucations.length > 0 && "Mark All as Read"}</a>
         </div>
         <div className="dropdown-body">
           <div className="nk-notification">
@@ -146,22 +147,29 @@ const Notification = (props: MyComponentProps) => {
                     <div
                       key={index + 1}
                       className="nk-notification-item dropdown-inner"
+                      style={{padding: "20px 10px 20px"}}
                     >
-                      <div className="nk-notification-icon">
-                        <a
-                          onClick={() => markSpecificNotificationSeen(item._id)}
-                        >
-                          <em className="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
-                        </a>
-                      </div>
+                       <div className="nk-notification-icon">
+                       <em className="icon icon-circle bg-info-dim ni ni-cart"></em>
+                    </div>
+                      <Link to={`/notification-details/${item._id}`}>
                       <div className="nk-notification-content">
                         <div className="nk-notification-text">
-                          {`${item.user.name} has Placed an order`}
+                          {`${item.user.name} has Placed ${item.order.products.length} order`}
                         </div>
                         <div className="nk-notification-time">
                           <span>{dayjs(item.createdAt).fromNow()}</span>
                         </div>
                       </div>
+                      </Link>
+                      <a style={{marginLeft:"auto"}}
+                          onClick={() => markSpecificNotificationSeen(item._id)}
+                        >
+                       <div className="nk-notification-icon">
+
+                          <em className="icon icon-circle bg-success-dim ni ni-check-circle"></em>
+                          </div>
+                        </a>
                     </div>
                   );
                 } else {
