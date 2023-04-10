@@ -56,54 +56,65 @@ const Orders = (props: MyComponentProps) => {
 
   const onChangeStatus = (status: string) => {
     setOrderStatus(status);
-    console.log(status,"Niahlll")
-   if(!status){
-    setStatusName("Status")
-
-   }else{
-    const status_name = status.charAt(0).toUpperCase() + status.slice(1);
-    setStatusName(status_name)
-
-   }
+    console.log(status, "Niahlll");
+    if (!status) {
+      setStatusName("Status");
+    } else {
+      const status_name = status.charAt(0).toUpperCase() + status.slice(1);
+      setStatusName(status_name);
+    }
   };
 
   const setPurchasedItem = (products: any) => {
-
-    if(products && products.length === 1) {
-      return products[0].product.title
+    if (products && products.length === 1) {
+      return products[0].product.title;
     }
 
-    if(products && products.length > 1) {
-      return products.length + ' items'
+    if (products && products.length > 1) {
+      return products.length + " items";
     }
-
   };
 
-
-  const cancelOrder = async (_id:String) => {
+  const cancelOrder = async (_id: String) => {
     setLoading(true);
     await authAxios()
-        .patch(`/order/${_id}/cancel`)
-        .then(
-            (response) => {
-                setLoading(false);
-                if (response.data.status === 1) {
-                    if (socket.current) {
-                        const order = response.data.data;
-                        socket.current.emit("cancel_order", {orderId: _id, order: order});
-                    }
-                }
-            },
-            (error) => {
-                setLoading(false);
-                toast.error(error.response.data.message);
+      .patch(`/order/${_id}/cancel`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data.message)
+            if (socket.current) {
+              const order = response.data.data;
+              socket.current.emit("cancel_order", {
+                orderId: _id,
+                order: order,
+              });
             }
-        )
-        .catch((error) => {
-            console.log("errorrrr", error);
-        });
-};
+            getOrdersListData()
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
 
+  const orderStatusBgColor = (status: string) => {
+    if (status === "pending") {
+      return "bg-warning";
+    } else if (status === "completed") {
+      return "bg-success";
+    } else if (status === "cancelled") {
+      return "bg-danger";
+    } else {
+      return "bg-info";
+    }
+  };
 
   return (
     <div className="nk-content">
@@ -263,18 +274,13 @@ const Orders = (props: MyComponentProps) => {
                       </div>
                       <div className="nk-tb-col">
                         <span
-                          className={`dot bg-warning d-sm-none ${
-                            item.status === "pending"
-                              ? "bg-warning"
-                              : "bg-success"
-                          }`}
+                          className={`dot bg-warning d-sm-none ${orderStatusBgColor(
+                            item.status
+                          )}`}
                         ></span>
                         <span
-                          className={`badge badge-sm badge-dot has-bg d-none d-sm-inline-flex ${
-                            item.status === "pending"
-                              ? "bg-warning"
-                              : "bg-success"
-                          }`}
+                          className={`badge badge-sm badge-dot has-bg d-none d-sm-inline-flex
+                          ${orderStatusBgColor(item.status)}`}
                         >
                           {item.status}
                         </span>
@@ -283,7 +289,9 @@ const Orders = (props: MyComponentProps) => {
                         <span className="tb-sub">{item.user.name}</span>
                       </div>
                       <div className="nk-tb-col tb-col-md">
-                        <span className="tb-sub text-primary">{setPurchasedItem(item.products)}</span>
+                        <span className="tb-sub text-primary">
+                          {setPurchasedItem(item.products)}
+                        </span>
                       </div>
                       <div className="nk-tb-col">
                         <span className="tb-lead">$ {item.total_price}</span>
@@ -326,10 +334,10 @@ const Orders = (props: MyComponentProps) => {
                                     </a>
                                   </li>
                                   <li>
-                                  <a onClick={()=>cancelOrder(item._id)}>
-                                  <em className="icon ni ni-trash"></em>
-                                  <span>Cancel Order</span>
-                                </a>
+                                    <a onClick={() => cancelOrder(item._id)}>
+                                      <em className="icon ni ni-trash"></em>
+                                      <span>Cancel Order</span>
+                                    </a>
                                   </li>
                                 </ul>
                               </div>
