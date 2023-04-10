@@ -18,6 +18,7 @@ const Orders = (props: MyComponentProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const [orderStatus, setOrderStatus] = useState<string>("");
+  const [statusName, setStatusName] = useState<string>("Status");
 
   const socket = useRef<Socket>();
 
@@ -55,6 +56,15 @@ const Orders = (props: MyComponentProps) => {
 
   const onChangeStatus = (status: string) => {
     setOrderStatus(status);
+    console.log(status,"Niahlll")
+   if(!status){
+    setStatusName("Status")
+
+   }else{
+    const status_name = status.charAt(0).toUpperCase() + status.slice(1);
+    setStatusName(status_name)
+
+   }
   };
 
   const setPurchasedItem = (products: any) => {
@@ -137,7 +147,7 @@ const Orders = (props: MyComponentProps) => {
                               className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                               data-bs-toggle="dropdown"
                             >
-                              Status
+                              {statusName}
                             </a>
                             <div className="dropdown-menu dropdown-menu-end">
                               <ul className="link-list-opt no-bdr">
@@ -148,21 +158,21 @@ const Orders = (props: MyComponentProps) => {
                                 </li>
                                 <li>
                                   <a onClick={() => onChangeStatus("pending")}>
-                                    <span>On Hold</span>
+                                    <span>Pending</span>
                                   </a>
                                 </li>
                                 <li>
                                   <a
                                     onClick={() => onChangeStatus("completed")}
                                   >
-                                    <span>Delevired</span>
+                                    <span>Delivered</span>
                                   </a>
                                 </li>
                                 <li>
                                   <a
                                     onClick={() => onChangeStatus("cancelled")}
                                   >
-                                    <span>Rejected</span>
+                                    <span>Cancelled</span>
                                   </a>
                                 </li>
                               </ul>
@@ -268,7 +278,7 @@ const Orders = (props: MyComponentProps) => {
                         </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">Arnold Armstrong</span>
+                        <span className="tb-sub">{item.user.name}</span>
                       </div>
                       <div className="nk-tb-col tb-col-md">
                         <span className="tb-sub text-primary">{setPurchasedItem(item.products)}</span>
