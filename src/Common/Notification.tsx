@@ -155,7 +155,7 @@ const Notification = (props: MyComponentProps) => {
                       <Link to={`/notification-details/${item._id}`}>
                       <div className="nk-notification-content">
                         <div className="nk-notification-text">
-                          {`${item.user.name} has Placed ${item.order.products.length} order`}
+                          {`${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
                         </div>
                         <div className="nk-notification-time">
                           <span>{dayjs(item.createdAt).fromNow()}</span>
