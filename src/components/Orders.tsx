@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import { getFormatedDate } from "../Helper";
+import io, { Socket } from "socket.io-client";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -18,6 +19,9 @@ const Orders = (props: MyComponentProps) => {
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const [orderStatus, setOrderStatus] = useState<string>("");
 
+  const socket = useRef<Socket>();
+
+  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
   console.log("New_Orders", orders);
 
   useEffect(() => {
@@ -63,6 +67,30 @@ const Orders = (props: MyComponentProps) => {
       return products.length + ' items'
     }
 
+  };
+
+
+  const cancelOrder = async (_id:String) => {
+    setLoading(true);
+    await authAxios()
+      .patch(`/order/${_id}/cancel`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            if (socket.current) {
+              socket.current.emit("cancel_order", _id);
+            }
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   return (
@@ -286,10 +314,10 @@ const Orders = (props: MyComponentProps) => {
                                     </a>
                                   </li>
                                   <li>
-                                    <a href="#">
-                                      <em className="icon ni ni-trash"></em>
-                                      <span>Remove Order</span>
-                                    </a>
+                                  <a onClick={()=>cancelOrder(item._id)}>
+                                  <em className="icon ni ni-trash"></em>
+                                  <span>Cancel Order</span>
+                                </a>
                                   </li>
                                 </ul>
                               </div>
