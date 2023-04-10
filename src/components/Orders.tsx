@@ -83,25 +83,27 @@ const Orders = (props: MyComponentProps) => {
   const cancelOrder = async (_id:String) => {
     setLoading(true);
     await authAxios()
-      .patch(`/order/${_id}/cancel`)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            if (socket.current) {
-              socket.current.emit("cancel_order", _id);
+        .patch(`/order/${_id}/cancel`)
+        .then(
+            (response) => {
+                setLoading(false);
+                if (response.data.status === 1) {
+                    if (socket.current) {
+                        const order = response.data.data;
+                        socket.current.emit("cancel_order", {orderId: _id, order: order});
+                    }
+                }
+            },
+            (error) => {
+                setLoading(false);
+                toast.error(error.response.data.message);
             }
-          }
-        },
-        (error) => {
-          setLoading(false);
-          toast.error(error.response.data.message);
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
-  };
+        )
+        .catch((error) => {
+            console.log("errorrrr", error);
+        });
+};
+
 
   return (
     <div className="nk-content">
