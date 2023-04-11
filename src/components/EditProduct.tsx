@@ -12,8 +12,7 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   productId: string;
   editProductModal: boolean;
-  closeModal: () => void;
-  confirmedDelete: () => void;
+  closeModal: (isModal : boolean) => void;
   getProductsListData: () => void;
 }
 
@@ -112,7 +111,7 @@ function EditProduct(props: MyComponentProps) {
         (response) => {
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            closeModal();
+            closeModal(false);
             getProductsListData();
           } else {
             toast.error(response.data.message);
@@ -137,7 +136,7 @@ function EditProduct(props: MyComponentProps) {
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content">
           <a
-            onClick={() => closeModal()}
+            onClick={() => closeModal(false)}
             className="close cursor_ponter"
             data-bs-dismiss="modal"
           >
@@ -241,7 +240,7 @@ function EditProduct(props: MyComponentProps) {
                         </li>
                         <li>
                           <button
-                            onClick={() => closeModal()}
+                            onClick={() => closeModal(false)}
                             type="button"
                             data-bs-dismiss="modal"
                             className="link link-light"

@@ -2,13 +2,12 @@ import React from "react";
 
 interface MyComponentProps {
   modal: boolean;
-  closeModal: (isModal: boolean) => void;
-  confirmedDelete: () => void;
-  actionType: string;
+  closeModal: (isModal : boolean) => void;
+  confirmedCancel: () => void;
 }
 
-function DeleteConfirmationModal(props: MyComponentProps) {
-  const { modal, closeModal, confirmedDelete, actionType } = props;
+function CancelConfirmationModal(props: MyComponentProps) {
+  const { modal, closeModal, confirmedCancel } = props;
 
   return (
     <div
@@ -30,7 +29,7 @@ function DeleteConfirmationModal(props: MyComponentProps) {
             <h5 className="modal-title w-100">Please Confirm</h5>
           </div>
           <div className="modal-body text-center">
-            <p>Are you sure you want to remove this {actionType} ?</p>
+            <p>Are you sure you want to cancel this order ?</p>
           </div>
           <div className="modal-footer bg-light">
             <button
@@ -40,7 +39,7 @@ function DeleteConfirmationModal(props: MyComponentProps) {
               No
             </button>
             <button
-              onClick={() => confirmedDelete()}
+              onClick={() => confirmedCancel()}
               className="btn btn-danger btn-sm"
             >
               Yes
@@ -52,4 +51,4 @@ function DeleteConfirmationModal(props: MyComponentProps) {
   );
 }
 
-export default DeleteConfirmationModal;
+export default CancelConfirmationModal;

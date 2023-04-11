@@ -8,7 +8,7 @@
  export const limitDesc = 100;
 
  
- export function getFormatedDate(date : any) {
+ export function getFormatedDate(date : string) {
      if(!date){
       return 'NA'
      }

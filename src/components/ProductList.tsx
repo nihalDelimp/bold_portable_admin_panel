@@ -15,8 +15,8 @@ interface MyComponentProps {
 }
 
 function ProductList(props: MyComponentProps) {
-  const [products, setProduct] = useState<any[]>([]);
-  const [editProductModal, setEditProductModal] = useState<boolean>(false);
+  const [products, setProducts] = useState<any[]>([]);
+  const [editModal, setEditModal] = useState<boolean>(false);
   const [productId, setProductId] = useState<string>("");
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -26,17 +26,19 @@ function ProductList(props: MyComponentProps) {
 
   useEffect(() => {
     getProductsListData();
-  }, []);
+  }, [currentPage]);
 
   const getProductsListData = async () => {
     setLoading(true);
     await authAxios()
-      .get("/product/get-products")
+      .get(`/product/get-products?pageNumber=${currentPage}&pageSize=${itemsPerPage}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            setProduct(response.data.data.products);
+            const resData = response.data.data;
+            setProducts(resData?.products);
+            setTotalCount(resData?.count);
           }
         },
         (error) => {
@@ -76,17 +78,12 @@ function ProductList(props: MyComponentProps) {
 
   const handleEditModal = (product_id: string) => {
     setProductId(product_id);
-    setEditProductModal(true);
+    setEditModal(true);
   };
 
   const handleDeleteModal = (product_id: string) => {
     setProductId(product_id);
     setDeleteModal(true);
-  };
-
-  const closeModal = () => {
-    setDeleteModal(false);
-    setEditProductModal(false);
   };
 
   return (
@@ -204,7 +201,6 @@ function ProductList(props: MyComponentProps) {
                       <span>Action</span>
                     </div>
                   </div>
-
                   {products &&
                     products.length > 0 &&
                     products?.map((item: any) => (
@@ -312,20 +308,20 @@ function ProductList(props: MyComponentProps) {
           </div>
         </div>
       </div>
-      {editProductModal && (
+      {editModal && (
         <EditProduct
           productId={productId}
-          editProductModal={editProductModal}
-          setEditProductModal={setEditProductModal}
+          editProductModal={editModal}
           getProductsListData={getProductsListData}
-          closeModal={closeModal}
+          closeModal={(isModal: boolean) => setEditModal(isModal)}
         />
       )}
       {deleteModal && (
         <DeleteConfirmationModal
           modal={deleteModal}
-          closeModal={closeModal}
+          closeModal={(isModal: boolean) => setDeleteModal(isModal)}
           confirmedDelete={handleDeleteProduct}
+          actionType = "product"
         />
       )}
     </>
