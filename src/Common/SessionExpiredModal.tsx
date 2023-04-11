@@ -29,7 +29,7 @@ function SessionExpiredModal() {
             <h5 className="modal-title w-100">Alert</h5>
           </div>
           <div className="modal-body text-center">
-            <p>Your session has been expired. Please again login</p>
+            <p>Your session has expired. Please sign in again</p>
           </div>
           <div className="modal-footer bg-light">
             <button onClick={handleLogout} className="btn btn-warning btn-sm">

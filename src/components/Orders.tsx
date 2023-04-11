@@ -24,9 +24,7 @@ const Orders = (props: MyComponentProps) => {
   const [orderID, setOrderID] = useState<string>("");
 
   const socket = useRef<Socket>();
-
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
-  console.log("New_Orders", orders);
 
   useEffect(() => {
     getOrdersListData();
@@ -59,7 +57,6 @@ const Orders = (props: MyComponentProps) => {
 
   const onChangeStatus = (status: string) => {
     setOrderStatus(status);
-    console.log(status, "Niahlll");
     if (!status) {
       setStatusName("Status");
     } else {

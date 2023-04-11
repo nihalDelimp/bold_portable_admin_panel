@@ -156,15 +156,16 @@ const Notification = (props: MyComponentProps) => {
                           <em className="icon icon-circle bg-info-dim ni ni-cart"></em>
                         </div>
                       </Link>
-                      <div className="nk-notification-content">
-                        <div className="nk-notification-text">
-                          {`${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
+                      <Link to={`/notification-details/${item._id}`}>
+                        <div className="nk-notification-content">
+                          <div className="nk-notification-text">
+                            {`${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
+                          </div>
+                          <div className="nk-notification-time">
+                            <span>{dayjs(item.createdAt).fromNow()}</span>
+                          </div>
                         </div>
-                        <div className="nk-notification-time">
-                          <span>{dayjs(item.createdAt).fromNow()}</span>
-                        </div>
-                      </div>
-
+                      </Link>
                       <a
                         style={{ marginLeft: "auto" }}
                         onClick={() => markSpecificNotificationSeen(item._id)}

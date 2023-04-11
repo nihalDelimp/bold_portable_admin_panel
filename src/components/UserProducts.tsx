@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 
 
-
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
@@ -35,6 +34,7 @@ const UserProducts = (props : MyComponentProps) => {
         console.log("errorrrr", error);
       });
   };
+  
   return (
     <div>
       <div className="p-3">
