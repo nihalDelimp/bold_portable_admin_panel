@@ -236,7 +236,7 @@ function ProductList(props: MyComponentProps) {
 
                         <div className="nk-tb-col tb-col-md">
                           <span className="tb-sub">
-                            {item.description.substring(0, limitDesc) + "..."}
+                          {` ${item?.description.substring(0, limitDesc)} ${item.description.length > limitDesc  ? "..." : '' }  `}
                           </span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">
