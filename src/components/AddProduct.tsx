@@ -35,7 +35,7 @@ const AddProduct = (props: MyComponentProps) => {
     title: Yup.string()
       .required("This field is required")
       .min(3, "Title must be at least 3 characters")
-      .max(20, "Title must not exceed 20 characters"),
+      .max(50, "Title must not exceed 50 characters"),
     description: Yup.string()
       .required("This field is required")
       .min(5, " Description must be at least 5 characters"),
