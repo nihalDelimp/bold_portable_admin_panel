@@ -6,6 +6,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
+import { getFirstChartByFullName } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -180,7 +181,7 @@ function Customers(props: MyComponentProps) {
                         <a href="html/ecommerce/customer-details.html">
                           <div className="user-card">
                             <div className="user-avatar bg-primary">
-                              <span>AB</span>
+                              <span>{getFirstChartByFullName(item?.name)}</span>
                             </div>
                             <div className="user-info">
                               <span className="tb-lead">

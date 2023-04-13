@@ -16,3 +16,14 @@
       return formatedDateTime;
   
 }
+
+export function getFirstChartByFullName (fullName : any){ 
+  var str = fullName
+  str = str.split(" "); 
+  str = str.filter((res : any  ) => res.length > 0 ); 
+  str = str.map(function(res : any){ 
+    return res[0].toUpperCase(); 
+  }); 
+  str = str.join(""); 
+  return str; 
+};
