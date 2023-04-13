@@ -113,7 +113,6 @@ const Notification = (props: MyComponentProps) => {
       });
   };
 
-  console.log("OrderNotification", newOrdersMsg);
 
   return (
     <li className="dropdown notification-dropdown">

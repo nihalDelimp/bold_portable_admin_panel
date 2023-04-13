@@ -215,6 +215,7 @@ function EditProduct(props: MyComponentProps) {
                           Upload Image
                         </label>
                         <input
+                          multiple
                           type="file"
                           name="product_image"
                           onChange={handleChangeImage}

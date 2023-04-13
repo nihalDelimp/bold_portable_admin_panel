@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import {acceptedFileTypes} from '../Helper'
+import { acceptedFileTypes } from "../Helper";
 
 interface MyComponentProps {
   getProductsListData: () => void;
@@ -57,10 +57,8 @@ const AddProduct = (props: MyComponentProps) => {
     resolver: yupResolver(validationSchema),
   });
 
-
-
   const handleSubmitData = async (data: MyState) => {
-    const product = data
+    const product = data;
     const formData = new FormData();
     product.product_images.forEach((file) => {
       formData.append(`product_image`, file);
@@ -161,7 +159,7 @@ const AddProduct = (props: MyComponentProps) => {
                         errors.title ? "is-invalid" : ""
                       }`}
                       type="text"
-                       name="title"
+                      name="title"
                       id="inputEmail4"
                       placeholder="Enter product name"
                     />
@@ -175,7 +173,7 @@ const AddProduct = (props: MyComponentProps) => {
                 <div className="form-group">
                   <label className="form-label">Type</label>
                   <div className="form-control-wrap">
-                    <input
+                    {/* <input
                       required
                       {...register("product_type")}
                       className={`form-control ${
@@ -185,7 +183,26 @@ const AddProduct = (props: MyComponentProps) => {
                       name="product_type"
                       placeholder="Enter product type"
                       id="sale-price"
-                    />
+                    /> */}
+                    <select
+                      required
+                      {...register("product_type")}
+                      className={`form-control ${
+                        errors.product_type ? "is-invalid" : ""
+                      }`}
+                      name="product_type"
+                    >
+                      <option value="">Select Type</option>
+                      <option value="Standard">Standard</option>
+                      <option value="Flushing">Flushing</option>
+                      <option value="Standard With Sink">
+                        Standard With Sink
+                      </option>
+                      <option value="Wheelchair Accessible">
+                        Wheelchair Accessible
+                      </option>
+                      <option value="Restroom Trailer">Restroom Trailer</option>
+                    </select>
                     <div className="invalid-feedback">
                       {errors.product_type?.message}
                     </div>
@@ -240,7 +257,7 @@ const AddProduct = (props: MyComponentProps) => {
                   <label className="form-label">Upload Image</label>
                   <div className="form-control-wrap">
                     <input
-                     required
+                      required
                       multiple
                       type="file"
                       {...register("product_images", { required: true })}
@@ -249,8 +266,8 @@ const AddProduct = (props: MyComponentProps) => {
                       placeholder="upload image"
                       accept={acceptedFileTypes}
                     />
-                     <div className="invalid-feedback">
-                      {errors.product_images ? 'This field is required' : '' }
+                    <div className="invalid-feedback">
+                      {errors.product_images ? "This field is required" : ""}
                     </div>
                   </div>
                 </div>
