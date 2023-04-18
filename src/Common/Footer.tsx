@@ -7,7 +7,7 @@ function Footer() {
            <div className="nk-footer">
                     <div className="container-fluid">
                         <div className="nk-footer-wrap">
-                            <div className="nk-footer-copyright"> &copy; 2022 DashLite. Template by <Link to="https://softnio.com" rel="noopener" target="_blank">Softnio</Link>
+                            <div className="nk-footer-copyright"> &copy; 2023 Bold Portable 
                             </div>
                             <div className="nk-footer-links">
                             </div>

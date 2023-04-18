@@ -123,7 +123,7 @@ function Sidebar() {
               >
                 <NavLink to="/quotes" className="nk-menu-link">
                   <span className="nk-menu-icon">
-                    <em className="icon ni ni-file-docs"></em>
+                    <em className="icon ni ni-calendar-check-fill"></em>
                   </span>
                   <span className="nk-menu-text">Quotation</span>
                 </NavLink>
