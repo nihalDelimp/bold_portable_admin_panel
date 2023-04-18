@@ -34,7 +34,10 @@ const Notification = (props: MyComponentProps) => {
     if (socket.current) {
       socket.current.on("new_order_recieved", (recieved_order) => {
         console.log("recieved_order", recieved_order);
-        // dispatch(addNewOrderMsg(recieved_order));
+        getAllNotifications();
+      });
+      socket.current.on("new_quote_recieved", (quote_recieved) => {
+        console.log("quote_recieved", quote_recieved);
         getAllNotifications();
       });
     }
@@ -158,7 +161,8 @@ const Notification = (props: MyComponentProps) => {
                       <Link to={`/notification-details/${item._id}`}>
                         <div className="nk-notification-content">
                           <div className="nk-notification-text">
-                            {`${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
+                          {item.type === 'CREATE_ORDER' && `${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
+                          {item.type === 'CREATE_QUOTE' && `${item?.user?.name} has requested a quotation`}
                           </div>
                           <div className="nk-notification-time">
                             <span>{dayjs(item.createdAt).fromNow()}</span>
