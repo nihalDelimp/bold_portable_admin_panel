@@ -18,10 +18,10 @@ const Quotation = (props: MyComponentProps) => {
     const [itemsPerPage, setItemPerPage] = useState<number>(20);
     const [quotationData, setquotationData] = useState<string[]>([]);
 
-    const [statusName, setStatusName] = useState<string>("Construction");
+    const [statusName, setStatusName] = useState<string>("All");
    
 
-    const [quotationStatus, setquotationStatus] = useState<string>("construction");
+    const [quotationStatus, setquotationStatus] = useState<string>("all");
     const [totalCount, setTotalCount] = useState<number>(0);
       
 
@@ -34,7 +34,6 @@ const Quotation = (props: MyComponentProps) => {
 
     const getQuotationData = async () => {
         setLoading(true);
-        console.log('reached')
         await authAxios()
             .get(
                 `quotation/get-quotation-of-user/${quotationStatus}?page=${currentPage}&limit=${itemsPerPage}`
@@ -65,7 +64,7 @@ const Quotation = (props: MyComponentProps) => {
         setquotationStatus(status); 
         if (!status) {
             console.log("st", status)
-            setStatusName("construction");
+            setStatusName("all");
         } else {
            const status_name = status.charAt(0).toUpperCase()+status.slice(1);
             var str = status_name
@@ -132,6 +131,15 @@ const Quotation = (props: MyComponentProps) => {
                                 <li>
                                     <a
                                       onClick={() =>
+                                        onChangeStatus("all")
+                                      }
+                                    >
+                                      <span>All</span>
+                                    </a>
+                                  </li>
+                                <li>
+                                    <a
+                                      onClick={() =>
                                         onChangeStatus("event")
                                       }
                                     >
@@ -175,7 +183,7 @@ const Quotation = (props: MyComponentProps) => {
                                         onChangeStatus("disaster-relief")
                                       }
                                     >
-                                      <span>Disater</span>
+                                      <span>Disaster</span>
                                     </a>
                                   </li>
                                 </ul>
