@@ -13,6 +13,7 @@ import Orders from "../components/Orders";
 import InvoicesList from "../components/InvoicesList";
 import NotificationDetails from "../components/NotificationDetails";
 import InvoiceDetail from "../components/InvoiceDetail";
+import Quotation from "../components/Quotation";
 
 
 function RootRouter() {
@@ -74,6 +75,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <Orders />
+              </PrivateRoute>
+            }
+          />
+            <Route
+            path="/quotes"
+            element={
+              <PrivateRoute>
+                <Quotation/>
               </PrivateRoute>
             }
           />

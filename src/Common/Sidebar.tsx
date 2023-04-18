@@ -114,6 +114,20 @@ function Sidebar() {
                   <span className="nk-menu-text">Invoices</span>
                 </NavLink>
               </li>
+
+
+              <li
+                className={`nk-menu-item ${
+                  pathName === "/quotes" ? "active" : ""
+                }`}
+              >
+                <NavLink to="/quotes" className="nk-menu-link">
+                  <span className="nk-menu-icon">
+                    <em className="icon ni ni-file-docs"></em>
+                  </span>
+                  <span className="nk-menu-text">Quotation</span>
+                </NavLink>
+              </li>
             </ul>
           </div>
         </div>
