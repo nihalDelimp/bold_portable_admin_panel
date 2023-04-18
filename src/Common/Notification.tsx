@@ -155,7 +155,7 @@ const Notification = (props: MyComponentProps) => {
                     >
                       <Link to={`/notification-details/${item._id}`}>
                         <div className="nk-notification-icon">
-                          <em className="icon icon-circle bg-info-dim ni ni-cart"></em>
+                          <em className={` icon icon-circle  ni ${item.type === 'CREATE_ORDER' ?" bg-info-dim ni-cart" :"bg-warning-dim ni-file-docs"}`}></em>
                         </div>
                       </Link>
                       <Link to={`/notification-details/${item._id}`}>
