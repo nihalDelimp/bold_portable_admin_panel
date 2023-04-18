@@ -39,14 +39,12 @@ function Sidebar() {
         </div>
         <div className="nk-menu-trigger me-n2">
           <a
-            href="#4"
             className="nk-nav-toggle nk-quick-nav-icon d-xl-none"
             data-target="sidebarMenu"
           >
             <em className="icon ni ni-arrow-left"></em>
           </a>
           <a
-            href="#4"
             className="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex"
             data-target="sidebarMenu"
           >
