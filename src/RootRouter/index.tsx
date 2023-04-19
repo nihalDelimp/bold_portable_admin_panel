@@ -13,8 +13,7 @@ import Orders from "../components/Orders";
 import InvoicesList from "../components/InvoicesList";
 import NotificationDetails from "../components/NotificationDetails";
 import InvoiceDetail from "../components/InvoiceDetail";
-import Quotation from "../components/Quotation";
-
+import Quotations from "../components/Quotations";
 
 function RootRouter() {
   return (
@@ -78,11 +77,11 @@ function RootRouter() {
               </PrivateRoute>
             }
           />
-            <Route
-            path="/quotes"
+          <Route
+            path="/quotations"
             element={
               <PrivateRoute>
-                <Quotation/>
+                <Quotations />
               </PrivateRoute>
             }
           />

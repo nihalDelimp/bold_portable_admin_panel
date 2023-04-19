@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import moment from "moment";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
@@ -15,9 +14,9 @@ interface MyComponentProps {
 function Customers(props: MyComponentProps) {
   const { setLoading } = props;
   const [customers, setCustomers] = useState<any[]>([]);
-  const [totalCount, setTotalCount] = useState<number>(1000);
+  const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemPerPage] = useState<number>(10);
+  const [itemsPerPage, setItemPerPage] = useState<number>(5);
 
 
   useEffect(() => {
@@ -27,12 +26,14 @@ function Customers(props: MyComponentProps) {
   const getCustomerListData = async () => {
     setLoading(true);
     await authAxios()
-      .get("/auth/get-all-users")
+      .get(`/auth/get-all-users?page=${currentPage}&limit=${itemsPerPage}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            setCustomers(response.data.data.users);
+            const resData = response.data.data
+            setCustomers(resData.users);
+            setTotalCount(resData?.total)
           }
         },
         (error) => {
