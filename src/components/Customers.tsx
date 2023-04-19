@@ -21,7 +21,7 @@ function Customers(props: MyComponentProps) {
 
   useEffect(() => {
     getCustomerListData();
-  }, []);
+  }, [currentPage]);
 
   const getCustomerListData = async () => {
     setLoading(true);
