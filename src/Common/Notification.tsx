@@ -1,9 +1,6 @@
-import { useCallback, useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
+import { useEffect, useState, useRef } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import { addNewOrderMsg } from "../Redux/Reducers/notificationSlice";
 import IsLoadingHOC from "./IsLoadingHOC";
 import io, { Socket } from "socket.io-client";
 import dayjs from "dayjs";
@@ -18,16 +15,8 @@ interface MyComponentProps {
 const Notification = (props: MyComponentProps) => {
   const { setLoading } = props;
   const [allNotifucations, setAllNotifications] = useState<any[]>([]);
-  const [totalCount, setTotalCount] = useState<number>(0);
-  const dispatch = useDispatch();
+
   const socket = useRef<Socket>();
-  const { newOrdersMsg } = useSelector(
-    (state: RootState) => state.notification
-  );
-
-  console.log("AllNotification", allNotifucations);
-  console.log("TotalCont", totalCount);
-
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   useEffect(() => {
@@ -57,8 +46,6 @@ const Notification = (props: MyComponentProps) => {
         (response) => {
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setTotalCount(response.data?.count);
-            console.log("Notifications_resData", resData);
             setAllNotifications(resData);
           }
         },
@@ -79,8 +66,6 @@ const Notification = (props: MyComponentProps) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resData = response.data.data;
-            console.log("MarkReadALlNotifications_resData", resData);
             getAllNotifications();
           }
         },
@@ -116,7 +101,6 @@ const Notification = (props: MyComponentProps) => {
       });
   };
 
-
   return (
     <li className="dropdown notification-dropdown">
       <a
@@ -149,20 +133,28 @@ const Notification = (props: MyComponentProps) => {
                 if (!item.status_seen) {
                   return (
                     <div
-                      key={index + 1}
+                      key={item._id}
                       className="nk-notification-item dropdown-inner"
                       style={{ padding: "20px 10px 20px" }}
                     >
                       <Link to={`/notification-details/${item._id}`}>
                         <div className="nk-notification-icon">
-                          <em className={` icon icon-circle  ni ${item.type === 'CREATE_ORDER' ?" bg-info-dim ni-cart" :"bg-warning-dim ni-file-docs"}`}></em>
+                          <em
+                            className={` icon icon-circle  ni ${
+                              item.type === "CREATE_ORDER"
+                                ? " bg-info-dim ni-cart"
+                                : "bg-warning-dim ni-file-docs"
+                            }`}
+                          ></em>
                         </div>
                       </Link>
                       <Link to={`/notification-details/${item._id}`}>
                         <div className="nk-notification-content">
                           <div className="nk-notification-text">
-                          {item.type === 'CREATE_ORDER' && `${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
-                          {item.type === 'CREATE_QUOTE' && `${item?.user?.name} has requested a quotation`}
+                            {item.type === "CREATE_ORDER" &&
+                              `${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
+                            {item.type === "CREATE_QUOTE" &&
+                              `${item?.user?.name} has requested a quotation`}
                           </div>
                           <div className="nk-notification-time">
                             <span>{dayjs(item.createdAt).fromNow()}</span>

@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import DeleteConfirmationModal from "../Common/DeleteConfirmation";
 import Pagination from "../Common/Pagination";
-import { limitDesc } from "../Helper";
+import { limitDesc } from "../Helper/constants";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -195,6 +195,9 @@ function ProductList(props: MyComponentProps) {
                       <span>Rent Price</span>
                     </div>
                     <div className="nk-tb-col">
+                      <span>Product Type</span>
+                    </div>
+                    <div className="nk-tb-col">
                       <span>Description</span>
                     </div>
                     <div className="nk-tb-col">
@@ -229,11 +232,12 @@ function ProductList(props: MyComponentProps) {
                             <span className="title">{item.title}</span>
                           </span>
                         </div>
-
                         <div className="nk-tb-col">
                           <span className="tb-lead">{item.product_price}</span>
                         </div>
-
+                        <div className="nk-tb-col">
+                          <span className="tb-lead">{item.product_type}</span>
+                        </div>
                         <div className="nk-tb-col tb-col-md">
                           <span className="tb-sub">
                           {` ${item?.description.substring(0, limitDesc)} ${item.description.length > limitDesc  ? "..." : '' }  `}

@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { authAxios } from "../config/config";
-import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   productId: string;
   editProductModal: boolean;
-  closeModal: (isModal : boolean) => void;
+  closeModal: (isModal: boolean) => void;
   getProductsListData: () => void;
 }
 
@@ -28,8 +24,9 @@ function EditProduct(props: MyComponentProps) {
   const [product, setProduct] = useState({
     title: "",
     description: "",
-    product_image: "",
+    product_images: [],
     product_price: "",
+    product_type: "",
   });
 
   useEffect(() => {
@@ -49,7 +46,8 @@ function EditProduct(props: MyComponentProps) {
               "title",
               "product_price",
               "description",
-              "product_image",
+              "product_type",
+              // "product_image",
             ];
             userFields.forEach((field) => {
               setProduct((prev) => ({
@@ -77,6 +75,14 @@ function EditProduct(props: MyComponentProps) {
     }));
   };
 
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setProduct((prev) => ({
@@ -93,7 +99,7 @@ function EditProduct(props: MyComponentProps) {
     }
     setProduct((prev) => ({
       ...prev,
-      [name]: fileList[0],
+      [name]: fileList,
     }));
   };
 
@@ -101,10 +107,14 @@ function EditProduct(props: MyComponentProps) {
     event.preventDefault();
     console.log("user", product);
     const formData = new FormData();
+    product.product_images.forEach((file) => {
+      formData.append(`product_image`, file);
+    });
     formData.append("title", product.title);
     formData.append("description", product.description);
-    formData.append("product_image", product.product_image);
     formData.append("product_price", product.product_price);
+    formData.append("product_type", product.product_type);
+
     await authAxios()
       .put(`/product/update-products/${productId}`, formData)
       .then(
@@ -193,6 +203,58 @@ function EditProduct(props: MyComponentProps) {
                         />
                       </div>
                     </div>
+
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="personal-email">
+                         Product Type
+                        </label>
+                        <select
+                          required
+                          onChange={handleSelect}
+                          value={product.product_type}
+                          className={`form-control`}
+                          name="product_type"
+                        >
+                          <option value="">Select Type</option>
+                          <option value="Standard">Standard</option>
+                          <option value="Flushing">Flushing</option>
+                          <option value="Standard with sink">
+                            Standard With Sink
+                          </option>
+                          <option value="Wheelchair accessible">
+                            Wheelchair Accessible
+                          </option>
+                          <option value="Restroom trailer">
+                            Restroom Trailer
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                   
+                    <div className="col-md-6">
+                      <div className="form-group product_details_image">
+                        <label className="form-label" htmlFor="phone-no">
+                          Upload Image
+                        </label>
+                        <input
+                          multiple
+                          type="file"
+                          name="product_images"
+                          onChange={handleChangeImage}
+                          className="form-control"
+                          id="inputPassword4"
+                          placeholder="upload image"
+                        />
+                        <span className="data-value">
+                          <img
+                            src={`${process.env.REACT_APP_BASEURL}/${product?.product_images}`}
+                            alt=""
+                            className="thumb"
+                          />
+                        </span>
+                      </div>
+                    </div>
                     <div className="col-md-6">
                       <div className="form-group">
                         <label className="form-label" htmlFor="phone-no">
@@ -207,29 +269,6 @@ function EditProduct(props: MyComponentProps) {
                           id="inputEmail4"
                           placeholder="Enter description"
                         ></textarea>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group product_details_image">
-                        <label className="form-label" htmlFor="phone-no">
-                          Upload Image
-                        </label>
-                        <input
-                          multiple
-                          type="file"
-                          name="product_image"
-                          onChange={handleChangeImage}
-                          className="form-control"
-                          id="inputPassword4"
-                          placeholder="upload image"
-                        />
-                        <span className="data-value">
-                          <img
-                            src={`${process.env.REACT_APP_BASEURL}/${product?.product_image}`}
-                            alt=""
-                            className="thumb"
-                          />
-                        </span>
                       </div>
                     </div>
                     <div className="col-12">

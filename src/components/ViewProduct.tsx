@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import EditProfile from "./EditProfile";
-import { useSelector } from "react-redux";
-import { RootState } from "../Redux/rootReducer";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { useParams } from "react-router-dom";
@@ -15,13 +12,12 @@ interface MyComponentProps {
 const ViewProduct = (props: MyComponentProps) => {
   const { setLoading } = props;
   const params = useParams();
-  const { user } = useSelector((state: RootState) => state.auth);
-
   const [product, setProduct] = useState({
     title: "",
     description: "",
     product_images: [],
     product_price: "",
+    product_type: "",
   });
 
   useEffect(() => {
@@ -41,6 +37,7 @@ const ViewProduct = (props: MyComponentProps) => {
               "title",
               "product_price",
               "description",
+              "product_type",
               "product_images",
             ];
             userFields.forEach((field) => {
@@ -116,6 +113,14 @@ const ViewProduct = (props: MyComponentProps) => {
                               <span className="data-label">Sales Price</span>
                               <span className="data-value">
                                 {product?.product_price}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Product Type</span>
+                              <span className="data-value">
+                                {product?.product_type}
                               </span>
                             </div>
                           </div>

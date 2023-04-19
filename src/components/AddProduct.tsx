@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { acceptedFileTypes } from "../Helper";
+import { acceptedFileTypes } from "../Helper/constants";
 
 interface MyComponentProps {
   getProductsListData: () => void;
@@ -44,8 +44,6 @@ const AddProduct = (props: MyComponentProps) => {
       .min(0, "Product price must be at least 0 "),
     product_type: Yup.string()
       .required("This field is required")
-      .min(3, "Product type must be at least 3 characters")
-      .max(20, "Product type must not exceed 40 characters"),
   });
 
   const {
@@ -173,17 +171,6 @@ const AddProduct = (props: MyComponentProps) => {
                 <div className="form-group">
                   <label className="form-label">Type</label>
                   <div className="form-control-wrap">
-                    {/* <input
-                      required
-                      {...register("product_type")}
-                      className={`form-control ${
-                        errors.product_type ? "is-invalid" : ""
-                      }`}
-                      type="text"
-                      name="product_type"
-                      placeholder="Enter product type"
-                      id="sale-price"
-                    /> */}
                     <select
                       required
                       {...register("product_type")}
@@ -195,13 +182,13 @@ const AddProduct = (props: MyComponentProps) => {
                       <option value="">Select Type</option>
                       <option value="Standard">Standard</option>
                       <option value="Flushing">Flushing</option>
-                      <option value="Standard With Sink">
+                      <option value="Standard with sink">
                         Standard With Sink
                       </option>
-                      <option value="Wheelchair Accessible">
+                      <option value="Wheelchair accessible">
                         Wheelchair Accessible
                       </option>
-                      <option value="Restroom Trailer">Restroom Trailer</option>
+                      <option value="Restroom trailer">Restroom Trailer</option>
                     </select>
                     <div className="invalid-feedback">
                       {errors.product_type?.message}
