@@ -87,7 +87,7 @@ const Notification = (props: MyComponentProps) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data.message);
+           // toast.success(response.data.message);
             getAllNotifications();
           }
         },
