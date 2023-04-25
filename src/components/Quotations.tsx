@@ -22,7 +22,7 @@ const Quotations = (props: MyComponentProps) => {
 
   useEffect(() => {
     getQuotationData();
-  }, [currentPage, quotationStatus]);
+  }, [currentPage, quotationStatus, itemsPerPage]);
 
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
@@ -191,27 +191,27 @@ const Quotations = (props: MyComponentProps) => {
                     <span className="d-none d-sm-block">Name</span>
                   </div>
                   <div className="nk-tb-col tb-col-sm">
-                    <span>Email</span>
+                    <span>Email Address</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                    <span>Phone</span>
-                  </div>
-
-                  <div className="nk-tb-col tb-col-md">
-                    <span>DeliveredPrice</span>
-                  </div>
-                  <div className="nk-tb-col tb-col-md">
-                    <span>DistanceFromKelowna</span>
-                  </div>
-                  <div className="nk-tb-col tb-col-md">
-                    <span>MaxWorkers</span>
+                    <span>Phone Number</span>
                   </div>
 
                   <div className="nk-tb-col tb-col-md">
-                    <span>serviceFrequency</span>
+                    <span>Delivered Price</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                    <span>specialRequirements</span>
+                    <span>Distance From Kelowna</span>
+                  </div>
+                  <div className="nk-tb-col tb-col-md">
+                    <span>Max Workers</span>
+                  </div>
+
+                  <div className="nk-tb-col tb-col-md">
+                    <span>Service Frequency</span>
+                  </div>
+                  <div className="nk-tb-col tb-col-md">
+                    <span>Special Requirements</span>
                   </div>
                 </div>
                 {quotationData &&
@@ -264,13 +264,16 @@ const Quotations = (props: MyComponentProps) => {
                     </div>
                   ))}
               </div>
-              <Pagination
-                totalCount={totalCount}
-                onPageChange={(page: number) => setCurrentPage(page)}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                setItemPerPage={setItemPerPage}
-              />
+              {quotationData && quotationData.length > 0 && (
+                <Pagination
+                  totalCount={totalCount}
+                  onPageChange={(page: number) => setCurrentPage(page)}
+                  currentPage={currentPage}
+                  itemsPerPage={itemsPerPage}
+                  onChangePageLimit={(page: number) => setItemPerPage(page)}
+                  resData={quotationData}
+                />
+              )}
             </div>
           </div>
         </div>

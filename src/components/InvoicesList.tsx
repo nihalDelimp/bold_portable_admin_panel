@@ -373,8 +373,9 @@ function InvoicesList(props: MyComponentProps) {
                       onPageChange={(page: number) => setCurrentPage(page)}
                       currentPage={currentPage}
                       itemsPerPage={itemsPerPage}
-                      setItemPerPage={setItemPerPage}
-                    />
+                      onChangePageLimit={(page: number) => setItemPerPage(page)}
+                      resData = {listData}
+                      />
                   )}
                 </div>
               </div>

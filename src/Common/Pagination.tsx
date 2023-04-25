@@ -6,13 +6,20 @@ interface MyComponentProps {
   currentPage: number;
   itemsPerPage: number;
   onPageChange: (currentPage: number) => void;
-  setItemPerPage: (pageLimit: number) => void;
+  onChangePageLimit: (pageLimit: number) => void;
+  resData: any[];
 }
 
 function Pagination(props: MyComponentProps) {
   let siblingCount: number = 1;
-  let { totalCount, currentPage, itemsPerPage, onPageChange, setItemPerPage } =
-    props;
+  let {
+    totalCount,
+    currentPage,
+    itemsPerPage,
+    resData,
+    onPageChange,
+    onChangePageLimit,
+  } = props;
 
   const paginationRange = usePagination({
     currentPage,
@@ -21,9 +28,9 @@ function Pagination(props: MyComponentProps) {
     itemsPerPage,
   });
 
-  if (currentPage === 0 || paginationRange.length < 2) {
-    return null;
-  }
+  // if (currentPage === 0 || paginationRange.length < 2) {
+  //   return null;
+  // }
 
   const paginate = (pageNumber: number) => {
     onPageChange(pageNumber);
@@ -65,7 +72,10 @@ function Pagination(props: MyComponentProps) {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const { value } = event.target;
-    setItemPerPage(parseInt(value));
+    if (value) {
+      onChangePageLimit(parseInt(value));
+      onPageChange(1);
+    }
   };
 
   return (
@@ -103,6 +113,11 @@ function Pagination(props: MyComponentProps) {
               )}
             </ul>
           </div>
+          <div>
+            Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
+            {(currentPage - 1) * itemsPerPage + resData.length} of {totalCount}{" "}
+            {totalCount > 1 ? "entries" : "entry"}
+          </div>
           <div className="g">
             <div className="pagination-goto d-flex justify-content-center justify-content-md-start gx-3">
               <div>Page</div>
@@ -113,6 +128,7 @@ function Pagination(props: MyComponentProps) {
                   data-dropdown="xs center"
                   onChange={(e) => handleChangePageLimit(e)}
                 >
+                  <option value="">Select</option>
                   <option value={10}>10</option>
                   <option value={20}>20</option>
                   <option value={30}>30</option>
@@ -120,7 +136,6 @@ function Pagination(props: MyComponentProps) {
                   <option value={50}>50</option>
                 </select>
               </div>
-              {/* <div>Showing 1 to 50 of 100 entries</div> */}
             </div>
           </div>
         </div>

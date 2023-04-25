@@ -16,12 +16,12 @@ function Customers(props: MyComponentProps) {
   const [customers, setCustomers] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage, setItemPerPage] = useState<number>(5);
+  const [itemsPerPage, setItemPerPage] = useState<number>(10);
 
 
   useEffect(() => {
     getCustomerListData();
-  }, [currentPage]);
+  }, [currentPage , itemsPerPage]);
 
   const getCustomerListData = async () => {
     setLoading(true);
@@ -193,7 +193,6 @@ function Customers(props: MyComponentProps) {
                           </div>
                         </a>
                       </div>
-
                       <div className="nk-tb-col tb-col-md">
                         <span>{item.mobile}</span>
                       </div>
@@ -262,9 +261,10 @@ function Customers(props: MyComponentProps) {
                     onPageChange={(page: number) => setCurrentPage(page)}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
-                    setItemPerPage={setItemPerPage}
+                    onChangePageLimit={(page: number) => setItemPerPage(page)}
+                    resData = {customers}
                   />
-                )}
+                )} 
               </div>
             </div>
           </div>

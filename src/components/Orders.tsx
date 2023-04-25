@@ -28,7 +28,7 @@ const Orders = (props: MyComponentProps) => {
 
   useEffect(() => {
     getOrdersListData();
-  }, [currentPage, orderStatus]);
+  }, [currentPage, orderStatus , itemsPerPage]);
 
   const getOrdersListData = async () => {
     setLoading(true);
@@ -56,6 +56,7 @@ const Orders = (props: MyComponentProps) => {
   };
 
   const onChangeStatus = (status: string) => {
+    setCurrentPage(1);
     setOrderStatus(status);
     if (!status) {
       setStatusName("Status");
@@ -369,13 +370,16 @@ const Orders = (props: MyComponentProps) => {
                       </div>
                     ))}
                 </div>
-                <Pagination
-                  totalCount={totalCount}
-                  onPageChange={(page: number) => setCurrentPage(page)}
-                  currentPage={currentPage}
-                  itemsPerPage={itemsPerPage}
-                  setItemPerPage={setItemPerPage}
-                />
+                {orders && orders.length > 0 && (
+                  <Pagination
+                    totalCount={totalCount}
+                    onPageChange={(page: number) => setCurrentPage(page)}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    onChangePageLimit={(page: number) => setItemPerPage(page)}
+                    resData={orders}
+                  />
+                )}
               </div>
             </div>
           </div>

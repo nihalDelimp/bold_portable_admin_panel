@@ -83,12 +83,12 @@ function Sidebar() {
                   pathName === "/products" ? "active" : ""
                 }`}
               >
-                <a onClick={handleNavigate} className="nk-menu-link">
+                <Link to = "/products" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-package-fill"></em>
                   </span>
                   <span className="nk-menu-text">Products</span>
-                </a>
+                </Link>
               </li>
               <li
                 className={`nk-menu-item ${
