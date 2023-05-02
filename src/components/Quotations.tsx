@@ -71,11 +71,14 @@ const Quotations = (props: MyComponentProps) => {
         (error) => {
           setLoading(false);
           toast.error(error.response.data.message);
+        // toast.success('Approved Successfully')
         }
       )
       .catch((error) => {
+        setLoading(false);
         console.log("errorrrr", error);
       });
+      toast.success('Approved Successfully')
   };
 
   const handleDeclineQuotation = async (_id : string) => {
@@ -94,12 +97,15 @@ const Quotations = (props: MyComponentProps) => {
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data.message);
+         // toast.error(error.response.data.message);
         }
       )
       .catch((error) => {
+        setLoading(false);
+       
         console.log("errorrrr", error);
       });
+      toast.error('Quotation has Declined Successfully')
   };
 
   const onChangeStatus = (status: string) => {
