@@ -22,7 +22,7 @@ const Login = (props: MyComponentProps) => {
   const { setLoading } = props;
   const navigate = useNavigate();
   const { accessToken } = useSelector((state: RootState) => state.auth);
-
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAppDispatch();
   const [userInput, setUserInput] = useState({
     email: "",
@@ -84,7 +84,7 @@ const Login = (props: MyComponentProps) => {
       <div className="nk-content ">
         <div className="nk-block nk-block-middle nk-auth-body  wide-xs">
           <div className="brand-logo pb-3 pt-3 text-center bg-white">
-            <a  className="logo-link">
+            <a className="logo-link">
               <img
                 className="logo-light logo-img logo-img-lg"
                 src={require("../images/bold_port.png")}
@@ -138,15 +138,18 @@ const Login = (props: MyComponentProps) => {
                   </div>
                   <div className="form-control-wrap">
                     <a
-                      href="#"
-                      className="form-icon form-icon-right passcode-switch lg"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className={`form-icon form-icon-right passcode-switch lg ${showPassword ? 'is-shown' : 'is-hiden'} `}
                       data-target="password"
                     >
-                      <em className="passcode-icon icon-show icon ni ni-eye"></em>
-                      <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                      {showPassword ? (
+                        <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                      ) : (
+                        <em className="passcode-icon icon-show icon ni ni-eye"></em>
+                      )}
                     </a>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       className="form-control form-control-lg"
                       id="password"
                       placeholder="Enter your password"

@@ -52,60 +52,54 @@ const Quotations = (props: MyComponentProps) => {
       });
   };
 
-
-  
-  const handleApproveQuotation = async (_id :  string) => {
+  const handleApproveQuotation = async (_id: string) => {
     setLoading(true);
     await authAxios()
-      .put(
-        `quotation/update-quotation/${_id}`
-      )
+      .put(`quotation/update-quotation/${_id}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data.message)
-            getQuotationData() 
+            toast.success(response.data.message);
+            getQuotationData();
           }
         },
         (error) => {
           setLoading(false);
           toast.error(error.response.data.message);
-        // toast.success('Approved Successfully')
+          // toast.success('Approved Successfully')
         }
       )
       .catch((error) => {
         setLoading(false);
         console.log("errorrrr", error);
       });
-      toast.success('Approved Successfully')
+    toast.success("Approved Successfully");
   };
 
-  const handleDeclineQuotation = async (_id : string) => {
+  const handleDeclineQuotation = async (_id: string) => {
     setLoading(true);
     await authAxios()
-      .put(
-        `quotation/update-quotation/${_id}`
-      )
+      .put(`quotation/update-quotation/${_id}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data.message)
-            getQuotationData() 
+            toast.success(response.data.message);
+            getQuotationData();
           }
         },
         (error) => {
           setLoading(false);
-         // toast.error(error.response.data.message);
+          // toast.error(error.response.data.message);
         }
       )
       .catch((error) => {
         setLoading(false);
-       
+
         console.log("errorrrr", error);
       });
-      toast.error('Quotation has Declined Successfully')
+    toast.error("Quotation has Declined Successfully");
   };
 
   const onChangeStatus = (status: string) => {
@@ -270,8 +264,8 @@ const Quotations = (props: MyComponentProps) => {
                     <span>Special Requirements</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Action</span>
-                    </div>
+                    <span className="sub-text">Action</span>
+                  </div>
                 </div>
                 {quotationData &&
                   quotationData.length > 0 &&
@@ -321,48 +315,51 @@ const Quotations = (props: MyComponentProps) => {
                         </span>
                       </div>
                       <div className="nk-tb-col nk-tb-col-tools">
-                          <ul className="gx-1">
-                            <li>
-                              <div className="drodown me-n1">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle btn btn-icon btn-trigger"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <em className="icon ni ni-more-h"></em>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end">
-                                  <ul className="link-list-opt no-bdr">
-                                    <li>
-                                      <a >
-                                        <em className="icon ni ni-edit"></em>
-                                        <span>Modify</span>
-                                      </a>
-                                    </li>
+                        <ul className="gx-1">
+                          <li>
+                            <div className="drodown me-n1">
+                              <a
+                                href="#"
+                                className="dropdown-toggle btn btn-icon btn-trigger"
+                                data-bs-toggle="dropdown"
+                              >
+                                <em className="icon ni ni-more-h"></em>
+                              </a>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                <ul className="link-list-opt no-bdr">
+                                  <li>
+                                    <a >
+                                      <em className="icon ni ni-edit"></em>
+                                      <span>Modify</span>
+                                    </a>
+                                  </li>
 
-                                    <li>
-                                      <a  onClick={() => handleApproveQuotation(item._id)} >
-                                        <em className="icon ni ni-thumbs-up"></em>
-                                        <span>Approve</span>
-                                      </a>
-                                    </li>
-                                      <li>
-                                        <a 
-                                          onClick={() =>
-                                            handleDeclineQuotation(item._id)
-                                          }
-                                        >
-                                          <em className="icon ni ni-cross-circle"></em>
-                                          <span>Decline</span>
-                                        </a>
-                                      </li>
-                    
-                                  </ul>
-                                </div>
+                                  <li>
+                                    <a
+                                      onClick={() =>
+                                        handleApproveQuotation(item._id)
+                                      }
+                                    >
+                                      <em className="icon ni ni-thumbs-up"></em>
+                                      <span>Approve</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      onClick={() =>
+                                        handleDeclineQuotation(item._id)
+                                      }
+                                    >
+                                      <em className="icon ni ni-cross-circle"></em>
+                                      <span>Decline</span>
+                                    </a>
+                                  </li>
+                                </ul>
                               </div>
-                            </li>
-                          </ul>
-                        </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   ))}
               </div>
