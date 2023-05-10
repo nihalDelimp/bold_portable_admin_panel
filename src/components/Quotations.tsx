@@ -3,6 +3,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import EditQuotation from "./EditQuotation";
 import Pagination from "../Common/Pagination";
 import { getFormatedDate } from "../Helper";
 import io, { Socket } from "socket.io-client";
@@ -17,6 +18,8 @@ const Quotations = (props: MyComponentProps) => {
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [quotationData, setquotationData] = useState<string[]>([]);
+  const [quotationId, setQuotationId] = useState<string>("");
+  const [editModal, setEditModal] = useState<boolean>(false);
   const [statusName, setStatusName] = useState<string>("All");
   const [quotationStatus, setquotationStatus] = useState<string>("all");
 
@@ -115,6 +118,16 @@ const Quotations = (props: MyComponentProps) => {
       setStatusName(finalstr);
     }
   };
+
+
+  const handleSendInvoice =(quotation_id: string) => {
+
+    console.log(quotation_id,"PRINCDEEEEEEEEE")
+    setQuotationId(quotation_id)
+    setEditModal(true);
+
+
+  }
 
   return (
     <div className="nk-content">
@@ -327,14 +340,17 @@ const Quotations = (props: MyComponentProps) => {
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
+
                                   <li>
-                                    <a >
+                                    <a onClick={() => handleSendInvoice(item._id)
+
+                                    }>
                                       <em className="icon ni ni-edit"></em>
-                                      <span>Modify</span>
+                                      <span>Send Invoice</span>
                                     </a>
                                   </li>
 
-                                  <li>
+                                  {/* <li>
                                     <a
                                       onClick={() =>
                                         handleApproveQuotation(item._id)
@@ -353,7 +369,7 @@ const Quotations = (props: MyComponentProps) => {
                                       <em className="icon ni ni-cross-circle"></em>
                                       <span>Decline</span>
                                     </a>
-                                  </li>
+                                  </li> */}
                                 </ul>
                               </div>
                             </div>
@@ -373,6 +389,15 @@ const Quotations = (props: MyComponentProps) => {
                   resData={quotationData}
                 />
               )}
+
+{editModal && (
+        <EditQuotation
+          productId={quotationId}
+          editProductModal={editModal}
+         // getProductsListData={getProductsListData}
+          closeModal={(isModal: boolean) => setEditModal(isModal)}
+        />
+      )}
             </div>
           </div>
         </div>
