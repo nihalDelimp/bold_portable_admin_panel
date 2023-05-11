@@ -137,15 +137,13 @@ const Login = (props: MyComponentProps) => {
                     </label>
                   </div>
                   <div className="form-control-wrap">
-                    <a
+                    <a className={`form-icon form-icon-right passcode-switch lg ${showPassword ? "is-hiden" : "is-shown"} `}
                       onClick={() => setShowPassword(!showPassword)}
-                      className={`form-icon form-icon-right passcode-switch lg ${showPassword ? 'is-shown' : 'is-hiden'} `}
-                      data-target="password"
-                    >
+                      data-target="password">
                       {showPassword ? (
-                        <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
-                      ) : (
                         <em className="passcode-icon icon-show icon ni ni-eye"></em>
+                      ) : (
+                        <em className="passcode-icon icon-hide icon ni ni-eye-off"></em>
                       )}
                     </a>
                     <input
