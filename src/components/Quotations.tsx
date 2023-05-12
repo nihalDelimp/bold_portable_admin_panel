@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
@@ -6,7 +6,6 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import EditQuotation from "./EditQuotation";
 import Pagination from "../Common/Pagination";
 import { getFormatedDate } from "../Helper";
-import io, { Socket } from "socket.io-client";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -19,6 +18,8 @@ const Quotations = (props: MyComponentProps) => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [quotationData, setquotationData] = useState<string[]>([]);
   const [quotationId, setQuotationId] = useState<string>("");
+  const [quotationType, setQuotationType] = useState<string>("");
+
   const [editModal, setEditModal] = useState<boolean>(false);
   const [statusName, setStatusName] = useState<string>("All");
   const [quotationStatus, setquotationStatus] = useState<string>("all");
@@ -26,9 +27,6 @@ const Quotations = (props: MyComponentProps) => {
   useEffect(() => {
     getQuotationData();
   }, [currentPage, quotationStatus, itemsPerPage]);
-
-  const socket = useRef<Socket>();
-  socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
   const getQuotationData = async () => {
     setLoading(true);
@@ -119,15 +117,12 @@ const Quotations = (props: MyComponentProps) => {
     }
   };
 
-
-  const handleSendInvoice =(quotation_id: string) => {
-
-    console.log(quotation_id,"PRINCDEEEEEEEEE")
-    setQuotationId(quotation_id)
+  const handleSendInvoice = (quotation_id: string, type: string) => {
+    console.log(quotation_id, "PRINCDEEEEEEEEE");
+    setQuotationId(quotation_id);
+    setQuotationType(type);
     setEditModal(true);
-
-
-  }
+  };
 
   return (
     <div className="nk-content">
@@ -340,11 +335,12 @@ const Quotations = (props: MyComponentProps) => {
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
-
                                   <li>
-                                    <a onClick={() => handleSendInvoice(item._id)
-
-                                    }>
+                                    <a
+                                      onClick={() =>
+                                        handleSendInvoice(item._id, item.type)
+                                      }
+                                    >
                                       <em className="icon ni ni-edit"></em>
                                       <span>Send Invoice</span>
                                     </a>
@@ -390,14 +386,15 @@ const Quotations = (props: MyComponentProps) => {
                 />
               )}
 
-{editModal && (
-        <EditQuotation
-          productId={quotationId}
-          editProductModal={editModal}
-         // getProductsListData={getProductsListData}
-          closeModal={(isModal: boolean) => setEditModal(isModal)}
-        />
-      )}
+              {editModal && (
+                <EditQuotation
+                  quotationId={quotationId}
+                  quotationType={quotationType}
+                  editProductModal={editModal}
+                  getQuotationData={getQuotationData}
+                  closeModal={(isModal: boolean) => setEditModal(isModal)}
+                />
+              )}
             </div>
           </div>
         </div>
