@@ -88,12 +88,10 @@ function EditQuotation(props: MyComponentProps) {
           if (response.data.status === 1) {
             const resCoordinateData = response.data.data.quotation.coordinator;
             const resData = response.data.data.quotation;
-
             const userFields = [
               "name",
               "email",
               "cellNumber",
-              // "product_image",
             ];
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
@@ -158,7 +156,6 @@ function EditQuotation(props: MyComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
     const payload = {
       quotationType: quotationType,
       quotationId: quotationId,
@@ -175,11 +172,12 @@ function EditQuotation(props: MyComponentProps) {
       distanceFromKelownaCost: servicesPrice.distanceFromKelowna_cost,
       maxWorkersCost: servicesPrice.maxWorkers_cost,
     };
-
+    setLoading(true);
     await authAxios()
       .post(`/cost-management/save-cost-quotation`, payload)
       .then(
         (response) => {
+          setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
             closeModal(false);
@@ -189,11 +187,13 @@ function EditQuotation(props: MyComponentProps) {
           }
         },
         (error) => {
+          setLoading(false);
           toast.error(error.response.data.message);
           console.log(error);
         }
       )
       .catch((error) => {
+        setLoading(false);
         console.log("errorrrr", error);
       });
   };
@@ -364,7 +364,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -407,7 +407,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -539,7 +539,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -580,7 +580,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -689,7 +689,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -772,7 +772,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -814,7 +814,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -856,7 +856,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
@@ -896,7 +896,7 @@ function EditQuotation(props: MyComponentProps) {
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
-                            className="form-label text-white"
+                            className="form-label"
                             htmlFor="personal-email"
                           >
                             Cost
