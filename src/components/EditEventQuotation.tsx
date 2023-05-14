@@ -14,7 +14,7 @@ interface MyComponentProps {
   getQuotationData: () => void;
 }
 
-function EditQuotation(props: MyComponentProps) {
+function EditEventQuotation(props: MyComponentProps) {
   const {
     setLoading,
     quotationId,
@@ -169,23 +169,10 @@ function EditQuotation(props: MyComponentProps) {
         pickUpPrice: servicesPrice.pickUpPrice,
       },
     };
-    let endPoint: string = "quotation/update-quotation-for-construction";
-    if (quotationType === "construction") {
-      endPoint = "quotation/update-quotation-for-construction";
-    }
-    else if (quotationType === "disaster-relief"){
-      endPoint = "quotation/update-quotation-for-disaster-relief";
-    }
-    else if (quotationType === "farm-orchard-winery"){
-      endPoint = "quotation/update-quotation-for-farm-orchard-winery";
-    }
-    else if (quotationType === "personal-or-business"){
-      endPoint = "quotation/update-quotation-for-personal-business-site";
-    }
-
+   
     setLoading(true);
     await authAxios()
-      .put(`/${endPoint}/${quotationId}`, payload)
+      .put(`/quotation/update-quotation-for-event/${quotationId}`, payload)
       .then(
         (response) => {
           setLoading(false);
@@ -225,7 +212,7 @@ function EditQuotation(props: MyComponentProps) {
             <em className="icon ni ni-cross-sm"></em>
           </a>
           <div className="modal-body modal-body-md">
-            <h5 className="title">Edit Quotation</h5>
+            <h5 className="title">Edit Event Quotation </h5>
             <ul className="nk-nav nav nav-tabs">
               <li className="nav-item">
                 <a
@@ -991,4 +978,4 @@ function EditQuotation(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(EditQuotation));
+export default IsLoadingHOC(IsLoggedinHOC(EditEventQuotation));

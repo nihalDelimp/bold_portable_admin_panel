@@ -4,6 +4,7 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import EditQuotation from "./EditQuotation";
+import EditEventQuotation from "./EditEventQuotation";
 import Pagination from "../Common/Pagination";
 import { getFormatedDate } from "../Helper";
 
@@ -21,6 +22,8 @@ const Quotations = (props: MyComponentProps) => {
   const [quotationType, setQuotationType] = useState<string>("");
 
   const [editModal, setEditModal] = useState<boolean>(false);
+  const [editEventModal, setEditEventModal] = useState<boolean>(false);
+
   const [statusName, setStatusName] = useState<string>("All");
   const [quotationStatus, setquotationStatus] = useState<string>("all");
 
@@ -118,10 +121,13 @@ const Quotations = (props: MyComponentProps) => {
   };
 
   const handleSendInvoice = (quotation_id: string, type: string) => {
-    console.log(quotation_id, "PRINCDEEEEEEEEE");
     setQuotationId(quotation_id);
     setQuotationType(type);
-    setEditModal(true);
+    if (type === "event") {
+      setEditEventModal(true);
+    } else {
+      setEditModal(true);
+    }
   };
 
   return (
@@ -264,6 +270,9 @@ const Quotations = (props: MyComponentProps) => {
                   <div className="nk-tb-col tb-col-md">
                     <span>Max Workers</span>
                   </div>
+                  <div className="nk-tb-col tb-col-md">
+                    <span>Type</span>
+                  </div>
 
                   <div className="nk-tb-col tb-col-md">
                     <span>Service Frequency</span>
@@ -313,6 +322,9 @@ const Quotations = (props: MyComponentProps) => {
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">{item.maxWorkers}</span>
+                      </div>
+                      <div className="nk-tb-col tb-col-sm">
+                        <span className="tb-sub">{item.type}</span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">{item.serviceFrequency}</span>
@@ -393,6 +405,15 @@ const Quotations = (props: MyComponentProps) => {
                   editProductModal={editModal}
                   getQuotationData={getQuotationData}
                   closeModal={(isModal: boolean) => setEditModal(isModal)}
+                />
+              )}
+              {editEventModal && (
+                <EditEventQuotation
+                  quotationId={quotationId}
+                  quotationType={quotationType}
+                  editProductModal={editEventModal}
+                  getQuotationData={getQuotationData}
+                  closeModal={(isModal: boolean) => setEditEventModal(isModal)}
                 />
               )}
             </div>
