@@ -70,27 +70,11 @@ function EditProfile() {
           </a>
           <div className="modal-body modal-body-md">
             <h5 className="title">Update Profile</h5>
-            <ul className="nk-nav nav nav-tabs">
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  data-bs-toggle="tab"
-                  href="#personal"
-                >
-                  Personal
-                </a>
-              </li>
-              {/* <li className="nav-item">
-                <a className="nav-link" data-bs-toggle="tab" href="#address">
-                  Address
-                </a>
-              </li> */}
-            </ul>
             <div className="tab-content">
               <div className="tab-pane active" id="personal">
                 <form onSubmit={handleSubmit}>
                   <div className="row gy-4">
-                    <div className="col-md-6">
+                    <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
                           Full Name
@@ -107,8 +91,7 @@ function EditProfile() {
                         />
                       </div>
                     </div>
-
-                    <div className="col-md-6">
+                    <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="personal-email">
                           Email
@@ -125,7 +108,7 @@ function EditProfile() {
                         />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="phone-no">
                           Phone Number

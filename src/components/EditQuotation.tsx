@@ -23,21 +23,13 @@ function EditQuotation(props: MyComponentProps) {
     closeModal,
     getQuotationData,
   } = props;
-  const [activeStep, setActiveStep] = useState<number>(1);
-  const [product, setProduct] = useState({
-    title: "",
-    description: "",
-    product_images: [],
-    product_price: "",
-    product_type: "",
-  });
 
+  const [activeStep, setActiveStep] = useState<number>(1);
   const [coordinator, setCoordinator] = useState({
     name: "",
     email: "",
     cellNumber: "",
   });
-
   const [quotation, setQuotation] = useState({
     maxWorkers: "",
     weeklyHours: "",
@@ -59,24 +51,62 @@ function EditQuotation(props: MyComponentProps) {
   });
 
   const [servicesPrice, setServicesPrice] = useState({
-    maxWorkers_cost: 0,
+    workersCost: 0,
     deliveryPrice: 0,
-    special_requirements_cost: 0,
-    distanceFromKelowna_cost: 0,
-    numUnits_cost: 0,
-    useAtNight_cost: 0,
-    useInWinter_cost: 0,
-    handwashing_cost: 0,
-    handSanitizerPump_cost: 0,
-    twiceWeeklyService_cost: 0,
-    serviceFrequency_cost: 0,
-    weeklyHours_cost: 0,
+    specialRequirementsCost: 0,
+    distanceFromKelownaCost: 0,
+    numberOfUnitsCost: 0,
+    useAtNightCost: 0,
+    useInWinterCost: 0,
+    handWashingCost: 0,
+    handSanitizerPumpCost: 0,
+    twiceWeeklyServicing: 0,
+    serviceFrequencyCost: 0,
+    weeklyHoursCost: 0,
     pickUpPrice: 0,
   });
 
   useEffect(() => {
     getProductDetailsData();
   }, []);
+
+  const userFields = ["name", "email", "cellNumber"];
+
+  const QuotationFields = [
+    "maxWorkers",
+    "serviceFrequency",
+    "special_requirements",
+    "distanceFromKelowna",
+    "serviceCharge",
+    "useAtNight",
+    "useInWinter",
+    "numUnits",
+    "designatedWorkers",
+    "workerTypes",
+    "handwashing",
+    "handSanitizerPump",
+    "twiceWeeklyService",
+    "placementDate",
+    "dateTillUse",
+    "status",
+    "weeklyHours",
+  ];
+
+  const servicePriceFields = [
+    "workersCost",
+    "deliveryPrice",
+    "specialRequirementsCost",
+    "distanceFromKelownaCost",
+    "numberOfUnitsCost",
+    "useAtNightCost",
+    "useInWinterCost",
+    "handWashingCost",
+    "handSanitizerPumpCost",
+    "twiceWeeklyServicing",
+    "serviceFrequencyCost",
+    "weeklyHoursCost",
+    "pickUpPrice",
+  ];
 
   const getProductDetailsData = async () => {
     setLoading(true);
@@ -87,9 +117,10 @@ function EditQuotation(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resCoordinateData = response.data.data.quotation.coordinator;
+            const resCoordinateData = response.data.data.quotation?.coordinator;
             const resData = response.data.data.quotation;
-            const userFields = ["name", "email", "cellNumber"];
+            const costDetails = response.data.data.quotation?.costDetails;
+
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
                 ...prev,
@@ -97,30 +128,17 @@ function EditQuotation(props: MyComponentProps) {
               }));
             });
 
-            const QuotationData = [
-              "maxWorkers",
-              "serviceFrequency",
-              "special_requirements",
-              "distanceFromKelowna",
-              "serviceCharge",
-              "useAtNight",
-              "useInWinter",
-              "numUnits",
-              "designatedWorkers",
-              "workerTypes",
-              "handwashing",
-              "handSanitizerPump",
-              "twiceWeeklyService",
-              "placementDate",
-              "dateTillUse",
-              "status",
-              "weeklyHours",
-            ];
-
-            QuotationData.forEach((field) => {
+            QuotationFields.forEach((field) => {
               setQuotation((prev) => ({
                 ...prev,
                 [field]: resData[field],
+              }));
+            });
+
+            servicePriceFields.forEach((field) => {
+              setServicesPrice((prev) => ({
+                ...prev,
+                [field]: costDetails[field],
               }));
             });
           }
@@ -152,34 +170,15 @@ function EditQuotation(props: MyComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = {
-      costDetails: {
-        distanceFromKelownaCost: servicesPrice.distanceFromKelowna_cost,
-        twiceWeeklyServicing: servicesPrice.twiceWeeklyService_cost,
-        specialRequirementsCost: servicesPrice.special_requirements_cost,
-        handWashingCost: servicesPrice.handwashing_cost,
-        handSanitizerPumpCost: servicesPrice.handSanitizerPump_cost,
-        useAtNightCost: servicesPrice.useAtNight_cost,
-        useInWinterCost: servicesPrice.useInWinter_cost,
-        numberOfUnitsCost: servicesPrice.numUnits_cost,
-        workersCost: servicesPrice.maxWorkers_cost,
-        deliveryPrice: servicesPrice.deliveryPrice,
-        serviceFrequencyCost: servicesPrice.serviceFrequency_cost,
-        weeklyHoursCost: servicesPrice.weeklyHours_cost,
-        pickUpPrice: servicesPrice.pickUpPrice,
-      },
-    };
+    const payload = { costDetails: servicesPrice };
     let endPoint: string = "quotation/update-quotation-for-construction";
     if (quotationType === "construction") {
       endPoint = "quotation/update-quotation-for-construction";
-    }
-    else if (quotationType === "disaster-relief"){
+    } else if (quotationType === "disaster-relief") {
       endPoint = "quotation/update-quotation-for-disaster-relief";
-    }
-    else if (quotationType === "farm-orchard-winery"){
+    } else if (quotationType === "farm-orchard-winery") {
       endPoint = "quotation/update-quotation-for-farm-orchard-winery";
-    }
-    else if (quotationType === "personal-or-business"){
+    } else if (quotationType === "personal-or-business") {
       endPoint = "quotation/update-quotation-for-personal-business-site";
     }
 
@@ -350,7 +349,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -383,17 +381,16 @@ function EditQuotation(props: MyComponentProps) {
                           <input
                             required
                             min={0}
-                            value={servicesPrice.distanceFromKelowna_cost}
+                            value={servicesPrice.distanceFromKelownaCost}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="distanceFromKelowna_cost"
+                            name="distanceFromKelownaCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Distance Cost"
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -425,17 +422,16 @@ function EditQuotation(props: MyComponentProps) {
                           </label>
                           <input
                             min={0}
-                            value={servicesPrice.maxWorkers_cost}
+                            value={servicesPrice.workersCost}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="maxWorkers_cost"
+                            name="workersCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Workers cost"
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -456,7 +452,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -467,17 +462,16 @@ function EditQuotation(props: MyComponentProps) {
                           </label>
                           <input
                             min={0}
-                            value={servicesPrice.serviceFrequency_cost}
+                            value={servicesPrice.serviceFrequencyCost}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="serviceFrequency_cost"
+                            name="serviceFrequencyCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Service srequency Cost"
                           />
                         </div>
                       </div>
-
                       <div className="col-md-6">
                         <div className="form-group">
                           <label
@@ -498,7 +492,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-6">
                         <div className="form-group">
                           <label
@@ -519,7 +512,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-12">
                         <ul className="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                           <li>
@@ -582,10 +574,10 @@ function EditQuotation(props: MyComponentProps) {
                           <input
                             min={0}
                             disabled={!quotation.useAtNight}
-                            value={servicesPrice.useAtNight_cost}
+                            value={servicesPrice.useAtNightCost}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="useAtNight_cost"
+                            name="useAtNightCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Use at night cost"
@@ -622,11 +614,11 @@ function EditQuotation(props: MyComponentProps) {
                           </label>
                           <input
                             min={0}
-                            value={servicesPrice.useInWinter_cost}
+                            value={servicesPrice.useInWinterCost}
                             disabled={!quotation.useInWinter}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="useInWinter_cost"
+                            name="useInWinterCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Use winter cost"
@@ -654,7 +646,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -666,10 +657,10 @@ function EditQuotation(props: MyComponentProps) {
                           <input
                             min={0}
                             disabled={quotation.numUnits <= 0}
-                            value={servicesPrice.numUnits_cost}
+                            value={servicesPrice.numberOfUnitsCost}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="numUnits_cost"
+                            name="numberOfUnitsCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Unit cost"
@@ -773,11 +764,11 @@ function EditQuotation(props: MyComponentProps) {
                           </label>
                           <input
                             min={0}
-                            value={servicesPrice.handwashing_cost}
+                            value={servicesPrice.handWashingCost}
                             disabled={!quotation.handwashing}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="handwashing_cost"
+                            name="handWashingCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Hand washing cost"
@@ -815,11 +806,11 @@ function EditQuotation(props: MyComponentProps) {
                           </label>
                           <input
                             min={0}
-                            value={servicesPrice.handSanitizerPump_cost}
+                            value={servicesPrice.handSanitizerPumpCost}
                             disabled={!quotation.handSanitizerPump}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="handSanitizerPump_cost"
+                            name="handSanitizerPumpCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="sanitizer pump cost"
@@ -858,10 +849,10 @@ function EditQuotation(props: MyComponentProps) {
                           <input
                             min={0}
                             disabled={!quotation.twiceWeeklyService}
-                            value={servicesPrice.twiceWeeklyService_cost}
+                            value={servicesPrice.twiceWeeklyServicing}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="twiceWeeklyService_cost"
+                            name="twiceWeeklyServicing"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Twice weekly service cost"
@@ -897,11 +888,11 @@ function EditQuotation(props: MyComponentProps) {
                           </label>
                           <input
                             min={0}
-                            value={servicesPrice.special_requirements_cost}
+                            value={servicesPrice.specialRequirementsCost}
                             disabled={!quotation.special_requirements}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="special_requirements_cost"
+                            name="specialRequirementsCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="special requirements cost"
@@ -919,10 +910,10 @@ function EditQuotation(props: MyComponentProps) {
                           </label>
                           <input
                             min={0}
-                            value={servicesPrice.weeklyHours_cost}
+                            value={servicesPrice.weeklyHoursCost}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="weeklyHours_cost"
+                            name="weeklyHoursCost"
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Enter weekly cost"
@@ -964,7 +955,7 @@ function EditQuotation(props: MyComponentProps) {
                           </li>
                           <li>
                             <button type="submit" className="btn btn-success">
-                              Update Quotation
+                             Send Invoice
                             </button>
                           </li>
                           <li>

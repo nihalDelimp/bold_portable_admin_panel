@@ -130,6 +130,21 @@ const Quotations = (props: MyComponentProps) => {
     }
   };
 
+  const setBackgroundColor = (status : string) => {
+          if(status === 'pending') {
+            return 'bg-warning'
+          }
+          else if (status === 'cancelled'){
+            return 'bg-danger'
+          }
+          else if (status === 'complete'){
+            return 'bg-success'
+          }
+          else{
+            return 'bg-primary'
+          }
+  }
+
   return (
     <div className="nk-content">
       <div className="container-fluid">
@@ -260,10 +275,6 @@ const Quotations = (props: MyComponentProps) => {
                   <div className="nk-tb-col tb-col-md">
                     <span>Phone Number</span>
                   </div>
-
-                  <div className="nk-tb-col tb-col-md">
-                    <span>Delivered Price</span>
-                  </div>
                   <div className="nk-tb-col tb-col-md">
                     <span>Distance From Kelowna</span>
                   </div>
@@ -278,7 +289,7 @@ const Quotations = (props: MyComponentProps) => {
                     <span>Service Frequency</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                    <span>Special Requirements</span>
+                    <span>Status</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
                     <span className="sub-text">Action</span>
@@ -312,9 +323,7 @@ const Quotations = (props: MyComponentProps) => {
                           {item.coordinator.cellNumber}
                         </span>
                       </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">${item.deliveredPrice}</span>
-                      </div>
+                    
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
                           {item.distanceFromKelowna}
@@ -330,8 +339,10 @@ const Quotations = (props: MyComponentProps) => {
                         <span className="tb-sub">{item.serviceFrequency}</span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">
-                          {item.special_requirements}
+                        <span className="tb-odr-status">
+                          <span className={`badge badge-dot ${setBackgroundColor(item.status)}`}>
+                            {item.status}
+                          </span>
                         </span>
                       </div>
                       <div className="nk-tb-col nk-tb-col-tools">

@@ -203,7 +203,6 @@ function EditProduct(props: MyComponentProps) {
                         />
                       </div>
                     </div>
-
                     <div className="col-md-6">
                       <div className="form-group">
                         <label className="form-label" htmlFor="personal-email">

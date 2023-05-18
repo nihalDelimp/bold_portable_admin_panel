@@ -1,9 +1,56 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import React, { useState, useEffect } from "react";
+import { authAxios } from "../config/config";
+import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { Link, useParams } from "react-router-dom";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import Pagination from "../Common/Pagination";
+import { getFormatedDate ,getDateWithoutTime } from "../Helper";
 
-function InvoiceDetail() {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+function InvoiceDetail(props: MyComponentProps) {
+  const { setLoading } = props;
+  const params = useParams();
+  const [paymetData, setPaymentData] = useState<any>({});
+  const [invoiceData, setInvoice] = useState<any>({});
+  const [userData, setUserData] = useState<any>({});
+
+  console.log("PaymentData", paymetData);
+  console.log("userData", userData);
+
+  useEffect(() => {
+    getInvoiceDetailsData();
+  }, []);
+
+  const getInvoiceDetailsData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/payment/subscription/${params.id}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data.payments[0];
+            const user = resData.subscription.user;
+            const payment = resData.payment;
+            setPaymentData(payment);
+            setUserData(user);
+            setInvoice(resData);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
   return (
     <div className="nk-content">
       <div className="container-fluid">
@@ -20,7 +67,9 @@ function InvoiceDetail() {
                     <ul className="list-inline">
                       <li>
                         Created At:{" "}
-                        <span className="text-base">18 Dec, 2019 01:02 PM</span>
+                        <span className="text-base">
+                          {getFormatedDate(invoiceData?.createdAt)}
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -71,7 +120,7 @@ function InvoiceDetail() {
                           </li>
                           <li>
                             <em className="icon ni ni-call-fill"></em>
-                            <span>+012 8764 556</span>
+                            <span>+{userData.mobile}</span>
                           </li>
                         </ul>
                       </div>
@@ -83,7 +132,7 @@ function InvoiceDetail() {
                           <span>Invoice ID</span>:<span>66K5W3</span>
                         </li>
                         <li className="invoice-date">
-                          <span>Date</span>:<span>26 Jan, 2020</span>
+                          <span>Date</span>:<span> {getDateWithoutTime(invoiceData?.createdAt)}</span>
                         </li>
                       </ul>
                     </div>
@@ -95,9 +144,9 @@ function InvoiceDetail() {
                           <tr>
                             <th className="w-150px">Item ID</th>
                             <th className="w-60">Description</th>
-                            <th>Price</th>
-                            <th>Qty</th>
-                            <th>Amount</th>
+                            <th>Amount Due</th>
+                            <th>Amount Remaining</th>
+                            <th>Amount Paid</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -107,54 +156,26 @@ function InvoiceDetail() {
                               Dashlite - Conceptual App Dashboard - Regular
                               License
                             </td>
-                            <td>$40.00</td>
-                            <td>5</td>
-                            <td>$200.00</td>
-                          </tr>
-                          <tr>
-                            <td>24108054</td>
-                            <td>6 months premium support</td>
-                            <td>$25.00</td>
-                            <td>1</td>
-                            <td>$25.00</td>
-                          </tr>
-                          <tr>
-                            <td>23604094</td>
-                            <td>
-                              Invest Management Dashboard - Regular License
-                            </td>
-                            <td>$131.25</td>
-                            <td>1</td>
-                            <td>$131.25</td>
-                          </tr>
-                          <tr>
-                            <td>23604094</td>
-                            <td>6 months premium support</td>
-                            <td>$78.75</td>
-                            <td>1</td>
-                            <td>$78.75</td>
+                            <td>${paymetData.amount_due}</td>
+                            <td>${paymetData.amount_remaining}</td>
+                            <td>${paymetData.amount_paid}</td>
                           </tr>
                         </tbody>
                         <tfoot>
                           <tr>
                             <td colSpan={2}></td>
                             <td colSpan={2}>Subtotal</td>
-                            <td>$435.00</td>
+                            <td>${paymetData.subtotal}</td>
                           </tr>
                           <tr>
                             <td colSpan={2}></td>
                             <td colSpan={2}>Processing fee</td>
-                            <td>$10.00</td>
-                          </tr>
-                          <tr>
-                            <td colSpan={2}></td>
-                            <td colSpan={2}>TAX</td>
-                            <td>$43.50</td>
+                            <td>$0.00</td>
                           </tr>
                           <tr>
                             <td colSpan={2}></td>
                             <td colSpan={2}>Grand Total</td>
-                            <td>$478.50</td>
+                            <td>${paymetData.total}</td>
                           </tr>
                         </tfoot>
                       </table>
@@ -172,9 +193,10 @@ function InvoiceDetail() {
         </div>
       </div>
       <div className="alert alert-icon alert-primary" role="alert">
-    <em className="icon ni ni-alert-circle"></em> 
-    <strong>Order has been placed</strong>. Your will be redirect for make your payment. 
-</div>
+        <em className="icon ni ni-alert-circle"></em>
+        <strong>Order has been placed</strong>. Your will be redirect for make
+        your payment.
+      </div>
     </div>
   );
 }
