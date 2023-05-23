@@ -37,7 +37,6 @@ function EditQuotation(props: MyComponentProps) {
     special_requirements: "",
     distanceFromKelowna: "",
     numUnits: 0,
-    serviceCharge: "",
     workerTypes: "",
     useAtNight: false,
     useInWinter: false,
@@ -54,7 +53,6 @@ function EditQuotation(props: MyComponentProps) {
     workersCost: 0,
     deliveryPrice: 0,
     specialRequirementsCost: 0,
-    distanceFromKelownaCost: 0,
     numberOfUnitsCost: 0,
     useAtNightCost: 0,
     useInWinterCost: 0,
@@ -77,7 +75,6 @@ function EditQuotation(props: MyComponentProps) {
     "serviceFrequency",
     "special_requirements",
     "distanceFromKelowna",
-    "serviceCharge",
     "useAtNight",
     "useInWinter",
     "numUnits",
@@ -96,7 +93,6 @@ function EditQuotation(props: MyComponentProps) {
     "workersCost",
     "deliveryPrice",
     "specialRequirementsCost",
-    "distanceFromKelownaCost",
     "numberOfUnitsCost",
     "useAtNightCost",
     "useInWinterCost",
@@ -313,6 +309,47 @@ function EditQuotation(props: MyComponentProps) {
                             className="form-label"
                             htmlFor="personal-email"
                           >
+                            Designated Workers
+                          </label>
+                          <input
+                            required
+                            disabled
+                            value={quotation.designatedWorkers ? "Yes" : "No"}
+                            onChange={handleChangeQuotation}
+                            type="text"
+                            name="designatedWorkers"
+                            className="form-control"
+                            id="inputEmail4"
+                            placeholder="Designated workers"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
+                            Worker Types
+                          </label>
+                          <input
+                            disabled
+                            value={quotation.workerTypes}
+                            onChange={handleChangeQuotation}
+                            type="text"
+                            name="workerTypes"
+                            className="form-control"
+                            id="inputEmail4"
+                            placeholder="Worker Types"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
                             Placement Date
                           </label>
                           <input
@@ -326,26 +363,6 @@ function EditQuotation(props: MyComponentProps) {
                             className="form-control"
                             id="inputEmail4"
                             placeholder="Placement Date"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Delivery price
-                          </label>
-                          <input
-                            min={0}
-                            value={servicesPrice.deliveryPrice}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="deliveryPrice"
-                            className="form-control"
-                            id="inputEmail4"
-                            placeholder="delivery price"
                           />
                         </div>
                       </div>
@@ -366,7 +383,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="distanceFromKelowna"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Enter product name"
+                            placeholder="Distance"
                           />
                         </div>
                       </div>
@@ -381,13 +398,13 @@ function EditQuotation(props: MyComponentProps) {
                           <input
                             required
                             min={0}
-                            value={servicesPrice.distanceFromKelownaCost}
+                            value={servicesPrice.deliveryPrice}
                             onChange={handleChangeServicePrice}
                             type="number"
-                            name="distanceFromKelownaCost"
+                            name="deliveryPrice"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Distance Cost"
+                            placeholder="Delivery Price"
                           />
                         </div>
                       </div>
@@ -428,51 +445,12 @@ function EditQuotation(props: MyComponentProps) {
                             name="workersCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Workers cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
+                      
                       <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Service Frequency
-                          </label>
-                          <input
-                            disabled
-                            value={quotation.serviceFrequency}
-                            onChange={handleChangeQuotation}
-                            type="text"
-                            name="serviceFrequency"
-                            className="form-control"
-                            id="inputEmail4"
-                            placeholder="Service Frequency"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Cost
-                          </label>
-                          <input
-                            min={0}
-                            value={servicesPrice.serviceFrequencyCost}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="serviceFrequencyCost"
-                            className="form-control"
-                            id="inputEmail4"
-                            placeholder="Service srequency Cost"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
                         <div className="form-group">
                           <label
                             className="form-label"
@@ -492,23 +470,23 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6">
+                       <div className="col-md-3">
                         <div className="form-group">
                           <label
                             className="form-label"
                             htmlFor="personal-email"
                           >
-                            Service Charge
+                            Weekly Hours Cost
                           </label>
                           <input
                             min={0}
-                            value={quotation.serviceCharge}
-                            onChange={handleChangeQuotation}
+                            value={servicesPrice.weeklyHoursCost}
+                            onChange={handleChangeServicePrice}
                             type="number"
-                            name="serviceCharge"
+                            name="weeklyHoursCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Service Charge"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -580,7 +558,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="useAtNightCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Use at night cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -600,7 +578,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="title"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Enter product name"
+                            placeholder="Yes/No"
                           />
                         </div>
                       </div>
@@ -621,11 +599,10 @@ function EditQuotation(props: MyComponentProps) {
                             name="useInWinterCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Use winter cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -663,7 +640,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="numberOfUnitsCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Unit cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -686,53 +663,12 @@ function EditQuotation(props: MyComponentProps) {
                             name="dateTillUse"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Enter product name"
+                            placeholder="Date till use"
                           />
                         </div>
                       </div>
 
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Designated Workers
-                          </label>
-                          <input
-                            required
-                            disabled
-                            value={quotation.designatedWorkers ? "Yes" : "No"}
-                            onChange={handleChangeQuotation}
-                            type="text"
-                            name="designatedWorkers"
-                            className="form-control"
-                            id="inputEmail4"
-                            placeholder="Enter product name"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Worker Types
-                          </label>
-                          <input
-                            disabled
-                            value={quotation.workerTypes}
-                            onChange={handleChangeQuotation}
-                            type="text"
-                            name="workerTypes"
-                            className="form-control"
-                            id="inputEmail4"
-                            placeholder="Worker Types"
-                          />
-                        </div>
-                      </div>
+                      
 
                       <div className="col-md-3">
                         <div className="form-group">
@@ -750,7 +686,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="handwashing"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Enter product name"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -771,7 +707,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="handWashingCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Hand washing cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -813,7 +749,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="handSanitizerPumpCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="sanitizer pump cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -855,7 +791,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="twiceWeeklyServicing"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Twice weekly service cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -874,7 +810,7 @@ function EditQuotation(props: MyComponentProps) {
                             name="title"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Enter product name"
+                            placeholder="Special Requirements"
                           />
                         </div>
                       </div>
@@ -895,32 +831,50 @@ function EditQuotation(props: MyComponentProps) {
                             name="specialRequirementsCost"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="special requirements cost"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
-
-                      <div className="col-md-6">
+                       <div className="col-md-3">
                         <div className="form-group">
                           <label
                             className="form-label"
                             htmlFor="personal-email"
                           >
-                            Weekly Hours Cost
+                            Service Frequency
                           </label>
                           <input
-                            min={0}
-                            value={servicesPrice.weeklyHoursCost}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="weeklyHoursCost"
+                            disabled
+                            value={quotation.serviceFrequency}
+                            onChange={handleChangeQuotation}
+                            type="text"
+                            name="serviceFrequency"
                             className="form-control"
                             id="inputEmail4"
-                            placeholder="Enter weekly cost"
+                            placeholder="Service Frequency"
                           />
                         </div>
                       </div>
-
+                      <div className="col-md-3">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
+                            Cost
+                          </label>
+                          <input
+                            min={0}
+                            value={servicesPrice.serviceFrequencyCost}
+                            onChange={handleChangeServicePrice}
+                            type="number"
+                            name="serviceFrequencyCost"
+                            className="form-control"
+                            id="inputEmail4"
+                            placeholder="Enter Price"
+                          />
+                        </div>
+                      </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label

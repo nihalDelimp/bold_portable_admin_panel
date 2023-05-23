@@ -72,7 +72,7 @@ function InvoiceList(props: MyComponentProps) {
               <div className="nk-block-head nk-block-head-sm">
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
-                    <h3 className="nk-block-title page-title">All Invoice</h3>
+                    <h3 className="nk-block-title page-title">Subscriptions</h3>
                   </div>
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">
@@ -257,7 +257,7 @@ function InvoiceList(props: MyComponentProps) {
                                     <li>
                                       <a onClick={() => handleEditModal(item)}>
                                         <em className="icon ni ni-plus-circle"></em>
-                                        <span>Add Location</span>
+                                        <span>Track Location</span>
                                       </a>
                                     </li>
                                     <li>
