@@ -32,3 +32,8 @@ export function getFirstChartByFullName (fullName : any){
   str = str.join(""); 
   return str; 
 };
+
+export const CapitalizeFirstLetter = (data : string) => {
+  const str = data.charAt(0).toUpperCase() + data.slice(1);
+   return str
+  }

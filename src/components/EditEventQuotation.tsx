@@ -167,20 +167,9 @@ function EditEventQuotation(props: MyComponentProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = { costDetails: servicesPrice };
-    let endPoint: string = "quotation/update-quotation-for-construction";
-    if (quotationType === "construction") {
-      endPoint = "quotation/update-quotation-for-construction";
-    } else if (quotationType === "disaster-relief") {
-      endPoint = "quotation/update-quotation-for-disaster-relief";
-    } else if (quotationType === "farm-orchard-winery") {
-      endPoint = "quotation/update-quotation-for-farm-orchard-winery";
-    } else if (quotationType === "personal-or-business") {
-      endPoint = "quotation/update-quotation-for-personal-business-site";
-    }
-
     setLoading(true);
     await authAxios()
-      .put(`/${endPoint}/${quotationId}`, payload)
+      .put(`/quotation/update-quotation-for-event/${quotationId}`, payload)
       .then(
         (response) => {
           setLoading(false);

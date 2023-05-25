@@ -13,9 +13,9 @@ interface MyComponentProps {
 function SaveLocation(props: MyComponentProps) {
   const { setLoading, invoiceData, modal, closeModal, getListingData } = props;
   const [userData, setUserData] = useState({
-    quotationType: invoiceData.typoe,
-    quotationId: invoiceData._id,
-    ubscriptionId : invoiceData._id,
+    subscriptionId: invoiceData._id,
+    quotationId: invoiceData.quotationId,
+    quotationType : invoiceData.quotationType,
     address: "",
     driver_name: "",
     driver_phone_number: "",
@@ -86,6 +86,7 @@ function SaveLocation(props: MyComponentProps) {
                         <input
                           type="text"
                           required
+                          minLength={5}
                           onChange={handleChange}
                           name="driver_name"
                           value={userData.driver_name}
@@ -102,6 +103,7 @@ function SaveLocation(props: MyComponentProps) {
                         </label>
                         <input
                           type="number"
+                          required
                           className="form-control"
                           onChange={handleChange}
                           name="driver_phone_number"
@@ -118,6 +120,7 @@ function SaveLocation(props: MyComponentProps) {
                         <input
                           type="text"
                           required
+                          minLength={8}
                           onChange={handleChange}
                           name="address"
                           value={userData.address}

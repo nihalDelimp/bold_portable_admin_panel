@@ -6,7 +6,7 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import EditQuotation from "./EditQuotation";
 import EditEventQuotation from "./EditEventQuotation";
 import Pagination from "../Common/Pagination";
-import { getFormatedDate } from "../Helper";
+import { CapitalizeFirstLetter, getFormatedDate } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -333,7 +333,7 @@ const Quotations = (props: MyComponentProps) => {
                         <span className="tb-sub">{item.maxWorkers}</span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{item.type}</span>
+                        <span className="tb-sub">{CapitalizeFirstLetter(item.type)}</span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">{item.serviceFrequency}</span>

@@ -111,7 +111,7 @@ function Sidebar() {
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-file-docs"></em>
                   </span>
-                  <span className="nk-menu-text">Invoices</span>
+                  <span className="nk-menu-text">Subscriptions</span>
                 </NavLink>
               </li>
               <li

@@ -178,6 +178,9 @@ function InvoiceList(props: MyComponentProps) {
                       <span className="sub-text">Email</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
+                      <span className="sub-text">Quotation Type</span>
+                    </div>
+                    <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Date</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
@@ -223,6 +226,9 @@ function InvoiceList(props: MyComponentProps) {
                           <span>{item?.user.email}</span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
+                          <span>{item?.quotationType}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
                         <div className="nk-tb-col tb-col-md">
@@ -257,19 +263,13 @@ function InvoiceList(props: MyComponentProps) {
                                     <li>
                                       <a onClick={() => handleEditModal(item)}>
                                         <em className="icon ni ni-plus-circle"></em>
-                                        <span>Track Location</span>
+                                        <span>Save Location</span>
                                       </a>
                                     </li>
                                     <li>
                                       <Link to={`/invoice-detail/${item._id}`}>
                                         <em className="icon ni ni-eye"></em>
-                                        <span>View Invoice</span>
-                                      </Link>
-                                    </li>
-                                    <li>
-                                      <Link to="/orders">
-                                        <em className="icon ni ni-map-pin"></em>
-                                        <span>Track Order</span>
+                                        <span>View Payment</span>
                                       </Link>
                                     </li>
                                   </ul>

@@ -5,7 +5,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link, useParams } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFormatedDate ,getDateWithoutTime } from "../Helper";
+import { getFormatedDate, getDateWithoutTime } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -14,9 +14,10 @@ interface MyComponentProps {
 function InvoiceDetail(props: MyComponentProps) {
   const { setLoading } = props;
   const params = useParams();
-  const [paymetData, setPaymentData] = useState<any>({});
-  const [invoiceData, setInvoice] = useState<any>({});
-  const [userData, setUserData] = useState<any>({});
+  const [paymetData, setPaymentData] = useState<any>(null);
+  const [invoiceData, setInvoice] = useState<any>(null);
+  const [userData, setUserData] = useState<any>(null);
+  const [subscription, setsubscription] = useState<any>(null);
 
   console.log("PaymentData", paymetData);
   console.log("userData", userData);
@@ -39,6 +40,7 @@ function InvoiceDetail(props: MyComponentProps) {
             setPaymentData(payment);
             setUserData(user);
             setInvoice(resData);
+            setsubscription(resData.subscription);
           }
         },
         (error) => {
@@ -120,7 +122,7 @@ function InvoiceDetail(props: MyComponentProps) {
                           </li>
                           <li>
                             <em className="icon ni ni-call-fill"></em>
-                            <span>+{userData.mobile}</span>
+                            <span>+{userData?.mobile}</span>
                           </li>
                         </ul>
                       </div>
@@ -129,10 +131,14 @@ function InvoiceDetail(props: MyComponentProps) {
                       <h3 className="title">Invoice</h3>
                       <ul className="list-plain">
                         <li className="invoice-id">
-                          <span>Invoice ID</span>:<span>66K5W3</span>
+                          <span>Subscription ID</span>:<span>66K5W3</span>
                         </li>
                         <li className="invoice-date">
-                          <span>Date</span>:<span> {getDateWithoutTime(invoiceData?.createdAt)}</span>
+                          <span>Date</span>:
+                          <span>
+                            {" "}
+                            {getDateWithoutTime(invoiceData?.createdAt)}
+                          </span>
                         </li>
                       </ul>
                     </div>
@@ -144,6 +150,9 @@ function InvoiceDetail(props: MyComponentProps) {
                           <tr>
                             <th className="w-150px">Item ID</th>
                             <th className="w-60">Description</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Quotation Type</th>
                             <th>Amount Due</th>
                             <th>Amount Remaining</th>
                             <th>Amount Paid</th>
@@ -151,21 +160,24 @@ function InvoiceDetail(props: MyComponentProps) {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>24108054</td>
+                            <td>{subscription?.subscription?.slice(15)}</td>
                             <td>
                               Dashlite - Conceptual App Dashboard - Regular
                               License
                             </td>
-                            <td>${paymetData.amount_due}</td>
-                            <td>${paymetData.amount_remaining}</td>
-                            <td>${paymetData.amount_paid}</td>
+                            <td>{userData?.email}</td>
+                            <td>{userData?.mobile}</td>
+                            <td>{subscription?.quotationType}</td>
+                            <td>${paymetData?.amount_due}</td>
+                            <td>${paymetData?.amount_remaining}</td>
+                            <td>${paymetData?.amount_paid}</td>
                           </tr>
                         </tbody>
                         <tfoot>
                           <tr>
                             <td colSpan={2}></td>
                             <td colSpan={2}>Subtotal</td>
-                            <td>${paymetData.subtotal}</td>
+                            <td>${paymetData?.subtotal}</td>
                           </tr>
                           <tr>
                             <td colSpan={2}></td>
@@ -175,7 +187,7 @@ function InvoiceDetail(props: MyComponentProps) {
                           <tr>
                             <td colSpan={2}></td>
                             <td colSpan={2}>Grand Total</td>
-                            <td>${paymetData.total}</td>
+                            <td>${paymetData?.total}</td>
                           </tr>
                         </tfoot>
                       </table>
