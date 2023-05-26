@@ -345,7 +345,7 @@ function SubscriptionList(props: MyComponentProps) {
           trackingID={trackingID}
           modal={updateLocationModal}
           getListingData={getSubscriptionListData}
-          closeModal={(isModal: boolean) => setSaveLocationModal(isModal)}
+          closeModal={(isModal: boolean) => setUpdateLocationModal(isModal)}
         />
       )}
     </>
