@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { Link, useParams } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
-  invoiceData: any;
+  subscription: any;
+  locationID: string;
   modal: boolean;
   closeModal: (isModal: boolean) => void;
   getListingData: () => void;
 }
 
-function SaveLocation(props: MyComponentProps) {
-  const { setLoading, invoiceData, modal, closeModal, getListingData } = props;
+function UpdateLocation(props: MyComponentProps) {
+  const { setLoading, subscription, locationID , modal, closeModal, getListingData } = props;
+
   const [userData, setUserData] = useState({
-    subscriptionId: invoiceData._id,
-    quotationId: invoiceData.quotationId,
-    quotationType : invoiceData.quotationType,
     address: "",
     driver_name: "",
     driver_phone_number: "",
@@ -37,7 +37,7 @@ function SaveLocation(props: MyComponentProps) {
     const payload = userData;
     setLoading(true);
     await authAxios()
-      .post("/tracking/save-tracking", payload)
+      .put(`/tracking/update-tracking/${locationID}`, payload)
       .then(
         (response) => {
           setLoading(false);
@@ -75,7 +75,7 @@ function SaveLocation(props: MyComponentProps) {
             <em className="icon ni ni-cross-sm"></em>
           </a>
           <div className="modal-body modal-body-md">
-            <h5 className="title">Save Order Location</h5>
+            <h5 className="title">Update Order Location</h5>
             <div className="tab-content">
               <div className="tab-pane active" id="personal">
                 <form onSubmit={handleSubmit}>
@@ -161,7 +161,4 @@ function SaveLocation(props: MyComponentProps) {
     </div>
   );
 }
-
-export default IsLoadingHOC(IsLoggedinHOC(SaveLocation));
-
-
+export default IsLoadingHOC(IsLoggedinHOC(UpdateLocation));

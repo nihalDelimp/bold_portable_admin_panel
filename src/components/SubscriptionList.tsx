@@ -12,7 +12,7 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function InvoiceList(props: MyComponentProps) {
+function SubscriptionList(props: MyComponentProps) {
   const { setLoading } = props;
   const [invoices, setInvoices] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -267,6 +267,14 @@ function InvoiceList(props: MyComponentProps) {
                                       </a>
                                     </li>
                                     <li>
+                                      <Link
+                                        to={`/subscription-detail/${item._id}`}
+                                      >
+                                        <em className="icon ni ni-eye"></em>
+                                        <span>Subscription Details</span>
+                                      </Link>
+                                    </li>
+                                    <li>
                                       <Link to={`/invoice-detail/${item._id}`}>
                                         <em className="icon ni ni-eye"></em>
                                         <span>View Payment</span>
@@ -299,7 +307,6 @@ function InvoiceList(props: MyComponentProps) {
       {SaveLocationModal && (
         <SaveLocation
           invoiceData={invoiceData}
-          setLoading={setLoading}
           modal={SaveLocationModal}
           getListingData={getInvoiceListData}
           closeModal={(isModal: boolean) => setSaveLocationModal(isModal)}
@@ -309,4 +316,4 @@ function InvoiceList(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(InvoiceList));
+export default IsLoadingHOC(IsLoggedinHOC(SubscriptionList));

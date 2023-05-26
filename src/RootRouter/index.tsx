@@ -10,10 +10,11 @@ import AdminProfile from "../Common/AdminProfile";
 import ViewProduct from "../components/ViewProduct";
 import ViewCustomer from "../components/ViewCustomer";
 import Orders from "../components/Orders";
-import InvoicesList from "../components/InvoicesList";
+import InvoicesList from "../components/SubscriptionList";
 import NotificationDetails from "../components/NotificationDetails";
 import InvoiceDetail from "../components/InvoiceDetail";
 import Quotations from "../components/Quotations";
+import SubscriptionDetail from "../components/SubscriptionDetail";
 
 function RootRouter() {
   return (
@@ -106,6 +107,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <InvoiceDetail />
+              </PrivateRoute>
+            }
+          />
+            <Route
+            path="/subscription-detail/:id"
+            element={
+              <PrivateRoute>
+                <SubscriptionDetail />
               </PrivateRoute>
             }
           />

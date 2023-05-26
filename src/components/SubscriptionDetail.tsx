@@ -1,10 +1,57 @@
-import React from "react";
-import EditProfile from "./EditProfile";
+import React, { useState, useEffect } from "react";
+import { authAxios } from "../config/config";
+import { toast } from "react-toastify";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { Link, useParams } from "react-router-dom";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import Pagination from "../Common/Pagination";
+import { getFormatedDate, getDateWithoutTime } from "../Helper";
+import UpdateLocation from "./UpdateLocation";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 
-const AdminProfile = () => {
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
+
+const SubscriptionDetail = (props: MyComponentProps) => {
+  const { setLoading } = props;
+  const params = useParams();
   const { user } = useSelector((state: RootState) => state.auth);
+  const [modal, setModal] = useState(false);
+  const [subscription, setSubScription] = useState(null);
+  const [locationID, setLocationID] = useState("646f4b432914d81e107ee0e8");
+
+  useEffect(() => {
+    getSubscriptionDetails();
+  }, []);
+
+  const getSubscriptionDetails = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/payment/subscription/${params.id}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setSubScription(resData);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const handleModal = (data: any) => {
+    setModal(!modal);
+  };
+
   return (
     <>
       <div className="nk-content ">
@@ -19,21 +66,15 @@ const AdminProfile = () => {
                         <div className="nk-block-between d-flex justify-content-between">
                           <div className="nk-block-head-content">
                             <h4 className="nk-block-title">
-                              Personal Information
+                              Subscription Information
                             </h4>
-                            <div className="nk-block-des">
-                              <p>
-                                Basic info, like your name and address, that you
-                                use on Nio Platform.
-                              </p>
-                            </div>
                           </div>
                           <div className="d-flex align-center">
                             <div className="nk-tab-actions me-n1">
                               <a
                                 className="btn btn-icon btn-trigger"
                                 data-bs-toggle="modal"
-                                href="#profile-edit"
+                                onClick={handleModal}
                               >
                                 <em className="icon ni ni-edit"></em>
                               </a>
@@ -58,19 +99,14 @@ const AdminProfile = () => {
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">Full Name</span>
-                              <span className="data-value">{user?.name}</span>
+                              <span className="data-value">test</span>
                             </div>
                           </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Display Name</span>
-                              <span className="data-value">{user?.name}</span>
-                            </div>
-                          </div>
+                         
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">Email</span>
-                              <span className="data-value">{user?.email}</span>
+                              <span className="data-value">test@delimp.com</span>
                             </div>
                           </div>
                           <div className="data-item">
@@ -78,6 +114,16 @@ const AdminProfile = () => {
                               <span className="data-label">Phone Number</span>
                               <span className="data-value text-soft">
                                 {user?.mobile}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item" data-tab-target="#address">
+                            <div className="data-col">
+                              <span className="data-label">Address</span>
+                              <span className="data-value">
+                                132 Ashok Nagar, New Delhi
+                                <br />
+                                Delhi, India
                               </span>
                             </div>
                           </div>
@@ -91,9 +137,17 @@ const AdminProfile = () => {
           </div>
         </div>
       </div>
-      <EditProfile />
+      {modal && (
+        <UpdateLocation
+          modal={modal}
+          subscription={subscription}
+          locationID={locationID}
+          getListingData={getSubscriptionDetails}
+          closeModal={(isModal: boolean) => setModal(isModal)}
+        />
+      )}
     </>
   );
 };
 
-export default AdminProfile;
+export default IsLoadingHOC(IsLoggedinHOC(SubscriptionDetail));

@@ -5,10 +5,16 @@ import { RootState } from "../Redux/rootReducer";
 import { toast } from "react-toastify";
 import { setuser } from "../Redux/Reducers/authSlice";
 import { useDispatch } from "react-redux";
+import IsLoadingHOC from "./IsLoadingHOC";
+import IsLoggedinHOC from "./IsLoggedInHOC";
 
+interface MyComponentProps {
+  setLoading: (isComponentLoading: boolean) => void;
+}
 
-function EditProfile() {
-  const dispatch = useDispatch()
+function EditProfile(props: MyComponentProps) {
+  const { setLoading } = props;
+  const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.auth);
   const [userProfile, setUserProfile] = useState({
     name: "",
@@ -40,20 +46,23 @@ function EditProfile() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = userProfile;
+    setLoading(true);
     await authAxios()
       .post("/auth/update-user-profile", payload)
       .then(
         (response) => {
+          setLoading(false);
           if (response.data.status === 1) {
             toast.success("User update successfully");
-            const user =  response.data.data
+            const user = response.data.data;
             dispatch(setuser(user));
           } else {
-            toast.error(response.data.message);
+            toast.error(response.data?.message);
           }
         },
         (error) => {
-          toast.error(error.response.data.message);
+          setLoading(false);
+          toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
@@ -159,91 +168,6 @@ function EditProfile() {
                   </div>
                 </form>
               </div>
-
-              {/* <div className="tab-pane" id="address">
-                <div className="row gy-4">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="address-l1">
-                        Address Line 1
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="address-l1"
-                        value="2337 Kildeer Drive"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="address-l2">
-                        Address Line 2
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="address-l2"
-                        value=""
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="address-st">
-                        State
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="address-st"
-                        value="Kentucky"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label className="form-label" htmlFor="address-county">
-                        Country
-                      </label>
-                      <select
-                        className="form-select js-select2"
-                        id="address-county"
-                      >
-                        <option>Canada</option>
-                        <option>United State</option>
-                        <option>United Kindom</option>
-                        <option>Australia</option>
-                        <option>India</option>
-                        <option>Bangladesh</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col-12">
-                    <ul className="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
-                      <li>
-                        <a
-                          href="#"
-                          data-bs-dismiss="modal"
-                          className="btn btn-primary"
-                        >
-                          Update Address
-                        </a>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          data-bs-dismiss="modal"
-                          className="link link-light"
-                        >
-                          Cancel
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div> */}
-              
             </div>
           </div>
         </div>
@@ -251,5 +175,4 @@ function EditProfile() {
     </div>
   );
 }
-
-export default EditProfile;
+export default IsLoadingHOC(IsLoggedinHOC(EditProfile));
