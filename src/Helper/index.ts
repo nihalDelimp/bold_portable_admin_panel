@@ -4,7 +4,7 @@
      if(!date){
       return 'NA'
      }
-      let formatedDateTime = moment(date).format('Do MMM YYYY, hh:mm:ss A');
+      let formatedDateTime = moment(date).format('Do MMM YYYY, hh:mm A');
       return formatedDateTime;
 }
 
@@ -18,7 +18,7 @@ export function getDateWithoutTime(date : string) {
 
 export function getStringDate (date : number)  {
    const readAbleDate = new Date(date)
-   let formatedDateTime = moment(readAbleDate).format('MMM Do YYYY, hh:mm:ss A');
+   let formatedDateTime = moment(readAbleDate).format('MMM Do YYYY, hh:mm A');
    return formatedDateTime;
 }
 

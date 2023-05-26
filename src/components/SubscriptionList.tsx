@@ -7,6 +7,7 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import { getFirstChartByFullName, getFormatedDate } from "../Helper";
 import SaveLocation from "./SaveLocation";
+import UpdateLocation from "./UpdateLocation";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -18,16 +19,18 @@ function SubscriptionList(props: MyComponentProps) {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [SaveLocationModal, setSaveLocationModal] = useState(false);
+  const [saveLocationModal, setSaveLocationModal] = useState(false);
+  const [updateLocationModal, setUpdateLocationModal] = useState(false);
   const [invoiceData, setInvoiceData] = useState("");
   const [statusName, setStatusName] = useState("");
   const [statusLabel, setStatusLabel] = useState("Status");
+  const [trackingID, setTrackingID] = useState("");
 
   useEffect(() => {
-    getInvoiceListData();
+    getSubscriptionListData();
   }, [currentPage, itemsPerPage, statusName]);
 
-  const getInvoiceListData = async () => {
+  const getSubscriptionListData = async () => {
     setLoading(true);
     await authAxios()
       .get(
@@ -38,7 +41,7 @@ function SubscriptionList(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setInvoices(resData.subscriptions);
+            setInvoices(resData.formattedSubscriptions);
             setTotalCount(resData?.totalSubscription);
           }
         },
@@ -52,9 +55,14 @@ function SubscriptionList(props: MyComponentProps) {
       });
   };
 
-  const handleEditModal = (product_id: string) => {
-    setInvoiceData(product_id);
+  const handleSaveLocationModal = (data: string) => {
+    setInvoiceData(data);
     setSaveLocationModal(true);
+  };
+
+  const handleUpdateLocationModal = (tracking_id: string) => {
+    setTrackingID(tracking_id);
+    setUpdateLocationModal(true);
   };
 
   const handleChangeStatus = (name: string, label: string) => {
@@ -260,20 +268,39 @@ function SubscriptionList(props: MyComponentProps) {
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
-                                    <li>
-                                      <a onClick={() => handleEditModal(item)}>
-                                        <em className="icon ni ni-plus-circle"></em>
-                                        <span>Save Location</span>
-                                      </a>
-                                    </li>
-                                    <li>
+                                    {item.trackingId ? (
+                                      <li>
+                                        <a
+                                          onClick={() =>
+                                            handleUpdateLocationModal(
+                                              item.trackingId
+                                            )
+                                          }
+                                        >
+                                          <em className="icon ni ni-plus-circle"></em>
+                                          <span>Update Location</span>
+                                        </a>
+                                      </li>
+                                    ) : (
+                                      <li>
+                                        <a
+                                          onClick={() =>
+                                            handleSaveLocationModal(item)
+                                          }
+                                        >
+                                          <em className="icon ni ni-plus-circle"></em>
+                                          <span>Save Location</span>
+                                        </a>
+                                      </li>
+                                    )}
+                                    {/* <li>
                                       <Link
                                         to={`/subscription-detail/${item._id}`}
                                       >
                                         <em className="icon ni ni-eye"></em>
                                         <span>Subscription Details</span>
                                       </Link>
-                                    </li>
+                                    </li> */}
                                     <li>
                                       <Link to={`/invoice-detail/${item._id}`}>
                                         <em className="icon ni ni-eye"></em>
@@ -304,11 +331,20 @@ function SubscriptionList(props: MyComponentProps) {
           </div>
         </div>
       </div>
-      {SaveLocationModal && (
+      {saveLocationModal && (
         <SaveLocation
           invoiceData={invoiceData}
-          modal={SaveLocationModal}
-          getListingData={getInvoiceListData}
+          modal={saveLocationModal}
+          getListingData={getSubscriptionListData}
+          closeModal={(isModal: boolean) => setSaveLocationModal(isModal)}
+        />
+      )}
+
+      {updateLocationModal && (
+        <UpdateLocation
+          trackingID={trackingID}
+          modal={updateLocationModal}
+          getListingData={getSubscriptionListData}
           closeModal={(isModal: boolean) => setSaveLocationModal(isModal)}
         />
       )}

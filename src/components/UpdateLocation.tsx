@@ -7,15 +7,20 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
-  subscription: any;
-  locationID: string;
+  trackingID: string;
   modal: boolean;
   closeModal: (isModal: boolean) => void;
   getListingData: () => void;
 }
 
 function UpdateLocation(props: MyComponentProps) {
-  const { setLoading, subscription, locationID , modal, closeModal, getListingData } = props;
+  const {
+    setLoading,
+    trackingID,
+    modal,
+    closeModal,
+    getListingData,
+  } = props;
 
   const [userData, setUserData] = useState({
     address: "",
@@ -34,10 +39,16 @@ function UpdateLocation(props: MyComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = userData;
+    const { address, driver_name, driver_phone_number, status } = userData;
+    const payload = {
+      driver_name,
+      driver_phone_number,
+      status,
+      address: [address],
+    };
     setLoading(true);
     await authAxios()
-      .put(`/tracking/update-tracking/${locationID}`, payload)
+      .put(`/tracking/update-tracking/${trackingID}`, payload)
       .then(
         (response) => {
           setLoading(false);

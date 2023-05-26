@@ -20,7 +20,7 @@ const SubscriptionDetail = (props: MyComponentProps) => {
   const { user } = useSelector((state: RootState) => state.auth);
   const [modal, setModal] = useState(false);
   const [subscription, setSubScription] = useState(null);
-  const [locationID, setLocationID] = useState("646f4b432914d81e107ee0e8");
+  const [trackingID, settrackingID] = useState("646f4b432914d81e107ee0e8");
 
   useEffect(() => {
     getSubscriptionDetails();
@@ -140,8 +140,7 @@ const SubscriptionDetail = (props: MyComponentProps) => {
       {modal && (
         <UpdateLocation
           modal={modal}
-          subscription={subscription}
-          locationID={locationID}
+          trackingID={trackingID}
           getListingData={getSubscriptionDetails}
           closeModal={(isModal: boolean) => setModal(isModal)}
         />
