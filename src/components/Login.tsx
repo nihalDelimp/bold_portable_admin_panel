@@ -63,7 +63,15 @@ const Login = (props: MyComponentProps) => {
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data.message);
+          if (error.response.data.message) {
+            toast.error(error.response.data.message);
+          } else {
+            const obj = error.response.data.errors[0];
+            const errormsg = Object.values(obj) || [];
+            if (errormsg && errormsg.length > 0) {
+              toast.error(`${errormsg[0]}`);
+            }
+          }
         }
       )
       .catch((error) => {
