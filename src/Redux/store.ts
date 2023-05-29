@@ -30,11 +30,11 @@ const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }),
+  }).concat(logger),
  // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 })
 
-if (process.env.NODE_ENV === 'development' && module.hot) {
+if (process.env.REACT_APP_NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./rootReducer', () => {
     const newRootReducer = require('./rootReducer').default
     store.replaceReducer(newRootReducer)
