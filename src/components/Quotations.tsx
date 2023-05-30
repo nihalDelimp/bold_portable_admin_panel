@@ -130,20 +130,17 @@ const Quotations = (props: MyComponentProps) => {
     }
   };
 
-  const setBackgroundColor = (status : string) => {
-          if(status === 'pending') {
-            return 'bg-warning'
-          }
-          else if (status === 'cancelled'){
-            return 'bg-danger'
-          }
-          else if (status === 'complete'){
-            return 'bg-success'
-          }
-          else{
-            return 'bg-primary'
-          }
-  }
+  const setBackgroundColor = (status: string) => {
+    if (status === "pending") {
+      return "bg-warning";
+    } else if (status === "cancelled") {
+      return "bg-danger";
+    } else if (status === "complete") {
+      return "bg-success";
+    } else {
+      return "bg-primary";
+    }
+  };
 
   return (
     <div className="nk-content">
@@ -267,14 +264,14 @@ const Quotations = (props: MyComponentProps) => {
                     </div>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                    <span className="d-none d-sm-block">Name</span>
+                    <span className="d-none d-sm-block">Customer Name</span>
                   </div>
                   <div className="nk-tb-col tb-col-sm">
-                    <span>Email Address</span>
+                    <span>Customer Email</span>
                   </div>
-                  <div className="nk-tb-col tb-col-md">
+                  {/* <div className="nk-tb-col tb-col-md">
                     <span>Phone Number</span>
-                  </div>
+                  </div> */}
                   <div className="nk-tb-col tb-col-md">
                     <span>Distance From Kelowna</span>
                   </div>
@@ -284,12 +281,11 @@ const Quotations = (props: MyComponentProps) => {
                   <div className="nk-tb-col tb-col-md">
                     <span>Type</span>
                   </div>
-
-                  <div className="nk-tb-col tb-col-md">
-                    <span>Service Frequency</span>
-                  </div>
                   <div className="nk-tb-col tb-col-md">
                     <span>Status</span>
+                  </div>
+                  <div className="nk-tb-col tb-col-md">
+                    <span>Created At</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
                     <span className="sub-text">Action</span>
@@ -318,12 +314,11 @@ const Quotations = (props: MyComponentProps) => {
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">{item.coordinator.email}</span>
                       </div>
-                      <div className="nk-tb-col tb-col-sm">
+                      {/* <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
                           {item.coordinator.cellNumber}
                         </span>
-                      </div>
-                    
+                      </div> */}
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
                           {item.distanceFromKelowna} km
@@ -333,16 +328,25 @@ const Quotations = (props: MyComponentProps) => {
                         <span className="tb-sub">{item.maxWorkers}</span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{CapitalizeFirstLetter(item.type)}</span>
+                        <span className="tb-sub">
+                          {CapitalizeFirstLetter(item.type)}
+                        </span>
                       </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{item.serviceFrequency}</span>
-                      </div>
+
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-odr-status">
-                          <span className={`badge badge-dot ${setBackgroundColor(item.status)}`}>
+                          <span
+                            className={`badge badge-dot ${setBackgroundColor(
+                              item.status
+                            )}`}
+                          >
                             {item.status}
                           </span>
+                        </span>
+                      </div>
+                      <div className="nk-tb-col tb-col-sm">
+                        <span className="tb-sub">
+                          {getFormatedDate(item.createdAt)}
                         </span>
                       </div>
                       <div className="nk-tb-col nk-tb-col-tools">
