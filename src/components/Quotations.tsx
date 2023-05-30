@@ -326,7 +326,7 @@ const Quotations = (props: MyComponentProps) => {
                     
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
-                          {item.distanceFromKelowna}
+                          {item.distanceFromKelowna} km
                         </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">

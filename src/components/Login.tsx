@@ -130,7 +130,7 @@ const Login = (props: MyComponentProps) => {
                       type="email"
                       className="form-control form-control-lg"
                       id="default-01"
-                      placeholder="Enter your email address"
+                      placeholder="Email"
                       required
                       value={userInput.email}
                       onChange={handleChange}
@@ -158,7 +158,7 @@ const Login = (props: MyComponentProps) => {
                       type={showPassword ? "text" : "password"}
                       className="form-control form-control-lg"
                       id="password"
-                      placeholder="Enter your password"
+                      placeholder="Password"
                       required
                       value={userInput.password}
                       name="password"
