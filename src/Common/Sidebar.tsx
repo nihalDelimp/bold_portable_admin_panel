@@ -83,7 +83,7 @@ function Sidebar() {
                   pathName === "/products" ? "active" : ""
                 }`}
               >
-                <Link to = "/products" className="nk-menu-link">
+                <Link to="/products" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-package-fill"></em>
                   </span>
@@ -124,6 +124,18 @@ function Sidebar() {
                     <em className="icon ni ni-calendar-check-fill"></em>
                   </span>
                   <span className="nk-menu-text">Quotations</span>
+                </NavLink>
+              </li>
+              <li
+                className={`nk-menu-item ${
+                  pathName === "/send-email" ? "active" : ""
+                }`}
+              >
+                <NavLink to="/send-email" className="nk-menu-link">
+                  <span className="nk-menu-icon">
+                    <em className="icon ni ni-mail-fill"></em>
+                  </span>
+                  <span className="nk-menu-text">Send Email</span>
                 </NavLink>
               </li>
             </ul>

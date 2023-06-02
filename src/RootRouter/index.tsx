@@ -15,6 +15,7 @@ import NotificationDetails from "../components/NotificationDetails";
 import InvoiceDetail from "../components/InvoiceDetail";
 import Quotations from "../components/Quotations";
 import SubscriptionDetail from "../components/SubscriptionDetail";
+import SendEmail from "../components/SendEmail";
 
 function RootRouter() {
   return (
@@ -110,11 +111,19 @@ function RootRouter() {
               </PrivateRoute>
             }
           />
-            <Route
+          <Route
             path="/subscription-detail/:id"
             element={
               <PrivateRoute>
                 <SubscriptionDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/send-email"
+            element={
+              <PrivateRoute>
+                <SendEmail />
               </PrivateRoute>
             }
           />
