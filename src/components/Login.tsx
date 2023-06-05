@@ -10,9 +10,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RootState } from "../Redux/rootReducer";
 import { useAppDispatch } from "../Redux/store";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+
 import IsLoadingHOC from "../Common/IsLoadingHOC";
+import { trimObjValues } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -37,11 +37,10 @@ const Login = (props: MyComponentProps) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("user", userInput);
-    const payload = userInput;
+    const requestPayload = trimObjValues(userInput);
     setLoading(true);
     await withoutAuthAxios()
-      .post("/auth/login", payload)
+      .post("/auth/login", requestPayload)
       .then(
         (response) => {
           setLoading(false);

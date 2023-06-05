@@ -4,6 +4,8 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import { useDispatch } from "react-redux";
+import { saveAllNotification } from "../Redux/Reducers/notificationSlice";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -13,6 +15,8 @@ const NotificationDetails = (props: MyComponentProps) => {
   const [notification, setNotifaction] = useState<any>({});
   const [coordinator, setCoordinator] = useState<any>({});
   const [quotation, setQuotation] = useState<any>({});
+  const dispatch = useDispatch()
+
 
   const { setLoading } = props;
   const params = useParams();
@@ -20,6 +24,47 @@ const NotificationDetails = (props: MyComponentProps) => {
   useEffect(() => {
     getSpecificNotification();
   }, [params]);
+
+  const markSpecificNotificationSeen = async (_id: any) => {
+    setLoading(true);
+    await authAxios()
+      .patch(`/notification/${_id}/mark-specific-notification-as-seen`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            getAllNotifications()
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const getAllNotifications = async () => {
+    await authAxios()
+      .get(`/notification/get-all-unseen-notfications`)
+      .then(
+        (response) => {
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            dispatch(saveAllNotification(resData))
+          }
+        },
+        (error) => {
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
 
   const getSpecificNotification = async () => {
     setLoading(true);
@@ -35,6 +80,7 @@ const NotificationDetails = (props: MyComponentProps) => {
             if (resData.type === "CREATE_QUOTE") {
               setCoordinator(resData?.quote_id?.coordinator);
               setQuotation(resData?.quote_id);
+              markSpecificNotificationSeen(params.id);
             }
           }
         },
@@ -47,7 +93,6 @@ const NotificationDetails = (props: MyComponentProps) => {
         console.log("errorrrr", error);
       });
   };
-  console.log("notificationsDetails_Admin", notification);
 
   return (
     <div className="nk-content">
@@ -221,26 +266,21 @@ const NotificationDetails = (props: MyComponentProps) => {
 
                           <div className="data-item">
                             <div className="data-col">
-                              <span className="data-label">
-                              Use at night
-                              </span>
+                              <span className="data-label">Use at night</span>
                               <span className="data-value">
-                                {quotation?.useAtNight ? 'Yes' : 'No'}
+                                {quotation?.useAtNight ? "Yes" : "No"}
                               </span>
                             </div>
                           </div>
 
                           <div className="data-item">
                             <div className="data-col">
-                              <span className="data-label">
-                              use in winter
-                              </span>
+                              <span className="data-label">use in winter</span>
                               <span className="data-value">
-                                {quotation?.useInWinter ? 'Yes' : 'No'}
+                                {quotation?.useInWinter ? "Yes" : "No"}
                               </span>
                             </div>
                           </div>
-                          
                         </div>
                       )}
 

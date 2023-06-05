@@ -4,8 +4,12 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "./IsLoadingHOC";
 import io, { Socket } from "socket.io-client";
 import dayjs from "dayjs";
+import { useDispatch } from "react-redux";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Link } from "react-router-dom";
+import { saveAllNotification } from "../Redux/Reducers/notificationSlice";
+import { RootState } from "../Redux/rootReducer";
+import { useSelector } from "react-redux";
 dayjs.extend(relativeTime);
 
 interface MyComponentProps {
@@ -14,8 +18,9 @@ interface MyComponentProps {
 
 const Notification = (props: MyComponentProps) => {
   const { setLoading } = props;
-  const [allNotifucations, setAllNotifications] = useState<any[]>([]);
+  const { allNotification } = useSelector((state: RootState) => state.notification);
 
+  const dispatch = useDispatch()
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
@@ -46,7 +51,7 @@ const Notification = (props: MyComponentProps) => {
         (response) => {
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setAllNotifications(resData);
+            dispatch(saveAllNotification(resData))
           }
         },
         (error) => {
@@ -87,7 +92,6 @@ const Notification = (props: MyComponentProps) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-           // toast.success(response.data.message);
             getAllNotifications();
           }
         },
@@ -110,7 +114,7 @@ const Notification = (props: MyComponentProps) => {
       >
         <div
           className={
-            allNotifucations && allNotifucations.length > 0
+            allNotification && allNotification.length > 0
               ? "icon-status icon-status-info"
               : ""
           }
@@ -122,14 +126,14 @@ const Notification = (props: MyComponentProps) => {
         <div className="dropdown-head">
           <span className="sub-title nk-dropdown-title">Notifications</span>
           <a href="#" onClick={markAllNotificationsSeen}>
-            {allNotifucations.length > 0 && "Mark All as Read"}
+            {allNotification.length > 0 && "Mark All as Read"}
           </a>
         </div>
         <div className="dropdown-body">
           <div className="nk-notification">
-            {allNotifucations &&
-              allNotifucations.length > 0 &&
-              allNotifucations.map((item: any, index: number) => {
+            {allNotification &&
+              allNotification.length > 0 &&
+              allNotification.map((item: any, index: number) => {
                 if (!item.status_seen) {
                   return (
                     <div
