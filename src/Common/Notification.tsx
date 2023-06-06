@@ -18,9 +18,11 @@ interface MyComponentProps {
 
 const Notification = (props: MyComponentProps) => {
   const { setLoading } = props;
-  const { allNotification } = useSelector((state: RootState) => state.notification);
-
-  const dispatch = useDispatch()
+  const { allNotification } = useSelector(
+    (state: RootState) => state.notification
+  );
+  console.log("allNotification", allNotification);
+  const dispatch = useDispatch();
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
@@ -51,7 +53,7 @@ const Notification = (props: MyComponentProps) => {
         (response) => {
           if (response.data.status === 1) {
             const resData = response.data.data;
-            dispatch(saveAllNotification(resData))
+            dispatch(saveAllNotification(resData));
           }
         },
         (error) => {
@@ -114,7 +116,7 @@ const Notification = (props: MyComponentProps) => {
       >
         <div
           className={
-            allNotification && allNotification.length > 0
+            allNotification && allNotification?.length > 0
               ? "icon-status icon-status-info"
               : ""
           }
@@ -126,13 +128,13 @@ const Notification = (props: MyComponentProps) => {
         <div className="dropdown-head">
           <span className="sub-title nk-dropdown-title">Notifications</span>
           <a href="#" onClick={markAllNotificationsSeen}>
-            {allNotification.length > 0 && "Mark All as Read"}
+            {allNotification && allNotification?.length > 0 && "Mark All as Read"}
           </a>
         </div>
         <div className="dropdown-body">
           <div className="nk-notification">
             {allNotification &&
-              allNotification.length > 0 &&
+              allNotification?.length > 0 &&
               allNotification.map((item: any, index: number) => {
                 if (!item.status_seen) {
                   return (
