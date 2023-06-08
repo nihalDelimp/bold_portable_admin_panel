@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import moment from "moment";
+import { socketService } from "../config/socketService";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -185,6 +186,9 @@ function EditQuotation(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
+            socketService.connect().then((socket: any) => {
+              socket.emit("update_quote", response.data.data);
+            });
             toast.success(response.data.message);
             closeModal(false);
             getQuotationData();
@@ -449,7 +453,7 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                      
+
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -470,7 +474,7 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                       <div className="col-md-3">
+                      <div className="col-md-3">
                         <div className="form-group">
                           <label
                             className="form-label"
@@ -668,8 +672,6 @@ function EditQuotation(props: MyComponentProps) {
                         </div>
                       </div>
 
-                      
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -835,7 +837,7 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                       <div className="col-md-3">
+                      <div className="col-md-3">
                         <div className="form-group">
                           <label
                             className="form-label"
@@ -909,7 +911,7 @@ function EditQuotation(props: MyComponentProps) {
                           </li>
                           <li>
                             <button type="submit" className="btn btn-success">
-                             Send Invoice
+                              Send Invoice
                             </button>
                           </li>
                           <li>

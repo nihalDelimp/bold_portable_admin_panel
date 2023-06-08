@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import moment from "moment";
+import { socketService } from "../config/socketService";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -174,6 +175,9 @@ function EditEventQuotation(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
+            socketService.connect().then((socket: any) => {
+              socket.emit("update_quote", response.data.data);
+            });
             toast.success(response.data.message);
             closeModal(false);
             getQuotationData();

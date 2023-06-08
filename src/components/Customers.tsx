@@ -84,7 +84,7 @@ function Customers(props: MyComponentProps) {
                               />
                             </div>
                           </li>
-                          <li>
+                          {/* <li>
                             <div className="drodown">
                               <a
                                 href="#"
@@ -113,8 +113,8 @@ function Customers(props: MyComponentProps) {
                                 </ul>
                               </div>
                             </div>
-                          </li>
-                          <li className="nk-block-tools-opt">
+                          </li> */}
+                          {/* <li className="nk-block-tools-opt">
                             <button
                               type="button"
                               className="btn btn-icon btn-primary d-md-none"
@@ -128,7 +128,7 @@ function Customers(props: MyComponentProps) {
                               <em className="icon ni ni-plus"></em>
                               <span>Add</span>
                             </button>
-                          </li>
+                          </li> */}
                         </ul>
                       </div>
                     </div>
@@ -221,30 +221,11 @@ function Customers(props: MyComponentProps) {
                                       <span>View Details</span>
                                     </Link>
                                   </li>
-                                  <li>
+                                  {/* <li>
                                     <Link to="/orders">
                                       <em className="icon ni ni-repeat"></em>
                                       <span>Orders</span>
                                     </Link>
-                                  </li>
-                                  {/* <li>
-                                    <a href="#">
-                                      <em className="icon ni ni-activity-round"></em>
-                                      <span>Activities</span>
-                                    </a>
-                                  </li> */}
-                                  {/* <li className="divider"></li> */}
-                                  {/* <li>
-                                    <a href="#">
-                                      <em className="icon ni ni-shield-star"></em>
-                                      <span>Reset Pass</span>
-                                    </a>
-                                  </li> */}
-                                  {/* <li>
-                                    <a href="#">
-                                      <em className="icon ni ni-na"></em>
-                                      <span>Suspend</span>
-                                    </a>
                                   </li> */}
                                 </ul>
                               </div>
