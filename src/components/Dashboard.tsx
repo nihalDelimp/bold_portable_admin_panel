@@ -42,7 +42,7 @@ function Dashboard(props: MyComponentProps) {
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data?.message);
+         // toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
@@ -67,7 +67,7 @@ function Dashboard(props: MyComponentProps) {
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data?.message);
+         // toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
@@ -91,7 +91,7 @@ function Dashboard(props: MyComponentProps) {
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data?.message);
+        //  toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
