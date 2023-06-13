@@ -183,9 +183,9 @@ const Notification = (props: MyComponentProps) => {
               })}
           </div>
         </div>
-        <div className="dropdown-foot center">
+        {/* <div className="dropdown-foot center">
           <a href="#">View All</a>
-        </div>
+        </div> */}
       </div>
     </li>
   );

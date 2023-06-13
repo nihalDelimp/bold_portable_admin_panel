@@ -22,6 +22,7 @@ const ViewCustomer = (props: MyComponentProps) => {
     email: "",
     mobile: "",
     profile_image: "",
+    address: "",
   });
 
   useEffect(() => {
@@ -37,7 +38,13 @@ const ViewCustomer = (props: MyComponentProps) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            const userFields = ["name", "email", "profile_image", "mobile"];
+            const userFields = [
+              "name",
+              "email",
+              "profile_image",
+              "mobile",
+              "address",
+            ];
             userFields.forEach((field) => {
               setCustomer((prev) => ({
                 ...prev,
@@ -118,9 +125,9 @@ const ViewCustomer = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">Address</span>
                               <span className="data-value">
-                                132 Ashok Nagar, New Delhi
-                                <br />
-                                Delhi, India
+                                {customer?.address
+                                  ? customer.address
+                                  : "Not Available"}
                               </span>
                             </div>
                           </div>

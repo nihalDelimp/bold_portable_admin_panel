@@ -66,7 +66,7 @@ function Sidebar() {
                   <span className="nk-menu-text">Dashboard</span>
                 </NavLink>
               </li>
-              <li
+              {/* <li
                 className={`nk-menu-item ${
                   pathName === "/orders" ? "active" : ""
                 }`}
@@ -89,7 +89,7 @@ function Sidebar() {
                   </span>
                   <span className="nk-menu-text">Products</span>
                 </Link>
-              </li>
+              </li> */}
               <li
                 className={`nk-menu-item ${
                   pathName === "/customers" ? "active" : ""
