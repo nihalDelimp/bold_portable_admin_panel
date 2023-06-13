@@ -150,13 +150,13 @@ const NotificationDetails = (props: MyComponentProps) => {
                         <div className="nk-data">
                           <div className="data-head">
                             <h6 className="overline-title">
-                              Coordinator details
+                            Project Manager details
                             </h6>
                           </div>
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">
-                                Coordinator name
+                              Project Manager name
                               </span>
                               <span className="data-value">
                                 {coordinator?.name}
@@ -166,7 +166,7 @@ const NotificationDetails = (props: MyComponentProps) => {
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">
-                                Coordinator email
+                              Project Manager email
                               </span>
                               <span className="data-value">
                                 {coordinator?.email}
@@ -176,7 +176,7 @@ const NotificationDetails = (props: MyComponentProps) => {
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">
-                                Coordinator cell number
+                              Project Manager cell number
                               </span>
                               <span className="data-value">
                                 {coordinator?.cellNumber}
@@ -185,7 +185,6 @@ const NotificationDetails = (props: MyComponentProps) => {
                           </div>
                         </div>
                       )}
-
                       {notification.type === "CREATE_QUOTE" && (
                         <div className="nk-data">
                           <div className="data-head">
