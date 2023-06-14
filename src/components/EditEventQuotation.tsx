@@ -203,7 +203,7 @@ function EditEventQuotation(props: MyComponentProps) {
       style={{ display: editProductModal ? "block" : "none" }}
       role="dialog"
     >
-      <div className="modal-dialog modal-lg" role="document">
+      <div className="modal-dialog modal-lg modal-dialog-top" role="document">
         <div className="modal-content">
           <a
             onClick={() => closeModal(false)}

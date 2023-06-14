@@ -3,30 +3,50 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import CreatableSelect from "react-select/creatable";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
-  invoiceData: any;
   modal: boolean;
   closeModal: (isModal: boolean) => void;
   getListingData: () => void;
 }
+//  name, categories, description
+function AddService(props: MyComponentProps) {
+  const { setLoading, modal, closeModal, getListingData } = props;
+  const [selectedOption, setSelectedOption] = useState(null);
 
-function SaveLocation(props: MyComponentProps) {
-  const { setLoading, invoiceData, modal, closeModal, getListingData } = props;
-  const [userData, setUserData] = useState({
-    subscriptionId: invoiceData._id,
-    quotationId: invoiceData.quotationId,
-    quotationType : invoiceData.quotationType,
-    address: "",
-    driver_name: "",
-    driver_phone_number: "",
-    status: "modified",
+  const [options, setOptions] = useState([]);
+
+  const [serviceData, setServiceData] = useState({
+    name: "",
+    categories: [],
+    description: "",
   });
+
+  const handleSelectChange = (options: any) => {
+    setSelectedOption(options);
+    let selected_value: any = [];
+    options.map((item: any) => selected_value.push(item.value));
+    setServiceData((prev) => ({
+      ...prev,
+      categories: selected_value,
+    }));
+  };
+
+  console.log("serviceData", serviceData);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserData((prev) => ({
+    setServiceData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setServiceData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -34,29 +54,35 @@ function SaveLocation(props: MyComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const payload = userData;
-    setLoading(true);
-    await authAxios()
-      .post("/tracking/save-tracking", payload)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success(response.data?.message);
-            getListingData();
-            closeModal(false);
-          } else {
-            toast.error(response.data?.message);
+    const payload = serviceData;
+    if (payload.categories.length === 0) {
+      toast.error("Service category is required!");
+    } else if (payload.description.length < 10) {
+      toast.error("Description must be at least 10 characters long!");
+    } else {
+      setLoading(true);
+      await authAxios()
+        .post("/service/save", payload)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              toast.success(response.data?.message);
+              getListingData();
+              closeModal(false);
+            } else {
+              toast.error(response.data?.message);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            toast.error(error.response.data?.message);
           }
-        },
-        (error) => {
-          setLoading(false);
-          toast.error(error.response.data.message);
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
+        )
+        .catch((error) => {
+          console.log("errorrrr", error);
+        });
+    }
   };
 
   return (
@@ -75,7 +101,7 @@ function SaveLocation(props: MyComponentProps) {
             <em className="icon ni ni-cross-sm"></em>
           </a>
           <div className="modal-body modal-body-md">
-            <h5 className="title">Save Order Location</h5>
+            <h5 className="title">Add new service</h5>
             <div className="tab-content">
               <div className="tab-pane active" id="personal">
                 <form onSubmit={handleSubmit}>
@@ -83,52 +109,49 @@ function SaveLocation(props: MyComponentProps) {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
-                          Driver Name
+                          Service name
                         </label>
                         <input
                           type="text"
                           required
-                          minLength={5}
+                          minLength={4}
                           onChange={handleChange}
-                          name="driver_name"
-                          value={userData.driver_name}
+                          name="name"
+                          value={serviceData.name}
                           className="form-control"
-                          id="driver_name"
-                          placeholder="Enter Name"
+                          id="name"
+                          placeholder="Service name"
                         />
                       </div>
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="phone-no">
-                          Driver Phone
+                          Service categories
                         </label>
-                        <input
-                          type="number"
-                          required
-                          className="form-control"
-                          onChange={handleChange}
-                          name="driver_phone_number"
-                          value={userData.driver_phone_number}
-                          placeholder="Phone Number"
+                        <CreatableSelect
+                          isMulti
+                          value={selectedOption}
+                          options={options}
+                          onChange={handleSelectChange}
+                          placeholder="Createable"
                         />
                       </div>
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
-                          Address
+                          Description
                         </label>
-                        <input
-                          type="text"
+                        <textarea
                           required
-                          minLength={8}
-                          onChange={handleChange}
-                          name="address"
-                          value={userData.address}
+                          minLength={10}
+                          onChange={handleChangeTextArea}
+                          name="description"
+                          value={serviceData.description}
                           className="form-control"
-                          id="address"
-                          placeholder="Enter Address"
+                          id="description"
+                          placeholder="Enter description..."
                         />
                       </div>
                     </div>
@@ -162,6 +185,4 @@ function SaveLocation(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(SaveLocation));
-
-
+export default IsLoadingHOC(IsLoggedinHOC(AddService));

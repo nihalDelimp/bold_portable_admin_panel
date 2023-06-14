@@ -5,23 +5,22 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFirstChartByFullName } from "../Helper";
+import { getDateWithoutTime, getFirstChartByFullName } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function Customers(props: MyComponentProps) {
+function CustomersList(props: MyComponentProps) {
   const { setLoading } = props;
   const [customers, setCustomers] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
 
-
   useEffect(() => {
     getCustomerListData();
-  }, [currentPage , itemsPerPage]);
+  }, [currentPage, itemsPerPage]);
 
   const getCustomerListData = async () => {
     setLoading(true);
@@ -31,9 +30,9 @@ function Customers(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resData = response.data.data
+            const resData = response.data.data;
             setCustomers(resData.users);
-            setTotalCount(resData?.total)
+            setTotalCount(resData?.total);
           }
         },
         (error) => {
@@ -149,6 +148,9 @@ function Customers(props: MyComponentProps) {
                       </div>
                     </div>
                     <div className="nk-tb-col">
+                      <span className="sub-text">ID</span>
+                    </div>
+                    <div className="nk-tb-col">
                       <span className="sub-text">User Name</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
@@ -157,84 +159,100 @@ function Customers(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Email</span>
                     </div>
+                    <div className="nk-tb-col tb-col-lg">
+                      <span className="sub-text">Address</span>
+                    </div>
                     <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Status</span>
+                      <span className="sub-text">Created At</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
 
-                  {customers && customers.length > 0 &&
-                  customers.map((item: any, index) => (
-                    <div key={index + 1} className="nk-tb-item">
-                      <div className="nk-tb-col nk-tb-col-check">
-                        <div className="custom-control custom-control-sm custom-checkbox notext">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="uid1"
-                          />
-                          <label className="custom-control-label"></label>
-                        </div>
-                      </div>
-                      <div className="nk-tb-col">
-                        <a href="html/ecommerce/customer-details.html">
-                          <div className="user-card">
-                            <div className="user-avatar bg-primary">
-                              <span>{getFirstChartByFullName(item?.name)}</span>
-                            </div>
-                            <div className="user-info">
-                              <span className="tb-lead">
-                                {item?.name}{" "}
-                                <span className="dot dot-success d-md-none ms-1"></span>
-                              </span>
-                            </div>
+                  {customers &&
+                    customers.length > 0 &&
+                    customers.map((item: any, index) => (
+                      <div key={index + 1} className="nk-tb-item">
+                        <div className="nk-tb-col nk-tb-col-check">
+                          <div className="custom-control custom-control-sm custom-checkbox notext">
+                            <input
+                              type="checkbox"
+                              className="custom-control-input"
+                              id="uid1"
+                            />
+                            <label className="custom-control-label"></label>
                           </div>
-                        </a>
-                      </div>
-                      <div className="nk-tb-col tb-col-md">
-                        <span>{item.mobile}</span>
-                      </div>
-                      <div className="nk-tb-col tb-col-lg">
-                        <span>{item.email}</span>
-                      </div>
-                      <div className="nk-tb-col tb-col-md">
-                        <span className="tb-status text-success">Active</span>
-                      </div>
-                      <div className="nk-tb-col nk-tb-col-tools">
-                        <ul className="gx-1">
-                          <li>
-                            <div className="drodown">
-                              <a
-                                href="#"
-                                className="dropdown-toggle btn btn-icon btn-trigger"
-                                data-bs-toggle="dropdown"
-                              >
-                                <em className="icon ni ni-more-h"></em>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <Link to={`/view-user/${item._id}`}>
-                                      <em className="icon ni ni-eye"></em>
-                                      <span>View Details</span>
-                                    </Link>
-                                  </li>
-                                  {/* <li>
+                        </div>
+                        <div className="nk-tb-col">
+                          <span className="tb-status text-primary">
+                          {item._id?.slice(-8)?.toUpperCase()}
+                          </span>
+                        </div>
+                        <div className="nk-tb-col">
+                          <a href="html/ecommerce/customer-details.html">
+                            <div className="user-card">
+                              {/* <div className="user-avatar bg-primary">
+                                <span>
+                                  {getFirstChartByFullName(item?.name)}
+                                </span>
+                              </div> */}
+                              <div className="user-info">
+                                <span className="tb-lead">
+                                  {item?.name}{" "}
+                                  <span className="dot dot-success d-md-none ms-1"></span>
+                                </span>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                        <div className="nk-tb-col tb-col-md">
+                          <span>{item.mobile}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>{item.email}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-md">
+                          <span>
+                            {item.address ? item.address : "Not Available"}
+                          </span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>{getDateWithoutTime(item?.createdAt)}</span>
+                        </div>
+                        <div className="nk-tb-col nk-tb-col-tools">
+                          <ul className="gx-1">
+                            <li>
+                              <div className="drodown">
+                                <a
+                                  href="#"
+                                  className="dropdown-toggle btn btn-icon btn-trigger"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <em className="icon ni ni-more-h"></em>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-end">
+                                  <ul className="link-list-opt no-bdr">
+                                    <li>
+                                      <Link to={`/view-user/${item._id}`}>
+                                        <em className="icon ni ni-eye"></em>
+                                        <span>View Details</span>
+                                      </Link>
+                                    </li>
+                                    {/* <li>
                                     <Link to="/orders">
                                       <em className="icon ni ni-repeat"></em>
                                       <span>Orders</span>
                                     </Link>
                                   </li> */}
-                                </ul>
+                                  </ul>
+                                </div>
                               </div>
-                            </div>
-                          </li>
-                        </ul>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
                 {customers && customers.length > 0 && (
                   <Pagination
@@ -243,9 +261,9 @@ function Customers(props: MyComponentProps) {
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     onChangePageLimit={(page: number) => setItemPerPage(page)}
-                    resData = {customers}
+                    resData={customers}
                   />
-                )} 
+                )}
               </div>
             </div>
           </div>
@@ -255,4 +273,4 @@ function Customers(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(Customers));
+export default IsLoadingHOC(IsLoggedinHOC(CustomersList));

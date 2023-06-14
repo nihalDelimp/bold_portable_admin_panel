@@ -4,18 +4,19 @@ import PrivateRoute from "./PrivateRoute";
 import Login from "../components/Login";
 import Home from "../components/Dashboard";
 import ProductList from "../components/ProductList";
-import Customers from "../components/Customers";
+import CustomersList from "../components/CustomersList";
 import PageNoteFound from "../components/PageNotFound";
 import AdminProfile from "../Common/AdminProfile";
 import ViewProduct from "../components/ViewProduct";
 import ViewCustomer from "../components/ViewCustomer";
 import Orders from "../components/Orders";
-import InvoicesList from "../components/SubscriptionList";
+import SubscriptionList from "../components/SubscriptionList";
 import NotificationDetails from "../components/NotificationDetails";
 import InvoiceDetail from "../components/InvoiceDetail";
-import Quotations from "../components/Quotations";
+import QuotationsList from "../components/QuotationsList";
 import SubscriptionDetail from "../components/SubscriptionDetail";
 import SendEmail from "../components/SendEmail";
+import ServicesList from "../components/ServicesList";
 
 function RootRouter() {
   return (
@@ -59,7 +60,7 @@ function RootRouter() {
             path="/customers"
             element={
               <PrivateRoute>
-                <Customers />
+                <CustomersList />
               </PrivateRoute>
             }
           />
@@ -83,15 +84,23 @@ function RootRouter() {
             path="/quotations"
             element={
               <PrivateRoute>
-                <Quotations />
+                <QuotationsList />
               </PrivateRoute>
             }
           />
           <Route
-            path="/invoices"
+            path="/subscriptions"
             element={
               <PrivateRoute>
-                <InvoicesList />
+                <SubscriptionList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/services"
+            element={
+              <PrivateRoute>
+                <ServicesList />
               </PrivateRoute>
             }
           />

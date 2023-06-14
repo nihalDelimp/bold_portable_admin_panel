@@ -12,7 +12,7 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-const Quotations = (props: MyComponentProps) => {
+const QuotationsList = (props: MyComponentProps) => {
   const { setLoading } = props;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
@@ -263,6 +263,9 @@ const Quotations = (props: MyComponentProps) => {
                       ></label>
                     </div>
                   </div>
+                  <div className="nk-tb-col">
+                    <span className="sub-text">ID</span>
+                  </div>
                   <div className="nk-tb-col tb-col-md">
                     <span className="d-none d-sm-block">Customer Name</span>
                   </div>
@@ -307,6 +310,11 @@ const Quotations = (props: MyComponentProps) => {
                             htmlFor="oid01"
                           ></label>
                         </div>
+                      </div>
+                      <div className="nk-tb-col">
+                        <span className="tb-status text-primary">
+                          {item._id?.slice(-8)?.toUpperCase()}
+                        </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">{item.coordinator.name}</span>
@@ -439,4 +447,4 @@ const Quotations = (props: MyComponentProps) => {
   );
 };
 
-export default IsLoadingHOC(IsLoggedinHOC(Quotations));
+export default IsLoadingHOC(IsLoggedinHOC(QuotationsList));

@@ -284,7 +284,7 @@ function Dashboard(props: MyComponentProps) {
                               <div className="nk-tb-col">
                                 <span className="tb-lead">
                                   <a href="#">
-                                    <div>{item._id.slice(-6)}</div>
+                                    <div>{item._id.slice(-6).toUpperCase()}</div>
                                   </a>
                                 </span>
                               </div>

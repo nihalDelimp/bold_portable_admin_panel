@@ -104,10 +104,22 @@ function Sidebar() {
               </li>
               <li
                 className={`nk-menu-item ${
-                  pathName === "/invoices" ? "active" : ""
+                  pathName === "/services" ? "active" : ""
                 }`}
               >
-                <NavLink to="/invoices" className="nk-menu-link">
+                <NavLink to="/services" className="nk-menu-link">
+                  <span className="nk-menu-icon">
+                    <em className="icon ni ni-menu-squared"></em>
+                  </span>
+                  <span className="nk-menu-text">Services</span>
+                </NavLink>
+              </li>
+              <li
+                className={`nk-menu-item ${
+                  pathName === "/subscriptions" ? "active" : ""
+                }`}
+              >
+                <NavLink to="/subscriptions" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-file-docs"></em>
                   </span>

@@ -174,7 +174,7 @@ function SubscriptionList(props: MyComponentProps) {
                       </div>
                     </div>
                     <div className="nk-tb-col">
-                      <span className="sub-text">Order ID</span>
+                      <span className="sub-text">ID</span>
                     </div>
                     <div className="nk-tb-col">
                       <span className="sub-text">Customer</span>
@@ -214,7 +214,7 @@ function SubscriptionList(props: MyComponentProps) {
                         </div>
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
-                            #746F5K2
+                          {item.subscription?.slice(-8)?.toUpperCase()}
                           </span>
                         </div>
                         <div className="nk-tb-col">
