@@ -63,7 +63,9 @@ function InvoiceDetail(props: MyComponentProps) {
                 <div className="nk-block-head-content">
                   <h3 className="nk-block-title page-title">
                     Invoice{" "}
-                    <strong className="text-primary small">#746F5K2</strong>
+                    <strong className="text-primary small">
+                      #{paymetData && paymetData?.id && paymetData?.id.slice(-8)?.toUpperCase()}
+                    </strong>
                   </h3>
                   <div className="nk-block-des text-soft">
                     <ul className="list-inline">
@@ -78,7 +80,7 @@ function InvoiceDetail(props: MyComponentProps) {
                 </div>
                 <div className="nk-block-head-content">
                   <Link
-                    to="/invoices"
+                    to="/subscriptions"
                     className="btn btn-outline-light bg-white d-none d-sm-inline-flex"
                   >
                     <em className="icon ni ni-arrow-left"></em>
@@ -92,10 +94,9 @@ function InvoiceDetail(props: MyComponentProps) {
                 <div className="invoice-action">
                   <a
                     className="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary"
-                    href="html/invoice-print.html"
-                    target="_blank"
+                    href={paymetData?.invoice_pdf}
                   >
-                    <em className="icon ni ni-printer-fill"></em>
+                    <em className="icon ni ni-download"></em>
                   </a>
                 </div>
                 <div className="invoice-wrap">
@@ -114,15 +115,11 @@ function InvoiceDetail(props: MyComponentProps) {
                         <ul className="list-plain">
                           <li>
                             <em className="icon ni ni-map-pin-fill"></em>
-                            <span>
-                              House #65, 4328 Marion Street
-                              <br />
-                              Newbury, VT 05051
-                            </span>
+                            <span>{userData?.address}</span>
                           </li>
                           <li>
                             <em className="icon ni ni-call-fill"></em>
-                            <span>+{userData?.mobile}</span>
+                            <span>{userData?.mobile}</span>
                           </li>
                         </ul>
                       </div>
@@ -131,7 +128,12 @@ function InvoiceDetail(props: MyComponentProps) {
                       <h3 className="title">Invoice</h3>
                       <ul className="list-plain">
                         <li className="invoice-id">
-                          <span>Subscription ID</span>:<span>66K5W3</span>
+                          <span>Subscription ID</span>:
+                          <span>
+                            {subscription?.subscription
+                              ?.slice(-8)
+                              ?.toUpperCase()}
+                          </span>
                         </li>
                         <li className="invoice-date">
                           <span>Date</span>:
@@ -148,10 +150,10 @@ function InvoiceDetail(props: MyComponentProps) {
                       <table className="table table-striped">
                         <thead>
                           <tr>
-                            <th className="w-150px">Item ID</th>
+                            <th className="w-150px">ID</th>
                             <th className="w-60">Description</th>
                             <th>Email</th>
-                            <th>Phone</th>
+                            <th className="w-20">Phone</th>
                             <th>Quotation Type</th>
                             <th>Amount Due</th>
                             <th>Amount Remaining</th>
@@ -160,7 +162,11 @@ function InvoiceDetail(props: MyComponentProps) {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>{subscription?.subscription?.slice(15)}</td>
+                            <td>
+                              {subscription?.subscription
+                                ?.slice(-8)
+                                ?.toUpperCase()}
+                            </td>
                             <td>
                               Dashlite - Conceptual App Dashboard - Regular
                               License

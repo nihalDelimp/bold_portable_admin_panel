@@ -277,7 +277,7 @@ function SubscriptionList(props: MyComponentProps) {
                                             )
                                           }
                                         >
-                                          <em className="icon ni ni-plus-circle"></em>
+                                          <em className="icon ni ni-edit"></em>
                                           <span>Update Location</span>
                                         </a>
                                       </li>

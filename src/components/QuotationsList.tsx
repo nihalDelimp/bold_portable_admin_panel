@@ -420,7 +420,6 @@ const QuotationsList = (props: MyComponentProps) => {
                   resData={quotationData}
                 />
               )}
-
               {editModal && (
                 <EditQuotation
                   quotationId={quotationId}

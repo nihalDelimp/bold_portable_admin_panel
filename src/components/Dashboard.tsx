@@ -5,6 +5,8 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import { CapitalizeFirstLetter, getStringDate } from "../Helper";
+import EditQuotation from "./EditQuotation";
+import EditEventQuotation from "./EditEventQuotation";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -21,10 +23,15 @@ function Dashboard(props: MyComponentProps) {
   const [itemsPerPage] = useState<number>(10);
   const [quotationStatus] = useState<string>("all");
   const [statusName] = useState("");
+  const [quotationId, setQuotationId] = useState<string>("");
+  const [quotationType, setQuotationType] = useState<string>("");
+
+  const [editModal, setEditModal] = useState<boolean>(false);
+  const [editEventModal, setEditEventModal] = useState<boolean>(false);
 
   useEffect(() => {
+    getQuotationData();
     getCustomerCount();
-    getQuotationsCount();
     getSubscriberCount();
   }, []);
 
@@ -42,7 +49,7 @@ function Dashboard(props: MyComponentProps) {
         },
         (error) => {
           setLoading(false);
-         // toast.error(error.response.data?.message);
+          // toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
@@ -50,7 +57,7 @@ function Dashboard(props: MyComponentProps) {
       });
   };
 
-  const getQuotationsCount = async () => {
+  const getQuotationData = async () => {
     setLoading(true);
     await authAxios()
       .get(
@@ -67,7 +74,7 @@ function Dashboard(props: MyComponentProps) {
         },
         (error) => {
           setLoading(false);
-         // toast.error(error.response.data?.message);
+          // toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
@@ -91,12 +98,22 @@ function Dashboard(props: MyComponentProps) {
         },
         (error) => {
           setLoading(false);
-        //  toast.error(error.response.data?.message);
+          //  toast.error(error.response.data?.message);
         }
       )
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const handleSendInvoice = (quotation_id: string, type: string) => {
+    setQuotationId(quotation_id);
+    setQuotationType(type);
+    if (type === "event") {
+      setEditEventModal(true);
+    } else {
+      setEditModal(true);
+    }
   };
 
   const setBackgroundColor = (status: string) => {
@@ -137,7 +154,7 @@ function Dashboard(props: MyComponentProps) {
                       >
                         <ul className="nk-block-tools g-3">
                           <li className="nk-block-tools-opt">
-                            <Link to = '/quotations' className="btn btn-primary">
+                            <Link to="/quotations" className="btn btn-primary">
                               <em className="icon ni ni-reports"></em>
                               <span>View All Quotation </span>
                             </Link>
@@ -170,24 +187,25 @@ function Dashboard(props: MyComponentProps) {
                               </div>
                             </div>
                             <div className="info">
-                              <span className="change up text-danger">
-                                <em className="icon ni ni-arrow-long-up"></em>
-                                4.63%
-                              </span>
-                              <span> vs. last week</span>
+                              <Link to="/customers">
+                                <span className="change up text-danger">
+                                  More info
+                                  <em className="icon ni ni-arrow-long-right"></em>
+                                </span>
+                              </Link>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div> 
+                  </div>
                   <div className="col-xxl-3 col-sm-6">
                     <div className="card">
                       <div className="nk-ecwg nk-ecwg6">
                         <div className="card-inner">
                           <div className="card-title-group">
                             <div className="card-title">
-                              <h6 className="title">Orders</h6>
+                              <h6 className="title">Quotations</h6>
                             </div>
                           </div>
                           <div className="data">
@@ -201,11 +219,12 @@ function Dashboard(props: MyComponentProps) {
                               </div>
                             </div>
                             <div className="info">
-                              <span className="change up text-danger">
-                                <em className="icon ni ni-arrow-long-up"></em>
-                                4.63%
-                              </span>
-                              <span> vs. last week</span>
+                              <Link to="/quotations">
+                                <span className="change up text-danger">
+                                  More info
+                                  <em className="icon ni ni-arrow-long-right"></em>
+                                </span>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -232,11 +251,12 @@ function Dashboard(props: MyComponentProps) {
                               </div>
                             </div>
                             <div className="info">
-                              <span className="change down text-danger">
-                                <em className="icon ni ni-arrow-long-down"></em>
-                                2.34%
-                              </span>
-                              <span> vs. last week</span>
+                              <Link to="/subscriptions">
+                                <span className="change up text-danger">
+                                  More info
+                                  <em className="icon ni ni-arrow-long-right"></em>
+                                </span>
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -264,7 +284,8 @@ function Dashboard(props: MyComponentProps) {
                           <div className="nk-tb-col tb-col-sm">
                             <span>Phone</span>
                           </div>
-                          <div className="nk-tb-col tb-col-md"><span></span>
+                          <div className="nk-tb-col tb-col-md">
+                            <span></span>
                             <span>Date</span>
                           </div>
                           <div className="nk-tb-col">
@@ -276,6 +297,9 @@ function Dashboard(props: MyComponentProps) {
                           <div className="nk-tb-col">
                             <span className="d-none d-sm-inline">Status</span>
                           </div>
+                          <div className="nk-tb-col tb-col-md">
+                            <span className="sub-text">Action</span>
+                          </div>
                         </div>
                         {quotationData &&
                           quotationData.length > 0 &&
@@ -284,7 +308,9 @@ function Dashboard(props: MyComponentProps) {
                               <div className="nk-tb-col">
                                 <span className="tb-lead">
                                   <a href="#">
-                                    <div>{item._id.slice(-6).toUpperCase()}</div>
+                                    <div>
+                                      {item._id.slice(-6).toUpperCase()}
+                                    </div>
                                   </a>
                                 </span>
                               </div>
@@ -299,7 +325,7 @@ function Dashboard(props: MyComponentProps) {
                               </div>
                               <div className="nk-tb-col tb-col-md">
                                 <span className="tb-sub">
-                                {item.coordinator.cellNumber}
+                                  {item.coordinator.cellNumber}
                                 </span>
                               </div>
                               <div className="nk-tb-col tb-col-md">
@@ -309,7 +335,7 @@ function Dashboard(props: MyComponentProps) {
                               </div>
                               <div className="nk-tb-col">
                                 <span className="tb-sub tb-amount">
-                                {item.distanceFromKelowna} km
+                                  {item.distanceFromKelowna} km
                                 </span>
                               </div>
                               <div className="nk-tb-col">
@@ -326,6 +352,36 @@ function Dashboard(props: MyComponentProps) {
                                   {item.status}
                                 </span>
                               </div>
+
+                              <div className="nk-tb-col nk-tb-col-tools">
+                                <ul className="gx-1">
+                                  <li>
+                                    <div className="drodown me-n1">
+                                      <a
+                                        href="#"
+                                        className="dropdown-toggle btn btn-icon btn-trigger"
+                                        data-bs-toggle="dropdown"
+                                      >
+                                        <em className="icon ni ni-more-h"></em>
+                                      </a>
+                                      <div className="dropdown-menu dropdown-menu-end">
+                                        <ul className="link-list-opt no-bdr">
+                                          <li>
+                                            <a
+                                            // onClick={() =>
+                                            //   handleSendInvoice(item._id, item.type)
+                                            // }
+                                            >
+                                              <em className="icon ni ni-edit"></em>
+                                              <span>Send Invoice</span>
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
                             </div>
                           ))}
                       </div>
@@ -337,6 +393,24 @@ function Dashboard(props: MyComponentProps) {
           </div>
         </div>
       </div>
+      {editModal && (
+        <EditQuotation
+          quotationId={quotationId}
+          quotationType={quotationType}
+          editProductModal={editModal}
+          getQuotationData={getQuotationData}
+          closeModal={(isModal: boolean) => setEditModal(isModal)}
+        />
+      )}
+      {editEventModal && (
+        <EditEventQuotation
+          quotationId={quotationId}
+          quotationType={quotationType}
+          editProductModal={editEventModal}
+          getQuotationData={getQuotationData}
+          closeModal={(isModal: boolean) => setEditEventModal(isModal)}
+        />
+      )}
     </>
   );
 }
