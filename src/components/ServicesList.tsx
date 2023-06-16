@@ -250,7 +250,7 @@ function ServicesList(props: MyComponentProps) {
                                           handleUpdateServiceModal(item)
                                         }
                                       >
-                                        <em className="icon ni ni-plus-circle"></em>
+                                        <em className="icon ni ni-edit"></em>
                                         <span>Edit Service</span>
                                       </a>
                                     </li>
@@ -262,7 +262,7 @@ function ServicesList(props: MyComponentProps) {
                                         }
                                       >
                                         <em className="icon ni ni-trash"></em>
-                                        <span>Remove Product</span>
+                                        <span>Remove</span>
                                       </a>
                                     </li>
                                   </ul>
