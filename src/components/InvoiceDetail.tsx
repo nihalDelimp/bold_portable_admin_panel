@@ -64,7 +64,10 @@ function InvoiceDetail(props: MyComponentProps) {
                   <h3 className="nk-block-title page-title">
                     Invoice{" "}
                     <strong className="text-primary small">
-                      #{paymetData && paymetData?.id && paymetData?.id.slice(-8)?.toUpperCase()}
+                      #
+                      {paymetData &&
+                        paymetData?.id &&
+                        paymetData?.id.slice(-8)?.toUpperCase()}
                     </strong>
                   </h3>
                   <div className="nk-block-des text-soft">
@@ -111,7 +114,7 @@ function InvoiceDetail(props: MyComponentProps) {
                     <div className="invoice-contact">
                       <span className="overline-title">Invoice To</span>
                       <div className="invoice-contact-info">
-                        <h4 className="title">Gregory Ander son</h4>
+                        <h4 className="title">{userData?.name}</h4>
                         <ul className="list-plain">
                           <li>
                             <em className="icon ni ni-map-pin-fill"></em>
@@ -154,9 +157,7 @@ function InvoiceDetail(props: MyComponentProps) {
                             <th className="w-60">Description</th>
                             <th>Email</th>
                             <th className="w-20">Phone</th>
-                            <th>Quotation Type</th>
-                            <th>Amount Due</th>
-                            <th>Amount Remaining</th>
+                            <th className="w-15">Quotation Type</th>
                             <th>Amount Paid</th>
                           </tr>
                         </thead>
@@ -174,16 +175,14 @@ function InvoiceDetail(props: MyComponentProps) {
                             <td>{userData?.email}</td>
                             <td>{userData?.mobile}</td>
                             <td>{subscription?.quotationType}</td>
-                            <td>${paymetData?.amount_due}</td>
-                            <td>${paymetData?.amount_remaining}</td>
-                            <td>${paymetData?.amount_paid}</td>
+                            <td>${paymetData?.amount_paid / 100}</td>
                           </tr>
                         </tbody>
                         <tfoot>
                           <tr>
                             <td colSpan={2}></td>
                             <td colSpan={2}>Subtotal</td>
-                            <td>${paymetData?.subtotal}</td>
+                            <td>${paymetData?.subtotal / 100}</td>
                           </tr>
                           <tr>
                             <td colSpan={2}></td>
@@ -193,7 +192,7 @@ function InvoiceDetail(props: MyComponentProps) {
                           <tr>
                             <td colSpan={2}></td>
                             <td colSpan={2}>Grand Total</td>
-                            <td>${paymetData?.total}</td>
+                            <td>${paymetData?.total / 100}</td>
                           </tr>
                         </tfoot>
                       </table>
