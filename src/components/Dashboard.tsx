@@ -368,9 +368,12 @@ function Dashboard(props: MyComponentProps) {
                                         <ul className="link-list-opt no-bdr">
                                           <li>
                                             <a
-                                            // onClick={() =>
-                                            //   handleSendInvoice(item._id, item.type)
-                                            // }
+                                              onClick={() =>
+                                                handleSendInvoice(
+                                                  item._id,
+                                                  item.type
+                                                )
+                                              }
                                             >
                                               <em className="icon ni ni-edit"></em>
                                               <span>Send Invoice</span>

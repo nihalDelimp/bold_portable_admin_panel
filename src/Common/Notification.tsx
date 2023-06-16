@@ -25,7 +25,7 @@ const Notification = (props: MyComponentProps) => {
   const dispatch = useDispatch();
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
-
+ 
   useEffect(() => {
     if (socket.current) {
       socket.current.on("new_order_recieved", (recieved_order) => {
@@ -33,6 +33,10 @@ const Notification = (props: MyComponentProps) => {
         getAllNotifications();
       });
       socket.current.on("new_quote_recieved", (quote_recieved) => {
+        console.log("quote_recieved", quote_recieved);
+        getAllNotifications();
+      });
+      socket.current.on("user_service_saved", (quote_recieved) => {
         console.log("quote_recieved", quote_recieved);
         getAllNotifications();
       });
@@ -128,7 +132,9 @@ const Notification = (props: MyComponentProps) => {
         <div className="dropdown-head">
           <span className="sub-title nk-dropdown-title">Notifications</span>
           <a href="#" onClick={markAllNotificationsSeen}>
-            {allNotification && allNotification?.length > 0 && "Mark All as Read"}
+            {allNotification &&
+              allNotification?.length > 0 &&
+              "Mark All as Read"}
           </a>
         </div>
         <div className="dropdown-body">

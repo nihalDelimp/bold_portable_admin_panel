@@ -16,7 +16,7 @@ import InvoiceDetail from "../components/InvoiceDetail";
 import QuotationsList from "../components/QuotationsList";
 import SubscriptionDetail from "../components/SubscriptionDetail";
 import SendEmail from "../components/SendEmail";
-import ServicesList from "../components/ServicesList";
+import UserRequestServices from "../components/UserReqServices";
 
 function RootRouter() {
   return (
@@ -100,7 +100,7 @@ function RootRouter() {
             path="/services"
             element={
               <PrivateRoute>
-                <ServicesList />
+                <UserRequestServices />
               </PrivateRoute>
             }
           />
