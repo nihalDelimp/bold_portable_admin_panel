@@ -36,8 +36,8 @@ const Notification = (props: MyComponentProps) => {
         console.log("quote_recieved", quote_recieved);
         getAllNotifications();
       });
-      socket.current.on("user_service_saved", (quote_recieved) => {
-        console.log("quote_recieved", quote_recieved);
+      socket.current.on("request_service_received", (request_service) => {
+        console.log("request_service_received", request_service);
         getAllNotifications();
       });
     }
