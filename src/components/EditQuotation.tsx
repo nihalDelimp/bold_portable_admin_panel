@@ -886,7 +886,8 @@ function EditQuotation(props: MyComponentProps) {
                             Pickup Price
                           </label>
                           <input
-                            min={0}
+                            required
+                            min={1}
                             value={servicesPrice.pickUpPrice}
                             onChange={handleChangeServicePrice}
                             type="number"
