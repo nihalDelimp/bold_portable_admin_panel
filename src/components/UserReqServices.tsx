@@ -6,7 +6,6 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
 
-
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
@@ -121,7 +120,7 @@ function UserRequestServices(props: MyComponentProps) {
                       <span className="sub-text">Service Name</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Service Category</span>
+                      <span className="sub-text">Service Requirement</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>

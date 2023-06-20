@@ -174,7 +174,7 @@ function ServicesList(props: MyComponentProps) {
                       <span className="sub-text">Service Name</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Service Category</span>
+                      <span className="sub-text">Service Requirement</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Description</span>
@@ -220,7 +220,7 @@ function ServicesList(props: MyComponentProps) {
                             item.categories.length > 0 &&
                             item.categories.map((item: string) => (
                               <React.Fragment>
-                                <span>{item}</span>,
+                                <span>{item}</span>
                                 <br />
                               </React.Fragment>
                             ))}
