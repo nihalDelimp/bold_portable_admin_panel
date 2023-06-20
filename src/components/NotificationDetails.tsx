@@ -76,7 +76,7 @@ const NotificationDetails = (props: MyComponentProps) => {
             console.log(response.data);
             const resData = response.data.data;
             setNotifaction(response.data.data);
-            if (resData.type === "CREATE_QUOTE") {
+            if (resData.type === "CREATE_QUOTE" || resData.type === "SERVICE_REQUEST" ) {
               setCoordinator(resData?.quote_id?.coordinator);
               setQuotation(resData?.quote_id);
               markSpecificNotificationSeen(params.id);
@@ -221,24 +221,6 @@ const NotificationDetails = (props: MyComponentProps) => {
                           </div>
                           <div className="data-item">
                             <div className="data-col">
-                              <span className="data-label">Service charge</span>
-                              <span className="data-value">
-                                {quotation?.serviceCharge}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Delivered price
-                              </span>
-                              <span className="data-value">
-                                {quotation?.deliveredPrice}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
                               <span className="data-label">
                                 Distance from kelowna
                               </span>
@@ -280,50 +262,6 @@ const NotificationDetails = (props: MyComponentProps) => {
                               <span className="data-label">use in winter</span>
                               <span className="data-value">
                                 {quotation?.useInWinter ? "Yes" : "No"}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                      {notification.type !== "CREATE_QUOTE" && (
-                        <div className="nk-data">
-                          <div className="data-head">
-                            <h6 className="overline-title">Product</h6>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Order Status</span>
-                              <span className="data-value text-capitalize">
-                                {notification?.order?.status}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Total Products</span>
-                              <span className="data-value">
-                                {notification?.order?.products &&
-                                  notification.order.products.length}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Total Products Price
-                              </span>
-                              <span className="data-value">
-                                ${notification?.order?.total_price}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Delivery Address
-                              </span>
-                              <span className="data-value">
-                                {notification?.order?.address}
                               </span>
                             </div>
                           </div>

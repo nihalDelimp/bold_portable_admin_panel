@@ -46,10 +46,14 @@ function UserRequestServices(props: MyComponentProps) {
       });
   };
 
-  const handleResolveService = async (_id: any) => {
+  const handleResolveService = async (item: any) => {
+    const payload = {
+      user_id: item.user,
+      service_id: item._id,
+    };
     setLoading(true);
     await authAxios()
-      .delete(`/service/resolve/${_id}`)
+      .post(`/service/mail-acknowledgement`, payload)
       .then(
         (response) => {
           setLoading(false);
@@ -131,7 +135,7 @@ function UserRequestServices(props: MyComponentProps) {
                   </div>
                   {services &&
                     services.length > 0 &&
-                    services.map((item: any, index) => (
+                    services.map((item: any, index: number) => (
                       <div key={index + 1} className="nk-tb-item">
                         <div className="nk-tb-col nk-tb-col-check">
                           <div className="custom-control custom-control-sm custom-checkbox notext">
@@ -163,7 +167,7 @@ function UserRequestServices(props: MyComponentProps) {
                             item.serviceTypes.length > 0 &&
                             item.serviceTypes.map(
                               (item: string, index: number) => (
-                                <React.Fragment>
+                                <React.Fragment key={index + 1}>
                                   <span>{item}</span>
                                   <br />
                                 </React.Fragment>
@@ -189,7 +193,7 @@ function UserRequestServices(props: MyComponentProps) {
                                     <li>
                                       <a
                                         onClick={() =>
-                                          handleResolveService(item._id)
+                                          handleResolveService(item)
                                         }
                                       >
                                         <em className="icon ni ni-thumbs-up"></em>
