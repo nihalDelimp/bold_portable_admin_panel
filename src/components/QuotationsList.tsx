@@ -6,7 +6,11 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import EditQuotation from "./EditQuotation";
 import EditEventQuotation from "./EditEventQuotation";
 import Pagination from "../Common/Pagination";
-import { CapitalizeFirstLetter, getFormatedDate } from "../Helper";
+import {
+  CapitalizeFirstLetter,
+  getFormatedDate,
+  replaceHyphenCapitolize,
+} from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -337,7 +341,7 @@ const QuotationsList = (props: MyComponentProps) => {
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
-                          {CapitalizeFirstLetter(item.type)}
+                          {replaceHyphenCapitolize(item.type)}
                         </span>
                       </div>
 

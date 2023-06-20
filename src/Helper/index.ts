@@ -38,6 +38,14 @@ export const CapitalizeFirstLetter = (data : string) => {
    return str
   }
 
+  export function replaceHyphenCapitolize (strData : string){
+    if(strData){
+      const newStr = strData.charAt(0).toUpperCase() + strData.slice(1);
+      let replacedWord = newStr.replace(/-/g, ' ');
+      return replacedWord
+    }
+  }
+
   export function trimObjValues(obj: any) {
     return Object.keys(obj).reduce((acc:any, curr:any) => {
         acc[curr] = obj[curr]
@@ -47,3 +55,4 @@ export const CapitalizeFirstLetter = (data : string) => {
         return acc;
     }, {});
 }
+

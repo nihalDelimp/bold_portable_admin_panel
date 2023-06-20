@@ -31,7 +31,9 @@ function ProductList(props: MyComponentProps) {
   const getProductsListData = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/product/get-products?pageNumber=${currentPage}&pageSize=${itemsPerPage}`)
+      .get(
+        `/product/get-products?pageNumber=${currentPage}&pageSize=${itemsPerPage}`
+      )
       .then(
         (response) => {
           setLoading(false);
@@ -238,9 +240,11 @@ function ProductList(props: MyComponentProps) {
                         <div className="nk-tb-col">
                           <span className="tb-lead">{item.product_type}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-md">
+                        <div className="nk-tb-col">
                           <span className="tb-sub">
-                          {` ${item?.description.substring(0, limitDesc)} ${item.description.length > limitDesc  ? "..." : '' }  `}
+                            {` ${item?.description.substring(0, limitDesc)} ${
+                              item.description.length > limitDesc ? "..." : ""
+                            }  `}
                           </span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">
@@ -326,7 +330,7 @@ function ProductList(props: MyComponentProps) {
           modal={deleteModal}
           closeModal={(isModal: boolean) => setDeleteModal(isModal)}
           confirmedDelete={handleDeleteProduct}
-          actionType = "product"
+          actionType="product"
         />
       )}
     </>

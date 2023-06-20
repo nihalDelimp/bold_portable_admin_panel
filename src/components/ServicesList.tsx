@@ -5,10 +5,11 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFormatedDate } from "../Helper";
+import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
 import AddService from "./AddService";
 import EditService from "./EditService";
 import DeleteConfirmationModal from "../Common/DeleteConfirmation";
+import { limitDesc } from "../Helper/constants";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -39,8 +40,8 @@ function ServicesList(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setServices(resData);
-            //setTotalCount(resData?.totalSubscription);
+            setServices(resData.services);
+            setTotalCount(resData?.totalCount);
           }
         },
         (error) => {
@@ -208,7 +209,7 @@ function ServicesList(props: MyComponentProps) {
                           <div className="user-card">
                             <div className="user-info">
                               <span className="tb-lead">
-                                {item?.name}
+                                {replaceHyphenCapitolize(item?.name)}
                                 <span className="dot dot-success d-md-none ms-1"></span>
                               </span>
                             </div>
@@ -225,9 +226,12 @@ function ServicesList(props: MyComponentProps) {
                             ))}
                         </div>
                         <div className="nk-tb-col tb-col-lg">
-                          <span>{item?.description}</span>
+                          <span>
+                            {` ${item?.description.substring(0, limitDesc)} ${
+                              item.description.length > limitDesc ? "..." : ""
+                            }  `}
+                          </span>
                         </div>
-
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>

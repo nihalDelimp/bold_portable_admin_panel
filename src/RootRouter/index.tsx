@@ -17,6 +17,7 @@ import QuotationsList from "../components/QuotationsList";
 import SubscriptionDetail from "../components/SubscriptionDetail";
 import SendEmail from "../components/SendEmail";
 import UserRequestServices from "../components/UserReqServices";
+import ServicesList from "../components/ServicesList";
 
 function RootRouter() {
   return (
@@ -97,10 +98,18 @@ function RootRouter() {
             }
           />
           <Route
-            path="/services"
+            path="/request-services"
             element={
               <PrivateRoute>
                 <UserRequestServices />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/service-list"
+            element={
+              <PrivateRoute>
+                <ServicesList />
               </PrivateRoute>
             }
           />

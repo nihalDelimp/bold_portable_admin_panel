@@ -15,8 +15,7 @@ const NotificationDetails = (props: MyComponentProps) => {
   const [notification, setNotifaction] = useState<any>({});
   const [coordinator, setCoordinator] = useState<any>({});
   const [quotation, setQuotation] = useState<any>({});
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   const { setLoading } = props;
   const params = useParams();
@@ -33,7 +32,7 @@ const NotificationDetails = (props: MyComponentProps) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            getAllNotifications()
+            getAllNotifications();
           }
         },
         (error) => {
@@ -53,7 +52,7 @@ const NotificationDetails = (props: MyComponentProps) => {
         (response) => {
           if (response.data.status === 1) {
             const resData = response.data.data;
-            dispatch(saveAllNotification(resData))
+            dispatch(saveAllNotification(resData));
           }
         },
         (error) => {
@@ -64,7 +63,6 @@ const NotificationDetails = (props: MyComponentProps) => {
         console.log("errorrrr", error);
       });
   };
-
 
   const getSpecificNotification = async () => {
     setLoading(true);
@@ -146,17 +144,18 @@ const NotificationDetails = (props: MyComponentProps) => {
                           </div>
                         </div>
                       </div>
-                      {notification.type === "CREATE_QUOTE" && (
+                      {(notification.type === "CREATE_QUOTE" ||
+                        notification.type === "SERVICE_REQUEST") && (
                         <div className="nk-data">
                           <div className="data-head">
                             <h6 className="overline-title">
-                            Project Manager details
+                              Project Manager details
                             </h6>
                           </div>
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">
-                              Project Manager name
+                                Project Manager name
                               </span>
                               <span className="data-value">
                                 {coordinator?.name}
@@ -166,7 +165,7 @@ const NotificationDetails = (props: MyComponentProps) => {
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">
-                              Project Manager email
+                                Project Manager email
                               </span>
                               <span className="data-value">
                                 {coordinator?.email}
@@ -176,7 +175,7 @@ const NotificationDetails = (props: MyComponentProps) => {
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">
-                              Project Manager cell number
+                                Project Manager cell number
                               </span>
                               <span className="data-value">
                                 {coordinator?.cellNumber}
@@ -185,7 +184,8 @@ const NotificationDetails = (props: MyComponentProps) => {
                           </div>
                         </div>
                       )}
-                      {notification.type === "CREATE_QUOTE" && (
+                      {(notification.type === "CREATE_QUOTE" ||
+                        notification.type === "SERVICE_REQUEST") && (
                         <div className="nk-data">
                           <div className="data-head">
                             <h6 className="overline-title">
@@ -282,7 +282,6 @@ const NotificationDetails = (props: MyComponentProps) => {
                           </div>
                         </div>
                       )}
-
                       {notification.type !== "CREATE_QUOTE" && (
                         <div className="nk-data">
                           <div className="data-head">

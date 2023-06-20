@@ -5,7 +5,11 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFirstChartByFullName, getFormatedDate } from "../Helper";
+import {
+  getFirstChartByFullName,
+  getFormatedDate,
+  replaceHyphenCapitolize,
+} from "../Helper";
 import SaveLocation from "./SaveLocation";
 import UpdateLocation from "./UpdateLocation";
 
@@ -214,7 +218,7 @@ function SubscriptionList(props: MyComponentProps) {
                         </div>
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
-                          {item.subscription?.slice(-8)?.toUpperCase()}
+                            {item.subscription?.slice(-8)?.toUpperCase()}
                           </span>
                         </div>
                         <div className="nk-tb-col">
@@ -234,7 +238,9 @@ function SubscriptionList(props: MyComponentProps) {
                           <span>{item?.user.email}</span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
-                          <span>{item?.quotationType}</span>
+                          <span>
+                            {replaceHyphenCapitolize(item?.quotationType)}
+                          </span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>

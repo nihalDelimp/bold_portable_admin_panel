@@ -4,7 +4,11 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import { CapitalizeFirstLetter, getStringDate } from "../Helper";
+import {
+  CapitalizeFirstLetter,
+  getStringDate,
+  replaceHyphenCapitolize,
+} from "../Helper";
 import EditQuotation from "./EditQuotation";
 import EditEventQuotation from "./EditEventQuotation";
 
@@ -340,7 +344,7 @@ function Dashboard(props: MyComponentProps) {
                               </div>
                               <div className="nk-tb-col">
                                 <span className="tb-sub tb-amount">
-                                  {CapitalizeFirstLetter(item.type)}
+                                  {replaceHyphenCapitolize(item.type)}
                                 </span>
                               </div>
                               <div className="nk-tb-col">

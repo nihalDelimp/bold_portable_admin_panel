@@ -5,7 +5,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFormatedDate } from "../Helper";
+import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
 import AddService from "./AddService";
 import EditService from "./EditService";
 import DeleteConfirmationModal from "../Common/DeleteConfirmation";
@@ -55,18 +55,28 @@ function UserRequestServices(props: MyComponentProps) {
       });
   };
 
-  const handleAddServiceModal = () => {
-    setAddServiceModal(true);
-  };
-
-  const handleUpdateServiceModal = (data: any) => {
-    setServiceItem(data);
-    setEditServiceModal(true);
-  };
-
-  const handleDeleteModal = (_id: string) => {
-    setServiceID(_id);
-    setDeleteModal(true);
+  const handleResolveService = async (_id: any) => {
+    setLoading(true);
+    await authAxios()
+      .delete(`/service/resolve/${_id}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data?.message);
+            getServicesListData();
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   const handleDeleteItem = async () => {
@@ -176,7 +186,7 @@ function UserRequestServices(props: MyComponentProps) {
                           <div className="user-card">
                             <div className="user-info">
                               <span className="tb-lead">
-                                {item?.service}
+                                {replaceHyphenCapitolize(item?.service)}
                                 <span className="dot dot-success d-md-none ms-1"></span>
                               </span>
                             </div>
@@ -210,16 +220,16 @@ function UserRequestServices(props: MyComponentProps) {
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
-                                    {/* <li>
+                                    <li>
                                       <a
                                         onClick={() =>
-                                          handleUpdateServiceModal(item)
+                                          handleResolveService(item._id)
                                         }
                                       >
-                                        <em className="icon ni ni-edit"></em>
-                                        <span>Edit Service</span>
+                                        <em className="icon ni ni-plus"></em>
+                                        <span>Resolve</span>
                                       </a>
-                                    </li> */}
+                                    </li>
                                   </ul>
                                 </div>
                               </div>

@@ -53,9 +53,8 @@ function EditService(props: MyComponentProps) {
     }));
   };
 
-  console.log("serviceData", serviceData);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setServiceData((prev) => ({
       ...prev,
@@ -63,7 +62,7 @@ function EditService(props: MyComponentProps) {
     }));
   };
 
-  const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setServiceData((prev) => ({
       ...prev,
@@ -130,17 +129,26 @@ function EditService(props: MyComponentProps) {
                         <label className="form-label" htmlFor="full-name">
                           Service name
                         </label>
-                        <input
-                          type="text"
+                        <select
                           required
-                          minLength={4}
-                          onChange={handleChange}
                           name="name"
                           value={serviceData.name}
                           className="form-control"
-                          id="name"
-                          placeholder="Service name"
-                        />
+                          onChange={handleChangeSelect}
+                        >
+                          <option value="">Select Service</option>
+                          <option value="construction">Construction</option>
+                          <option value="disaster-relief">
+                            Disaster relief
+                          </option>
+                          <option value="personal-or-business">
+                            Personal or business
+                          </option>
+                          <option value="farm-orchard-winery">
+                            Farm orchard winery
+                          </option>
+                          <option value="event">Special event</option>
+                        </select>
                       </div>
                     </div>
                     <div className="col-md-12">

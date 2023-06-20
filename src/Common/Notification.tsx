@@ -25,7 +25,7 @@ const Notification = (props: MyComponentProps) => {
   const dispatch = useDispatch();
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
- 
+
   useEffect(() => {
     if (socket.current) {
       socket.current.on("new_order_recieved", (recieved_order) => {
@@ -151,22 +151,17 @@ const Notification = (props: MyComponentProps) => {
                     >
                       <Link to={`/notification-details/${item._id}`}>
                         <div className="nk-notification-icon">
-                          <em
-                            className={` icon icon-circle  ni ${
-                              item.type === "CREATE_ORDER"
-                                ? " bg-info-dim ni-cart"
-                                : "bg-warning-dim ni-file-docs"
-                            }`}
-                          ></em>
+                          <em className="icon icon-circle  ni bg-warning-dim ni-file-docs "></em>
                         </div>
                       </Link>
                       <Link to={`/notification-details/${item._id}`}>
                         <div className="nk-notification-content">
                           <div className="nk-notification-text">
-                            {item.type === "CREATE_ORDER" &&
-                              `${item?.user?.name} has Placed ${item?.order?.products?.length} order`}
+                            {" "}
                             {item.type === "CREATE_QUOTE" &&
                               `${item?.user?.name} has requested a quotation`}
+                            {item.type === "SERVICE_REQUEST" &&
+                              `${item?.user?.name} has requested a quotation service`}
                           </div>
                           <div className="nk-notification-time">
                             <span>{dayjs(item.createdAt).fromNow()}</span>

@@ -34,9 +34,8 @@ function AddService(props: MyComponentProps) {
     }));
   };
 
-  console.log("serviceData", serviceData);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setServiceData((prev) => ({
       ...prev,
@@ -85,6 +84,8 @@ function AddService(props: MyComponentProps) {
     }
   };
 
+  // 'construction', 'disaster-relief', 'personal-or-business', 'farm-orchard-winery', 'event'
+
   return (
     <div
       className={`modal fade ${modal ? "show" : "hide"}`}
@@ -111,7 +112,27 @@ function AddService(props: MyComponentProps) {
                         <label className="form-label" htmlFor="full-name">
                           Service name
                         </label>
-                        <input
+                        <select
+                          required
+                          name="name"
+                          value={serviceData.name}
+                          className="form-control"
+                          onChange={handleChangeSelect}
+                        >
+                          <option value="">Select Service</option>
+                          <option value="construction">Construction</option>
+                          <option value="disaster-relief">
+                            Disaster relief
+                          </option>
+                          <option value="personal-or-business">
+                            Personal or business
+                          </option>
+                          <option value="farm-orchard-winery">
+                            Farm orchard winery
+                          </option>
+                          <option value="event">Special event</option>
+                        </select>
+                        {/* <input
                           type="text"
                           required
                           minLength={4}
@@ -121,7 +142,7 @@ function AddService(props: MyComponentProps) {
                           className="form-control"
                           id="name"
                           placeholder="Service name"
-                        />
+                        /> */}
                       </div>
                     </div>
                     <div className="col-md-12">
