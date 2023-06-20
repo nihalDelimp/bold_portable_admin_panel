@@ -226,7 +226,7 @@ function UserRequestServices(props: MyComponentProps) {
                                           handleResolveService(item._id)
                                         }
                                       >
-                                        <em className="icon ni ni-plus"></em>
+                                        <em className="icon ni ni-thumbs-up"></em>
                                         <span>Resolve</span>
                                       </a>
                                     </li>
