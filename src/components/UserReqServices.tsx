@@ -2,13 +2,10 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
-import AddService from "./AddService";
-import EditService from "./EditService";
-import DeleteConfirmationModal from "../Common/DeleteConfirmation";
+
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -20,11 +17,6 @@ function UserRequestServices(props: MyComponentProps) {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [addServiceModal, setAddServiceModal] = useState<boolean>(false);
-  const [editServiceModal, setEditServiceModal] = useState<boolean>(false);
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [serviceItem, setServiceItem] = useState(null);
-  const [serviceID, setServiceID] = useState<string>("");
 
   useEffect(() => {
     getServicesListData();
@@ -64,31 +56,6 @@ function UserRequestServices(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data?.message);
-            getServicesListData();
-          } else {
-            toast.error(response.data?.message);
-          }
-        },
-        (error) => {
-          setLoading(false);
-          toast.error(error.response.data?.message);
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
-  };
-
-  const handleDeleteItem = async () => {
-    setLoading(true);
-    await authAxios()
-      .delete(`/service/delete/${serviceID}`)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success(response.data?.message);
-            setDeleteModal(false);
             getServicesListData();
           } else {
             toast.error(response.data?.message);
@@ -254,29 +221,6 @@ function UserRequestServices(props: MyComponentProps) {
           </div>
         </div>
       </div>
-      {addServiceModal && (
-        <AddService
-          modal={addServiceModal}
-          getListingData={getServicesListData}
-          closeModal={(isModal: boolean) => setAddServiceModal(isModal)}
-        />
-      )}
-      {editServiceModal && (
-        <EditService
-          itemData={serviceItem}
-          modal={editServiceModal}
-          getListingData={getServicesListData}
-          closeModal={(isModal: boolean) => setEditServiceModal(isModal)}
-        />
-      )}
-      {deleteModal && (
-        <DeleteConfirmationModal
-          modal={deleteModal}
-          closeModal={(isModal: boolean) => setDeleteModal(isModal)}
-          confirmedDelete={handleDeleteItem}
-          actionType="service"
-        />
-      )}
     </>
   );
 }
