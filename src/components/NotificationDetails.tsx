@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import { useDispatch } from "react-redux";
 import { saveAllNotification } from "../Redux/Reducers/notificationSlice";
+import { replaceHyphenCapitolize } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -196,7 +197,9 @@ const NotificationDetails = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">Quotation type</span>
                               <span className="data-value">
-                                {notification?.quote_type}
+                                {replaceHyphenCapitolize(
+                                  notification?.quote_type
+                                )}
                               </span>
                             </div>
                           </div>
