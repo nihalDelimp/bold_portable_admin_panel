@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
@@ -14,13 +14,7 @@ interface MyComponentProps {
 }
 
 function UpdateLocation(props: MyComponentProps) {
-  const {
-    setLoading,
-    trackingID,
-    modal,
-    closeModal,
-    getListingData,
-  } = props;
+  const { setLoading, trackingID, modal, closeModal, getListingData } = props;
 
   const [userData, setUserData] = useState({
     address: "",
@@ -28,6 +22,12 @@ function UpdateLocation(props: MyComponentProps) {
     driver_phone_number: "",
     status: "modified",
   });
+
+  useEffect(() => {
+    if (trackingID) {
+      getTrackDetailsByID();
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -56,6 +56,36 @@ function UpdateLocation(props: MyComponentProps) {
             toast.success(response.data?.message);
             getListingData();
             closeModal(false);
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const getTrackDetailsByID = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/tracking/find-by-id/${trackingID}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            const driverName = resData.driver_name;
+            const driverPhone = resData.driver_phone_number;
+            setUserData((prev) => ({
+              ...prev,
+              driver_name: driverName,
+              driver_phone_number: driverPhone,
+            }));
           } else {
             toast.error(response.data?.message);
           }
