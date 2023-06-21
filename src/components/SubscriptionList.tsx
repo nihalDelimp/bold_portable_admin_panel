@@ -277,31 +277,33 @@ function SubscriptionList(props: MyComponentProps) {
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
-                                    {item.trackingId ? (
-                                      <li>
-                                        <a
-                                          onClick={() =>
-                                            handleUpdateLocationModal(
-                                              item.trackingId
-                                            )
-                                          }
-                                        >
-                                          <em className="icon ni ni-edit"></em>
-                                          <span>Update Location</span>
-                                        </a>
-                                      </li>
-                                    ) : (
-                                      <li>
-                                        <a
-                                          onClick={() =>
-                                            handleSaveLocationModal(item)
-                                          }
-                                        >
-                                          <em className="icon ni ni-plus-circle"></em>
-                                          <span>Save Location</span>
-                                        </a>
-                                      </li>
-                                    )}
+                                    {item.status === "ACTIVE" ? (
+                                      item.trackingId ? (
+                                        <li>
+                                          <a
+                                            onClick={() =>
+                                              handleUpdateLocationModal(
+                                                item.trackingId
+                                              )
+                                            }
+                                          >
+                                            <em className="icon ni ni-edit"></em>
+                                            <span>Update Location</span>
+                                          </a>
+                                        </li>
+                                      ) : (
+                                        <li>
+                                          <a
+                                            onClick={() =>
+                                              handleSaveLocationModal(item)
+                                            }
+                                          >
+                                            <em className="icon ni ni-plus-circle"></em>
+                                            <span>Track Location</span>
+                                          </a>
+                                        </li>
+                                      )
+                                    ) : null}
                                     {/* <li>
                                       <Link
                                         to={`/subscription-detail/${item._id}`}
