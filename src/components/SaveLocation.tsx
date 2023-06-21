@@ -17,7 +17,7 @@ function SaveLocation(props: MyComponentProps) {
   const [userData, setUserData] = useState({
     subscriptionId: invoiceData._id,
     quotationId: invoiceData.quotationId,
-    quotationType : invoiceData.quotationType,
+    quotationType : invoiceData?.quotationType?.toLowerCase(),
     address: "",
     driver_name: "",
     driver_phone_number: "",

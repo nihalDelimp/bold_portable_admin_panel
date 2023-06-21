@@ -54,7 +54,7 @@ const Login = (props: MyComponentProps) => {
               dispatch(setIsAuthenticated(true));
               navigate("/");
             } else {
-              toast.error(`You don't have access to login`);
+              toast.error(`You don't have authorization!!`);
             }
           } else {
             toast.error(response.data.message);
