@@ -110,23 +110,35 @@ function Dashboard(props: MyComponentProps) {
       });
   };
 
-  const handleSendInvoice = (quotation_id: string, type: string) => {
-    setQuotationId(quotation_id);
-    setQuotationType(type);
-    if (type === "event") {
-      setEditEventModal(true);
+  const handleSendInvoice = (
+    quotation_id: string,
+    type: string,
+    status: string
+  ) => {
+    if (status === "active") {
+      toast.warning("User is already subscribed for this quotation");
+    } else if (status === "completed") {
+      toast.warning("This quotation is completed");
     } else {
-      setEditModal(true);
+      setQuotationId(quotation_id);
+      setQuotationType(type);
+      if (type === "event") {
+        setEditEventModal(true);
+      } else {
+        setEditModal(true);
+      }
     }
   };
 
   const setBackgroundColor = (status: string) => {
     if (status === "pending") {
       return "bg-warning";
+    } else if (status === "active") {
+      return "bg-success";
+    } else if (status === "completed") {
+      return "bg-success";
     } else if (status === "cancelled") {
       return "bg-danger";
-    } else if (status === "complete") {
-      return "bg-success";
     } else {
       return "bg-primary";
     }
@@ -322,7 +334,9 @@ function Dashboard(props: MyComponentProps) {
                                 <div className="user-card">
                                   <div className="user-name">
                                     <span className="tb-lead">
-                                      {CapitalizeFirstLetter(item.coordinator.name)}
+                                      {CapitalizeFirstLetter(
+                                        item.coordinator.name
+                                      )}
                                     </span>
                                   </div>
                                 </div>
@@ -353,7 +367,7 @@ function Dashboard(props: MyComponentProps) {
                                     item.status
                                   )} `}
                                 >
-                                  {item.status}
+                                  {CapitalizeFirstLetter(item.status)}
                                 </span>
                               </div>
 
@@ -375,7 +389,8 @@ function Dashboard(props: MyComponentProps) {
                                               onClick={() =>
                                                 handleSendInvoice(
                                                   item._id,
-                                                  item.type
+                                                  item.type,
+                                                  item.status
                                                 )
                                               }
                                             >
