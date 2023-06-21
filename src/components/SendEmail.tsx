@@ -5,7 +5,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFirstChartByFullName } from "../Helper";
+import { CapitalizeFirstLetter, getFirstChartByFullName } from "../Helper";
 import Select from "react-select";
 
 interface MyComponentProps {
@@ -67,7 +67,8 @@ function SendEmail(props: MyComponentProps) {
             const resData = response.data.data;
             const roleData: any = [];
             resData.users.forEach((item: any) => {
-              roleData.push({ label: item.name, value: item.email });
+              const nameWithCaps = CapitalizeFirstLetter(item.name);
+              roleData.push({ label: nameWithCaps, value: item.email });
             });
             setCustomers(roleData);
           }
@@ -129,7 +130,9 @@ function SendEmail(props: MyComponentProps) {
             <div className="nk-block-head nk-block-head-sm">
               <div className="nk-block-between">
                 <div className="nk-block-head-content">
-                  <h3 className="nk-block-title page-title">Send a mail to users</h3>
+                  <h3 className="nk-block-title page-title">
+                    Send a mail to users
+                  </h3>
                 </div>
               </div>
             </div>
