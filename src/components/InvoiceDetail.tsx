@@ -5,7 +5,11 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link, useParams } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFormatedDate, getDateWithoutTime } from "../Helper";
+import {
+  getFormatedDate,
+  getDateWithoutTime,
+  CapitalizeFirstLetter,
+} from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -114,7 +118,11 @@ function InvoiceDetail(props: MyComponentProps) {
                     <div className="invoice-contact">
                       <span className="overline-title">Invoice To</span>
                       <div className="invoice-contact-info">
-                        <h4 className="title">{userData?.name}</h4>
+                        <h4 className="title">
+                          {userData &&
+                            userData.name &&
+                            CapitalizeFirstLetter(userData?.name)}
+                        </h4>
                         <ul className="list-plain">
                           <li>
                             <em className="icon ni ni-map-pin-fill"></em>

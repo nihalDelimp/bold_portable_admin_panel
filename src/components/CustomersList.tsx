@@ -5,7 +5,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getDateWithoutTime, getFirstChartByFullName } from "../Helper";
+import { CapitalizeFirstLetter, getDateWithoutTime, getFirstChartByFullName } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -199,7 +199,7 @@ function CustomersList(props: MyComponentProps) {
                               </div> */}
                               <div className="user-info">
                                 <span className="tb-lead">
-                                  {item?.name}{" "}
+                                  {CapitalizeFirstLetter(item?.name)}{" "}
                                   <span className="dot dot-success d-md-none ms-1"></span>
                                 </span>
                               </div>

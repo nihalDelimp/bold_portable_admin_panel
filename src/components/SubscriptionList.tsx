@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import {
+  CapitalizeFirstLetter,
   getFirstChartByFullName,
   getFormatedDate,
   replaceHyphenCapitolize,
@@ -225,7 +226,9 @@ function SubscriptionList(props: MyComponentProps) {
                           <div className="user-card">
                             <div className="user-info">
                               <span className="tb-lead">
-                                {item?.user.name}
+                                {item.user &&
+                                  item.user.name &&
+                                  CapitalizeFirstLetter(item?.user?.name)}
                                 <span className="dot dot-success d-md-none ms-1"></span>
                               </span>
                             </div>

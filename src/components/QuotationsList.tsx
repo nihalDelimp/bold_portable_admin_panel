@@ -124,22 +124,32 @@ const QuotationsList = (props: MyComponentProps) => {
     }
   };
 
-  const handleSendInvoice = (quotation_id: string, type: string) => {
-    setQuotationId(quotation_id);
-    setQuotationType(type);
-    if (type === "event") {
-      setEditEventModal(true);
+  const handleSendInvoice = (
+    quotation_id: string,
+    type: string,
+    status: string
+  ) => {
+    if (status === "active") {
+      toast.warning("User is already subscribed for this quotation");
     } else {
-      setEditModal(true);
+      setQuotationId(quotation_id);
+      setQuotationType(type);
+      if (type === "event") {
+        setEditEventModal(true);
+      } else {
+        setEditModal(true);
+      }
     }
   };
 
   const setBackgroundColor = (status: string) => {
     if (status === "pending") {
       return "bg-warning";
+    } else if (status === "active") {
+      return "bg-success";
     } else if (status === "cancelled") {
       return "bg-danger";
-    } else if (status === "complete") {
+    } else if (status === "completed") {
       return "bg-success";
     } else {
       return "bg-primary";
@@ -321,10 +331,16 @@ const QuotationsList = (props: MyComponentProps) => {
                         </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{item.coordinator.name}</span>
+                        <span className="tb-sub">
+                          {item.coordinator &&
+                            item.coordinator.name &&
+                            CapitalizeFirstLetter(item.coordinator.name)}
+                        </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{item.coordinator.email}</span>
+                        <span className="tb-sub">
+                          {item.coordinator?.email}
+                        </span>
                       </div>
                       {/* <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
@@ -333,18 +349,17 @@ const QuotationsList = (props: MyComponentProps) => {
                       </div> */}
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
-                          {item.distanceFromKelowna} km
+                          {item?.distanceFromKelowna} km
                         </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{item.maxWorkers}</span>
+                        <span className="tb-sub">{item?.maxWorkers}</span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
-                          {replaceHyphenCapitolize(item.type)}
+                          {item.type && replaceHyphenCapitolize(item.type)}
                         </span>
                       </div>
-
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-odr-status">
                           <span
@@ -352,7 +367,7 @@ const QuotationsList = (props: MyComponentProps) => {
                               item.status
                             )}`}
                           >
-                            {item.status}
+                            {CapitalizeFirstLetter(item.status)}
                           </span>
                         </span>
                       </div>
@@ -377,7 +392,11 @@ const QuotationsList = (props: MyComponentProps) => {
                                   <li>
                                     <a
                                       onClick={() =>
-                                        handleSendInvoice(item._id, item.type)
+                                        handleSendInvoice(
+                                          item._id,
+                                          item.type,
+                                          item.status
+                                        )
                                       }
                                     >
                                       <em className="icon ni ni-edit"></em>

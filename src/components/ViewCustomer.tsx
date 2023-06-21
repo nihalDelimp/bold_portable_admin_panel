@@ -7,6 +7,7 @@ import { authAxios } from "../config/config";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import { CapitalizeFirstLetter } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -101,7 +102,9 @@ const ViewCustomer = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">Name</span>
                               <span className="data-value">
-                                {customer?.name}
+                                {customer &&
+                                  customer.name &&
+                                  CapitalizeFirstLetter(customer?.name)}
                               </span>
                             </div>
                           </div>

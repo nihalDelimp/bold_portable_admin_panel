@@ -6,6 +6,7 @@ import { logout } from "../Redux/Reducers/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import Notification from "./Notification";
+import { CapitalizeFirstLetter } from "../Helper";
 
 function NavBar() {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ function NavBar() {
             </div>
             <div className="nk-header-tools">
               <ul className="nk-quick-nav">
-                <Notification/>
+                <Notification />
                 <li className="dropdown user-dropdown">
                   <a
                     href="#"
@@ -80,10 +81,12 @@ function NavBar() {
                     <div className="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                       <div className="user-card">
                         <div className="user-avatar">
-                          <span>AB</span>
+                        <em className="icon ni ni-user-alt"></em>
                         </div>
                         <div className="user-info">
-                          <span className="lead-text">{user?.name}</span>
+                          <span className="lead-text">
+                            {CapitalizeFirstLetter(user?.name)}
+                          </span>
                           <span className="sub-text">{user?.email}</span>
                         </div>
                       </div>

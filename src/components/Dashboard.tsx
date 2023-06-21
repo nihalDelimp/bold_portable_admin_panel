@@ -322,7 +322,7 @@ function Dashboard(props: MyComponentProps) {
                                 <div className="user-card">
                                   <div className="user-name">
                                     <span className="tb-lead">
-                                      {item.coordinator.name}
+                                      {CapitalizeFirstLetter(item.coordinator.name)}
                                     </span>
                                   </div>
                                 </div>

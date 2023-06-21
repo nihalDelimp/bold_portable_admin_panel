@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import { useDispatch } from "react-redux";
 import { saveAllNotification } from "../Redux/Reducers/notificationSlice";
-import { replaceHyphenCapitolize } from "../Helper";
+import { CapitalizeFirstLetter, replaceHyphenCapitolize } from "../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -76,7 +76,10 @@ const NotificationDetails = (props: MyComponentProps) => {
             console.log(response.data);
             const resData = response.data.data;
             setNotifaction(response.data.data);
-            if (resData.type === "CREATE_QUOTE" || resData.type === "SERVICE_REQUEST" ) {
+            if (
+              resData.type === "CREATE_QUOTE" ||
+              resData.type === "SERVICE_REQUEST"
+            ) {
               setCoordinator(resData?.quote_id?.coordinator);
               setQuotation(resData?.quote_id);
               markSpecificNotificationSeen(params.id);
@@ -132,7 +135,9 @@ const NotificationDetails = (props: MyComponentProps) => {
                           <div className="data-col">
                             <span className="data-label">Name</span>
                             <span className="data-value">
-                              {notification?.user?.name}
+                              {notification &&
+                                notification.user &&
+                                CapitalizeFirstLetter(notification.user?.name)}
                             </span>
                           </div>
                         </div>
