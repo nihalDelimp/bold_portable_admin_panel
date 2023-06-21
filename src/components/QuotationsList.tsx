@@ -131,6 +131,8 @@ const QuotationsList = (props: MyComponentProps) => {
   ) => {
     if (status === "active") {
       toast.warning("User is already subscribed for this quotation");
+    } else if (status === "completed") {
+      toast.warning("This quotation is completed");
     } else {
       setQuotationId(quotation_id);
       setQuotationType(type);
