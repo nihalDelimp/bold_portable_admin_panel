@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
@@ -7,33 +7,62 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import {
   CapitalizeFirstLetter,
-  getFirstChartByFullName,
   getFormatedDate,
   replaceHyphenCapitolize,
 } from "../Helper";
 import SaveLocation from "./SaveLocation";
 import UpdateLocation from "./UpdateLocation";
+import { CSVLink } from "react-csv";
+import ExportConfirmationModal from "../Common/ConfirmExportModal";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
+  isLoading: boolean;
 }
 
+// Export CSV File Headers
+const headers = [
+  { label: "Customer name", key: "user.name" },
+  { label: "Customer Phone number", key: "user.mobile" },
+  { label: "Customer Email address", key: "user.email" },
+  { label: "Customer address", key: "user.address" },
+  { label: "Quotation Type", key: "quotationType" },
+  { label: "Status", key: "status" },
+  { label: "Created At", key: "createdAt" },
+  { label: "Updated At", key: "updatedAt" },
+];
+
 function SubscriptionList(props: MyComponentProps) {
-  const { setLoading } = props;
+  const { setLoading, isLoading } = props;
   const [invoices, setInvoices] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [saveLocationModal, setSaveLocationModal] = useState(false);
-  const [updateLocationModal, setUpdateLocationModal] = useState(false);
+  const [saveLocationModal, setSaveLocationModal] = useState<boolean>(false);
+  const [updateLocationModal, setUpdateLocationModal] =
+    useState<boolean>(false);
   const [invoiceData, setInvoiceData] = useState("");
   const [statusName, setStatusName] = useState("");
   const [statusLabel, setStatusLabel] = useState("Status");
   const [trackingID, setTrackingID] = useState("");
+  const [exportData, setExportData] = useState<any[]>([]);
+  const [exportModal, setExportModal] = useState<boolean>(false);
+  const csvLink = useRef<any>(null);
 
   useEffect(() => {
     getSubscriptionListData();
   }, [currentPage, itemsPerPage, statusName]);
+
+  useEffect(() => {
+    if (exportData && exportData.length > 0) {
+      if (csvLink.current !== null) {
+        csvLink.current.link.click();
+        toast.success("Data Exported Successfully");
+        setExportData([]);
+        setExportModal(false);
+      }
+    }
+  }, [exportData]);
 
   const getSubscriptionListData = async () => {
     setLoading(true);
@@ -58,6 +87,34 @@ function SubscriptionList(props: MyComponentProps) {
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const getExportingData = async () => {
+    let totalRecords: any[] = [];
+    for (let i = 1; i <= Math.ceil(totalCount / 10000); i++) {
+      setLoading(true);
+      await authAxios()
+        .get(
+          `/payment/admin/subscription?status=${statusName}&page=${i}&limit=${10000}`
+        )
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              const resData = response.data.data?.formattedSubscriptions;
+              totalRecords.push(...resData);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            toast.error(error.response.data?.message);
+          }
+        )
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+    setExportData(totalRecords);
   };
 
   const handleSaveLocationModal = (data: string) => {
@@ -131,7 +188,7 @@ function SubscriptionList(props: MyComponentProps) {
                                         handleChangeStatus("", "Status")
                                       }
                                     >
-                                      <span>All Invoices</span>
+                                      <span>All</span>
                                     </a>
                                   </li>
                                   <li>
@@ -158,6 +215,28 @@ function SubscriptionList(props: MyComponentProps) {
                                 </ul>
                               </div>
                             </div>
+                          </li>
+                          <li className="nk-block-tools-opt">
+                            <button
+                              type="button"
+                              onClick={() => setExportModal(true)}
+                              disabled={isLoading || !totalCount}
+                              className="btn btn-primary d-none d-md-inline-flex"
+                            >
+                              <em className="icon ni ni-download"></em>
+                              <span>
+                                {" "}
+                                {isLoading ? "Loading..." : "Export"}
+                              </span>
+                            </button>
+                            <CSVLink
+                              className="csv-link"
+                              target="_blank"
+                              ref={csvLink}
+                              headers={headers}
+                              data={exportData}
+                              filename="Subscriptions"
+                            />
                           </li>
                         </ul>
                       </div>
@@ -195,6 +274,9 @@ function SubscriptionList(props: MyComponentProps) {
                     </div>
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Date</span>
+                    </div>
+                    <div className="nk-tb-col">
+                      <span className="sub-text">QR Code</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Status</span>
@@ -248,6 +330,13 @@ function SubscriptionList(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
+                        <div className="nk-tb-col">
+                          <img
+                            style={{ width: "40%" }}
+                            src={item?.qrCode}
+                            alt="QR Code"
+                          />
+                        </div>
                         <div className="nk-tb-col tb-col-md">
                           <span className="tb-odr-status">
                             <span
@@ -260,9 +349,6 @@ function SubscriptionList(props: MyComponentProps) {
                               {item.status}
                             </span>
                           </span>
-                          {/* <span className="tb-status text-success">
-                            Complete
-                          </span> */}
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
@@ -304,18 +390,10 @@ function SubscriptionList(props: MyComponentProps) {
                                         </li>
                                       )
                                     ) : null}
-                                    {/* <li>
-                                      <Link
-                                        to={`/subscription-detail/${item._id}`}
-                                      >
-                                        <em className="icon ni ni-eye"></em>
-                                        <span>Subscription Details</span>
-                                      </Link>
-                                    </li> */}
                                     <li>
                                       <Link to={`/invoice-detail/${item._id}`}>
                                         <em className="icon ni ni-eye"></em>
-                                        <span>View Payment</span>
+                                        <span>Subscription Details</span>
                                       </Link>
                                     </li>
                                   </ul>
@@ -350,7 +428,6 @@ function SubscriptionList(props: MyComponentProps) {
           closeModal={(isModal: boolean) => setSaveLocationModal(isModal)}
         />
       )}
-
       {updateLocationModal && (
         <UpdateLocation
           trackingID={trackingID}
@@ -359,6 +436,11 @@ function SubscriptionList(props: MyComponentProps) {
           closeModal={(isModal: boolean) => setUpdateLocationModal(isModal)}
         />
       )}
+      <ExportConfirmationModal
+        modal={exportModal}
+        closeModal={(isModal: boolean) => setExportModal(isModal)}
+        handleExportData={getExportingData}
+      />
     </>
   );
 }

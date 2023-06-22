@@ -1,26 +1,53 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { CapitalizeFirstLetter, getDateWithoutTime, getFirstChartByFullName } from "../Helper";
+import { CapitalizeFirstLetter, getDateWithoutTime } from "../Helper";
+import { CSVLink } from "react-csv";
+import ExportConfirmationModal from "../Common/ConfirmExportModal";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
+  isLoading: boolean;
 }
 
+// Export CSV File Headers
+const headers = [
+  { label: "Customer name", key: "name" },
+  { label: "Phone number", key: "mobile" },
+  { label: "Email address ", key: "email" },
+  { label: "Customer Address", key: "address" },
+  { label: "Created At", key: "createdAt" },
+  { label: "Updated At", key: "updatedAt" },
+];
+
 function CustomersList(props: MyComponentProps) {
-  const { setLoading } = props;
+  const { setLoading, isLoading } = props;
   const [customers, setCustomers] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
+  const [exportData, setExportData] = useState<any[]>([]);
+  const [exportModal, setExportModal] = useState<boolean>(false);
+  const csvLink = useRef<any>(null);
 
   useEffect(() => {
     getCustomerListData();
   }, [currentPage, itemsPerPage]);
+
+  useEffect(() => {
+    if (exportData && exportData.length > 0) {
+      if (csvLink.current !== null) {
+        csvLink.current.link.click();
+        toast.success("Data Exported Successfully");
+        setExportData([]);
+        setExportModal(false)
+      }
+    }
+  }, [exportData]);
 
   const getCustomerListData = async () => {
     setLoading(true);
@@ -43,6 +70,32 @@ function CustomersList(props: MyComponentProps) {
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const getExportingData = async () => {
+    let totalRecords: any[] = [];
+    for (let i = 1; i <= Math.ceil(totalCount / 10000); i++) {
+      setLoading(true);
+      await authAxios()
+        .get(`/auth/get-all-users?page=${i}&limit=${10000}`)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              const resData = response.data.data?.users;
+              totalRecords.push(...resData);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            toast.error(error.response.data?.message);
+          }
+        )
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+    setExportData(totalRecords);
   };
 
   return (
@@ -113,21 +166,28 @@ function CustomersList(props: MyComponentProps) {
                               </div>
                             </div>
                           </li> */}
-                          {/* <li className="nk-block-tools-opt">
+                          <li className="nk-block-tools-opt">
                             <button
                               type="button"
-                              className="btn btn-icon btn-primary d-md-none"
-                            >
-                              <em className="icon ni ni-plus"></em>
-                            </button>
-                            <button
-                              type="button"
+                              onClick={() => setExportModal(true)}
+                              disabled={isLoading || !totalCount}
                               className="btn btn-primary d-none d-md-inline-flex"
                             >
-                              <em className="icon ni ni-plus"></em>
-                              <span>Add</span>
+                              <em className="icon ni ni-download"></em>
+                              <span>
+                                {" "}
+                                {isLoading ? "Loading..." : "Export"}
+                              </span>
                             </button>
-                          </li> */}
+                            <CSVLink
+                              className="csv-link"
+                              target="_blank"
+                              ref={csvLink}
+                              headers={headers}
+                              data={exportData}
+                              filename="Customers"
+                            />
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -169,7 +229,6 @@ function CustomersList(props: MyComponentProps) {
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
-
                   {customers &&
                     customers.length > 0 &&
                     customers.map((item: any, index) => (
@@ -186,7 +245,7 @@ function CustomersList(props: MyComponentProps) {
                         </div>
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
-                          {item._id?.slice(-8)?.toUpperCase()}
+                            {item._id?.slice(-8)?.toUpperCase()}
                           </span>
                         </div>
                         <div className="nk-tb-col">
@@ -269,6 +328,11 @@ function CustomersList(props: MyComponentProps) {
           </div>
         </div>
       </div>
+      <ExportConfirmationModal
+        modal={exportModal}
+        closeModal={(isModal: boolean) => setExportModal(isModal)}
+        handleExportData={getExportingData}
+      />
     </>
   );
 }

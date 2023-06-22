@@ -21,6 +21,7 @@ function Dashboard(props: MyComponentProps) {
   const [totalCustomers, setTotalCustomers] = useState<number>(0);
   const [totalQuotation, setTotalQuotation] = useState<number>(0);
   const [totalSubscriber, setTotalSubscriber] = useState<number>(0);
+  const [totalReqServices, setTotalReqServices] = useState<number>(0);
   const [quotationData, setquotationData] = useState<string[]>([]);
 
   const [currentPage] = useState<number>(1);
@@ -37,6 +38,7 @@ function Dashboard(props: MyComponentProps) {
     getQuotationData();
     getCustomerCount();
     getSubscriberCount();
+    getUserRequestedServices();
   }, []);
 
   const getCustomerCount = async () => {
@@ -102,7 +104,30 @@ function Dashboard(props: MyComponentProps) {
         },
         (error) => {
           setLoading(false);
-          //  toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const getUserRequestedServices = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(`/user-service/list?page=${currentPage}&limit=${itemsPerPage}`)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            if (resData.pagination && resData.pagination.totalDocuments) {
+              setTotalReqServices(resData?.pagination.totalDocuments);
+            }
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
         }
       )
       .catch((error) => {
@@ -279,7 +304,38 @@ function Dashboard(props: MyComponentProps) {
                       </div>
                     </div>
                   </div>
-
+                  <div className="col-xxl-3 col-sm-6">
+                    <div className="card">
+                      <div className="nk-ecwg nk-ecwg6">
+                        <div className="card-inner">
+                          <div className="card-title-group">
+                            <div className="card-title">
+                              <h6 className="title">Request services</h6>
+                            </div>
+                          </div>
+                          <div className="data">
+                            <div className="data-group">
+                              <div className="amount">{totalReqServices}</div>
+                              <div className="nk-ecwg6-ck">
+                                <canvas
+                                  className="ecommerce-line-chart-s3"
+                                  id="todayVisitors"
+                                ></canvas>
+                              </div>
+                            </div>
+                            <div className="info">
+                              <Link to="/request-services">
+                                <span className="change up text-danger">
+                                  More info
+                                  <em className="icon ni ni-arrow-long-right"></em>
+                                </span>
+                              </Link>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                   <div className="col-xxl-8">
                     <div className="card card-full">
                       <div className="card-inner">
