@@ -107,11 +107,10 @@ function InvoiceDetail(props: MyComponentProps) {
                   </a>
                 </div>
                 <div className="invoice-wrap">
-                  <div className="invoice-brand text-center">
+                  <div className="text-center">
                     <img
-                      className="logo-dark logo-img"
-                      src={require("../images/bold_port.png")}
-                      alt="logo-dark"
+                      src={subscription?.qrCode}
+                      alt="qr_code"
                     />
                   </div>
                   <div className="invoice-head">
@@ -142,7 +141,7 @@ function InvoiceDetail(props: MyComponentProps) {
                           <span>Subscription ID</span>:
                           <span>
                             {subscription?.subscription
-                              ?.slice(-8)
+                              ?.slice(-6)
                               ?.toUpperCase()}
                           </span>
                         </li>
@@ -162,7 +161,6 @@ function InvoiceDetail(props: MyComponentProps) {
                         <thead>
                           <tr>
                             <th className="w-150px">ID</th>
-                            <th className="w-60">Description</th>
                             <th>Email</th>
                             <th className="w-20">Phone</th>
                             <th className="w-15">Quotation Type</th>
@@ -176,10 +174,7 @@ function InvoiceDetail(props: MyComponentProps) {
                                 ?.slice(-8)
                                 ?.toUpperCase()}
                             </td>
-                            <td>
-                              Dashlite - Conceptual App Dashboard - Regular
-                              License
-                            </td>
+
                             <td>{userData?.email}</td>
                             <td>{userData?.mobile}</td>
                             <td>{subscription?.quotationType}</td>

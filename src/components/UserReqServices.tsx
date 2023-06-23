@@ -4,7 +4,12 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
+import {
+  CapitalizeFirstLetter,
+  getFormatedDate,
+  replaceHyphenCapitolize,
+} from "../Helper";
+import { addressLimit } from "../Helper/constants";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -47,31 +52,51 @@ function UserRequestServices(props: MyComponentProps) {
   };
 
   const handleResolveService = async (item: any) => {
-    const payload = {
-      user_id: item.user,
-      service_id: item._id,
-    };
-    setLoading(true);
-    await authAxios()
-      .post(`/service/mail-acknowledgement`, payload)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success(response.data?.message);
-            getServicesListData();
-          } else {
-            toast.error(response.data?.message);
+    if (item.status === "resolved") {
+      toast.error("This service is already resolved!");
+    } else {
+      const payload = {
+        user_id: item.user,
+        service_id: item._id,
+      };
+      setLoading(true);
+      await authAxios()
+        .post(`/service/mail-acknowledgement`, payload)
+        .then(
+          (response) => {
+            setLoading(false);
+            if (response.data.status === 1) {
+              toast.success(response.data?.message);
+              getServicesListData();
+            } else {
+              toast.error(response.data?.message);
+            }
+          },
+          (error) => {
+            setLoading(false);
+            toast.error(error.response.data?.message);
           }
-        },
-        (error) => {
-          setLoading(false);
-          toast.error(error.response.data?.message);
-        }
-      )
-      .catch((error) => {
-        console.log("errorrrr", error);
-      });
+        )
+        .catch((error) => {
+          console.log("errorrrr", error);
+        });
+    }
+  };
+
+  const setBackgroundColor = (status: string) => {
+    if (status === "pending") {
+      return "bg-warning";
+    } else if (status === "active") {
+      return "bg-success";
+    } else if (status === "cancelled") {
+      return "bg-danger";
+    } else if (status === "completed") {
+      return "bg-success";
+    } else if (status === "resolved") {
+      return "bg-success";
+    } else {
+      return "bg-primary";
+    }
   };
 
   return (
@@ -123,11 +148,26 @@ function UserRequestServices(props: MyComponentProps) {
                     <div className="nk-tb-col">
                       <span className="sub-text">Service Name</span>
                     </div>
+                    <div className="nk-tb-col">
+                      <span className="sub-text">User Name</span>
+                    </div>
+                    <div className="nk-tb-col">
+                      <span className="sub-text">User Phone</span>
+                    </div>
+                    <div className="nk-tb-col">
+                      <span className="sub-text">User Email</span>
+                    </div>
+                    <div className="nk-tb-col">
+                      <span className="sub-text">User Address</span>
+                    </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Service Requirement</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
+                    </div>
+                    <div className="nk-tb-col tb-col-md">
+                      <span className="sub-text">Status</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
@@ -162,6 +202,30 @@ function UserRequestServices(props: MyComponentProps) {
                             </div>
                           </div>
                         </div>
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>
+                            {item.name && CapitalizeFirstLetter(item?.name)}
+                          </span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>{item?.phone}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>{item?.email}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>
+                            {`${
+                              item.address
+                                ? item.address.substring(0, addressLimit)
+                                : ""
+                            }  ${
+                              item.address && item.address.length > addressLimit
+                                ? "..."
+                                : ""
+                            } `}
+                          </span>
+                        </div>
                         <div className="nk-tb-col tb-col-md">
                           {item.serviceTypes &&
                             item.serviceTypes.length > 0 &&
@@ -176,6 +240,15 @@ function UserRequestServices(props: MyComponentProps) {
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
+                        </div>
+                        <div className="nk-tb-col">
+                          <span
+                            className={`badge badge-dot ${setBackgroundColor(
+                              item.status
+                            )}`}
+                          >
+                            {CapitalizeFirstLetter(item.status)}
+                          </span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">

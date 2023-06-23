@@ -227,8 +227,15 @@ function ServicesList(props: MyComponentProps) {
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>
-                            {` ${item?.description.substring(0, limitDesc)} ${
-                              item.description.length > limitDesc ? "..." : ""
+                            {` ${
+                              item.description
+                                ? item.description?.substring(0, limitDesc)
+                                : ""
+                            } ${
+                              item.description &&
+                              item.description.length > limitDesc
+                                ? "..."
+                                : ""
                             }  `}
                           </span>
                         </div>

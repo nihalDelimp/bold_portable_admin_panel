@@ -8,3 +8,4 @@ export const originLatitude = 49.8837165
 export const originLongitude = -119.4312619
 export const imageMaxSize = 10000000; // bytes
 export const limitDesc = 60;
+export const addressLimit = 50;
