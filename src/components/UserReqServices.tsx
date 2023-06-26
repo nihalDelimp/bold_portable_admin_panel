@@ -164,6 +164,9 @@ function UserRequestServices(props: MyComponentProps) {
                       <span className="sub-text">Service Requirement</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
+                      <span className="sub-text">Images</span>
+                    </div>
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
@@ -237,6 +240,14 @@ function UserRequestServices(props: MyComponentProps) {
                                 </React.Fragment>
                               )
                             )}
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
+                            {item.images && item.images.length>0 &&item.images.map((item :any)=>(
+                              <img 
+                          src={`${process.env.REACT_APP_BASEURL}/${item.image_path}`}
+                          style={{width:"50px",height:"50px"}}
+                           />
+                            ))}
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
