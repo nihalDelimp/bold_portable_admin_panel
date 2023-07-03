@@ -38,6 +38,8 @@ function EditQuotation(props: MyComponentProps) {
     special_requirements: "",
     distanceFromKelowna: "",
     numUnits: 0,
+    maleWorkers:"",
+    femaleWorkers : "",
     workerTypes: "",
     useAtNight: false,
     useInWinter: false,
@@ -78,6 +80,8 @@ function EditQuotation(props: MyComponentProps) {
     "distanceFromKelowna",
     "useAtNight",
     "useInWinter",
+    "maleWorkers",
+    "femaleWorkers",
     "numUnits",
     "designatedWorkers",
     "workerTypes",
@@ -347,7 +351,47 @@ function EditQuotation(props: MyComponentProps) {
                             placeholder="Worker Types"
                           />
                         </div>
-                      </div>
+                        </div>
+                        <div className="col-md-3">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
+                            Male Worker
+                          </label>
+                          <input
+                            disabled
+                            value={quotation.maleWorkers}
+                            onChange={handleChangeQuotation}
+                            type="text"
+                            name="maleWorkers"
+                            className="form-control"
+                            id="inputEmail4"
+                            placeholder="Male Workers"
+                          />
+                        </div>
+                        </div>
+                        <div className="col-md-3">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
+                            Female Worker
+                          </label>
+                          <input
+                            disabled
+                            value={quotation.femaleWorkers}
+                            onChange={handleChangeQuotation}
+                            type="text"
+                            name="femaleWorkers"
+                            className="form-control"
+                            id="inputEmail4"
+                            placeholder="Female Workers"
+                          />
+                          </div>
+                        </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label
