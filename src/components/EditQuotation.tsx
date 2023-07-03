@@ -48,6 +48,9 @@ function EditQuotation(props: MyComponentProps) {
     dateTillUse: "",
     placementDate: "",
     status: "",
+    maleWorkers : 0,
+    femaleWorkers: 0,
+    totalWorkers: 0
   });
 
   const [servicesPrice, setServicesPrice] = useState({
@@ -63,6 +66,9 @@ function EditQuotation(props: MyComponentProps) {
     serviceFrequencyCost: 0,
     weeklyHoursCost: 0,
     pickUpPrice: 0,
+    maleWorkers : 0,
+    femaleWorkers: 0,
+    totalWorkers: 0
   });
 
   useEffect(() => {
@@ -88,6 +94,10 @@ function EditQuotation(props: MyComponentProps) {
     "dateTillUse",
     "status",
     "weeklyHours",
+    "maleWorkers",
+    "maleWorkers",
+    "femaleWorkers",
+    "totalWorkers"
   ];
 
   const servicePriceFields = [
@@ -370,6 +380,71 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
+
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
+                            Male workers
+                          </label>
+                          <input
+                            required
+                            disabled
+                            value={quotation.maleWorkers}
+                            onChange={handleChangeQuotation}
+                            type="number"
+                            name="maleWorkers"
+                            className="form-control"
+                            id="maleWorkers"
+                            placeholder="DisMale workerstance"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
+                            Female workers
+                          </label>
+                          <input
+                            required
+                            min={0}
+                            value={quotation.femaleWorkers}
+                            onChange={handleChangeServicePrice}
+                            type="number"
+                            name="deliveryPrice"
+                            className="form-control"
+                            id="femaleWorkers"
+                            placeholder="Female workers"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="personal-email"
+                          >
+                            Total workers
+                          </label>
+                          <input
+                            required
+                            disabled
+                            value={quotation.totalWorkers}
+                            onChange={handleChangeQuotation}
+                            type="text"
+                            name="title"
+                            className="form-control"
+                            id="inputEmail4"
+                            placeholder="Maximum workers"
+                          />
+                        </div>
+                      </div>
+
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -391,7 +466,7 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                      <div className="col-md-3">
+                      <div className="col-md-4">
                         <div className="form-group">
                           <label
                             className="form-label"
