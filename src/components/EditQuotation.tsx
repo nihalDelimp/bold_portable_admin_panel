@@ -411,8 +411,8 @@ function EditQuotation(props: MyComponentProps) {
                             Female workers
                           </label>
                           <input
-                            required
                             min={0}
+                            disabled
                             value={quotation.femaleWorkers}
                             onChange={handleChangeServicePrice}
                             type="number"
@@ -466,48 +466,8 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                      <div className="col-md-4">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Cost
-                          </label>
-                          <input
-                            required
-                            min={0}
-                            value={servicesPrice.deliveryPrice}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="deliveryPrice"
-                            className="form-control"
-                            id="inputEmail4"
-                            placeholder="Delivery Price"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Max Workers
-                          </label>
-                          <input
-                            required
-                            disabled
-                            value={quotation.maxWorkers}
-                            onChange={handleChangeQuotation}
-                            type="text"
-                            name="title"
-                            className="form-control"
-                            id="inputEmail4"
-                            placeholder="Maximum workers"
-                          />
-                        </div>
-                      </div>
+                      
+                      
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
