@@ -56,7 +56,8 @@ function UserRequestServices(props: MyComponentProps) {
       toast.error("This service is already resolved!");
     } else {
       const payload = {
-        user_id: item.user,
+        user_name: item.name,
+        user_email: item.email,
         service_id: item._id,
       };
       setLoading(true);
