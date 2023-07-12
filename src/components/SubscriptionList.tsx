@@ -300,9 +300,11 @@ function SubscriptionList(props: MyComponentProps) {
                           </div>
                         </div> */}
                         <div className="nk-tb-col">
+                          <Link to={`/invoice-detail/${item._id}`}>
                           <span className="tb-status text-primary">
                             {item.subscription?.slice(-8)?.toUpperCase()}
                           </span>
+                          </Link>
                         </div>
                         <div className="nk-tb-col">
                           <div className="user-card">

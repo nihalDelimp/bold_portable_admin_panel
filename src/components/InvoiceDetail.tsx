@@ -214,8 +214,9 @@ function InvoiceDetail(props: MyComponentProps) {
       </div>
       <div className="alert alert-icon alert-primary" role="alert">
         <em className="icon ni ni-alert-circle"></em>
-        <strong>Order has been placed</strong>. Your will be redirect for make
-        your payment.
+        <strong>Order has been placed.</strong>
+        {/* Your will be redirect to make
+        your payment. */}
       </div>
     </div>
   );
