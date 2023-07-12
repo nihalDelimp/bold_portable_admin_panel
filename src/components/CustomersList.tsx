@@ -197,7 +197,7 @@ function CustomersList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    <div className="nk-tb-col nk-tb-col-check">
+                    {/* <div className="nk-tb-col nk-tb-col-check">
                       <div className="custom-control custom-control-sm custom-checkbox notext">
                         <input
                           type="checkbox"
@@ -206,7 +206,7 @@ function CustomersList(props: MyComponentProps) {
                         />
                         <label className="custom-control-label"></label>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
@@ -233,7 +233,7 @@ function CustomersList(props: MyComponentProps) {
                     customers.length > 0 &&
                     customers.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-                        <div className="nk-tb-col nk-tb-col-check">
+                        {/* <div className="nk-tb-col nk-tb-col-check">
                           <div className="custom-control custom-control-sm custom-checkbox notext">
                             <input
                               type="checkbox"
@@ -242,7 +242,7 @@ function CustomersList(props: MyComponentProps) {
                             />
                             <label className="custom-control-label"></label>
                           </div>
-                        </div>
+                        </div> */}
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}

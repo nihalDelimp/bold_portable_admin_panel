@@ -266,7 +266,7 @@ const QuotationsList = (props: MyComponentProps) => {
             <div className="nk-block">
               <div className="nk-tb-list is-separate is-medium mb-3">
                 <div className="nk-tb-item nk-tb-head">
-                  <div className="nk-tb-col nk-tb-col-check">
+                  {/* <div className="nk-tb-col nk-tb-col-check">
                     <div className="custom-control custom-control-sm custom-checkbox notext">
                       <input
                         type="checkbox"
@@ -278,7 +278,7 @@ const QuotationsList = (props: MyComponentProps) => {
                         htmlFor="oid"
                       ></label>
                     </div>
-                  </div>
+                  </div> */}
                   <div className="nk-tb-col">
                     <span className="sub-text">ID</span>
                   </div>
@@ -314,7 +314,7 @@ const QuotationsList = (props: MyComponentProps) => {
                   quotationData.length > 0 &&
                   quotationData.map((item: any, index: number) => (
                     <div key={item._id} className="nk-tb-item">
-                      <div className="nk-tb-col nk-tb-col-check">
+                      {/* <div className="nk-tb-col nk-tb-col-check">
                         <div className="custom-control custom-control-sm custom-checkbox notext">
                           <input
                             type="checkbox"
@@ -326,9 +326,14 @@ const QuotationsList = (props: MyComponentProps) => {
                             htmlFor="oid01"
                           ></label>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="nk-tb-col">
-                        <span className="tb-status text-primary">
+                        <span style={{cursor:"pointer"}}
+                          className="tb-status text-primary"
+                          onClick={() =>
+                            handleSendInvoice(item._id, item.type, item.status)
+                          }
+                        >
                           {item._id?.slice(-8)?.toUpperCase()}
                         </span>
                       </div>

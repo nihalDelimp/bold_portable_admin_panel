@@ -379,9 +379,15 @@ function Dashboard(props: MyComponentProps) {
                             <div key={item._id} className="nk-tb-item">
                               <div className="nk-tb-col">
                                 <span className="tb-lead">
-                                  <a href="#">
+                                  <a href="#"  onClick={() =>
+                                                handleSendInvoice(
+                                                  item._id,
+                                                  item.type,
+                                                  item.status
+                                                )
+                                              }>
                                     <div>
-                                      {item._id.slice(-6).toUpperCase()}
+                                      {item._id.slice(-8).toUpperCase()}
                                     </div>
                                   </a>
                                 </span>
