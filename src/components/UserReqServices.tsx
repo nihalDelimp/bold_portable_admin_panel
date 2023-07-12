@@ -159,7 +159,7 @@ function UserRequestServices(props: MyComponentProps) {
                       <span className="sub-text">User Email</span>
                     </div>
                     <div className="nk-tb-col">
-                      <span className="sub-text">User Address</span>
+                      <span className="sub-text">Location</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Service Requirement</span>
