@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link, useParams } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import { socketService } from "../config/socketService";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -54,6 +55,9 @@ function UpdateLocation(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data?.message);
+            socketService.connect().then((socket: any) => {
+              socket.emit("save_location", response.data.data);
+            });
             getListingData();
             closeModal(false);
           } else {

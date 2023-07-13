@@ -10,6 +10,7 @@ import {
   replaceHyphenCapitolize,
 } from "../Helper";
 import { addressLimit } from "../Helper/constants";
+import { socketService } from "../config/socketService";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -68,6 +69,9 @@ function UserRequestServices(props: MyComponentProps) {
             setLoading(false);
             if (response.data.status === 1) {
               toast.success(response.data?.message);
+              socketService.connect().then((socket: any) => {
+                socket.emit("resolve_service", response.data);
+              });
               getServicesListData();
             } else {
               toast.error(response.data?.message);

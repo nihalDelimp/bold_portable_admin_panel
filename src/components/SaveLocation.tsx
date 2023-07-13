@@ -3,6 +3,7 @@ import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import { socketService } from "../config/socketService";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -43,6 +44,9 @@ function SaveLocation(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data?.message);
+            socketService.connect().then((socket: any) => {
+              socket.emit("save_location", response.data.data);
+            });
             getListingData();
             closeModal(false);
           } else {
