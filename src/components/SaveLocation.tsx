@@ -92,7 +92,6 @@ function SaveLocation(props: MyComponentProps) {
                         <input
                           type="text"
                           required
-                          minLength={5}
                           onChange={handleChange}
                           name="driver_name"
                           value={userData.driver_name}
@@ -126,7 +125,7 @@ function SaveLocation(props: MyComponentProps) {
                         <input
                           type="text"
                           required
-                          minLength={8}
+                          minLength={5}
                           onChange={handleChange}
                           name="address"
                           value={userData.address}
