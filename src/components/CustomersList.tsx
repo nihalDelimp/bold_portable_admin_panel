@@ -244,9 +244,11 @@ function CustomersList(props: MyComponentProps) {
                           </div>
                         </div> */}
                         <div className="nk-tb-col">
+                          <Link  to={`/view-user/${item._id}`}>
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}
                           </span>
+                          </Link>
                         </div>
                         <div className="nk-tb-col">
                           <a href="html/ecommerce/customer-details.html">
