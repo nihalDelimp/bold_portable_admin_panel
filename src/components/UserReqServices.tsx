@@ -70,7 +70,7 @@ function UserRequestServices(props: MyComponentProps) {
             if (response.data.status === 1) {
               toast.success(response.data?.message);
               socketService.connect().then((socket: any) => {
-                socket.emit("resolve_service", response.data);
+                socket.emit("resolved_service", response.data);
               });
               getServicesListData();
             } else {
