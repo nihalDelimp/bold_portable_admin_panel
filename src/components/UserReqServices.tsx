@@ -12,6 +12,9 @@ import {
 import { addressLimit } from "../Helper/constants";
 import { socketService } from "../config/socketService";
 
+import Lightbox from "react-image-lightbox";
+import "react-image-lightbox/style.css";
+
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
@@ -22,6 +25,26 @@ function UserRequestServices(props: MyComponentProps) {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
+
+  const images = [
+    "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
+    "https://source.unsplash.com/Dm-qxdynoEc/800x799",
+    "https://source.unsplash.com/qDkso9nvCg0/600x799",
+    "https://source.unsplash.com/iecJiKe_RNg/600x799",
+    "https://source.unsplash.com/epcsn8Ed8kY/600x799"
+  ];
+
+  const openLightbox = (index: number) => {
+    setPhotoIndex(index);
+    setIsOpen(true);
+  };
+
+  const closeLightbox = () => {
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     getServicesListData();
@@ -247,11 +270,16 @@ function UserRequestServices(props: MyComponentProps) {
                             )}
                         </div>
                         <div className="nk-tb-col tb-col-lg">
-                            {item.images && item.images.length>0 &&item.images.map((item :any)=>(
-                              <img 
-                          src={`${process.env.REACT_APP_BASEURL}/${item.image_path}`}
-                          style={{width:"50px",height:"50px"}}
-                           />
+                          {images &&
+                            images.length > 0 &&
+                            images.map((item: any , index : number) => (
+                              <img
+                                 key = {item}
+                                 onClick={() => openLightbox(index)}
+                                // src={`${process.env.REACT_APP_BASEURL}/${item.image_path}`}
+                                src={item}
+                                style={{ width: "50px", height: "50px" }}
+                              />
                             ))}
                         </div>
                         <div className="nk-tb-col tb-col-lg">
@@ -297,6 +325,27 @@ function UserRequestServices(props: MyComponentProps) {
                         </div>
                       </div>
                     ))}
+                </div>
+                {isOpen && (
+                    <Lightbox
+                      mainSrc={images[photoIndex]}
+                      nextSrc={images[(photoIndex + 1) % images.length]}
+                      prevSrc={
+                        images[(photoIndex + images.length - 1) % images.length]
+                      }
+                      onCloseRequest={closeLightbox}
+                      onMovePrevRequest={() =>
+                        setPhotoIndex(
+                          (photoIndex + images.length - 1) % images.length
+                        )
+                      }
+                      onMoveNextRequest={() =>
+                        setPhotoIndex((photoIndex + 1) % images.length)
+                      }
+                    />
+                  )}
+                <div>
+            
                 </div>
                 {services && services.length > 0 && (
                   <Pagination
