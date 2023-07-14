@@ -26,18 +26,16 @@ function UserRequestServices(props: MyComponentProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [photoIndex, setPhotoIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [photoIndex, setPhotoIndex] = useState<number>(0);
+  const [images, setImages] = useState<any>([]);
 
-  const images = [
-    "https://source.unsplash.com/2ShvY8Lf6l0/800x599",
-    "https://source.unsplash.com/Dm-qxdynoEc/800x799",
-    "https://source.unsplash.com/qDkso9nvCg0/600x799",
-    "https://source.unsplash.com/iecJiKe_RNg/600x799",
-    "https://source.unsplash.com/epcsn8Ed8kY/600x799"
-  ];
-
-  const openLightbox = (index: number) => {
+  const openLightbox = (index: number, imagesPath: any) => {
+    const allImagesPath: any[] = [];
+    imagesPath.forEach((item: any) => {
+      allImagesPath.push(`${process.env.REACT_APP_BASEURL}/${item.image_path}`);
+    });
+    setImages(allImagesPath);
     setPhotoIndex(index);
     setIsOpen(true);
   };
@@ -270,14 +268,15 @@ function UserRequestServices(props: MyComponentProps) {
                             )}
                         </div>
                         <div className="nk-tb-col tb-col-lg">
-                          {images &&
-                            images.length > 0 &&
-                            images.map((item: any , index : number) => (
+                          {item.images &&
+                            item.images.length > 0 &&
+                            item.images.map((element: any, index: number) => (
                               <img
-                                 key = {item}
-                                 onClick={() => openLightbox(index)}
-                                // src={`${process.env.REACT_APP_BASEURL}/${item.image_path}`}
-                                src={item}
+                                key={element.image_path}
+                                onClick={() => openLightbox(index, item.images)}
+                                src={`${process.env.REACT_APP_BASEURL}/${element.image_path}`}
+                                // src={item}
+                                alt="quotation"
                                 style={{ width: "50px", height: "50px" }}
                               />
                             ))}
@@ -327,26 +326,24 @@ function UserRequestServices(props: MyComponentProps) {
                     ))}
                 </div>
                 {isOpen && (
-                    <Lightbox
-                      mainSrc={images[photoIndex]}
-                      nextSrc={images[(photoIndex + 1) % images.length]}
-                      prevSrc={
-                        images[(photoIndex + images.length - 1) % images.length]
-                      }
-                      onCloseRequest={closeLightbox}
-                      onMovePrevRequest={() =>
-                        setPhotoIndex(
-                          (photoIndex + images.length - 1) % images.length
-                        )
-                      }
-                      onMoveNextRequest={() =>
-                        setPhotoIndex((photoIndex + 1) % images.length)
-                      }
-                    />
-                  )}
-                <div>
-            
-                </div>
+                  <Lightbox
+                    mainSrc={images[photoIndex]}
+                    nextSrc={images[(photoIndex + 1) % images.length]}
+                    prevSrc={
+                      images[(photoIndex + images.length - 1) % images.length]
+                    }
+                    onCloseRequest={closeLightbox}
+                    onMovePrevRequest={() =>
+                      setPhotoIndex(
+                        (photoIndex + images.length - 1) % images.length
+                      )
+                    }
+                    onMoveNextRequest={() =>
+                      setPhotoIndex((photoIndex + 1) % images.length)
+                    }
+                  />
+                )}
+                <div></div>
                 {services && services.length > 0 && (
                   <Pagination
                     totalCount={totalCount}
