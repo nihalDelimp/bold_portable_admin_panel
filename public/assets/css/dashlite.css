@@ -41448,3 +41448,7 @@ div.dataTables_wrapper div.dataTables_filter .dark-mode .nk-header-search input,
 }
 
 /*! END @iO */
+
+.ReactModalPortal .ReactModal__Overlay {
+  z-index: 9999 !important;
+}
