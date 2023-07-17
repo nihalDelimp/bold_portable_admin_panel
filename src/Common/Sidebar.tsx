@@ -145,7 +145,7 @@ function Sidebar() {
               >
                 <NavLink to="/inventory" className="nk-menu-link">
                   <span className="nk-menu-icon">
-                    <em className="icon ni ni-menu-squared"></em>
+                    <em className="icon ni ni-home-fill"></em>
                   </span>
                   <span className="nk-menu-text">Inventory</span>
                 </NavLink>

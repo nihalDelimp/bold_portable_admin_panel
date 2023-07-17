@@ -161,10 +161,10 @@ function CreateQRCode(props: MyComponentProps) {
                           className="form-control"
                           onChange={handleChangeSelect}
                         >
-                          <option value="Standard">Standard</option>
-                          <option value="Standard With Sink">Standard With Sink</option>
-                          <option value="Wheel Chair Accessible">Wheel Chair Accessible</option>
-                          <option value="High rise capable">High rise capable</option>
+                          <option value="standard">Standard</option>
+                          <option value="standard With Sink">Standard With Sink</option>
+                          <option value="wheel Chair Accessible">Wheel Chair Accessible</option>
+                          <option value="high rise capable">High rise capable</option>
                         </select>
                       </div>
                     </div>

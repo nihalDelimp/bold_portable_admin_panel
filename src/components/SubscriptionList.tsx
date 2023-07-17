@@ -387,11 +387,17 @@ function SubscriptionList(props: MyComponentProps) {
                                             }
                                           >
                                             <em className="icon ni ni-plus-circle"></em>
-                                            <span>Track Location</span>
+                                            <span>Save Location</span>
                                           </a>
                                         </li>
                                       )
                                     ) : null}
+                                      <li>
+                                      <Link to={`/assign-qr-code?quoteId=${item._id}&quoteType=${item?.quotationType}`}>
+                                        <em className="icon ni ni-eye"></em>
+                                        <span>Assign QR Code</span>
+                                      </Link>
+                                    </li>
                                     <li>
                                       <Link to={`/invoice-detail/${item._id}`}>
                                         <em className="icon ni ni-eye"></em>

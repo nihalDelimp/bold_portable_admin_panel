@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../components/Login";
 import Home from "../components/Dashboard";
@@ -18,7 +18,8 @@ import SubscriptionDetail from "../components/SubscriptionDetail";
 import SendEmail from "../components/SendEmail";
 import UserRequestServices from "../components/UserReqServices";
 import ServicesList from "../components/ServicesList";
-import InventoryList from "../components/Invenetry"
+import InventoryList from "../components/Invenetry";
+import AssignQRCode from "../components/AssignQRCode";
 
 function RootRouter() {
   return (
@@ -114,11 +115,11 @@ function RootRouter() {
               </PrivateRoute>
             }
           />
-           <Route
+          <Route
             path="/inventory"
             element={
               <PrivateRoute>
-                <InventoryList  />
+                <InventoryList />
               </PrivateRoute>
             }
           />
@@ -151,6 +152,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <SendEmail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/assign-qr-code"
+            element={
+              <PrivateRoute>
+                <AssignQRCode />
               </PrivateRoute>
             }
           />

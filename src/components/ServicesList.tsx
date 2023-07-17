@@ -218,9 +218,9 @@ function ServicesList(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-md">
                           {item.categories &&
                             item.categories.length > 0 &&
-                            item.categories.map((item: string) => (
-                              <React.Fragment>
-                                <span>{item}</span>
+                            item.categories.map((element: string , index2 : number) => (
+                              <React.Fragment key={index2}>
+                                <span>{element}</span>
                                 <br />
                               </React.Fragment>
                             ))}

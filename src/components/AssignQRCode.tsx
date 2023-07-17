@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { authAxios } from "../../config/config";
+import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
-import IsLoadingHOC from "../../Common/IsLoadingHOC";
+import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
-import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
-import Pagination from "../../Common/Pagination";
+import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import Pagination from "../Common/Pagination";
 import {
   CapitalizeFirstLetter,
   getFormatedDate,
   replaceHyphenCapitolize,
-} from "../../Helper";
-import CreateInventory from "./Create";
-import EditInventory from "./Edit";
-import DeleteConfirmationModal from "../../Common/DeleteConfirmation";
-import { limitDesc } from "../../Helper/constants";
+} from "../Helper";
+import { limitDesc } from "../Helper/constants";
+import ConfirmAssignModal from "../Common/ConfirmAssignModal";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -25,19 +23,31 @@ function InventoryList(props: MyComponentProps) {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [addModal, setAddModal] = useState<boolean>(false);
-  const [editModal, setEditModal] = useState<boolean>(false);
-  const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [serviceItem, setServiceItem] = useState(null);
-  const [serviceID, setServiceID] = useState<string>("");
   const [statusName, setStatusName] = useState("pending");
-  const [statusLabel, setStatusLabel] = useState("Pending");
+  const [gender, setGender] = useState<string>("male");
+  const [quoteType, setQuoteType] = useState<string>("standard");
+  const [selectedItems, setSelectedItems] = useState<any[]>([]);
+  const [quotationId, setQuotationId] = useState<string>("");
+  const [quotationType, setQuotationType] = useState<string>("");
+  const [assignModal, setAssignModal] = useState<boolean>(false);
 
   useEffect(() => {
     getInventoryListData();
-  }, [currentPage, itemsPerPage , statusName]);
+  }, [currentPage, itemsPerPage, statusName]);
 
-  // inventory/get-qr-code-details-status?status=pending&page=1&limit=10
+  useEffect(() => {
+    // Get the URL parameters
+    const params = new URLSearchParams(window.location.search);
+    console.log("params", params);
+    const quotation_Id = params.get("quoteId");
+    const quotation_Type = params.get("quoteType");
+    if (quotation_Id) {
+      setQuotationId(quotation_Id.toString());
+    }
+    if (quotation_Type) {
+      setQuotationType(quotation_Type?.toLowerCase().toString());
+    }
+  }, []);
 
   const getInventoryListData = async () => {
     setLoading(true);
@@ -52,18 +62,17 @@ function InventoryList(props: MyComponentProps) {
             const resData = response.data.data;
             setListData(resData.qrCodes);
             setTotalCount(resData?.totalCount);
-          }
-          else{
+          } else {
             toast.error(response.data.message);
-            setListData([])
-            setTotalCount(0)
+            setListData([]);
+            setTotalCount(0);
           }
         },
         (error) => {
           setLoading(false);
           toast.error(error.response.data.message);
-          setListData([])
-          setTotalCount(0)
+          setListData([]);
+          setTotalCount(0);
         }
       )
       .catch((error) => {
@@ -71,43 +80,61 @@ function InventoryList(props: MyComponentProps) {
       });
   };
 
-  const handleCreateModal = () => {
-    setAddModal(true);
-  };
-
-  const handleEditModal = (data: any) => {
-    setServiceItem(data);
-    setEditModal(true);
-  };
-
-  const handleDeleteModal = (_id: string) => {
-    setServiceID(_id);
-    setDeleteModal(true);
-  };
-
-  const handleDeleteItem = async () => {
+  const handleAssignQRCode = async () => {
+    const payload = {
+      _ids: [...selectedItems],
+      quoteId: quotationId,
+      quoteType: quotationType,
+    };
     setLoading(true);
     await authAxios()
-      .delete(`/service/delete/${serviceID}`)
+      .post(`/inventory/assign-qrcode-to-quote`, payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            toast.success(response.data?.message);
-            setDeleteModal(false);
-            getInventoryListData();
+            const resData = response.data;
+            toast.success(response.data.message);
+            setSelectedItems([]);
+            setAssignModal(false);
           } else {
-            toast.error(response.data?.message);
+            toast.error(response.data.message);
           }
         },
         (error) => {
           setLoading(false);
-          toast.error(error.response.data?.message);
+          toast.error(error.response.data.message);
         }
       )
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const handleSelectItem = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    order_id: string
+  ) => {
+    const is_checked = e.target.checked;
+    const selected_item: any[] = [...selectedItems];
+    if (is_checked) {
+      selected_item.push(order_id);
+      setSelectedItems(selected_item);
+    } else {
+      const index = selected_item.indexOf(order_id);
+      if (index > -1) {
+        selected_item.splice(index, 1);
+        setSelectedItems(selected_item);
+      }
+    }
+  };
+
+  const handleAssignModal = () => {
+    if (selectedItems.length === 0) {
+      toast.error("Any production not found");
+    } else {
+      setAssignModal(true);
+    }
   };
 
   const setBackgroundColor = (status: string) => {
@@ -124,12 +151,6 @@ function InventoryList(props: MyComponentProps) {
     }
   };
 
-  const handleChangeStatus = (name: string, label: string) => {
-    setCurrentPage(1);
-    setStatusName(name);
-    setStatusLabel(label);
-  };
-
   return (
     <>
       <div className="nk-content">
@@ -140,7 +161,7 @@ function InventoryList(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">
-                      Inventory List
+                      Assign Production to Quotation
                     </h3>
                   </div>
                   <div className="nk-block-head-content">
@@ -157,98 +178,6 @@ function InventoryList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          <li>
-                            <div className="form-control-wrap">
-                              <div className="form-icon form-icon-right">
-                                <em className="icon ni ni-search"></em>
-                              </div>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="default-04"
-                                placeholder="Search by name"
-                              />
-                            </div>
-                          </li>
-                          <li>
-                            <div className="drodown">
-                              <a
-                                href="#"
-                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                                data-bs-toggle="dropdown"
-                              >
-                                {statusLabel}
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus("", "Status")
-                                      }
-                                    >
-                                      <span>Select Status</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus("pending", "Pending")
-                                      }
-                                    >
-                                      <span>Pending</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus("active", "Active")
-                                      }
-                                    >
-                                      <span>Active</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus(
-                                          "modified",
-                                          "Modified"
-                                        )
-                                      }
-                                    >
-                                      <span>Modified</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus(
-                                          "completed",
-                                          "Completed"
-                                        )
-                                      }
-                                    >
-                                      <span>Completed</span>
-                                    </a>
-                                  </li>
-
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus(
-                                          "cancelled",
-                                          "Cancelled"
-                                        )
-                                      }
-                                    >
-                                      <span>Cancelled</span>
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </li>
                           <li className="nk-block-tools-opt">
                             <a
                               data-target="addProduct"
@@ -257,13 +186,135 @@ function InventoryList(props: MyComponentProps) {
                               <em className="icon ni ni-plus"></em>
                             </a>
                             <a
-                              onClick={handleCreateModal}
+                              onClick={handleAssignModal}
                               data-target="addProduct"
                               className="toggle btn btn-primary d-none d-md-inline-flex"
                             >
                               <em className="icon ni ni-plus"></em>
-                              <span>Create</span>
+                              <span>Assign</span>
                             </a>
+                          </li>
+
+                          <li>
+                            <div className="drodown">
+                              <a
+                                href="#"
+                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                                data-bs-toggle="dropdown"
+                              >
+                                {CapitalizeFirstLetter(quoteType)}
+                              </a>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                <ul className="link-list-opt no-bdr">
+                                  <li>
+                                    <a>
+                                      <span>Select type</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => setQuoteType("standard")}>
+                                      <span>Standard</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      onClick={() =>
+                                        setQuoteType("standard With Sink")
+                                      }
+                                    >
+                                      <span>Standard With Sink</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      onClick={() =>
+                                        setQuoteType("wheel Chair Accessible")
+                                      }
+                                    >
+                                      <span>Wheel Chair Accessible</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      onClick={() =>
+                                        setQuoteType("high rise capable")
+                                      }
+                                    >
+                                      <span>High rise capable</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+
+                          <li>
+                            <div className="drodown">
+                              <a
+                                href="#"
+                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                                data-bs-toggle="dropdown"
+                              >
+                                {CapitalizeFirstLetter(gender)}
+                              </a>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                <ul className="link-list-opt no-bdr">
+                                  <li>
+                                    <a>
+                                      <span>Select Gender</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => setGender("male")}>
+                                      <span>Male</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => setGender("female")}>
+                                      <span>Female</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => setGender("Both")}>
+                                      <span>Both</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+
+                          <li>
+                            <div className="drodown">
+                              <a
+                                href="#"
+                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                                data-bs-toggle="dropdown"
+                              >
+                                {CapitalizeFirstLetter(statusName)}
+                              </a>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                <ul className="link-list-opt no-bdr">
+                                  <li>
+                                    <a>
+                                      <span>Select Status</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => setStatusName("pending")}>
+                                      <span>Pending</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      onClick={() => setStatusName("completed")}
+                                    >
+                                      <span>Completed</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
                           </li>
                         </ul>
                       </div>
@@ -274,7 +325,7 @@ function InventoryList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    {/* <div className="nk-tb-col nk-tb-col-check">
+                    <div className="nk-tb-col nk-tb-col-check">
                       <div className="custom-control custom-control-sm custom-checkbox notext">
                         <input
                           type="checkbox"
@@ -283,7 +334,7 @@ function InventoryList(props: MyComponentProps) {
                         />
                         <label className="custom-control-label"></label>
                       </div>
-                    </div> */}
+                    </div>
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
@@ -296,7 +347,6 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Quantity</span>
                     </div>
-
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Type</span>
                     </div>
@@ -312,24 +362,24 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">OR code</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Action</span>
-                    </div>
                   </div>
                   {listData &&
                     listData.length > 0 &&
                     listData.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-                        {/* <div className="nk-tb-col nk-tb-col-check">
+                        <div className="nk-tb-col nk-tb-col-check">
                           <div className="custom-control custom-control-sm custom-checkbox notext">
                             <input
                               type="checkbox"
-                              className="custom-control-input"
+                              className=""
                               id="uid1"
+                              onChange={(event) =>
+                                handleSelectItem(event, item._id)
+                              }
+                              checked={selectedItems.includes(item._id)}
                             />
-                            <label className="custom-control-label"></label>
                           </div>
-                        </div> */}
+                        </div>
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}
@@ -398,42 +448,6 @@ function InventoryList(props: MyComponentProps) {
                             alt="QR Code"
                           />
                         </div>
-                        <div className="nk-tb-col nk-tb-col-tools">
-                          <ul className="gx-1">
-                            <li>
-                              <div className="drodown">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle btn btn-icon btn-trigger"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <em className="icon ni ni-more-h"></em>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end">
-                                  <ul className="link-list-opt no-bdr">
-                                    {/* <li>
-                                      <a onClick={() => handleEditModal(item)}>
-                                        <em className="icon ni ni-edit"></em>
-                                        <span>Edit Service</span>
-                                      </a>
-                                    </li> */}
-                                    <li>
-                                      <a
-                                        className="cursor_ponter"
-                                        onClick={() =>
-                                          handleDeleteModal(item._id)
-                                        }
-                                      >
-                                        <em className="icon ni ni-trash"></em>
-                                        <span>Remove</span>
-                                      </a>
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
                       </div>
                     ))}
                 </div>
@@ -452,29 +466,11 @@ function InventoryList(props: MyComponentProps) {
           </div>
         </div>
       </div>
-      {addModal && (
-        <CreateInventory
-          modal={addModal}
-          getListingData={getInventoryListData}
-          closeModal={(isModal: boolean) => setAddModal(isModal)}
-        />
-      )}
-      {editModal && (
-        <EditInventory
-          itemData={serviceItem}
-          modal={editModal}
-          getListingData={getInventoryListData}
-          closeModal={(isModal: boolean) => setEditModal(isModal)}
-        />
-      )}
-      {deleteModal && (
-        <DeleteConfirmationModal
-          modal={deleteModal}
-          closeModal={(isModal: boolean) => setDeleteModal(isModal)}
-          confirmedDelete={handleDeleteItem}
-          actionType="service"
-        />
-      )}
+      <ConfirmAssignModal
+        modal={assignModal}
+        closeModal={(isModal: boolean) => setAssignModal(isModal)}
+        handleSubmit={handleAssignQRCode}
+      />
     </>
   );
 }
