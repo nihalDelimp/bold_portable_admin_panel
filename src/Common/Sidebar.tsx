@@ -140,6 +140,19 @@ function Sidebar() {
               </li>
               <li
                 className={`nk-menu-item ${
+                  pathName === "/inventory" ? "active" : ""
+                }`}
+              >
+                <NavLink to="/inventory" className="nk-menu-link">
+                  <span className="nk-menu-icon">
+                    <em className="icon ni ni-menu-squared"></em>
+                  </span>
+                  <span className="nk-menu-text">Inventory</span>
+                </NavLink>
+              </li>
+
+              <li
+                className={`nk-menu-item ${
                   pathName === "/services" ? "active" : ""
                 }`}
               >
@@ -150,6 +163,7 @@ function Sidebar() {
                   <span className="nk-menu-text">Request Service</span>
                 </NavLink>
               </li>
+
               <li
                 className={`nk-menu-item ${
                   pathName === "/send-email" ? "active" : ""

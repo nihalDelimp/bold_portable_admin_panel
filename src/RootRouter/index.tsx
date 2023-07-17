@@ -18,6 +18,7 @@ import SubscriptionDetail from "../components/SubscriptionDetail";
 import SendEmail from "../components/SendEmail";
 import UserRequestServices from "../components/UserReqServices";
 import ServicesList from "../components/ServicesList";
+import InventoryList from "../components/Invenetry"
 
 function RootRouter() {
   return (
@@ -110,6 +111,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <ServicesList />
+              </PrivateRoute>
+            }
+          />
+           <Route
+            path="/inventory"
+            element={
+              <PrivateRoute>
+                <InventoryList  />
               </PrivateRoute>
             }
           />
