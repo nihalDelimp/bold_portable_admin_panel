@@ -208,6 +208,7 @@ function CreateQRCode(props: MyComponentProps) {
                           className="form-control"
                           onChange={handleChangeSelect}
                         >
+                          <option value="">Select Category</option>
                           {categories &&
                             categories.length > 0 &&
                             categories.map((item: any, index) => (
@@ -230,6 +231,7 @@ function CreateQRCode(props: MyComponentProps) {
                           className="form-control"
                           onChange={handleChangeSelect}
                         >
+                          <option value="">Select Type</option>
                           {inventoryTypes &&
                             inventoryTypes.length > 0 &&
                             inventoryTypes.map((item: any, index) => (

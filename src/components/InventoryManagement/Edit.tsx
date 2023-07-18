@@ -220,6 +220,7 @@ function EditInventory(props: MyComponentProps) {
                           className="form-control"
                           onChange={handleChangeSelect}
                         >
+                          <option value="">Select Category</option>
                           {categories &&
                             categories.length > 0 &&
                             categories.map((item: any, index) => (
@@ -230,7 +231,6 @@ function EditInventory(props: MyComponentProps) {
                         </select>
                       </div>
                     </div>
-
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
@@ -243,6 +243,7 @@ function EditInventory(props: MyComponentProps) {
                           className="form-control"
                           onChange={handleChangeSelect}
                         >
+                          <option value="">Select Type</option>
                           {inventoryTypes &&
                             inventoryTypes.length > 0 &&
                             inventoryTypes.map((item: any, index) => (
