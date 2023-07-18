@@ -66,7 +66,7 @@ function Sidebar() {
                   <span className="nk-menu-text">Dashboard</span>
                 </NavLink>
               </li>
-              {/* <li
+              <li
                 className={`nk-menu-item ${
                   pathName === "/category-management" ? "active" : ""
                 }`}
@@ -75,9 +75,26 @@ function Sidebar() {
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-menu-squared"></em>
                   </span>
-                  <span className="nk-menu-text">Category Management</span>
+                  <span className="nk-menu-text">Inventory Category</span>
                 </NavLink>
-              </li> */}
+              </li>
+
+              <li
+                className={`nk-menu-item ${
+                  pathName === "/portable-type-management" ? "active" : ""
+                }`}
+              >
+                <NavLink
+                  to="/inventory-type-management"
+                  className="nk-menu-link"
+                >
+                  <span className="nk-menu-icon">
+                    <em className="icon ni ni-menu-squared"></em>
+                  </span>
+                  <span className="nk-menu-text">Inventory Types</span>
+                </NavLink>
+              </li>
+
               <li
                 className={`nk-menu-item ${
                   pathName === "/services" ? "active" : ""
@@ -87,7 +104,7 @@ function Sidebar() {
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-menu-squared"></em>
                   </span>
-                  <span className="nk-menu-text">Service Management</span>
+                  <span className="nk-menu-text">Add or Edit Services</span>
                 </NavLink>
               </li>
               <li
@@ -111,7 +128,7 @@ function Sidebar() {
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-menu-squared"></em>
                   </span>
-                  <span className="nk-menu-text">Service Request</span>
+                  <span className="nk-menu-text">Service Requests</span>
                 </NavLink>
               </li>
               <li

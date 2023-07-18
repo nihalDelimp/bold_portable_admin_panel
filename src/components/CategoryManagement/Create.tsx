@@ -3,7 +3,6 @@ import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
-import CreatableSelect from "react-select/creatable";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -14,42 +13,12 @@ interface MyComponentProps {
 
 function CreateCategory(props: MyComponentProps) {
   const { setLoading, modal, closeModal, getListingData } = props;
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const [options, setOptions] = useState([]);
 
   const [formData, setFormData] = useState({
     category: "",
-    types: "",
   });
 
-  const handleSelectChange = (options: any) => {
-    setSelectedOption(options);
-    let selected_value: any = [];
-    options.map((item: any) => selected_value.push(item.value));
-    setFormData((prev) => ({
-      ...prev,
-      category: selected_value,
-    }));
-  };
-
-  const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleChangeTextArea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -60,28 +29,28 @@ function CreateCategory(props: MyComponentProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = formData;
-      setLoading(true);
-      await authAxios()
-        .post("/inventory-category/save-category-and-type", payload)
-        .then(
-          (response) => {
-            setLoading(false);
-            if (response.data.status === 1) {
-              toast.success(response.data?.message);
-              getListingData();
-              closeModal(false);
-            } else {
-              toast.error(response.data?.message);
-            }
-          },
-          (error) => {
-            setLoading(false);
-            toast.error(error.response.data?.message);
+    setLoading(true);
+    await authAxios()
+      .post("/inventory-category/save-category", payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data?.message);
+            getListingData();
+            closeModal(false);
+          } else {
+            toast.error(response.data?.message);
           }
-        )
-        .catch((error) => {
-          console.log("errorrrr", error);
-        });
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   return (
@@ -100,7 +69,7 @@ function CreateCategory(props: MyComponentProps) {
             <em className="icon ni ni-cross-sm"></em>
           </a>
           <div className="modal-body modal-body-md">
-            <h5 className="title">Create</h5>
+            <h5 className="title">Create new category</h5>
             <div className="tab-content">
               <div className="tab-pane active" id="personal">
                 <form onSubmit={handleSubmit}>
@@ -108,7 +77,7 @@ function CreateCategory(props: MyComponentProps) {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
-                          Category
+                          Category name
                         </label>
                         <input
                           required
@@ -117,43 +86,10 @@ function CreateCategory(props: MyComponentProps) {
                           value={formData.category}
                           className="form-control"
                           id="category"
-                          placeholder="Enter Category"
+                          placeholder="Enter the name"
                         />
                       </div>
                     </div>
-
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="full-name">
-                          Production Type
-                        </label>
-                        <input
-                          required
-                          onChange={handleChangeInput}
-                          name="types"
-                          value={formData.types}
-                          className="form-control"
-                          id="types"
-                          placeholder="Enter production type"
-                        />
-                      </div>
-                    </div>
-                    {/* 
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="phone-no">
-                          Categories
-                        </label>
-                        <CreatableSelect
-                          isMulti
-                          value={selectedOption}
-                          options={options}
-                          onChange={handleSelectChange}
-                          placeholder="Createable"
-                        />
-                      </div>
-                    </div> */}
-
                     <div className="col-12">
                       <ul className="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                         <li>

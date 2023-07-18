@@ -16,15 +16,15 @@ function EditFormModal(props: MyComponentProps) {
   const { setLoading, modal, closeModal, getListingData, elementData } = props;
 
   const [formData, setFormData] = useState({
-    category: "",
+    types: "",
   });
 
   useEffect(() => {
     if (elementData) {
-      const { category } = elementData;
+      const { types } = elementData;
       setFormData((prev) => ({
         ...prev,
-        category,
+        types,
       }));
     }
   }, []);
@@ -39,13 +39,12 @@ function EditFormModal(props: MyComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { category } = formData;
     if (elementData._id) {
       const _id = elementData._id;
-      const payload = { category };
+      const payload = formData;
       setLoading(true);
       await authAxios()
-        .put(`/inventory-category/edit-category-list/${_id}`, payload)
+        .put(`/inventory-category/edit-type-list/${_id}`, payload)
         .then(
           (response) => {
             setLoading(false);
@@ -84,7 +83,7 @@ function EditFormModal(props: MyComponentProps) {
             <em className="icon ni ni-cross-sm"></em>
           </a>
           <div className="modal-body modal-body-md">
-            <h5 className="title">Edit Category</h5>
+            <h5 className="title">Edit inventory type</h5>
             <div className="tab-content">
               <div className="tab-pane active" id="personal">
                 <form onSubmit={handleSubmit}>
@@ -92,16 +91,16 @@ function EditFormModal(props: MyComponentProps) {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
-                          Category name
+                          types
                         </label>
                         <input
                           required
                           onChange={handleChangeInput}
-                          name="category"
-                          value={formData.category}
+                          name="types"
+                          value={formData.types}
                           className="form-control"
-                          id="category"
-                          placeholder="Enter the name"
+                          id="types"
+                          placeholder="Enter the type"
                         />
                       </div>
                     </div>

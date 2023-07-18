@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
@@ -9,25 +9,14 @@ interface MyComponentProps {
   modal: boolean;
   closeModal: (isModal: boolean) => void;
   getListingData: () => void;
-  elementData: any;
 }
 
-function EditFormModal(props: MyComponentProps) {
-  const { setLoading, modal, closeModal, getListingData, elementData } = props;
+function CreateFormModal(props: MyComponentProps) {
+  const { setLoading, modal, closeModal, getListingData } = props;
 
   const [formData, setFormData] = useState({
-    category: "",
+    types: "",
   });
-
-  useEffect(() => {
-    if (elementData) {
-      const { category } = elementData;
-      setFormData((prev) => ({
-        ...prev,
-        category,
-      }));
-    }
-  }, []);
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,33 +28,29 @@ function EditFormModal(props: MyComponentProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { category } = formData;
-    if (elementData._id) {
-      const _id = elementData._id;
-      const payload = { category };
-      setLoading(true);
-      await authAxios()
-        .put(`/inventory-category/edit-category-list/${_id}`, payload)
-        .then(
-          (response) => {
-            setLoading(false);
-            if (response.data.status === 1) {
-              toast.success(response.data?.message);
-              getListingData();
-              closeModal(false);
-            } else {
-              toast.error(response.data?.message);
-            }
-          },
-          (error) => {
-            setLoading(false);
-            toast.error(error.response.data?.message);
+    const payload = formData;
+    setLoading(true);
+    await authAxios()
+      .post("/inventory-category/save-type", payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data?.message);
+            getListingData();
+            closeModal(false);
+          } else {
+            toast.error(response.data?.message);
           }
-        )
-        .catch((error) => {
-          console.log("errorrrr", error);
-        });
-    }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   return (
@@ -84,7 +69,7 @@ function EditFormModal(props: MyComponentProps) {
             <em className="icon ni ni-cross-sm"></em>
           </a>
           <div className="modal-body modal-body-md">
-            <h5 className="title">Edit Category</h5>
+            <h5 className="title">Create a new inventory type</h5>
             <div className="tab-content">
               <div className="tab-pane active" id="personal">
                 <form onSubmit={handleSubmit}>
@@ -92,16 +77,16 @@ function EditFormModal(props: MyComponentProps) {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
-                          Category name
+                          Inventory type
                         </label>
                         <input
                           required
                           onChange={handleChangeInput}
-                          name="category"
-                          value={formData.category}
+                          name="types"
+                          value={formData.types}
                           className="form-control"
-                          id="category"
-                          placeholder="Enter the name"
+                          id="types"
+                          placeholder="Enter the type"
                         />
                       </div>
                     </div>
@@ -135,4 +120,4 @@ function EditFormModal(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(EditFormModal));
+export default IsLoadingHOC(IsLoggedinHOC(CreateFormModal));

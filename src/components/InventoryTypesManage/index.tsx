@@ -13,7 +13,7 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function CategoryList(props: MyComponentProps) {
+function InventoryTypeList(props: MyComponentProps) {
   const { setLoading } = props;
   const [listData, setListData] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -26,14 +26,14 @@ function CategoryList(props: MyComponentProps) {
   const [elementID, setElementID] = useState<string>("");
 
   useEffect(() => {
-    getCategoryListData();
+    getListData();
   }, [currentPage, itemsPerPage]);
 
-  const getCategoryListData = async () => {
+  const getListData = async () => {
     setLoading(true);
     await authAxios()
       .get(
-        `/inventory-category/get-category-list?page=${currentPage}&limit=${itemsPerPage}`
+        `/inventory-category/get-type-list?page=${currentPage}&limit=${itemsPerPage}`
       )
       .then(
         (response) => {
@@ -77,14 +77,14 @@ function CategoryList(props: MyComponentProps) {
   const handleDeleteItem = async () => {
     setLoading(true);
     await authAxios()
-      .delete(`/inventory-category/delete-category-list/${elementID}`)
+      .delete(`/inventory-category/delete-type-list/${elementID}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data?.message);
             setDeleteModal(false);
-            getCategoryListData();
+            getListData();
           } else {
             toast.error(response.data?.message);
           }
@@ -109,7 +109,7 @@ function CategoryList(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">
-                      Category Management
+                      Inventory Types
                     </h3>
                   </div>
                   <div className="nk-block-head-content">
@@ -155,7 +155,7 @@ function CategoryList(props: MyComponentProps) {
                       <span className="sub-text">ID</span>
                     </div>
                     <div className="nk-tb-col">
-                      <span className="sub-text">Category Name</span>
+                      <span className="sub-text">Inventory Type</span>
                     </div>
                     <div className="nk-tb-col">
                       <span className="sub-text">Created at</span>
@@ -177,14 +177,14 @@ function CategoryList(props: MyComponentProps) {
                           <div className="user-card">
                             <div className="user-info">
                               <span className="tb-lead">
-                                {item?.category}
+                                {item?.types}
                                 <span className="dot dot-success d-md-none ms-1"></span>
                               </span>
                             </div>
                           </div>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
-                          <span>{getFormatedDate(item?.createdAt)}</span>
+                          <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
@@ -243,7 +243,7 @@ function CategoryList(props: MyComponentProps) {
       {addModal && (
         <CreateFormModal
           modal={addModal}
-          getListingData={getCategoryListData}
+          getListingData={getListData}
           closeModal={(isModal: boolean) => setAddModal(isModal)}
         />
       )}
@@ -251,7 +251,7 @@ function CategoryList(props: MyComponentProps) {
         <EditFormModal
           elementData={elementData}
           modal={editModal}
-          getListingData={getCategoryListData}
+          getListingData={getListData}
           closeModal={(isModal: boolean) => setEditModal(isModal)}
         />
       )}
@@ -260,11 +260,11 @@ function CategoryList(props: MyComponentProps) {
           modal={deleteModal}
           closeModal={(isModal: boolean) => setDeleteModal(isModal)}
           confirmedDelete={handleDeleteItem}
-          actionType="category"
+          actionType="inventory type"
         />
       )}
     </>
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(CategoryList));
+export default IsLoadingHOC(IsLoggedinHOC(InventoryTypeList));

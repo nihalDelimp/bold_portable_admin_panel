@@ -17,9 +17,10 @@ import QuotationsList from "../components/QuotationManage/QuotationsList";
 import SendEmail from "../components/SendEmail";
 import ServiceRequest from "../components/ServiceRequest";
 import ServicesList from "../components/ServiceManagement/ServicesList";
-import InventoryList from "../components/InvenetryManagement";
+import InventoryList from "../components/InventoryManagement";
 import AssignQRCode from "../components/AssignQRCode";
 import CategoryManagement from "../components/CategoryManagement";
+import InventoryTypeList from "../components/InventoryTypesManage";
 
 function RootRouter() {
   return (
@@ -139,7 +140,7 @@ function RootRouter() {
               </PrivateRoute>
             }
           />
-          
+
           <Route
             path="/send-email"
             element={
@@ -161,6 +162,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <CategoryManagement />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/inventory-type-management"
+            element={
+              <PrivateRoute>
+                <InventoryTypeList />
               </PrivateRoute>
             }
           />
