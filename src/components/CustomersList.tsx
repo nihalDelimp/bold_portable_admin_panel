@@ -123,7 +123,7 @@ function CustomersList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          <li>
+                          {/* <li>
                             <div className="form-control-wrap">
                               <div className="form-icon form-icon-right">
                                 <em className="icon ni ni-search"></em>
@@ -135,37 +135,7 @@ function CustomersList(props: MyComponentProps) {
                                 placeholder="Search by name"
                               />
                             </div>
-                          </li>
-                          {/* <li>
-                            <div className="drodown">
-                              <a
-                                href="#"
-                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                                data-bs-toggle="dropdown"
-                              >
-                                Status
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <a href="#">
-                                      <span>Actived</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="#">
-                                      <span>Inactived</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="#">
-                                      <span>Blocked</span>
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </li> */}
+                          </li>  */}
                           <li className="nk-block-tools-opt">
                             <button
                               type="button"
@@ -197,16 +167,6 @@ function CustomersList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    {/* <div className="nk-tb-col nk-tb-col-check">
-                      <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="uid"
-                        />
-                        <label className="custom-control-label"></label>
-                      </div>
-                    </div> */}
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
@@ -233,16 +193,6 @@ function CustomersList(props: MyComponentProps) {
                     customers.length > 0 &&
                     customers.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-                        {/* <div className="nk-tb-col nk-tb-col-check">
-                          <div className="custom-control custom-control-sm custom-checkbox notext">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="uid1"
-                            />
-                            <label className="custom-control-label"></label>
-                          </div>
-                        </div> */}
                         <div className="nk-tb-col">
                           <Link  to={`/view-user/${item._id}`}>
                           <span className="tb-status text-primary">
@@ -253,11 +203,6 @@ function CustomersList(props: MyComponentProps) {
                         <div className="nk-tb-col">
                           <a href="html/ecommerce/customer-details.html">
                             <div className="user-card">
-                              {/* <div className="user-avatar bg-primary">
-                                <span>
-                                  {getFirstChartByFullName(item?.name)}
-                                </span>
-                              </div> */}
                               <div className="user-info">
                                 <span className="tb-lead">
                                   {CapitalizeFirstLetter(item?.name)}{" "}
@@ -300,12 +245,6 @@ function CustomersList(props: MyComponentProps) {
                                         <span>View Details</span>
                                       </Link>
                                     </li>
-                                    {/* <li>
-                                    <Link to="/orders">
-                                      <em className="icon ni ni-repeat"></em>
-                                      <span>Orders</span>
-                                    </Link>
-                                  </li> */}
                                   </ul>
                                 </div>
                               </div>

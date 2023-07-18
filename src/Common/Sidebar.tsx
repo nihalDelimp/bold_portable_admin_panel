@@ -68,28 +68,52 @@ function Sidebar() {
               </li>
               {/* <li
                 className={`nk-menu-item ${
-                  pathName === "/orders" ? "active" : ""
+                  pathName === "/category-management" ? "active" : ""
                 }`}
               >
-                <NavLink to="/orders" className="nk-menu-link">
+                <NavLink to="/category-management" className="nk-menu-link">
                   <span className="nk-menu-icon">
-                    <em className="icon ni ni-bag-fill"></em>
+                    <em className="icon ni ni-menu-squared"></em>
                   </span>
-                  <span className="nk-menu-text">Orders</span>
+                  <span className="nk-menu-text">Category Management</span>
+                </NavLink>
+              </li> */}
+              <li
+                className={`nk-menu-item ${
+                  pathName === "/services" ? "active" : ""
+                }`}
+              >
+                <NavLink to="/service-list" className="nk-menu-link">
+                  <span className="nk-menu-icon">
+                    <em className="icon ni ni-menu-squared"></em>
+                  </span>
+                  <span className="nk-menu-text">Service Management</span>
                 </NavLink>
               </li>
               <li
                 className={`nk-menu-item ${
-                  pathName === "/products" ? "active" : ""
+                  pathName === "/inventory" ? "active" : ""
                 }`}
               >
-                <Link to="/products" className="nk-menu-link">
+                <NavLink to="/inventory" className="nk-menu-link">
                   <span className="nk-menu-icon">
-                    <em className="icon ni ni-package-fill"></em>
+                    <em className="icon ni ni-home-fill"></em>
                   </span>
-                  <span className="nk-menu-text">Products</span>
-                </Link>
-              </li> */}
+                  <span className="nk-menu-text">Inventory Management</span>
+                </NavLink>
+              </li>
+              <li
+                className={`nk-menu-item ${
+                  pathName === "/service-request" ? "active" : ""
+                }`}
+              >
+                <NavLink to="/service-request" className="nk-menu-link">
+                  <span className="nk-menu-icon">
+                    <em className="icon ni ni-menu-squared"></em>
+                  </span>
+                  <span className="nk-menu-text">Service Request</span>
+                </NavLink>
+              </li>
               <li
                 className={`nk-menu-item ${
                   pathName === "/customers" ? "active" : ""
@@ -104,18 +128,6 @@ function Sidebar() {
               </li>
               <li
                 className={`nk-menu-item ${
-                  pathName === "/services" ? "active" : ""
-                }`}
-              >
-                <NavLink to="/service-list" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-menu-squared"></em>
-                  </span>
-                  <span className="nk-menu-text">All Service</span>
-                </NavLink>
-              </li>
-              <li
-                className={`nk-menu-item ${
                   pathName === "/subscriptions" ? "active" : ""
                 }`}
               >
@@ -123,7 +135,7 @@ function Sidebar() {
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-file-docs"></em>
                   </span>
-                  <span className="nk-menu-text">Subscriptions</span>
+                  <span className="nk-menu-text">Contracts</span>
                 </NavLink>
               </li>
               <li
@@ -138,32 +150,6 @@ function Sidebar() {
                   <span className="nk-menu-text">Quotations</span>
                 </NavLink>
               </li>
-              <li
-                className={`nk-menu-item ${
-                  pathName === "/inventory" ? "active" : ""
-                }`}
-              >
-                <NavLink to="/inventory" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-home-fill"></em>
-                  </span>
-                  <span className="nk-menu-text">Inventory</span>
-                </NavLink>
-              </li>
-
-              <li
-                className={`nk-menu-item ${
-                  pathName === "/services" ? "active" : ""
-                }`}
-              >
-                <NavLink to="/request-services" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-menu-squared"></em>
-                  </span>
-                  <span className="nk-menu-text">Request Service</span>
-                </NavLink>
-              </li>
-
               <li
                 className={`nk-menu-item ${
                   pathName === "/send-email" ? "active" : ""

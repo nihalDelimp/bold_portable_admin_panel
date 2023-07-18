@@ -10,16 +10,16 @@ import AdminProfile from "../Common/AdminProfile";
 import ViewProduct from "../components/ViewProduct";
 import ViewCustomer from "../components/ViewCustomer";
 import Orders from "../components/Orders";
-import SubscriptionList from "../components/SubscriptionList";
+import SubscriptionList from "../components/SubscriptionManage/SubscriptionList";
 import NotificationDetails from "../components/NotificationDetails";
-import InvoiceDetail from "../components/InvoiceDetail";
-import QuotationsList from "../components/QuotationsList";
-import SubscriptionDetail from "../components/SubscriptionDetail";
+import SubscriptionDetail from "../components/SubscriptionManage/SubscriptionDetail";
+import QuotationsList from "../components/QuotationManage/QuotationsList";
 import SendEmail from "../components/SendEmail";
-import UserRequestServices from "../components/UserReqServices";
-import ServicesList from "../components/ServicesList";
-import InventoryList from "../components/Invenetry";
+import ServiceRequest from "../components/ServiceRequest";
+import ServicesList from "../components/ServiceManagement/ServicesList";
+import InventoryList from "../components/InvenetryManagement";
 import AssignQRCode from "../components/AssignQRCode";
+import CategoryManagement from "../components/CategoryManagement";
 
 function RootRouter() {
   return (
@@ -100,10 +100,10 @@ function RootRouter() {
             }
           />
           <Route
-            path="/request-services"
+            path="/service-request"
             element={
               <PrivateRoute>
-                <UserRequestServices />
+                <ServiceRequest />
               </PrivateRoute>
             }
           />
@@ -132,14 +132,6 @@ function RootRouter() {
             }
           />
           <Route
-            path="/invoice-detail/:id"
-            element={
-              <PrivateRoute>
-                <InvoiceDetail />
-              </PrivateRoute>
-            }
-          />
-          <Route
             path="/subscription-detail/:id"
             element={
               <PrivateRoute>
@@ -147,6 +139,7 @@ function RootRouter() {
               </PrivateRoute>
             }
           />
+          
           <Route
             path="/send-email"
             element={
@@ -160,6 +153,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <AssignQRCode />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/category-management"
+            element={
+              <PrivateRoute>
+                <CategoryManagement />
               </PrivateRoute>
             }
           />

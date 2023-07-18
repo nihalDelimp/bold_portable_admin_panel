@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { authAxios } from "../config/config";
+import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
-import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import { socketService } from "../config/socketService";
+import IsLoadingHOC from "../../Common/IsLoadingHOC";
+import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
+import { socketService } from "../../config/socketService";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;

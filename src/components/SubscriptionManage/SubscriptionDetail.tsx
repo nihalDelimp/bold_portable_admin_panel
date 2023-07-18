@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { authAxios } from "../config/config";
+import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
+import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import { Link, useParams } from "react-router-dom";
-import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import Pagination from "../Common/Pagination";
+import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import {
   getFormatedDate,
   getDateWithoutTime,
   CapitalizeFirstLetter,
-} from "../Helper";
+} from "../../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function InvoiceDetail(props: MyComponentProps) {
+function SubscriptionDetail(props: MyComponentProps) {
   const { setLoading } = props;
   const params = useParams();
   const [paymetData, setPaymentData] = useState<any>(null);
@@ -27,10 +26,10 @@ function InvoiceDetail(props: MyComponentProps) {
   console.log("userData", userData);
 
   useEffect(() => {
-    getInvoiceDetailsData();
+    getSubscriptionDetailsData();
   }, []);
 
-  const getInvoiceDetailsData = async () => {
+  const getSubscriptionDetailsData = async () => {
     setLoading(true);
     await authAxios()
       .get(`/payment/subscription/${params.id}`)
@@ -222,4 +221,4 @@ function InvoiceDetail(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(InvoiceDetail));
+export default IsLoadingHOC(IsLoggedinHOC(SubscriptionDetail));

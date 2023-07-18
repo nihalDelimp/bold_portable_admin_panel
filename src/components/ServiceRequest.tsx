@@ -19,7 +19,7 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function UserRequestServices(props: MyComponentProps) {
+function ServiceRequest(props: MyComponentProps) {
   const { setLoading } = props;
   const [services, setServices] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -135,7 +135,7 @@ function UserRequestServices(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">
-                      User Request Services
+                      Service Request
                     </h3>
                   </div>
                   <div className="nk-block-head-content">
@@ -363,4 +363,4 @@ function UserRequestServices(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(UserRequestServices));
+export default IsLoadingHOC(IsLoggedinHOC(ServiceRequest));

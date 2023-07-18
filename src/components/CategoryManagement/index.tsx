@@ -1,52 +1,64 @@
 import React, { useState, useEffect } from "react";
-import { authAxios } from "../config/config";
+import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
+import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
-import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import Pagination from "../Common/Pagination";
-import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
-import AddService from "./AddService";
-import EditService from "./EditService";
-import DeleteConfirmationModal from "../Common/DeleteConfirmation";
-import { limitDesc } from "../Helper/constants";
+import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
+import Pagination from "../../Common/Pagination";
+import {
+  CapitalizeFirstLetter,
+  getFormatedDate,
+  replaceHyphenCapitolize,
+} from "../../Helper";
+import CreateFormModal from "./Create";
+import EditFormModal from "./Edit";
+import DeleteConfirmationModal from "../../Common/DeleteConfirmation";
+import { limitDesc } from "../../Helper/constants";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function ServicesList(props: MyComponentProps) {
+function CategoryList(props: MyComponentProps) {
   const { setLoading } = props;
-  const [services, setServices] = useState<any[]>([]);
+  const [listData, setListData] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [addServiceModal, setAddServiceModal] = useState<boolean>(false);
-  const [editServiceModal, setEditServiceModal] = useState<boolean>(false);
+  const [addModal, setAddModal] = useState<boolean>(false);
+  const [editModal, setEditModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [serviceItem, setServiceItem] = useState(null);
-  const [serviceID, setServiceID] = useState<string>("");
+  const [elementData, setElementData] = useState(null);
+  const [elementID, setElementID] = useState<string>("");
 
   useEffect(() => {
-    getServicesListData();
+    getCategoryListData();
   }, [currentPage, itemsPerPage]);
 
-  const getServicesListData = async () => {
+  const getCategoryListData = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/service/list?page=${currentPage}&limit=${itemsPerPage}`)
+      .get(
+        `/inventory-category/get-complete-list?page=${currentPage}&limit=${itemsPerPage}`
+      )
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setServices(resData.services);
-            setTotalCount(resData?.totalCount);
+            setListData(resData.categories);
+            setTotalCount(resData?.totalCategories);
+          } else {
+            toast.error(response.data.message);
+            setListData([]);
+            setTotalCount(0);
           }
         },
         (error) => {
           setLoading(false);
           toast.error(error.response.data.message);
+          setListData([]);
+          setTotalCount(0);
         }
       )
       .catch((error) => {
@@ -54,31 +66,31 @@ function ServicesList(props: MyComponentProps) {
       });
   };
 
-  const handleAddServiceModal = () => {
-    setAddServiceModal(true);
+  const handleCreateModal = () => {
+    setAddModal(true);
   };
 
-  const handleUpdateServiceModal = (data: any) => {
-    setServiceItem(data);
-    setEditServiceModal(true);
+  const handleEditModal = (data: any) => {
+    setElementData(data);
+    setEditModal(true);
   };
 
   const handleDeleteModal = (_id: string) => {
-    setServiceID(_id);
+    setElementID(_id);
     setDeleteModal(true);
   };
 
   const handleDeleteItem = async () => {
     setLoading(true);
     await authAxios()
-      .delete(`/service/delete/${serviceID}`)
+      .delete(`/service/delete/${elementID}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data?.message);
             setDeleteModal(false);
-            getServicesListData();
+            getCategoryListData();
           } else {
             toast.error(response.data?.message);
           }
@@ -102,7 +114,9 @@ function ServicesList(props: MyComponentProps) {
               <div className="nk-block-head nk-block-head-sm">
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
-                    <h3 className="nk-block-title page-title">Services List</h3>
+                    <h3 className="nk-block-title page-title">
+                      Category Management
+                    </h3>
                   </div>
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">
@@ -118,20 +132,6 @@ function ServicesList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          <li>
-                            <div className="form-control-wrap">
-                              <div className="form-icon form-icon-right">
-                                <em className="icon ni ni-search"></em>
-                              </div>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="default-04"
-                                placeholder="Search by name"
-                              />
-                            </div>
-                          </li>
-
                           <li className="nk-block-tools-opt">
                             <a
                               data-target="addProduct"
@@ -140,12 +140,12 @@ function ServicesList(props: MyComponentProps) {
                               <em className="icon ni ni-plus"></em>
                             </a>
                             <a
-                              onClick={handleAddServiceModal}
+                              onClick={handleCreateModal}
                               data-target="addProduct"
                               className="toggle btn btn-primary d-none d-md-inline-flex"
                             >
                               <em className="icon ni ni-plus"></em>
-                              <span>Add Service</span>
+                              <span>Create</span>
                             </a>
                           </li>
                         </ul>
@@ -157,49 +157,23 @@ function ServicesList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    {/* <div className="nk-tb-col nk-tb-col-check">
-                      <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="uid"
-                        />
-                        <label className="custom-control-label"></label>
-                      </div>
-                    </div> */}
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
                     <div className="nk-tb-col">
-                      <span className="sub-text">Service Name</span>
-                    </div>
-                    <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Service Requirement</span>
+                      <span className="sub-text">Category Name</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
-                      <span className="sub-text">Description</span>
-                    </div>
-                    <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Created At</span>
+                      <span className="sub-text">Type</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
-                  {services &&
-                    services.length > 0 &&
-                    services.map((item: any, index) => (
+                  {listData &&
+                    listData.length > 0 &&
+                    listData.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-                        {/* <div className="nk-tb-col nk-tb-col-check">
-                          <div className="custom-control custom-control-sm custom-checkbox notext">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="uid1"
-                            />
-                            <label className="custom-control-label"></label>
-                          </div>
-                        </div> */}
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}
@@ -209,38 +183,14 @@ function ServicesList(props: MyComponentProps) {
                           <div className="user-card">
                             <div className="user-info">
                               <span className="tb-lead">
-                                {replaceHyphenCapitolize(item?.name)}
+                                {replaceHyphenCapitolize(item?.category)}
                                 <span className="dot dot-success d-md-none ms-1"></span>
                               </span>
                             </div>
                           </div>
                         </div>
-                        <div className="nk-tb-col tb-col-md">
-                          {item.categories &&
-                            item.categories.length > 0 &&
-                            item.categories.map((element: string , index2 : number) => (
-                              <React.Fragment key={index2}>
-                                <span>{element}</span>
-                                <br />
-                              </React.Fragment>
-                            ))}
-                        </div>
                         <div className="nk-tb-col tb-col-lg">
-                          <span>
-                            {` ${
-                              item.description
-                                ? item.description?.substring(0, limitDesc)
-                                : ""
-                            } ${
-                              item.description &&
-                              item.description.length > limitDesc
-                                ? "..."
-                                : ""
-                            }  `}
-                          </span>
-                        </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>{getFormatedDate(item.createdAt)}</span>
+                          <span>{item.types}</span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
@@ -256,13 +206,9 @@ function ServicesList(props: MyComponentProps) {
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
                                     <li>
-                                      <a
-                                        onClick={() =>
-                                          handleUpdateServiceModal(item)
-                                        }
-                                      >
+                                      <a onClick={() => handleEditModal(item)}>
                                         <em className="icon ni ni-edit"></em>
-                                        <span>Edit Service</span>
+                                        <span>Edit</span>
                                       </a>
                                     </li>
                                     <li>
@@ -285,14 +231,14 @@ function ServicesList(props: MyComponentProps) {
                       </div>
                     ))}
                 </div>
-                {services && services.length > 0 && (
+                {listData && listData.length > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     onChangePageLimit={(page: number) => setItemPerPage(page)}
-                    resData={services}
+                    resData={listData}
                   />
                 )}
               </div>
@@ -300,19 +246,19 @@ function ServicesList(props: MyComponentProps) {
           </div>
         </div>
       </div>
-      {addServiceModal && (
-        <AddService
-          modal={addServiceModal}
-          getListingData={getServicesListData}
-          closeModal={(isModal: boolean) => setAddServiceModal(isModal)}
+      {addModal && (
+        <CreateFormModal
+          modal={addModal}
+          getListingData={getCategoryListData}
+          closeModal={(isModal: boolean) => setAddModal(isModal)}
         />
       )}
-      {editServiceModal && (
-        <EditService
-          itemData={serviceItem}
-          modal={editServiceModal}
-          getListingData={getServicesListData}
-          closeModal={(isModal: boolean) => setEditServiceModal(isModal)}
+      {editModal && (
+        <EditFormModal
+          elementData={elementData}
+          modal={editModal}
+          getListingData={getCategoryListData}
+          closeModal={(isModal: boolean) => setEditModal(isModal)}
         />
       )}
       {deleteModal && (
@@ -327,4 +273,4 @@ function ServicesList(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(ServicesList));
+export default IsLoadingHOC(IsLoggedinHOC(CategoryList));

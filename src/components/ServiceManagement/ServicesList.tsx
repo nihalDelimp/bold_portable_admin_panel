@@ -5,13 +5,9 @@ import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import Pagination from "../../Common/Pagination";
-import {
-  CapitalizeFirstLetter,
-  getFormatedDate,
-  replaceHyphenCapitolize,
-} from "../../Helper";
-import CreateInventory from "./Create";
-import EditInventory from "./Edit";
+import { getFormatedDate, replaceHyphenCapitolize } from "../../Helper";
+import AddService from "./AddService";
+import EditService from "./EditService";
 import DeleteConfirmationModal from "../../Common/DeleteConfirmation";
 import { limitDesc } from "../../Helper/constants";
 
@@ -19,51 +15,38 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function InventoryList(props: MyComponentProps) {
+function ServicesList(props: MyComponentProps) {
   const { setLoading } = props;
-  const [listData, setListData] = useState<any[]>([]);
+  const [services, setServices] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [addModal, setAddModal] = useState<boolean>(false);
-  const [editModal, setEditModal] = useState<boolean>(false);
+  const [addServiceModal, setAddServiceModal] = useState<boolean>(false);
+  const [editServiceModal, setEditServiceModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [serviceItem, setServiceItem] = useState(null);
   const [serviceID, setServiceID] = useState<string>("");
-  const [statusName, setStatusName] = useState("pending");
-  const [statusLabel, setStatusLabel] = useState("Pending");
 
   useEffect(() => {
-    getInventoryListData();
-  }, [currentPage, itemsPerPage , statusName]);
+    getServicesListData();
+  }, [currentPage, itemsPerPage]);
 
-  // inventory/get-qr-code-details-status?status=pending&page=1&limit=10
-
-  const getInventoryListData = async () => {
+  const getServicesListData = async () => {
     setLoading(true);
     await authAxios()
-      .get(
-        `/inventory/get-qr-code-details-status?status=${statusName}&page=${currentPage}&limit=${itemsPerPage}`
-      )
+      .get(`/service/list?page=${currentPage}&limit=${itemsPerPage}`)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setListData(resData.qrCodes);
+            setServices(resData.services);
             setTotalCount(resData?.totalCount);
-          }
-          else{
-            toast.error(response.data.message);
-            setListData([])
-            setTotalCount(0)
           }
         },
         (error) => {
           setLoading(false);
           toast.error(error.response.data.message);
-          setListData([])
-          setTotalCount(0)
         }
       )
       .catch((error) => {
@@ -71,13 +54,13 @@ function InventoryList(props: MyComponentProps) {
       });
   };
 
-  const handleCreateModal = () => {
-    setAddModal(true);
+  const handleAddServiceModal = () => {
+    setAddServiceModal(true);
   };
 
-  const handleEditModal = (data: any) => {
+  const handleUpdateServiceModal = (data: any) => {
     setServiceItem(data);
-    setEditModal(true);
+    setEditServiceModal(true);
   };
 
   const handleDeleteModal = (_id: string) => {
@@ -95,7 +78,7 @@ function InventoryList(props: MyComponentProps) {
           if (response.data.status === 1) {
             toast.success(response.data?.message);
             setDeleteModal(false);
-            getInventoryListData();
+            getServicesListData();
           } else {
             toast.error(response.data?.message);
           }
@@ -110,26 +93,6 @@ function InventoryList(props: MyComponentProps) {
       });
   };
 
-  const setBackgroundColor = (status: string) => {
-    if (status === "pending") {
-      return "bg-warning";
-    } else if (status === "active") {
-      return "bg-success";
-    } else if (status === "cancelled") {
-      return "bg-danger";
-    } else if (status === "completed") {
-      return "bg-success";
-    } else {
-      return "bg-primary";
-    }
-  };
-
-  const handleChangeStatus = (name: string, label: string) => {
-    setCurrentPage(1);
-    setStatusName(name);
-    setStatusLabel(label);
-  };
-
   return (
     <>
       <div className="nk-content">
@@ -139,9 +102,7 @@ function InventoryList(props: MyComponentProps) {
               <div className="nk-block-head nk-block-head-sm">
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
-                    <h3 className="nk-block-title page-title">
-                      Inventory List
-                    </h3>
+                    <h3 className="nk-block-title page-title">Service Management</h3>
                   </div>
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">
@@ -157,7 +118,8 @@ function InventoryList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          <li>
+                          
+                          {/* <li>
                             <div className="form-control-wrap">
                               <div className="form-icon form-icon-right">
                                 <em className="icon ni ni-search"></em>
@@ -169,86 +131,8 @@ function InventoryList(props: MyComponentProps) {
                                 placeholder="Search by name"
                               />
                             </div>
-                          </li>
-                          <li>
-                            <div className="drodown">
-                              <a
-                                href="#"
-                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                                data-bs-toggle="dropdown"
-                              >
-                                {statusLabel}
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus("", "Status")
-                                      }
-                                    >
-                                      <span>Select Status</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus("pending", "Pending")
-                                      }
-                                    >
-                                      <span>Pending</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus("active", "Active")
-                                      }
-                                    >
-                                      <span>Active</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus(
-                                          "modified",
-                                          "Modified"
-                                        )
-                                      }
-                                    >
-                                      <span>Modified</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus(
-                                          "completed",
-                                          "Completed"
-                                        )
-                                      }
-                                    >
-                                      <span>Completed</span>
-                                    </a>
-                                  </li>
+                          </li> */}
 
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleChangeStatus(
-                                          "cancelled",
-                                          "Cancelled"
-                                        )
-                                      }
-                                    >
-                                      <span>Cancelled</span>
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </li>
                           <li className="nk-block-tools-opt">
                             <a
                               data-target="addProduct"
@@ -257,12 +141,12 @@ function InventoryList(props: MyComponentProps) {
                               <em className="icon ni ni-plus"></em>
                             </a>
                             <a
-                              onClick={handleCreateModal}
+                              onClick={handleAddServiceModal}
                               data-target="addProduct"
                               className="toggle btn btn-primary d-none d-md-inline-flex"
                             >
                               <em className="icon ni ni-plus"></em>
-                              <span>Create</span>
+                              <span>Add Service</span>
                             </a>
                           </li>
                         </ul>
@@ -288,17 +172,10 @@ function InventoryList(props: MyComponentProps) {
                       <span className="sub-text">ID</span>
                     </div>
                     <div className="nk-tb-col">
-                      <span className="sub-text">Product Name</span>
+                      <span className="sub-text">Service Name</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Service Requirement</span>
-                    </div>
-                    <div className="nk-tb-col tb-col-lg">
-                      <span className="sub-text">Quantity</span>
-                    </div>
-
-                    <div className="nk-tb-col tb-col-lg">
-                      <span className="sub-text">Type</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Description</span>
@@ -307,18 +184,12 @@ function InventoryList(props: MyComponentProps) {
                       <span className="sub-text">Created At</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
-                      <span>Status</span>
-                    </div>
-                    <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">OR code</span>
-                    </div>
-                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
-                  {listData &&
-                    listData.length > 0 &&
-                    listData.map((item: any, index) => (
+                  {services &&
+                    services.length > 0 &&
+                    services.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
                         {/* <div className="nk-tb-col nk-tb-col-check">
                           <div className="custom-control custom-control-sm custom-checkbox notext">
@@ -339,29 +210,21 @@ function InventoryList(props: MyComponentProps) {
                           <div className="user-card">
                             <div className="user-info">
                               <span className="tb-lead">
-                                {replaceHyphenCapitolize(item?.productName)}
+                                {replaceHyphenCapitolize(item?.name)}
                                 <span className="dot dot-success d-md-none ms-1"></span>
                               </span>
                             </div>
                           </div>
                         </div>
                         <div className="nk-tb-col tb-col-md">
-                          {item.category &&
-                            item.category.length > 0 &&
-                            item.category.map(
-                              (element: string, index: number) => (
-                                <React.Fragment key={index}>
-                                  <span>{element}</span>
-                                  <br />
-                                </React.Fragment>
-                              )
-                            )}
-                        </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>{item.quantity}</span>
-                        </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>{item.type}</span>
+                          {item.categories &&
+                            item.categories.length > 0 &&
+                            item.categories.map((element: string , index2 : number) => (
+                              <React.Fragment key={index2}>
+                                <span>{element}</span>
+                                <br />
+                              </React.Fragment>
+                            ))}
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>
@@ -380,24 +243,6 @@ function InventoryList(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm">
-                          <span className="tb-odr-status">
-                            <span
-                              className={`badge badge-dot ${setBackgroundColor(
-                                item.status
-                              )}`}
-                            >
-                              {CapitalizeFirstLetter(item.status)}
-                            </span>
-                          </span>
-                        </div>
-                        <div className="nk-tb-col">
-                          <img
-                            style={{ width: "40%" }}
-                            src={item?.qrCode}
-                            alt="QR Code"
-                          />
-                        </div>
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
                             <li>
@@ -411,12 +256,16 @@ function InventoryList(props: MyComponentProps) {
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
-                                    {/* <li>
-                                      <a onClick={() => handleEditModal(item)}>
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          handleUpdateServiceModal(item)
+                                        }
+                                      >
                                         <em className="icon ni ni-edit"></em>
                                         <span>Edit Service</span>
                                       </a>
-                                    </li> */}
+                                    </li>
                                     <li>
                                       <a
                                         className="cursor_ponter"
@@ -437,14 +286,14 @@ function InventoryList(props: MyComponentProps) {
                       </div>
                     ))}
                 </div>
-                {listData && listData.length > 0 && (
+                {services && services.length > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     onChangePageLimit={(page: number) => setItemPerPage(page)}
-                    resData={listData}
+                    resData={services}
                   />
                 )}
               </div>
@@ -452,19 +301,19 @@ function InventoryList(props: MyComponentProps) {
           </div>
         </div>
       </div>
-      {addModal && (
-        <CreateInventory
-          modal={addModal}
-          getListingData={getInventoryListData}
-          closeModal={(isModal: boolean) => setAddModal(isModal)}
+      {addServiceModal && (
+        <AddService
+          modal={addServiceModal}
+          getListingData={getServicesListData}
+          closeModal={(isModal: boolean) => setAddServiceModal(isModal)}
         />
       )}
-      {editModal && (
-        <EditInventory
+      {editServiceModal && (
+        <EditService
           itemData={serviceItem}
-          modal={editModal}
-          getListingData={getInventoryListData}
-          closeModal={(isModal: boolean) => setEditModal(isModal)}
+          modal={editServiceModal}
+          getListingData={getServicesListData}
+          closeModal={(isModal: boolean) => setEditServiceModal(isModal)}
         />
       )}
       {deleteModal && (
@@ -479,4 +328,4 @@ function InventoryList(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(InventoryList));
+export default IsLoadingHOC(IsLoggedinHOC(ServicesList));

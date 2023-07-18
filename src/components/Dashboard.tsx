@@ -9,8 +9,8 @@ import {
   getStringDate,
   replaceHyphenCapitolize,
 } from "../Helper";
-import EditQuotation from "./EditQuotation";
-import EditEventQuotation from "./EditEventQuotation";
+import EditQuotation from "./QuotationManage/EditQuotation";
+import EditEventQuotation from "./QuotationManage/EditEventQuotation";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;

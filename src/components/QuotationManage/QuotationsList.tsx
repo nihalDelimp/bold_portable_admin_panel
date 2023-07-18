@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { authAxios } from "../config/config";
+import IsLoadingHOC from "../../Common/IsLoadingHOC";
+import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
-import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import EditQuotation from "./EditQuotation";
 import EditEventQuotation from "./EditEventQuotation";
-import Pagination from "../Common/Pagination";
+import Pagination from "../../Common/Pagination";
 import {
   CapitalizeFirstLetter,
   getFormatedDate,
   replaceHyphenCapitolize,
-} from "../Helper";
+} from "../../Helper";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -183,19 +183,6 @@ const QuotationsList = (props: MyComponentProps) => {
                     >
                       <ul className="nk-block-tools g-3">
                         <li>
-                          <div className="form-control-wrap">
-                            <div className="form-icon form-icon-right">
-                              <em className="icon ni ni-search"></em>
-                            </div>
-                            <input
-                              type="text"
-                              className="form-control"
-                              id="default-04"
-                              placeholder="Quick search by id"
-                            />
-                          </div>
-                        </li>
-                        <li>
                           <div className="drodown">
                             <a
                               href="#"
@@ -234,7 +221,6 @@ const QuotationsList = (props: MyComponentProps) => {
                                     <span>Orchad Winery</span>
                                   </a>
                                 </li>
-
                                 <li>
                                   <a
                                     onClick={() =>
@@ -266,19 +252,6 @@ const QuotationsList = (props: MyComponentProps) => {
             <div className="nk-block">
               <div className="nk-tb-list is-separate is-medium mb-3">
                 <div className="nk-tb-item nk-tb-head">
-                  {/* <div className="nk-tb-col nk-tb-col-check">
-                    <div className="custom-control custom-control-sm custom-checkbox notext">
-                      <input
-                        type="checkbox"
-                        className="custom-control-input"
-                        id="oid"
-                      />
-                      <label
-                        className="custom-control-label"
-                        htmlFor="oid"
-                      ></label>
-                    </div>
-                  </div> */}
                   <div className="nk-tb-col">
                     <span className="sub-text">ID</span>
                   </div>
@@ -288,9 +261,6 @@ const QuotationsList = (props: MyComponentProps) => {
                   <div className="nk-tb-col tb-col-sm">
                     <span>Customer Email</span>
                   </div>
-                  {/* <div className="nk-tb-col tb-col-md">
-                    <span>Phone Number</span>
-                  </div> */}
                   <div className="nk-tb-col tb-col-md">
                     <span>Distance From Kelowna</span>
                   </div>
@@ -314,19 +284,6 @@ const QuotationsList = (props: MyComponentProps) => {
                   quotationData.length > 0 &&
                   quotationData.map((item: any, index: number) => (
                     <div key={item._id} className="nk-tb-item">
-                      {/* <div className="nk-tb-col nk-tb-col-check">
-                        <div className="custom-control custom-control-sm custom-checkbox notext">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="oid01"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="oid01"
-                          ></label>
-                        </div>
-                      </div> */}
                       <div className="nk-tb-col">
                         <span style={{cursor:"pointer"}}
                           className="tb-status text-primary"
@@ -349,11 +306,6 @@ const QuotationsList = (props: MyComponentProps) => {
                           {item.coordinator?.email}
                         </span>
                       </div>
-                      {/* <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">
-                          {item.coordinator.cellNumber}
-                        </span>
-                      </div> */}
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
                           {item?.distanceFromKelowna} km
@@ -410,7 +362,6 @@ const QuotationsList = (props: MyComponentProps) => {
                                       <span>Send Invoice</span>
                                     </a>
                                   </li>
-
                                   {/* <li>
                                     <a
                                       onClick={() =>

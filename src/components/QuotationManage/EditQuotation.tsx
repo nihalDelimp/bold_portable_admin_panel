@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { authAxios } from "../config/config";
+import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
-import IsLoggedinHOC from "../Common/IsLoggedInHOC";
+import IsLoadingHOC from "../../Common/IsLoadingHOC";
+import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import moment from "moment";
-import { socketService } from "../config/socketService";
+import { socketService } from "../../config/socketService";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -15,7 +15,7 @@ interface MyComponentProps {
   getQuotationData: () => void;
 }
 
-function EditEventQuotation(props: MyComponentProps) {
+function EditQuotation(props: MyComponentProps) {
   const {
     setLoading,
     quotationId,
@@ -45,19 +45,12 @@ function EditEventQuotation(props: MyComponentProps) {
     handwashing: false,
     handSanitizerPump: false,
     twiceWeeklyService: false,
-    alcoholServed: false,
     dateTillUse: "",
     placementDate: "",
     status: "",
-    maleWorkers: 0,
+    maleWorkers : 0,
     femaleWorkers: 0,
-    totalWorkers: 0,
-  });
-
-  const [vipSection, setVipSection] = useState({
-    payPerUse: false,
-    fencedOff: false,
-    activelyCleaned: false,
+    totalWorkers: 0
   });
 
   const [servicesPrice, setServicesPrice] = useState({
@@ -73,14 +66,9 @@ function EditEventQuotation(props: MyComponentProps) {
     serviceFrequencyCost: 0,
     weeklyHoursCost: 0,
     pickUpPrice: 0,
-    maleWorkers: 0,
+    maleWorkers : 0,
     femaleWorkers: 0,
-    totalWorkers: 0,
-
-    alcoholServed: 0,
-    payPerUse: 0,
-    fencedOff: 0,
-    activelyCleaned: 0,
+    totalWorkers: 0
   });
 
   useEffect(() => {
@@ -109,11 +97,8 @@ function EditEventQuotation(props: MyComponentProps) {
     "maleWorkers",
     "maleWorkers",
     "femaleWorkers",
-    "totalWorkers",
-    "alcoholServed",
+    "totalWorkers"
   ];
-
-  const vipSectionFields = ["payPerUse", "fencedOff", "activelyCleaned"];
 
   const servicePriceFields = [
     "workersCost",
@@ -128,15 +113,6 @@ function EditEventQuotation(props: MyComponentProps) {
     "serviceFrequencyCost",
     "weeklyHoursCost",
     "pickUpPrice",
-    "maleWorkers",
-    "maleWorkers",
-    "femaleWorkers",
-    "totalWorkers",
-
-    "alcoholServed",
-    "payPerUse",
-    "fencedOff",
-    "activelyCleaned",
   ];
 
   const getProductDetailsData = async () => {
@@ -149,9 +125,8 @@ function EditEventQuotation(props: MyComponentProps) {
           setLoading(false);
           if (response.data.status === 1) {
             const resCoordinateData = response.data.data.quotation?.coordinator;
-            const quotationData = response.data.data.quotation;
+            const resData = response.data.data.quotation;
             const costDetails = response.data.data.quotation?.costDetails;
-            const vipSectionData = response.data.data.quotation?.vipSection
 
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
@@ -163,7 +138,7 @@ function EditEventQuotation(props: MyComponentProps) {
             QuotationFields.forEach((field) => {
               setQuotation((prev) => ({
                 ...prev,
-                [field]: quotationData[field],
+                [field]: resData[field],
               }));
             });
 
@@ -173,14 +148,6 @@ function EditEventQuotation(props: MyComponentProps) {
                 [field]: costDetails[field],
               }));
             });
-
-            vipSectionFields.forEach((field) => {
-              setVipSection((prev) => ({
-                ...prev,
-                [field]: vipSectionData[field],
-              }));
-            });
-
           }
         },
         (error) => {
@@ -198,11 +165,6 @@ function EditEventQuotation(props: MyComponentProps) {
     setQuotation((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleChangeVipSection = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setQuotation((prev) => ({ ...prev, [name]: value }));
-  };
-
   const handleChangeCoordinator = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setCoordinator((prev) => ({ ...prev, [name]: value }));
@@ -216,9 +178,20 @@ function EditEventQuotation(props: MyComponentProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = { costDetails: servicesPrice };
+    let endPoint: string = "quotation/update-quotation-for-construction";
+    if (quotationType === "construction") {
+      endPoint = "quotation/update-quotation-for-construction";
+    } else if (quotationType === "disaster-relief") {
+      endPoint = "quotation/update-quotation-for-disaster-relief";
+    } else if (quotationType === "farm-orchard-winery") {
+      endPoint = "quotation/update-quotation-for-farm-orchard-winery";
+    } else if (quotationType === "personal-or-business") {
+      endPoint = "quotation/update-quotation-for-personal-business-site";
+    }
+
     setLoading(true);
     await authAxios()
-      .put(`/quotation/update-quotation-for-event/${quotationId}`, payload)
+      .put(`/${endPoint}/${quotationId}`, payload)
       .then(
         (response) => {
           setLoading(false);
@@ -298,7 +271,8 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             disabled
                             name="name"
-                            className="form-control"                           
+                            className="form-control"
+                            id="inputEmail4"
                             placeholder="User name"
                           />
                         </div>
@@ -317,7 +291,8 @@ function EditEventQuotation(props: MyComponentProps) {
                             onChange={handleChangeCoordinator}
                             type="email"
                             name="email"
-                            className="form-control"                           
+                            className="form-control"
+                            id="inputEmail4"
                             placeholder="Email address"
                           />
                         </div>
@@ -337,6 +312,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="cellNumber"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Phone number"
                           />
                         </div>
@@ -357,7 +333,8 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="designatedWorkers"
                             className="form-control"
-                            placeholder="Yes/No"
+                            id="inputEmail4"
+                            placeholder="Designated workers"
                           />
                         </div>
                       </div>
@@ -376,6 +353,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="workerTypes"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Worker Types"
                           />
                         </div>
@@ -397,10 +375,12 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="placementDate"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Placement Date"
                           />
                         </div>
                       </div>
+
                       <div className="col-md-4">
                         <div className="form-group">
                           <label
@@ -459,6 +439,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="title"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Maximum workers"
                           />
                         </div>
@@ -480,11 +461,13 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="distanceFromKelowna"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Distance"
                           />
                         </div>
                       </div>
-
+                      
+                      
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -500,6 +483,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="workersCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -520,6 +504,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="weeklyHours"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Weekly hours"
                           />
                         </div>
@@ -539,6 +524,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="weeklyHoursCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -589,6 +575,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="useAtNight"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Yes/No"
                           />
                         </div>
@@ -609,6 +596,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="useAtNightCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -628,6 +616,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="title"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Yes/No"
                           />
                         </div>
@@ -648,6 +637,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="useInWinterCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -667,6 +657,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="numUnits"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Number of units"
                           />
                         </div>
@@ -687,10 +678,12 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="numberOfUnitsCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
                       </div>
+
                       <div className="col-md-6">
                         <div className="form-group">
                           <label
@@ -708,10 +701,12 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="dateTillUse"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Date till use"
                           />
                         </div>
                       </div>
+
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -727,7 +722,8 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="handwashing"
                             className="form-control"
-                            placeholder="Yes/No"
+                            id="inputEmail4"
+                            placeholder="Enter Price"
                           />
                         </div>
                       </div>
@@ -747,6 +743,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="handWashingCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -767,6 +764,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="title"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Yes/No"
                           />
                         </div>
@@ -787,6 +785,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="handSanitizerPumpCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -807,6 +806,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="title"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Yes/No"
                           />
                         </div>
@@ -827,164 +827,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="twiceWeeklyServicing"
                             className="form-control"
-                            placeholder="Enter Price"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Alcohol Served
-                          </label>
-                          <input
-                            disabled
-                            value={quotation.alcoholServed ? "Yes" : "No"}
-                            onChange={handleChangeQuotation}
-                            type="text"
-                            name="alcoholServed"
-                            className="form-control"
-                            placeholder="Yes/No"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Cost
-                          </label>
-                          <input
-                            min={0}
-                            value={servicesPrice.alcoholServed}
-                            disabled={!quotation.alcoholServed}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="alcoholServed"
-                            className="form-control"
-                            placeholder="Enter Price"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Pay Per Use
-                          </label>
-                          <input
-                            disabled
-                            value={vipSection.payPerUse ? "Yes" : "No"}
-                            onChange={handleChangeVipSection}
-                            type="text"
-                            name="payPerUse"
-                            className="form-control"
-                            placeholder="Yes/No"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Cost
-                          </label>
-                          <input
-                            min={0}
-                            value={servicesPrice.payPerUse}
-                            disabled={!vipSection.payPerUse}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="payPerUse"
-                            className="form-control"
-                            id="payPerUse"
-                            placeholder="Enter Price"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Fenced Off
-                          </label>
-                          <input
-                            disabled
-                            value={vipSection.fencedOff ? "Yes" : "No"}
-                            onChange={handleChangeVipSection}
-                            type="text"
-                            name="fencedOff"
-                            className="form-control"
-                            placeholder="Yes/No"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Cost
-                          </label>
-                          <input
-                            min={0}
-                            value={servicesPrice.fencedOff}
-                            disabled={!vipSection.fencedOff}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="fencedOff"
-                            className="form-control"
-                            placeholder="Enter Price"
-                          />
-                        </div>
-                      </div>
-                     <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Actively Cleaned
-                          </label>
-                          <input
-                            disabled
-                            value={vipSection.activelyCleaned ? "Yes" : "No"}
-                            onChange={handleChangeVipSection}
-                            type="text"
-                            name="activelyCleaned"
-                            className="form-control"
-                            placeholder="Yes/No"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        <div className="form-group">
-                          <label
-                            className="form-label"
-                            htmlFor="personal-email"
-                          >
-                            Cost
-                          </label>
-                          <input
-                            min={0}
-                            value={servicesPrice.activelyCleaned}
-                            disabled={!vipSection.activelyCleaned}
-                            onChange={handleChangeServicePrice}
-                            type="number"
-                            name="activelyCleaned"
-                            className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -1003,6 +846,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="title"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Special Requirements"
                           />
                         </div>
@@ -1023,6 +867,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="specialRequirementsCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -1042,6 +887,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             name="serviceFrequency"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Service Frequency"
                           />
                         </div>
@@ -1061,6 +907,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="number"
                             name="serviceFrequencyCost"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter Price"
                           />
                         </div>
@@ -1074,12 +921,14 @@ function EditEventQuotation(props: MyComponentProps) {
                             Pickup Price
                           </label>
                           <input
-                            min={0}
+                            required
+                            min={1}
                             value={servicesPrice.pickUpPrice}
                             onChange={handleChangeServicePrice}
                             type="number"
                             name="pickUpPrice"
                             className="form-control"
+                            id="inputEmail4"
                             placeholder="Enter pickup Price"
                           />
                         </div>
@@ -1125,4 +974,4 @@ function EditEventQuotation(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(EditEventQuotation));
+export default IsLoadingHOC(IsLoggedinHOC(EditQuotation));

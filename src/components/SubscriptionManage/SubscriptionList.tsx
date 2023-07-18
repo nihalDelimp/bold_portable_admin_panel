@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { authAxios } from "../config/config";
+import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
-import IsLoadingHOC from "../Common/IsLoadingHOC";
+import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
-import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import Pagination from "../Common/Pagination";
+import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
+import Pagination from "../../Common/Pagination";
 import {
   CapitalizeFirstLetter,
   getFormatedDate,
   replaceHyphenCapitolize,
-} from "../Helper";
+} from "../../Helper";
 import SaveLocation from "./SaveLocation";
 import UpdateLocation from "./UpdateLocation";
 import { CSVLink } from "react-csv";
-import ExportConfirmationModal from "../Common/ConfirmExportModal";
+import ExportConfirmationModal from "../../Common/ConfirmExportModal";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -142,7 +142,7 @@ function SubscriptionList(props: MyComponentProps) {
               <div className="nk-block-head nk-block-head-sm">
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
-                    <h3 className="nk-block-title page-title">Subscriptions</h3>
+                    <h3 className="nk-block-title page-title">Contracts</h3>
                   </div>
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">
@@ -158,19 +158,6 @@ function SubscriptionList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          <li>
-                            <div className="form-control-wrap">
-                              <div className="form-icon form-icon-right">
-                                <em className="icon ni ni-search"></em>
-                              </div>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="default-04"
-                                placeholder="Search by name"
-                              />
-                            </div>
-                          </li>
                           <li>
                             <div className="drodown">
                               <a
@@ -247,16 +234,6 @@ function SubscriptionList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    {/* <div className="nk-tb-col nk-tb-col-check">
-                      <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="uid"
-                        />
-                        <label className="custom-control-label"></label>
-                      </div>
-                    </div> */}
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
@@ -289,21 +266,11 @@ function SubscriptionList(props: MyComponentProps) {
                     invoices.length > 0 &&
                     invoices.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-                        {/* <div className="nk-tb-col nk-tb-col-check">
-                          <div className="custom-control custom-control-sm custom-checkbox notext">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="uid1"
-                            />
-                            <label className="custom-control-label"></label>
-                          </div>
-                        </div> */}
                         <div className="nk-tb-col">
                           <Link to={`/invoice-detail/${item._id}`}>
-                          <span className="tb-status text-primary">
-                            {item.subscription?.slice(-8)?.toUpperCase()}
-                          </span>
+                            <span className="tb-status text-primary">
+                              {item.subscription?.slice(-8)?.toUpperCase()}
+                            </span>
                           </Link>
                         </div>
                         <div className="nk-tb-col">
@@ -392,16 +359,20 @@ function SubscriptionList(props: MyComponentProps) {
                                         </li>
                                       )
                                     ) : null}
-                                      <li>
-                                      <Link to={`/assign-qr-code?quoteId=${item._id}&quoteType=${item?.quotationType}`}>
-                                        <em className="icon ni ni-eye"></em>
-                                        <span>Assign QR Code</span>
+                                    <li>
+                                      <Link
+                                        to={`/assign-qr-code?quoteId=${item._id}&quoteType=${item?.quotationType}`}
+                                      >
+                                        <em className="icon ni ni-move"></em>
+                                        <span>Assign Production</span>
                                       </Link>
                                     </li>
                                     <li>
-                                      <Link to={`/invoice-detail/${item._id}`}>
+                                      <Link
+                                        to={`/subscription-detail/${item._id}`}
+                                      >
                                         <em className="icon ni ni-eye"></em>
-                                        <span>Subscription Details</span>
+                                        <span>More Details</span>
                                       </Link>
                                     </li>
                                   </ul>
