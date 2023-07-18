@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
-import CreatableSelect from "react-select/creatable";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -14,27 +13,75 @@ interface MyComponentProps {
 
 function CreateQRCode(props: MyComponentProps) {
   const { setLoading, modal, closeModal, getListingData } = props;
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const [options, setOptions] = useState([]);
+  const [currentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(10);
+  const [categories, setCategories] = useState([]);
+  const [inventoryTypes, setInventoryTypes] = useState([]);
 
   const [formData, setFormData] = useState({
     productName: "",
-    category: [],
+    category: "",
     description: "",
     type: "",
     quantity: "",
     gender: "male",
   });
 
-  const handleSelectChange = (options: any) => {
-    setSelectedOption(options);
-    let selected_value: any = [];
-    options.map((item: any) => selected_value.push(item.value));
-    setFormData((prev) => ({
-      ...prev,
-      category: selected_value,
-    }));
+  useEffect(() => {
+    getCategoryData();
+    getInventoryTypeData();
+  }, []);
+
+  const getCategoryData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/inventory-category/get-category-list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setCategories(resData);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const getInventoryTypeData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/inventory-category/get-type-list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setInventoryTypes(resData);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
 
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -71,7 +118,7 @@ function CreateQRCode(props: MyComponentProps) {
     } else {
       setLoading(true);
       await authAxios()
-        .post("/inventory/save", payload)
+        .post("/inventory/create-inventory-details", payload)
         .then(
           (response) => {
             setLoading(false);
@@ -93,7 +140,6 @@ function CreateQRCode(props: MyComponentProps) {
         });
     }
   };
-
 
   return (
     <div
@@ -146,13 +192,36 @@ function CreateQRCode(props: MyComponentProps) {
                         >
                           <option value="male">Male</option>
                           <option value="female">Female</option>
+                          <option value="other">Other</option>
                         </select>
                       </div>
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
-                        Type
+                          Category
+                        </label>
+                        <select
+                          required
+                          name="category"
+                          value={formData.category}
+                          className="form-control"
+                          onChange={handleChangeSelect}
+                        >
+                          {categories &&
+                            categories.length > 0 &&
+                            categories.map((item: any, index) => (
+                              <option key={index} value={item.category}>
+                                {item.category}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="full-name">
+                          Type
                         </label>
                         <select
                           required
@@ -161,10 +230,13 @@ function CreateQRCode(props: MyComponentProps) {
                           className="form-control"
                           onChange={handleChangeSelect}
                         >
-                          <option value="standard">Standard</option>
-                          <option value="standard With Sink">Standard With Sink</option>
-                          <option value="wheel Chair Accessible">Wheel Chair Accessible</option>
-                          <option value="high rise capable">High rise capable</option>
+                          {inventoryTypes &&
+                            inventoryTypes.length > 0 &&
+                            inventoryTypes.map((item: any, index) => (
+                              <option key={index} value={item.types}>
+                                {item.types}
+                              </option>
+                            ))}
                         </select>
                       </div>
                     </div>
@@ -185,20 +257,7 @@ function CreateQRCode(props: MyComponentProps) {
                         />
                       </div>
                     </div>
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="phone-no">
-                          Categories
-                        </label>
-                        <CreatableSelect
-                          isMulti
-                          value={selectedOption}
-                          options={options}
-                          onChange={handleSelectChange}
-                          placeholder="Createable"
-                        />
-                      </div>
-                    </div>
+
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">

@@ -82,7 +82,7 @@ function InventoryList(props: MyComponentProps) {
   const handleDeleteItem = async () => {
     setLoading(true);
     await authAxios()
-      .delete(`/service/delete/${elementID}`)
+      .delete(`/inventory/delete-inventory-details/${elementID}`)
       .then(
         (response) => {
           setLoading(false);
@@ -150,19 +150,6 @@ function InventoryList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          {/* <li>
-                            <div className="form-control-wrap">
-                              <div className="form-icon form-icon-right">
-                                <em className="icon ni ni-search"></em>
-                              </div>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="default-04"
-                                placeholder="Search by name"
-                              />
-                            </div>
-                          </li> */}
                           <li>
                             <div className="drodown">
                               <a
@@ -237,25 +224,16 @@ function InventoryList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    {/* <div className="nk-tb-col nk-tb-col-check">
-                      <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="uid"
-                        />
-                        <label className="custom-control-label"></label>
-                      </div>
-                    </div> */}
+
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
                     <div className="nk-tb-col">
                       <span className="sub-text">Product Name</span>
                     </div>
-                    {/* <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Categories</span>
-                    </div> */}
+                    <div className="nk-tb-col tb-col-md">
+                      <span className="sub-text">Category</span>
+                    </div>
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Type</span>
                     </div>
@@ -274,21 +252,14 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
                     </div>
+                    
                   </div>
                   {listData &&
                     listData.length > 0 &&
                     listData.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-                        {/* <div className="nk-tb-col nk-tb-col-check">
-                          <div className="custom-control custom-control-sm custom-checkbox notext">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="uid1"
-                            />
-                            <label className="custom-control-label"></label>
-                          </div>
-                        </div> */}
+
+
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}
@@ -304,20 +275,11 @@ function InventoryList(props: MyComponentProps) {
                             </div>
                           </div>
                         </div>
-                        {/* <div className="nk-tb-col tb-col-md">
-                          {item.category &&
-                            item.category.length > 0 &&
-                            item.category.map(
-                              (element: string, index: number) => (
-                                <React.Fragment key={index}>
-                                  <span>{element}</span>
-                                  <br />
-                                </React.Fragment>
-                              )
-                            )}
-                        </div> */}
                         <div className="nk-tb-col tb-col-lg">
-                          <span>{item.type}</span>
+                          <span>{CapitalizeFirstLetter(item?.category)}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>{CapitalizeFirstLetter(item.type)}</span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>{CapitalizeFirstLetter(item.gender)}</span>
@@ -343,6 +305,8 @@ function InventoryList(props: MyComponentProps) {
                             alt="QR Code"
                           />
                         </div>
+
+
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
                             <li>
@@ -417,7 +381,7 @@ function InventoryList(props: MyComponentProps) {
           modal={deleteModal}
           closeModal={(isModal: boolean) => setDeleteModal(isModal)}
           confirmedDelete={handleDeleteItem}
-          actionType="service"
+          actionType="production"
         />
       )}
     </>

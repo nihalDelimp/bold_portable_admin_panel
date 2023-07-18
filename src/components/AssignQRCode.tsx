@@ -342,16 +342,13 @@ function InventoryList(props: MyComponentProps) {
                       <span className="sub-text">Product Name</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Service Requirement</span>
-                    </div>
-                    <div className="nk-tb-col tb-col-lg">
-                      <span className="sub-text">Quantity</span>
+                      <span className="sub-text">Category</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Type</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
-                      <span className="sub-text">Description</span>
+                      <span className="sub-text">Gender</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
@@ -395,37 +392,14 @@ function InventoryList(props: MyComponentProps) {
                             </div>
                           </div>
                         </div>
-                        <div className="nk-tb-col tb-col-md">
-                          {item.category &&
-                            item.category.length > 0 &&
-                            item.category.map(
-                              (element: string, index: number) => (
-                                <React.Fragment key={index}>
-                                  <span>{element}</span>
-                                  <br />
-                                </React.Fragment>
-                              )
-                            )}
+                        <div className="nk-tb-col tb-col-lg">
+                          <span>{CapitalizeFirstLetter(item?.category)}</span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
-                          <span>{item.quantity}</span>
+                          <span>{CapitalizeFirstLetter(item.type)}</span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
-                          <span>{item.type}</span>
-                        </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>
-                            {` ${
-                              item.description
-                                ? item.description?.substring(0, limitDesc)
-                                : ""
-                            } ${
-                              item.description &&
-                              item.description.length > limitDesc
-                                ? "..."
-                                : ""
-                            }  `}
-                          </span>
+                          <span>{CapitalizeFirstLetter(item.gender)}</span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>

@@ -1,42 +1,102 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
-import CreatableSelect from "react-select/creatable";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   modal: boolean;
   closeModal: (isModal: boolean) => void;
   getListingData: () => void;
-  elementData : any
+  elementData: any;
 }
 
 function EditInventory(props: MyComponentProps) {
-  const { setLoading, modal, closeModal, getListingData , elementData } = props;
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const [options, setOptions] = useState([]);
+  const { setLoading, modal, closeModal, getListingData, elementData } = props;
+  const [currentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(10);
+  const [categories, setCategories] = useState([]);
+  const [inventoryTypes, setInventoryTypes] = useState([]);
 
   const [formData, setFormData] = useState({
     productName: "",
-    category: [],
+    category: "",
     description: "",
     type: "",
-    quantity: "",
     gender: "male",
   });
 
-  const handleSelectChange = (options: any) => {
-    setSelectedOption(options);
-    let selected_value: any = [];
-    options.map((item: any) => selected_value.push(item.value));
-    setFormData((prev) => ({
-      ...prev,
-      category: selected_value,
-    }));
+  useEffect(() => {
+    getCategoryData();
+    getInventoryTypeData();
+  }, []);
+
+  const getCategoryData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/inventory-category/get-category-list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setCategories(resData);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
   };
+
+  const getInventoryTypeData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/inventory-category/get-type-list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setInventoryTypes(resData);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  useEffect(() => {
+    if (elementData) {
+      const { productName, category, description, type, gender } = elementData;
+      setFormData((prev) => ({
+        ...prev,
+        productName,
+        category,
+        description,
+        type,
+        gender,
+      }));
+    }
+  }, []);
 
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -65,14 +125,11 @@ function EditInventory(props: MyComponentProps) {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const payload = formData;
-    if (payload.category.length === 0) {
-      toast.error("Service category is required!");
-    } else if (payload.description.length < 5) {
-      toast.error("Description must be at least 10 characters long!");
-    } else {
+    if (elementData._id) {
+      const _id = elementData._id;
       setLoading(true);
       await authAxios()
-        .post("/inventory/save", payload)
+        .put(`/inventory/edit-inventory-details/${_id}`, payload)
         .then(
           (response) => {
             setLoading(false);
@@ -94,7 +151,6 @@ function EditInventory(props: MyComponentProps) {
         });
     }
   };
-
 
   return (
     <div
@@ -147,13 +203,38 @@ function EditInventory(props: MyComponentProps) {
                         >
                           <option value="male">Male</option>
                           <option value="female">Female</option>
+                          <option value="other">Other</option>
                         </select>
                       </div>
                     </div>
+
                     <div className="col-md-12">
                       <div className="form-group">
                         <label className="form-label" htmlFor="full-name">
-                        Type
+                          Category
+                        </label>
+                        <select
+                          required
+                          name="category"
+                          value={formData.category}
+                          className="form-control"
+                          onChange={handleChangeSelect}
+                        >
+                          {categories &&
+                            categories.length > 0 &&
+                            categories.map((item: any, index) => (
+                              <option key={index} value={item.category}>
+                                {item.category}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label className="form-label" htmlFor="full-name">
+                          Type
                         </label>
                         <select
                           required
@@ -162,42 +243,14 @@ function EditInventory(props: MyComponentProps) {
                           className="form-control"
                           onChange={handleChangeSelect}
                         >
-                          <option value="standard">Standard</option>
-                          <option value="standard With Sink">Standard With Sink</option>
-                          <option value="wheel Chair Accessible">Wheel Chair Accessible</option>
-                          <option value="high rise capable">High rise capable</option>
+                          {inventoryTypes &&
+                            inventoryTypes.length > 0 &&
+                            inventoryTypes.map((item: any, index) => (
+                              <option key={index} value={item.types}>
+                                {item.types}
+                              </option>
+                            ))}
                         </select>
-                      </div>
-                    </div>
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="full-name">
-                          Quantity
-                        </label>
-                        <input
-                          required
-                          type="number"
-                          onChange={handleChangeInput}
-                          name="quantity"
-                          value={formData.quantity}
-                          className="form-control"
-                          id="productName"
-                          placeholder="Enter quantity"
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label className="form-label" htmlFor="phone-no">
-                          Categories
-                        </label>
-                        <CreatableSelect
-                          isMulti
-                          value={selectedOption}
-                          options={options}
-                          onChange={handleSelectChange}
-                          placeholder="Createable"
-                        />
                       </div>
                     </div>
                     <div className="col-md-12">
