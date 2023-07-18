@@ -133,6 +133,33 @@ function SubscriptionList(props: MyComponentProps) {
     setStatusLabel(label);
   };
 
+  const handleAutoAssign = async (quoteId: string, quoteType: string) => {
+    const payload = {
+      quotationId: quoteId,
+      quotationType: quoteType,
+    };
+    setLoading(true);
+    await authAxios()
+      .post(`/inventory/auto-assign-qrcode-to-quote`, payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data?.message);
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
   return (
     <>
       <div className="nk-content">
@@ -366,6 +393,19 @@ function SubscriptionList(props: MyComponentProps) {
                                         <em className="icon ni ni-move"></em>
                                         <span>Assign Production</span>
                                       </Link>
+                                    </li>
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          handleAutoAssign(
+                                            item._id,
+                                            item.quotationType
+                                          )
+                                        }
+                                      >
+                                        <em className="icon ni ni-move"></em>
+                                        <span>Auto Assign</span>
+                                      </a>
                                     </li>
                                     <li>
                                       <Link
