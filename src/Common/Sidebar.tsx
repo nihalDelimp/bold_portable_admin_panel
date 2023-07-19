@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 
 function Sidebar() {
@@ -19,7 +18,7 @@ function Sidebar() {
     >
       <div className="nk-sidebar-element nk-sidebar-head">
         <div className="nk-sidebar-brand">
-          <NavLink to="/" className="logo-link nk-sidebar-logo">
+          <Link to="/" className="logo-link nk-sidebar-logo">
             <img
               className="logo-light logo-img"
               src={require("../images/bold_port.png")}
@@ -35,7 +34,7 @@ function Sidebar() {
               src={require("../images/bold_port.png")}
               alt="logo-small"
             />
-          </NavLink>
+          </Link>
         </div>
         <div className="nk-menu-trigger me-n2">
           <a
@@ -59,125 +58,130 @@ function Sidebar() {
               <li
                 className={`nk-menu-item ${pathName === "/" ? "active" : ""}`}
               >
-                <NavLink to="/" className="nk-menu-link">
+                <Link to="/" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-dashboard-fill"></em>
                   </span>
                   <span className="nk-menu-text">Dashboard</span>
-                </NavLink>
-              </li>
-              <li
-                className={`nk-menu-item ${
-                  pathName === "/category-management" ? "active" : ""
-                }`}
-              >
-                <NavLink to="/category-management" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-menu-squared"></em>
-                  </span>
-                  <span className="nk-menu-text">Inventory Category</span>
-                </NavLink>
+                </Link>
               </li>
 
-              <li
-                className={`nk-menu-item ${
-                  pathName === "/portable-type-management" ? "active" : ""
-                }`}
-              >
-                <NavLink
-                  to="/inventory-type-management"
-                  className="nk-menu-link"
-                >
+              <li className="nk-menu-item has-sub">
+                <a href="#" className="nk-menu-link nk-menu-toggle">
                   <span className="nk-menu-icon">
-                    <em className="icon ni ni-menu-squared"></em>
+                    <em className="icon ni ni-card-view"></em>
                   </span>
-                  <span className="nk-menu-text">Inventory Types</span>
-                </NavLink>
+                  <span className="nk-menu-text">Inventory</span>
+                </a>
+                <ul className="nk-menu-sub">
+                  <li
+                    className={`nk-menu-item ${
+                      pathName === "/inventory" ? "active" : ""
+                    }`}
+                  >
+                    <Link to="/inventory" className="nk-menu-link">
+                      <span className="nk-menu-text">Inventory Management</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nk-menu-item ${
+                      pathName === "/category-management" ? "active" : ""
+                    }`}
+                  >
+                    <Link to="/category-management" className="nk-menu-link">
+                      <span className="nk-menu-text">Category Management</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nk-menu-item ${
+                      pathName === "/inventory-type-management" ? "active" : ""
+                    }`}
+                  >
+                    <Link
+                      to="/inventory-type-management"
+                      className="nk-menu-link"
+                    >
+                      <span className="nk-menu-text">Types Management</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
 
-              <li
-                className={`nk-menu-item ${
-                  pathName === "/services" ? "active" : ""
-                }`}
-              >
-                <NavLink to="/service-list" className="nk-menu-link">
+              <li className="nk-menu-item has-sub">
+                <a href="#" className="nk-menu-link nk-menu-toggle">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-menu-squared"></em>
                   </span>
-                  <span className="nk-menu-text">Add or Edit Services</span>
-                </NavLink>
-              </li>
-              <li
-                className={`nk-menu-item ${
-                  pathName === "/inventory" ? "active" : ""
-                }`}
-              >
-                <NavLink to="/inventory" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-home-fill"></em>
-                  </span>
-                  <span className="nk-menu-text">Inventory Management</span>
-                </NavLink>
-              </li>
-              <li
-                className={`nk-menu-item ${
-                  pathName === "/service-request" ? "active" : ""
-                }`}
-              >
-                <NavLink to="/service-request" className="nk-menu-link">
-                  <span className="nk-menu-icon">
-                    <em className="icon ni ni-menu-squared"></em>
-                  </span>
-                  <span className="nk-menu-text">Service Requests</span>
-                </NavLink>
+                  <span className="nk-menu-text">Service</span>
+                </a>
+                <ul className="nk-menu-sub">
+                  <li
+                    className={`nk-menu-item ${
+                      pathName === "/service-list" ? "active" : ""
+                    }`}
+                  >
+                    <Link to="/service-list" className="nk-menu-link">
+                      <span className="nk-menu-text">Service Management</span>
+                    </Link>
+                  </li>
+                  <li
+                    className={`nk-menu-item ${
+                      pathName === "/service-request" ? "active" : ""
+                    }`}
+                  >
+                    <Link to="/service-request" className="nk-menu-link">
+                      <span className="nk-menu-text">Service Requests</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li
                 className={`nk-menu-item ${
                   pathName === "/customers" ? "active" : ""
                 }`}
               >
-                <NavLink to="/customers" className="nk-menu-link">
+                <Link to="/customers" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-users-fill"></em>
                   </span>
                   <span className="nk-menu-text">Customers</span>
-                </NavLink>
+                </Link>
               </li>
               <li
                 className={`nk-menu-item ${
                   pathName === "/subscriptions" ? "active" : ""
                 }`}
               >
-                <NavLink to="/subscriptions" className="nk-menu-link">
+                <Link to="/subscriptions" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-file-docs"></em>
                   </span>
                   <span className="nk-menu-text">Contracts</span>
-                </NavLink>
+                </Link>
               </li>
               <li
                 className={`nk-menu-item ${
                   pathName === "/quotations" ? "active" : ""
                 }`}
               >
-                <NavLink to="/quotations" className="nk-menu-link">
+                <Link to="/quotations" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-calendar-check-fill"></em>
                   </span>
                   <span className="nk-menu-text">Quotations</span>
-                </NavLink>
+                </Link>
               </li>
               <li
                 className={`nk-menu-item ${
                   pathName === "/send-email" ? "active" : ""
                 }`}
               >
-                <NavLink to="/send-email" className="nk-menu-link">
+                <Link to="/send-email" className="nk-menu-link">
                   <span className="nk-menu-icon">
                     <em className="icon ni ni-mail-fill"></em>
                   </span>
                   <span className="nk-menu-text">Send Email</span>
-                </NavLink>
+                </Link>
               </li>
             </ul>
           </div>

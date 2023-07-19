@@ -135,7 +135,7 @@ function ServiceRequest(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">
-                      Service Request
+                      Service Requests
                     </h3>
                   </div>
                   <div className="nk-block-head-content">

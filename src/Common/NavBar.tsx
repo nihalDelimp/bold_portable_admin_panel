@@ -47,12 +47,6 @@ function NavBar() {
               </a>
             </div>
             <div className="nk-header-search ms-3 ms-xl-0">
-              <em className="icon ni ni-search"></em>
-              <input
-                type="text"
-                className="form-control border-transparent form-focus-none"
-                placeholder="Search anything"
-              />
             </div>
             <div className="nk-header-tools">
               <ul className="nk-quick-nav">
