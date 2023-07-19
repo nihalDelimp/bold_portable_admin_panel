@@ -279,9 +279,9 @@ function SubscriptionList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Date</span>
                     </div>
-                    <div className="nk-tb-col">
+                    {/* <div className="nk-tb-col">
                       <span className="sub-text">QR Code</span>
-                    </div>
+                    </div> */}
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Status</span>
                     </div>
@@ -326,13 +326,13 @@ function SubscriptionList(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
-                        <div className="nk-tb-col">
+                        {/* <div className="nk-tb-col">
                           <img
                             style={{ width: "40%" }}
                             src={item?.qrCode}
                             alt="QR Code"
                           />
-                        </div>
+                        </div> */}
                         <div className="nk-tb-col tb-col-md">
                           <span className="tb-odr-status">
                             <span

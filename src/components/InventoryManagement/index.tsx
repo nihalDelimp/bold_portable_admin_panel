@@ -106,9 +106,9 @@ function InventoryList(props: MyComponentProps) {
 
   const setBackgroundColor = (status: string) => {
     if (status === "pending") {
-      return "bg-warning";
-    } else if (status === "active") {
       return "bg-success";
+    } else if (status === "active") {
+      return "bg-warning";
     } else if (status === "cancelled") {
       return "bg-danger";
     } else if (status === "completed") {
@@ -121,6 +121,18 @@ function InventoryList(props: MyComponentProps) {
   const changeStatus = (name: string) => {
     setCurrentPage(1);
     setStatus(name);
+  };
+
+  const getStatusName = (status: string) => {
+    if (status === "pending") {
+      return "Available";
+    } else if (status === "active") {
+      return "Assigned";
+    } else if (status === "comppleted") {
+      return "Completed";
+    } else {
+      return status;
+    }
   };
 
   return (
@@ -157,7 +169,7 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(status)}
+                                {getStatusName(status)}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
@@ -168,17 +180,12 @@ function InventoryList(props: MyComponentProps) {
                                   </li>
                                   <li>
                                     <a onClick={() => changeStatus("pending")}>
-                                      <span>Pending</span>
+                                      <span>Available</span>
                                     </a>
                                   </li>
                                   <li>
                                     <a onClick={() => changeStatus("active")}>
-                                      <span>Active</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a onClick={() => changeStatus("modified")}>
-                                      <span>Modified</span>
+                                      <span>Assigned</span>
                                     </a>
                                   </li>
                                   <li>
@@ -186,13 +193,6 @@ function InventoryList(props: MyComponentProps) {
                                       onClick={() => changeStatus("completed")}
                                     >
                                       <span>Completed</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() => changeStatus("cancelled")}
-                                    >
-                                      <span>Cancelled</span>
                                     </a>
                                   </li>
                                 </ul>
@@ -224,7 +224,6 @@ function InventoryList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
@@ -252,14 +251,11 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
                     </div>
-                    
                   </div>
                   {listData &&
                     listData.length > 0 &&
                     listData.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-
-
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}
@@ -294,7 +290,7 @@ function InventoryList(props: MyComponentProps) {
                                 item.status
                               )}`}
                             >
-                              {CapitalizeFirstLetter(item.status)}
+                              {getStatusName(item.status)}
                             </span>
                           </span>
                         </div>
@@ -305,7 +301,6 @@ function InventoryList(props: MyComponentProps) {
                             alt="QR Code"
                           />
                         </div>
-
 
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">

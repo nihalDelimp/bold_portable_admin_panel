@@ -14,7 +14,7 @@ interface MyComponentProps {
 function CreateQRCode(props: MyComponentProps) {
   const { setLoading, modal, closeModal, getListingData } = props;
   const [currentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(10);
+  const [itemsPerPage] = useState<number>(100);
   const [categories, setCategories] = useState([]);
   const [inventoryTypes, setInventoryTypes] = useState([]);
 

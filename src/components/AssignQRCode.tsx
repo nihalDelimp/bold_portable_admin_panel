@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import {
@@ -10,7 +9,6 @@ import {
   getFormatedDate,
   replaceHyphenCapitolize,
 } from "../Helper";
-import { limitDesc } from "../Helper/constants";
 import ConfirmAssignModal from "../Common/ConfirmAssignModal";
 
 interface MyComponentProps {
@@ -23,17 +21,77 @@ function InventoryList(props: MyComponentProps) {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [statusName, setStatusName] = useState("pending");
   const [gender, setGender] = useState<string>("male");
-  const [quoteType, setQuoteType] = useState<string>("standard");
+  const [inventoryType, setInventoryType] = useState<string>("");
+  const [category, setCategory] = useState("");
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [quotationId, setQuotationId] = useState<string>("");
   const [quotationType, setQuotationType] = useState<string>("");
   const [assignModal, setAssignModal] = useState<boolean>(false);
 
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [inventoryTypesData, setInventoryTypesData] = useState([]);
+
   useEffect(() => {
     getInventoryListData();
-  }, [currentPage, itemsPerPage, statusName]);
+  }, [currentPage, itemsPerPage, category, inventoryType, gender]);
+
+  useEffect(() => {
+    getCategoryData();
+    getInventoryTypeData();
+  }, []);
+
+  const getCategoryData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/inventory-category/get-category-list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setCategoriesData(resData);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const getInventoryTypeData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/inventory-category/get-type-list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data;
+            setInventoryTypesData(resData);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
 
   useEffect(() => {
     // Get the URL parameters
@@ -53,15 +111,15 @@ function InventoryList(props: MyComponentProps) {
     setLoading(true);
     await authAxios()
       .get(
-        `/inventory/get-qr-code-details-status?status=${statusName}&page=${currentPage}&limit=${itemsPerPage}`
+        `/inventory/get-filter-details?category=${category}&type=${inventoryType}&gender=${gender}&page=${currentPage}&limit=${itemsPerPage}`
       )
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             const resData = response.data.data;
-            setListData(resData.qrCodes);
-            setTotalCount(resData?.totalCount);
+            setListData(resData);
+            // setTotalCount(resData?.totalCount);
           } else {
             toast.error(response.data.message);
             setListData([]);
@@ -139,15 +197,27 @@ function InventoryList(props: MyComponentProps) {
 
   const setBackgroundColor = (status: string) => {
     if (status === "pending") {
-      return "bg-warning";
-    } else if (status === "active") {
       return "bg-success";
+    } else if (status === "active") {
+      return "bg-warning";
     } else if (status === "cancelled") {
       return "bg-danger";
     } else if (status === "completed") {
       return "bg-success";
     } else {
       return "bg-primary";
+    }
+  };
+
+  const getStatusName = (status: string) => {
+    if (status === "pending") {
+      return "Available";
+    } else if (status === "active") {
+      return "Assigned";
+    } else if (status === "comppleted") {
+      return "Completed";
+    } else {
+      return status;
     }
   };
 
@@ -198,51 +268,64 @@ function InventoryList(props: MyComponentProps) {
                           <li>
                             <div className="drodown">
                               <a
-                                href="#"
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(quoteType)}
+                                {CapitalizeFirstLetter(category) || "Category"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
                                     <a>
-                                      <span>Select type</span>
+                                      <span>Select Inventory Category</span>
                                     </a>
                                   </li>
+                                  {categoriesData.map((item: any) => (
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          setCategory(item.category)
+                                        }
+                                      >
+                                        <span>
+                                          {CapitalizeFirstLetter(item.category)}
+                                        </span>
+                                      </a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+
+                          <li>
+                            <div className="drodown">
+                              <a
+                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                                data-bs-toggle="dropdown"
+                              >
+                                {CapitalizeFirstLetter(inventoryType) || "Type"}
+                              </a>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <a onClick={() => setQuoteType("standard")}>
-                                      <span>Standard</span>
+                                    <a>
+                                      <span>Select Inventory Type</span>
                                     </a>
                                   </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        setQuoteType("standard With Sink")
-                                      }
-                                    >
-                                      <span>Standard With Sink</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        setQuoteType("wheel Chair Accessible")
-                                      }
-                                    >
-                                      <span>Wheel Chair Accessible</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        setQuoteType("high rise capable")
-                                      }
-                                    >
-                                      <span>High rise capable</span>
-                                    </a>
-                                  </li>
+                                  {inventoryTypesData.map((item: any) => (
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          setInventoryType(item.types)
+                                        }
+                                      >
+                                        <span>
+                                          {CapitalizeFirstLetter(item.types)}
+                                        </span>
+                                      </a>
+                                    </li>
+                                  ))}
                                 </ul>
                               </div>
                             </div>
@@ -275,41 +358,8 @@ function InventoryList(props: MyComponentProps) {
                                     </a>
                                   </li>
                                   <li>
-                                    <a onClick={() => setGender("Both")}>
-                                      <span>Both</span>
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </li>
-
-                          <li>
-                            <div className="drodown">
-                              <a
-                                href="#"
-                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                                data-bs-toggle="dropdown"
-                              >
-                                {CapitalizeFirstLetter(statusName)}
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <a>
-                                      <span>Select Status</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a onClick={() => setStatusName("pending")}>
-                                      <span>Pending</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() => setStatusName("completed")}
-                                    >
-                                      <span>Completed</span>
+                                    <a onClick={() => setGender("other")}>
+                                      <span>other</span>
                                     </a>
                                   </li>
                                 </ul>
@@ -411,7 +461,7 @@ function InventoryList(props: MyComponentProps) {
                                 item.status
                               )}`}
                             >
-                              {CapitalizeFirstLetter(item.status)}
+                              {getStatusName(item.status)}
                             </span>
                           </span>
                         </div>

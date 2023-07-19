@@ -75,20 +75,18 @@ const QuotationsList = (props: MyComponentProps) => {
         (error) => {
           setLoading(false);
           toast.error(error.response.data.message);
-          // toast.success('Approved Successfully')
         }
       )
       .catch((error) => {
         setLoading(false);
         console.log("errorrrr", error);
       });
-    toast.success("Approved Successfully");
   };
 
   const handleDeclineQuotation = async (_id: string) => {
     setLoading(true);
     await authAxios()
-      .put(`quotation/update-quotation/${_id}`)
+      .put(`quotation/cancel-quotation-request/${_id}`)
       .then(
         (response) => {
           setLoading(false);
@@ -99,15 +97,12 @@ const QuotationsList = (props: MyComponentProps) => {
         },
         (error) => {
           setLoading(false);
-          // toast.error(error.response.data.message);
+          toast.error(error.response.data.message);
         }
       )
       .catch((error) => {
         setLoading(false);
-
-        console.log("errorrrr", error);
       });
-    toast.error("Quotation has Declined Successfully");
   };
 
   const onChangeStatus = (status: string) => {
@@ -130,7 +125,7 @@ const QuotationsList = (props: MyComponentProps) => {
     status: string
   ) => {
     if (status === "active") {
-      toast.warning("User is already subscribed for this quotation");
+      toast.warning("User has subscribed this quotation");
     } else if (status === "completed") {
       toast.warning("This quotation is completed");
     } else {
@@ -285,7 +280,8 @@ const QuotationsList = (props: MyComponentProps) => {
                   quotationData.map((item: any, index: number) => (
                     <div key={item._id} className="nk-tb-item">
                       <div className="nk-tb-col">
-                        <span style={{cursor:"pointer"}}
+                        <span
+                          style={{ cursor: "pointer" }}
                           className="tb-status text-primary"
                           onClick={() =>
                             handleSendInvoice(item._id, item.type, item.status)
@@ -371,17 +367,19 @@ const QuotationsList = (props: MyComponentProps) => {
                                       <em className="icon ni ni-thumbs-up"></em>
                                       <span>Approve</span>
                                     </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleDeclineQuotation(item._id)
-                                      }
-                                    >
-                                      <em className="icon ni ni-cross-circle"></em>
-                                      <span>Decline</span>
-                                    </a>
                                   </li> */}
+                                  {item.status === "pending" && (
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          handleDeclineQuotation(item._id)
+                                        }
+                                      >
+                                        <em className="icon ni ni-cross-circle"></em>
+                                        <span>Decline</span>
+                                      </a>
+                                    </li>
+                                  )}
                                 </ul>
                               </div>
                             </div>
