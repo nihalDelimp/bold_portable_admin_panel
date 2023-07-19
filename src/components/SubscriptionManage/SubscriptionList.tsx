@@ -412,7 +412,7 @@ function SubscriptionList(props: MyComponentProps) {
                                         to={`/subscription-detail/${item._id}`}
                                       >
                                         <em className="icon ni ni-eye"></em>
-                                        <span>More Details</span>
+                                        <span>Invoice</span>
                                       </Link>
                                     </li>
                                   </ul>

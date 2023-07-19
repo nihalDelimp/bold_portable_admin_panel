@@ -265,7 +265,7 @@ const QuotationsList = (props: MyComponentProps) => {
                     <span>Distance From Kelowna</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                    <span>Max Workers</span>
+                    <span>Total Workers</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
                     <span>Type</span>
@@ -312,7 +312,7 @@ const QuotationsList = (props: MyComponentProps) => {
                         </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{item?.maxWorkers}</span>
+                        <span className="tb-sub">{item?.totalWorkers}</span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
                         <span className="tb-sub">
