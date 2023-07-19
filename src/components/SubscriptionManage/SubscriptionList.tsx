@@ -424,7 +424,7 @@ function SubscriptionList(props: MyComponentProps) {
                       </div>
                     ))}
                 </div>
-                {invoices && invoices.length > 0 && (
+                {invoices && invoices.length > 0 && totalCount > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}

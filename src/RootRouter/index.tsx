@@ -15,7 +15,7 @@ import NotificationDetails from "../components/NotificationDetails";
 import SubscriptionDetail from "../components/SubscriptionManage/SubscriptionDetail";
 import QuotationsList from "../components/QuotationManage/QuotationsList";
 import SendEmail from "../components/SendEmail";
-import ServiceRequest from "../components/ServiceRequest";
+import ServiceRequests from "../components/ServiceRequests";
 import ServicesList from "../components/ServiceManagement/ServicesList";
 import InventoryList from "../components/InventoryManagement";
 import AssignQRCode from "../components/AssignQRCode";
@@ -104,7 +104,7 @@ function RootRouter() {
             path="/service-request"
             element={
               <PrivateRoute>
-                <ServiceRequest />
+                <ServiceRequests />
               </PrivateRoute>
             }
           />

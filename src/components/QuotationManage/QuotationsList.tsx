@@ -389,7 +389,7 @@ const QuotationsList = (props: MyComponentProps) => {
                     </div>
                   ))}
               </div>
-              {quotationData && quotationData.length > 0 && (
+              {quotationData && quotationData.length > 0 && totalCount > 0 && (
                 <Pagination
                   totalCount={totalCount}
                   onPageChange={(page: number) => setCurrentPage(page)}

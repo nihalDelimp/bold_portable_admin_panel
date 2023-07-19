@@ -19,7 +19,7 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-function ServiceRequest(props: MyComponentProps) {
+function ServiceRequests(props: MyComponentProps) {
   const { setLoading } = props;
   const [services, setServices] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -323,7 +323,7 @@ function ServiceRequest(props: MyComponentProps) {
                   />
                 )}
                 <div></div>
-                {services && services.length > 0 && (
+                {services && services.length > 0 && totalCount > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}
@@ -342,4 +342,4 @@ function ServiceRequest(props: MyComponentProps) {
   );
 }
 
-export default IsLoadingHOC(IsLoggedinHOC(ServiceRequest));
+export default IsLoadingHOC(IsLoggedinHOC(ServiceRequests));

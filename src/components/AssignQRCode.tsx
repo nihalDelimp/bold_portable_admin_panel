@@ -21,14 +21,13 @@ function InventoryList(props: MyComponentProps) {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
-  const [gender, setGender] = useState<string>("male");
+  const [gender, setGender] = useState<string>("");
   const [inventoryType, setInventoryType] = useState<string>("");
   const [category, setCategory] = useState("");
   const [selectedItems, setSelectedItems] = useState<any[]>([]);
   const [quotationId, setQuotationId] = useState<string>("");
   const [quotationType, setQuotationType] = useState<string>("");
   const [assignModal, setAssignModal] = useState<boolean>(false);
-
   const [categoriesData, setCategoriesData] = useState([]);
   const [inventoryTypesData, setInventoryTypesData] = useState([]);
 
@@ -264,20 +263,20 @@ function InventoryList(props: MyComponentProps) {
                               <span>Assign</span>
                             </a>
                           </li>
-
                           <li>
                             <div className="drodown">
                               <a
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(category) || "Category"}
+                                {CapitalizeFirstLetter(category) ||
+                                  "All Category"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <a>
-                                      <span>Select Inventory Category</span>
+                                    <a onClick={() => setCategory("")}>
+                                      <span>All Category</span>
                                     </a>
                                   </li>
                                   {categoriesData.map((item: any) => (
@@ -297,20 +296,20 @@ function InventoryList(props: MyComponentProps) {
                               </div>
                             </div>
                           </li>
-
                           <li>
                             <div className="drodown">
                               <a
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(inventoryType) || "Type"}
+                                {CapitalizeFirstLetter(inventoryType) ||
+                                  "All Type"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <a>
-                                      <span>Select Inventory Type</span>
+                                    <a onClick={() => setInventoryType("")}>
+                                      <span>All Type</span>
                                     </a>
                                   </li>
                                   {inventoryTypesData.map((item: any) => (
@@ -330,7 +329,6 @@ function InventoryList(props: MyComponentProps) {
                               </div>
                             </div>
                           </li>
-
                           <li>
                             <div className="drodown">
                               <a
@@ -338,13 +336,13 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(gender)}
+                                {CapitalizeFirstLetter(gender) || "All"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <a>
-                                      <span>Select Gender</span>
+                                    <a onClick={() => setGender("")}>
+                                      <span>All</span>
                                     </a>
                                   </li>
                                   <li>
@@ -475,7 +473,7 @@ function InventoryList(props: MyComponentProps) {
                       </div>
                     ))}
                 </div>
-                {listData && listData.length > 0 && (
+                {listData && listData.length > 0 && totalCount > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}

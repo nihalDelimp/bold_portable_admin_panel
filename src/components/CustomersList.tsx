@@ -241,7 +241,7 @@ function CustomersList(props: MyComponentProps) {
                       </div>
                     ))}
                 </div>
-                {customers && customers.length > 0 && (
+                {customers && customers.length > 0 && totalCount > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}

@@ -300,7 +300,7 @@ function ProductList(props: MyComponentProps) {
                       </div>
                     ))}
                 </div>
-                {products && products.length > 0 && (
+                {products && products.length > 0 && totalCount > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}

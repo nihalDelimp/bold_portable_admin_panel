@@ -341,7 +341,7 @@ function InventoryList(props: MyComponentProps) {
                       </div>
                     ))}
                 </div>
-                {listData && listData.length > 0 && (
+                {listData && listData.length > 0 && totalCount > 0 && (
                   <Pagination
                     totalCount={totalCount}
                     onPageChange={(page: number) => setCurrentPage(page)}
