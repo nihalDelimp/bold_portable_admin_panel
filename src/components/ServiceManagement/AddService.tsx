@@ -11,7 +11,7 @@ interface MyComponentProps {
   closeModal: (isModal: boolean) => void;
   getListingData: () => void;
 }
-//  name, categories, description
+
 function AddService(props: MyComponentProps) {
   const { setLoading, modal, closeModal, getListingData } = props;
   const [selectedOption, setSelectedOption] = useState(null);
@@ -84,8 +84,6 @@ function AddService(props: MyComponentProps) {
     }
   };
 
-  // 'construction', 'disaster-relief', 'personal-or-business', 'farm-orchard-winery', 'event'
-
   return (
     <div
       className={`modal fade ${modal ? "show" : "hide"}`}
@@ -132,17 +130,6 @@ function AddService(props: MyComponentProps) {
                           </option>
                           <option value="event">Special event</option>
                         </select>
-                        {/* <input
-                          type="text"
-                          required
-                          minLength={4}
-                          onChange={handleChange}
-                          name="name"
-                          value={serviceData.name}
-                          className="form-control"
-                          id="name"
-                          placeholder="Service name"
-                        /> */}
                       </div>
                     </div>
                     <div className="col-md-12">

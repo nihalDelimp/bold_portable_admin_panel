@@ -6,7 +6,7 @@ import {
   setIsAuthenticated,
   setuser,
 } from "../Redux/Reducers/authSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RootState } from "../Redux/rootReducer";
 import { useAppDispatch } from "../Redux/store";
@@ -144,9 +144,13 @@ const Login = (props: MyComponentProps) => {
                     </label>
                   </div>
                   <div className="form-control-wrap">
-                    <a className={`form-icon form-icon-right passcode-switch lg ${showPassword ? "is-hiden" : "is-shown"} `}
+                    <a
+                      className={`form-icon form-icon-right passcode-switch lg ${
+                        showPassword ? "is-hiden" : "is-shown"
+                      } `}
                       onClick={() => setShowPassword(!showPassword)}
-                      data-target="password">
+                      data-target="password"
+                    >
                       {showPassword ? (
                         <em className="passcode-icon icon-show icon ni ni-eye"></em>
                       ) : (

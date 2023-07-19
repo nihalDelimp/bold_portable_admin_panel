@@ -123,19 +123,6 @@ function CustomersList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          {/* <li>
-                            <div className="form-control-wrap">
-                              <div className="form-icon form-icon-right">
-                                <em className="icon ni ni-search"></em>
-                              </div>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="default-04"
-                                placeholder="Search by name"
-                              />
-                            </div>
-                          </li>  */}
                           <li className="nk-block-tools-opt">
                             <button
                               type="button"

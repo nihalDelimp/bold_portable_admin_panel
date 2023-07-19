@@ -1,15 +1,9 @@
 import React from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
-  const navigate = useNavigate();
   const location = useLocation();
   const pathName = location.pathname;
-
-  const handleNavigate = () => {
-    navigate("/products");
-    window.location.reload();
-  };
 
   return (
     <div

@@ -158,16 +158,6 @@ function ServiceRequest(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    {/* <div className="nk-tb-col nk-tb-col-check">
-                      <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="uid"
-                        />
-                        <label className="custom-control-label"></label>
-                      </div>
-                    </div> */}
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
@@ -206,16 +196,6 @@ function ServiceRequest(props: MyComponentProps) {
                     services.length > 0 &&
                     services.map((item: any, index: number) => (
                       <div key={index + 1} className="nk-tb-item">
-                        {/* <div className="nk-tb-col nk-tb-col-check">
-                          <div className="custom-control custom-control-sm custom-checkbox notext">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="uid1"
-                            />
-                            <label className="custom-control-label"></label>
-                          </div>
-                        </div> */}
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}
@@ -275,7 +255,6 @@ function ServiceRequest(props: MyComponentProps) {
                                 key={element.image_path}
                                 onClick={() => openLightbox(index, item.images)}
                                 src={`${process.env.REACT_APP_BASEURL}/${element.image_path}`}
-                                // src={item}
                                 alt="quotation"
                                 style={{ width: "50px", height: "50px" }}
                               />

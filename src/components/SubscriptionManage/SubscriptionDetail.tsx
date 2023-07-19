@@ -22,9 +22,7 @@ function SubscriptionDetail(props: MyComponentProps) {
   const [userData, setUserData] = useState<any>(null);
   const [subscription, setsubscription] = useState<any>(null);
 
-  console.log("PaymentData", paymetData);
-  console.log("userData", userData);
-
+ 
   useEffect(() => {
     getSubscriptionDetailsData();
   }, []);
@@ -214,8 +212,6 @@ function SubscriptionDetail(props: MyComponentProps) {
       <div className="alert alert-icon alert-primary" role="alert">
         <em className="icon ni ni-alert-circle"></em>
         <strong>Order has been placed.</strong>
-        {/* Your will be redirect to make
-        your payment. */}
       </div>
     </div>
   );

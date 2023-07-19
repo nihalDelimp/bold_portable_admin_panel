@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
-import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import Pagination from "../../Common/Pagination";
 import { getFormatedDate, replaceHyphenCapitolize } from "../../Helper";
@@ -118,21 +117,6 @@ function ServicesList(props: MyComponentProps) {
                         data-content="more-options"
                       >
                         <ul className="nk-block-tools g-3">
-                          
-                          {/* <li>
-                            <div className="form-control-wrap">
-                              <div className="form-icon form-icon-right">
-                                <em className="icon ni ni-search"></em>
-                              </div>
-                              <input
-                                type="text"
-                                className="form-control"
-                                id="default-04"
-                                placeholder="Search by name"
-                              />
-                            </div>
-                          </li> */}
-
                           <li className="nk-block-tools-opt">
                             <a
                               data-target="addProduct"
@@ -158,16 +142,6 @@ function ServicesList(props: MyComponentProps) {
               <div className="nk-block">
                 <div className="nk-tb-list is-separate mb-3">
                   <div className="nk-tb-item nk-tb-head">
-                    {/* <div className="nk-tb-col nk-tb-col-check">
-                      <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
-                          type="checkbox"
-                          className="custom-control-input"
-                          id="uid"
-                        />
-                        <label className="custom-control-label"></label>
-                      </div>
-                    </div> */}
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
@@ -191,16 +165,6 @@ function ServicesList(props: MyComponentProps) {
                     services.length > 0 &&
                     services.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
-                        {/* <div className="nk-tb-col nk-tb-col-check">
-                          <div className="custom-control custom-control-sm custom-checkbox notext">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="uid1"
-                            />
-                            <label className="custom-control-label"></label>
-                          </div>
-                        </div> */}
                         <div className="nk-tb-col">
                           <span className="tb-status text-primary">
                             {item._id?.slice(-8)?.toUpperCase()}

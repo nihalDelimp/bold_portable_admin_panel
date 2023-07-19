@@ -224,7 +224,6 @@ function ProductList(props: MyComponentProps) {
                           <span className="tb-product">
                             {item.product_images &&
                               item.product_images.length > 0 && (
-                                // item.product_images.map((image : any) =>(
                                 <img
                                   src={`${process.env.REACT_APP_BASEURL}/${item.product_images[0].image_path}`}
                                   alt=""

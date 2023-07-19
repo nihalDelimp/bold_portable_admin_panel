@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { logout } from "../Redux/Reducers/authSlice";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Notification from "./Notification";
 import { CapitalizeFirstLetter } from "../Helper";
 
@@ -46,8 +44,7 @@ function NavBar() {
                 />
               </a>
             </div>
-            <div className="nk-header-search ms-3 ms-xl-0">
-            </div>
+            <div className="nk-header-search ms-3 ms-xl-0"></div>
             <div className="nk-header-tools">
               <ul className="nk-quick-nav">
                 <Notification />
@@ -75,7 +72,7 @@ function NavBar() {
                     <div className="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
                       <div className="user-card">
                         <div className="user-avatar">
-                        <em className="icon ni ni-user-alt"></em>
+                          <em className="icon ni ni-user-alt"></em>
                         </div>
                         <div className="user-info">
                           <span className="lead-text">
@@ -93,19 +90,6 @@ function NavBar() {
                             <span>View Profile</span>
                           </Link>
                         </li>
-
-                        {/* <li>
-                          <a href="html/user-profile-setting.html">
-                            <em className="icon ni ni-setting-alt"></em>
-                            <span>Account Setting</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="html/user-profile-activity.html">
-                            <em className="icon ni ni-activity-alt"></em>
-                            <span>Login Activity</span>
-                          </a>
-                        </li> */}
                       </ul>
                     </div>
                     <div className="dropdown-inner">

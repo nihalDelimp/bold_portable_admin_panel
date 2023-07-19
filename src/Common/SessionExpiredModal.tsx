@@ -22,9 +22,6 @@ function SessionExpiredModal() {
     >
       <div className="modal-dialog modal-dialog-top" role="document">
         <div className="modal-content">
-          {/* <a  className="close" data-dismiss="modal" aria-label="Close">
-            <em className="icon ni ni-cross"></em>
-          </a> */}
           <div className="modal-header text-center">
             <h5 className="modal-title w-100">Alert</h5>
           </div>

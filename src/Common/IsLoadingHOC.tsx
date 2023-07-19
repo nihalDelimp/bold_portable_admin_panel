@@ -1,4 +1,4 @@
-import React, { useState , ComponentType } from "react";
+import React, { useState} from "react";
 import { Circles } from "react-loader-spinner";
 
 const Loading = () => {
