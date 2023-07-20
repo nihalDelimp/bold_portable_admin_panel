@@ -48,9 +48,9 @@ function EditQuotation(props: MyComponentProps) {
     dateTillUse: "",
     placementDate: "",
     status: "",
-    maleWorkers : 0,
+    maleWorkers: 0,
     femaleWorkers: 0,
-    totalWorkers: 0
+    totalWorkers: 0,
   });
 
   const [servicesPrice, setServicesPrice] = useState({
@@ -66,11 +66,8 @@ function EditQuotation(props: MyComponentProps) {
     serviceFrequencyCost: 0,
     weeklyHoursCost: 0,
     pickUpPrice: 0,
-    maleWorkers : 0,
-    femaleWorkers: 0,
-    totalWorkers: 0
   });
-
+  
   useEffect(() => {
     getProductDetailsData();
   }, []);
@@ -95,9 +92,8 @@ function EditQuotation(props: MyComponentProps) {
     "status",
     "weeklyHours",
     "maleWorkers",
-    "maleWorkers",
     "femaleWorkers",
-    "totalWorkers"
+    "totalWorkers",
   ];
 
   const servicePriceFields = [
@@ -187,8 +183,9 @@ function EditQuotation(props: MyComponentProps) {
       endPoint = "quotation/update-quotation-for-farm-orchard-winery";
     } else if (quotationType === "personal-or-business") {
       endPoint = "quotation/update-quotation-for-personal-business-site";
+    } else if (quotationType === "recreational-site") {
+      endPoint = "quotation/update-quotation-for-recreational-site";
     }
-
     setLoading(true);
     await authAxios()
       .put(`/${endPoint}/${quotationId}`, payload)
@@ -466,8 +463,7 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                      
-                      
+
                       <div className="col-md-3">
                         <div className="form-group">
                           <label

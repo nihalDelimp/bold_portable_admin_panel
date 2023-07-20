@@ -1,42 +1,60 @@
  import moment from "moment";
 
  export function getFormatedDate(date : string) {
-     if(!date){
-      return 'NA'
-     }
+    if(date){
       let formatedDateTime = moment(date).format('DD MMM YYYY, hh:mm A');
       return formatedDateTime;
+       }
+       else {
+         return "NA"
+       }  
 }
 
 export function getDateWithoutTime(date : string) {
-  if(!date){
-   return 'NA'
-  }
-   let formatedDateTime = moment(date).format('MMM DD YYYY');
-   return formatedDateTime;
+    if(date){
+      let formatedDateTime = moment(date).format('MMM DD YYYY');
+      return formatedDateTime;
+    }
+    else {
+      return "NA"
+    }
 }
 
 export function getStringDate (date : number)  {
-   const readAbleDate = new Date(date)
+  if(date){
+    const readAbleDate = new Date(date)
    let formatedDateTime = moment(readAbleDate).format('MMM DD YYYY, hh:mm A');
    return formatedDateTime;
+  }
+  else{
+    return "NA"
+  }
 }
 
-export function getFirstChartByFullName (fullName : any){ 
-  var str = fullName
-  str = str.split(" "); 
-  str = str.filter((res : any  ) => res.length > 0 ); 
-  str = str.map(function(res : any){ 
-    return res[0].toUpperCase(); 
-  }); 
-  str = str.join(""); 
-  return str; 
+export function getFirstChartByFullName (fullName : any){
+  if(fullName){
+    var str = fullName
+    str = str.split(" "); 
+    str = str.filter((res : any  ) => res.length > 0 ); 
+    str = str.map(function(res : any){ 
+      return res[0].toUpperCase(); 
+    }); 
+    str = str.join(""); 
+    return str; 
+  } 
+  else {
+    return "NA"
+  }
+ 
 };
 
 export const CapitalizeFirstLetter = (data : any) => {
   if(data){
     const str = data.charAt(0).toUpperCase() + data.slice(1);
     return str
+  }
+  else{
+    return "NA"
   }
   }
 
@@ -45,6 +63,9 @@ export const CapitalizeFirstLetter = (data : any) => {
       const newStr = strData.charAt(0).toUpperCase() + strData.slice(1);
       let replacedWord = newStr.replace(/-/g, ' ');
       return replacedWord
+    }
+    else {
+      return "NA"
     }
   }
 

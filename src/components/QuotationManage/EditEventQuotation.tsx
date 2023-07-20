@@ -73,10 +73,6 @@ function EditEventQuotation(props: MyComponentProps) {
     serviceFrequencyCost: 0,
     weeklyHoursCost: 0,
     pickUpPrice: 0,
-    maleWorkers: 0,
-    femaleWorkers: 0,
-    totalWorkers: 0,
-
     alcoholServed: 0,
     payPerUse: 0,
     fencedOff: 0,
@@ -128,11 +124,6 @@ function EditEventQuotation(props: MyComponentProps) {
     "serviceFrequencyCost",
     "weeklyHoursCost",
     "pickUpPrice",
-    "maleWorkers",
-    "maleWorkers",
-    "femaleWorkers",
-    "totalWorkers",
-
     "alcoholServed",
     "payPerUse",
     "fencedOff",

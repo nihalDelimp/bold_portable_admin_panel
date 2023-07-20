@@ -375,12 +375,12 @@ function InventoryList(props: MyComponentProps) {
                   <div className="nk-tb-item nk-tb-head">
                     <div className="nk-tb-col nk-tb-col-check">
                       <div className="custom-control custom-control-sm custom-checkbox notext">
-                        <input
+                        {/* <input
                           type="checkbox"
                           className="custom-control-input"
                           id="uid"
                         />
-                        <label className="custom-control-label"></label>
+                        <label className="custom-control-label"></label> */}
                       </div>
                     </div>
                     <div className="nk-tb-col">
