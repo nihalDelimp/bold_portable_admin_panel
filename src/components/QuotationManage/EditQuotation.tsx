@@ -10,9 +10,9 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   quotationId: string;
   quotationType: string;
-  editProductModal: boolean;
+  modal: boolean;
   closeModal: (isModal: boolean) => void;
-  getQuotationData: () => void;
+  getListingData: () => void;
 }
 
 function EditQuotation(props: MyComponentProps) {
@@ -20,9 +20,9 @@ function EditQuotation(props: MyComponentProps) {
     setLoading,
     quotationId,
     quotationType,
-    editProductModal,
+    modal,
     closeModal,
-    getQuotationData,
+    getListingData,
   } = props;
 
   const [activeStep, setActiveStep] = useState<number>(1);
@@ -123,7 +123,6 @@ function EditQuotation(props: MyComponentProps) {
             const resCoordinateData = response.data.data.quotation?.coordinator;
             const resData = response.data.data.quotation;
             const costDetails = response.data.data.quotation?.costDetails;
-
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
                 ...prev,
@@ -198,7 +197,7 @@ function EditQuotation(props: MyComponentProps) {
             });
             toast.success(response.data.message);
             closeModal(false);
-            getQuotationData();
+            getListingData();
           } else {
             toast.error(response.data.message);
           }
@@ -217,8 +216,8 @@ function EditQuotation(props: MyComponentProps) {
 
   return (
     <div
-      className={`modal fade ${editProductModal ? "show" : "hide"}`}
-      style={{ display: editProductModal ? "block" : "none" }}
+      className={`modal fade ${modal ? "show" : "hide"}`}
+      style={{ display: modal ? "block" : "none" }}
       role="dialog"
     >
       <div className="modal-dialog modal-lg modal-dialog-top" role="document">

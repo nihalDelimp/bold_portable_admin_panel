@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
-import Pagination from "../Common/Pagination";
-import { CapitalizeFirstLetter, getFirstChartByFullName } from "../Helper";
+import { CapitalizeFirstLetter } from "../Helper";
 import Select from "react-select";
 
 interface MyComponentProps {
@@ -15,7 +13,6 @@ interface MyComponentProps {
 function SendEmail(props: MyComponentProps) {
   const { setLoading } = props;
   const [customers, setCustomers] = useState<any>([]);
-  const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(500000);
   const [selectedOptions, setSelectedOptions] = useState<any>([]);

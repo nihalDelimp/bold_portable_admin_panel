@@ -4,14 +4,13 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import Pagination from "../../Common/Pagination";
-import {
-  CapitalizeFirstLetter,
-  getFormatedDate,
-  replaceHyphenCapitolize,
-} from "../../Helper";
+import { getFormatedDate, replaceHyphenCapitolize } from "../../Helper";
 import CreateFormModal from "./Create";
 import EditFormModal from "./Edit";
 import DeleteConfirmationModal from "../../Common/DeleteConfirmation";
+import { Link, useNavigate } from "react-router-dom";
+import { saveInventory } from "../../Redux/Reducers/appSlice";
+import { useDispatch } from "react-redux";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -19,6 +18,8 @@ interface MyComponentProps {
 
 function InventoryList(props: MyComponentProps) {
   const { setLoading } = props;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [listData, setListData] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -135,6 +136,19 @@ function InventoryList(props: MyComponentProps) {
     }
   };
 
+  const getSeconLastdValueWithStr = (qrCodeValue: string, status: string) => {
+    if (qrCodeValue && status === "active") {
+      const myArray = qrCodeValue.split("-");
+      const secondLastValue = myArray[myArray.length - 2];
+      return secondLastValue;
+    }
+  };
+
+  const saveInventoryData = (item: any) => {
+    dispatch(saveInventory(item));
+    navigate(`/inventory-detail`);
+  };
+
   return (
     <>
       <div className="nk-content">
@@ -239,6 +253,11 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Gender</span>
                     </div>
+                    {status === "active" && (
+                      <div className="nk-tb-col tb-col-md">
+                        <span>Quotation</span>
+                      </div>
+                    )}
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
@@ -257,29 +276,39 @@ function InventoryList(props: MyComponentProps) {
                     listData.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
                         <div className="nk-tb-col">
-                          <span className="tb-status text-primary">
-                            {item._id?.slice(-8)?.toUpperCase()}
+                          <a>
+                            <span
+                              onClick={() => saveInventoryData(item)}
+                              className="tb-status text-primary"
+                            >
+                              {item._id?.slice(-8)?.toUpperCase()}
+                            </span>
+                          </a>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg capitalize">
+                          <span>
+                            {replaceHyphenCapitolize(item?.productName)}
                           </span>
                         </div>
-                        <div className="nk-tb-col">
-                          <div className="user-card">
-                            <div className="user-info">
-                              <span className="tb-lead">
-                                {replaceHyphenCapitolize(item?.productName)}
-                                <span className="dot dot-success d-md-none ms-1"></span>
-                              </span>
-                            </div>
+                        <div className="nk-tb-col tb-col-lg capitalize">
+                          <span>{item?.category}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg capitalize">
+                          <span>{item.type}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-lg capitalize">
+                          <span>{item?.gender}</span>
+                        </div>
+                        {item.status === "active" && (
+                          <div className="nk-tb-col tb-col-lg capitalize">
+                            <span className="tb-status text-info">
+                              {getSeconLastdValueWithStr(
+                                item?.qrCodeValue,
+                                item.status
+                              )}
+                            </span>
                           </div>
-                        </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>{CapitalizeFirstLetter(item?.category)}</span>
-                        </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>{CapitalizeFirstLetter(item.type)}</span>
-                        </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>{CapitalizeFirstLetter(item.gender)}</span>
-                        </div>
+                        )}
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
@@ -316,11 +345,20 @@ function InventoryList(props: MyComponentProps) {
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
                                     <li>
+                                      <a
+                                        className="cursor_ponter"
+                                        onClick={() => saveInventoryData(item)}
+                                      >
+                                        <em className="icon ni ni-eye"></em>
+                                        <span>Detail</span>
+                                      </a>
+                                    </li>
+                                    <li>
                                       <a onClick={() => handleEditModal(item)}>
                                         <em className="icon ni ni-edit"></em>
                                         <span>Edit</span>
                                       </a>
-                                    </li>
+                                    </li>{" "}
                                     <li>
                                       <a
                                         className="cursor_ponter"

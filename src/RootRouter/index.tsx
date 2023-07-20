@@ -18,6 +18,7 @@ import InventoryList from "../components/InventoryManagement";
 import AssignQRCode from "../components/AssignQRCode";
 import CategoryManagement from "../components/CategoryManagement";
 import InventoryTypeList from "../components/InventoryTypesManage";
+import InventoryDetail from "../components/InventoryManagement/InventoryDetail";
 
 function RootRouter() {
   return (
@@ -106,7 +107,7 @@ function RootRouter() {
             }
           />
           <Route
-            path="/subscription-detail/:id"
+            path="/invoice-detail/:id"
             element={
               <PrivateRoute>
                 <SubscriptionDetail />
@@ -142,6 +143,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <InventoryTypeList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/inventory-detail"
+            element={
+              <PrivateRoute>
+                <InventoryDetail />
               </PrivateRoute>
             }
           />

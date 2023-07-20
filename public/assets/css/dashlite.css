@@ -14544,6 +14544,7 @@ a:hover .btn-trigger:before {
   display: inline-flex;
   align-items: center;
   margin-bottom: 0;
+  text-transform: capitalize;
 }
 .dropdown-toggle:not([class*=indicator]):after {
   display: none;
@@ -14557,6 +14558,7 @@ a:hover .btn-trigger:before {
   overflow: hidden;
   border: 1px solid #e5e9f2;
   box-shadow: 0 3px 12px 1px rgba(58, 34, 114, 0.15);
+  text-transform: capitalize;
 }
 
 .dropdown-inner {
@@ -30907,6 +30909,7 @@ li {
   transition: all 0.4s;
   line-height: 1.3rem;
   position: relative;
+  text-transform: capitalize;
 }
 .link-list-opt a:hover {
   color: #854fff;
@@ -32183,6 +32186,7 @@ h6 .badge, .h6 .badge {
 }
 .data-col {
   flex-grow: 1;
+  text-transform: capitalize;
 }
 .data-col span:not(.data-more) {
   display: inline-block;
@@ -34964,6 +34968,9 @@ button.close {
   background: #fff;
   border: none;
   box-shadow: 0px 1px 3px 0px rgba(54, 74, 99, 0.05);
+}
+.nk-tb-list.is-separate .nk-tb-item .capitalize{
+  text-transform: capitalize;
 }
 .nk-tb-list.is-separate .nk-tb-item > .nk-tb-col:first-child {
   border-radius: 4px 0 0 4px;

@@ -5,11 +5,7 @@ import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import Pagination from "../../Common/Pagination";
-import {
-  CapitalizeFirstLetter,
-  getFormatedDate,
-  replaceHyphenCapitolize,
-} from "../../Helper";
+import { getFormatedDate, replaceHyphenCapitolize } from "../../Helper";
 import SaveLocation from "./SaveLocation";
 import UpdateLocation from "./UpdateLocation";
 import { CSVLink } from "react-csv";
@@ -300,17 +296,8 @@ function SubscriptionList(props: MyComponentProps) {
                             </span>
                           </Link>
                         </div>
-                        <div className="nk-tb-col">
-                          <div className="user-card">
-                            <div className="user-info">
-                              <span className="tb-lead">
-                                {item.user &&
-                                  item.user.name &&
-                                  CapitalizeFirstLetter(item?.user?.name)}
-                                <span className="dot dot-success d-md-none ms-1"></span>
-                              </span>
-                            </div>
-                          </div>
+                        <div className="nk-tb-col tb-col-md capitalize">
+                          <span>{item.user && item.user?.name}</span>
                         </div>
                         <div className="nk-tb-col tb-col-md">
                           <span>{item?.user.mobile}</span>
@@ -408,9 +395,7 @@ function SubscriptionList(props: MyComponentProps) {
                                       </a>
                                     </li>
                                     <li>
-                                      <Link
-                                        to={`/subscription-detail/${item._id}`}
-                                      >
+                                      <Link to={`/invoice-detail/${item._id}`}>
                                         <em className="icon ni ni-eye"></em>
                                         <span>Invoice</span>
                                       </Link>

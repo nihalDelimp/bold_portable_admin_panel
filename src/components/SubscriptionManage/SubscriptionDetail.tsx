@@ -105,10 +105,11 @@ function SubscriptionDetail(props: MyComponentProps) {
                 </div>
                 <div className="invoice-wrap">
                   <div className="text-center">
-                    <img
+                    <h2><u>Bold Potable Invoice</u></h2>
+                    {/* <img
                       src={subscription?.qrCode}
                       alt="qr_code"
-                    />
+                    /> */}
                   </div>
                   <div className="invoice-head">
                     <div className="invoice-contact">

@@ -11,6 +11,7 @@ import {
   getFormatedDate,
   replaceHyphenCapitolize,
 } from "../../Helper";
+import CancelConfirmationModal from "../../Common/CancelConfirmation";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -27,6 +28,7 @@ const QuotationsList = (props: MyComponentProps) => {
 
   const [editModal, setEditModal] = useState<boolean>(false);
   const [editEventModal, setEditEventModal] = useState<boolean>(false);
+  const [cancelModal, setCancelModal] = useState<boolean>(false);
 
   const [statusName, setStatusName] = useState<string>("All");
   const [quotationStatus, setquotationStatus] = useState<string>("all");
@@ -60,38 +62,17 @@ const QuotationsList = (props: MyComponentProps) => {
       });
   };
 
-  const handleApproveQuotation = async (_id: string) => {
+  const handleCancelQuotation = async () => {
+    const payload = { quotationId, quotationType };
     setLoading(true);
     await authAxios()
-      .put(`quotation/update-quotation/${_id}`)
+      .post("quotation/cancel-quotation", payload)
       .then(
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
             toast.success(response.data.message);
-            getQuotationData();
-          }
-        },
-        (error) => {
-          setLoading(false);
-          toast.error(error.response.data.message);
-        }
-      )
-      .catch((error) => {
-        setLoading(false);
-        console.log("errorrrr", error);
-      });
-  };
-
-  const handleDeclineQuotation = async (_id: string) => {
-    setLoading(true);
-    await authAxios()
-      .put(`quotation/cancel-quotation-request/${_id}`)
-      .then(
-        (response) => {
-          setLoading(false);
-          if (response.data.status === 1) {
-            toast.success(response.data.message);
+            setCancelModal(false);
             getQuotationData();
           }
         },
@@ -137,6 +118,12 @@ const QuotationsList = (props: MyComponentProps) => {
         setEditModal(true);
       }
     }
+  };
+
+  const handleCancelModal = (_id: string, quoteType: string) => {
+    setQuotationId(_id);
+    setQuotationType(quoteType);
+    setCancelModal(true);
   };
 
   const setBackgroundColor = (status: string) => {
@@ -290,11 +277,9 @@ const QuotationsList = (props: MyComponentProps) => {
                           {item._id?.slice(-8)?.toUpperCase()}
                         </span>
                       </div>
-                      <div className="nk-tb-col tb-col-sm">
+                      <div className="nk-tb-col tb-col-sm capitalize">
                         <span className="tb-sub">
-                          {item.coordinator &&
-                            item.coordinator.name &&
-                            CapitalizeFirstLetter(item.coordinator.name)}
+                          {item.coordinator && item.coordinator?.name}
                         </span>
                       </div>
                       <div className="nk-tb-col tb-col-sm">
@@ -315,14 +300,14 @@ const QuotationsList = (props: MyComponentProps) => {
                           {item.type && replaceHyphenCapitolize(item.type)}
                         </span>
                       </div>
-                      <div className="nk-tb-col tb-col-sm">
+                      <div className="nk-tb-col tb-col-sm capitalize">
                         <span className="tb-odr-status">
                           <span
                             className={`badge badge-dot ${setBackgroundColor(
                               item.status
                             )}`}
                           >
-                            {CapitalizeFirstLetter(item.status)}
+                            {item.status}
                           </span>
                         </span>
                       </div>
@@ -331,6 +316,7 @@ const QuotationsList = (props: MyComponentProps) => {
                           {getFormatedDate(item.createdAt)}
                         </span>
                       </div>
+
                       <div className="nk-tb-col nk-tb-col-tools">
                         <ul className="gx-1">
                           <li>
@@ -344,39 +330,31 @@ const QuotationsList = (props: MyComponentProps) => {
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <a
-                                      onClick={() =>
-                                        handleSendInvoice(
-                                          item._id,
-                                          item.type,
-                                          item.status
-                                        )
-                                      }
-                                    >
-                                      <em className="icon ni ni-edit"></em>
-                                      <span>Send Invoice</span>
-                                    </a>
-                                  </li>
-                                  {/* <li>
-                                    <a
-                                      onClick={() =>
-                                        handleApproveQuotation(item._id)
-                                      }
-                                    >
-                                      <em className="icon ni ni-thumbs-up"></em>
-                                      <span>Approve</span>
-                                    </a>
-                                  </li> */}
                                   {item.status === "pending" && (
                                     <li>
                                       <a
                                         onClick={() =>
-                                          handleDeclineQuotation(item._id)
+                                          handleSendInvoice(
+                                            item._id,
+                                            item.type,
+                                            item.status
+                                          )
+                                        }
+                                      >
+                                        <em className="icon ni ni-edit"></em>
+                                        <span>Send Invoice</span>
+                                      </a>
+                                    </li>
+                                  )}
+                                  {item.status === "pending" && (
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          handleCancelModal(item._id, item.type)
                                         }
                                       >
                                         <em className="icon ni ni-cross-circle"></em>
-                                        <span>Decline</span>
+                                        <span>Cancel</span>
                                       </a>
                                     </li>
                                   )}
@@ -403,8 +381,8 @@ const QuotationsList = (props: MyComponentProps) => {
                 <EditQuotation
                   quotationId={quotationId}
                   quotationType={quotationType}
-                  editProductModal={editModal}
-                  getQuotationData={getQuotationData}
+                  modal={editModal}
+                  getListingData={getQuotationData}
                   closeModal={(isModal: boolean) => setEditModal(isModal)}
                 />
               )}
@@ -412,9 +390,17 @@ const QuotationsList = (props: MyComponentProps) => {
                 <EditEventQuotation
                   quotationId={quotationId}
                   quotationType={quotationType}
-                  editProductModal={editEventModal}
-                  getQuotationData={getQuotationData}
+                  modal={editEventModal}
+                  getListingData={getQuotationData}
                   closeModal={(isModal: boolean) => setEditEventModal(isModal)}
+                />
+              )}
+              {cancelModal && (
+                <CancelConfirmationModal
+                  modal={cancelModal}
+                  closeModal={(isModal: boolean) => setCancelModal(isModal)}
+                  handleSubmit={handleCancelQuotation}
+                  actionType="Quotation"
                 />
               )}
             </div>

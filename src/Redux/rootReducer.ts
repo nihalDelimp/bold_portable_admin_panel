@@ -1,10 +1,12 @@
 import { combineReducers ,AnyAction } from '@reduxjs/toolkit';
 import auth from './Reducers/authSlice';
 import notification from './Reducers/notificationSlice';
+import app from './Reducers/appSlice';
 
 const appReducer = combineReducers({
     auth ,
-    notification
+    notification,
+    app
 })
 
 const rootReducer = (state : any, action : AnyAction ) => {

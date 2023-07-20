@@ -4,11 +4,7 @@ import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import {
-  CapitalizeFirstLetter,
-  getFormatedDate,
-  replaceHyphenCapitolize,
-} from "../Helper";
+import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
 import { addressLimit } from "../Helper/constants";
 import { socketService } from "../config/socketService";
 
@@ -211,10 +207,8 @@ function ServiceRequests(props: MyComponentProps) {
                             </div>
                           </div>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
-                          <span>
-                            {item.name && CapitalizeFirstLetter(item?.name)}
-                          </span>
+                        <div className="nk-tb-col tb-col-lg capitalize">
+                          <span>{item?.name}</span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
                           <span>{item?.phone}</span>
@@ -263,13 +257,13 @@ function ServiceRequests(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
-                        <div className="nk-tb-col">
+                        <div className="nk-tb-col capitalize">
                           <span
                             className={`badge badge-dot ${setBackgroundColor(
                               item.status
                             )}`}
                           >
-                            {CapitalizeFirstLetter(item.status)}
+                            {item.status}
                           </span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">

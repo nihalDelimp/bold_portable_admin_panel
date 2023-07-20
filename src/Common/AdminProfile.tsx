@@ -3,6 +3,8 @@ import EditProfile from "./EditProfile";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import { CapitalizeFirstLetter } from "../Helper";
+import IsLoadingHOC from "./IsLoadingHOC";
+import IsLoggedinHOC from "./IsLoggedInHOC";
 
 const AdminProfile = () => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -59,13 +61,17 @@ const AdminProfile = () => {
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">Full Name</span>
-                              <span className="data-value">{CapitalizeFirstLetter(user?.name)}</span>
+                              <span className="data-value">
+                                {CapitalizeFirstLetter(user?.name)}
+                              </span>
                             </div>
                           </div>
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">Display Name</span>
-                              <span className="data-value">{CapitalizeFirstLetter(user?.name)}</span>
+                              <span className="data-value">
+                                {CapitalizeFirstLetter(user?.name)}
+                              </span>
                             </div>
                           </div>
                           <div className="data-item">
@@ -97,4 +103,4 @@ const AdminProfile = () => {
   );
 };
 
-export default AdminProfile;
+export default IsLoadingHOC(IsLoggedinHOC(AdminProfile));

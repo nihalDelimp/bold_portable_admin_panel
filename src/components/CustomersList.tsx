@@ -5,7 +5,7 @@ import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
-import { CapitalizeFirstLetter, getDateWithoutTime } from "../Helper";
+import { getDateWithoutTime } from "../Helper";
 import { CSVLink } from "react-csv";
 import ExportConfirmationModal from "../Common/ConfirmExportModal";
 
@@ -44,7 +44,7 @@ function CustomersList(props: MyComponentProps) {
         csvLink.current.link.click();
         toast.success("Data Exported Successfully");
         setExportData([]);
-        setExportModal(false)
+        setExportModal(false);
       }
     }
   }, [exportData]);
@@ -181,23 +181,14 @@ function CustomersList(props: MyComponentProps) {
                     customers.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
                         <div className="nk-tb-col">
-                          <Link  to={`/view-user/${item._id}`}>
-                          <span className="tb-status text-primary">
-                            {item._id?.slice(-8)?.toUpperCase()}
-                          </span>
+                          <Link to={`/view-user/${item._id}`}>
+                            <span className="tb-status text-primary">
+                              {item._id?.slice(-8)?.toUpperCase()}
+                            </span>
                           </Link>
                         </div>
-                        <div className="nk-tb-col">
-                          <a href="html/ecommerce/customer-details.html">
-                            <div className="user-card">
-                              <div className="user-info">
-                                <span className="tb-lead">
-                                  {CapitalizeFirstLetter(item?.name)}{" "}
-                                  <span className="dot dot-success d-md-none ms-1"></span>
-                                </span>
-                              </div>
-                            </div>
-                          </a>
+                        <div className="nk-tb-col tb-col-md capitalize ">
+                          <span>{item?.name}</span>
                         </div>
                         <div className="nk-tb-col tb-col-md">
                           <span>{item.mobile}</span>

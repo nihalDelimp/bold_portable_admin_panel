@@ -269,14 +269,13 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(category) ||
-                                  "All Category"}
+                                {category || "All"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
                                     <a onClick={() => setCategory("")}>
-                                      <span>All Category</span>
+                                      <span>All</span>
                                     </a>
                                   </li>
                                   {categoriesData.map((item: any) => (
@@ -286,9 +285,7 @@ function InventoryList(props: MyComponentProps) {
                                           setCategory(item.category)
                                         }
                                       >
-                                        <span>
-                                          {CapitalizeFirstLetter(item.category)}
-                                        </span>
+                                        <span>{item.category}</span>
                                       </a>
                                     </li>
                                   ))}
@@ -302,14 +299,13 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(inventoryType) ||
-                                  "All Type"}
+                                {inventoryType || "All"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
                                     <a onClick={() => setInventoryType("")}>
-                                      <span>All Type</span>
+                                      <span>All</span>
                                     </a>
                                   </li>
                                   {inventoryTypesData.map((item: any) => (
@@ -319,9 +315,7 @@ function InventoryList(props: MyComponentProps) {
                                           setInventoryType(item.types)
                                         }
                                       >
-                                        <span>
-                                          {CapitalizeFirstLetter(item.types)}
-                                        </span>
+                                        <span>{item.types}</span>
                                       </a>
                                     </li>
                                   ))}
@@ -336,7 +330,7 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {CapitalizeFirstLetter(gender) || "All"}
+                                {gender || "All"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">

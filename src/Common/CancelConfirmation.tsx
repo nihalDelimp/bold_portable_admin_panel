@@ -3,11 +3,12 @@ import React from "react";
 interface MyComponentProps {
   modal: boolean;
   closeModal: (isModal : boolean) => void;
-  confirmedCancel: () => void;
+  handleSubmit: () => void;
+  actionType: string;
 }
 
 function CancelConfirmationModal(props: MyComponentProps) {
-  const { modal, closeModal, confirmedCancel } = props;
+  const { modal, closeModal, handleSubmit , actionType } = props;
 
   return (
     <div
@@ -29,7 +30,7 @@ function CancelConfirmationModal(props: MyComponentProps) {
             <h5 className="modal-title w-100">Please Confirm</h5>
           </div>
           <div className="modal-body text-center">
-            <p>Are you sure you want to cancel this order ?</p>
+            <p>Are you sure you want to cancel this {actionType} ?</p>
           </div>
           <div className="modal-footer bg-light">
             <button
@@ -39,7 +40,7 @@ function CancelConfirmationModal(props: MyComponentProps) {
               No
             </button>
             <button
-              onClick={() => confirmedCancel()}
+              onClick={() => handleSubmit()}
               className="btn btn-danger btn-sm"
             >
               Yes
