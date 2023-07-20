@@ -34872,6 +34872,47 @@ button.close {
 .nk-tb-col-check .custom-control {
   vertical-align: middle;
 }
+.custom-check {
+  padding-left: 10px;
+}
+.custom-check > input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 17px;
+  width: 17px;
+  z-index: 1;
+}
+.custom-check > .checkmark {
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #fff;
+  border: #dbdfea solid 2px;
+  box-shadow: inset 0 1px 1px rgba(16, 25, 36, 0.075);
+  border-radius: 4px;
+  position: relative;
+}
+.custom-check input:checked ~ .checkmark:after{
+  display: block;
+}
+.custom-check input:checked ~ .checkmark {
+  background-color: #9769ff;
+  border-color: #9769ff;
+}
+.custom-check > .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 50%;
+  top: 50%;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg) translate(calc(-50% - 3px), calc(-50% - -2px));
+}
 .nk-tb-item:not(:last-child) .nk-tb-col {
   border-bottom: 1px solid rgba(219, 223, 234, 0.9);
 }

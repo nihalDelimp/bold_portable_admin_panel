@@ -413,7 +413,7 @@ function InventoryList(props: MyComponentProps) {
                     listData.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
                         <div className="nk-tb-col nk-tb-col-check">
-                          <div className="custom-control custom-control-sm custom-checkbox notext">
+                          <div className="custom-control custom-control-sm custom-checkbox notext custom-check">
                             <input
                               type="checkbox"
                               className=""
@@ -423,6 +423,7 @@ function InventoryList(props: MyComponentProps) {
                               }
                               checked={selectedItems.includes(item._id)}
                             />
+                            <span className="checkmark"></span>
                           </div>
                         </div>
                         <div className="nk-tb-col">
