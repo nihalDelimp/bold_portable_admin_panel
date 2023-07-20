@@ -34,8 +34,10 @@ export function getFirstChartByFullName (fullName : any){
 };
 
 export const CapitalizeFirstLetter = (data : any) => {
-  const str = data.charAt(0).toUpperCase() + data.slice(1);
-   return str
+  if(data){
+    const str = data.charAt(0).toUpperCase() + data.slice(1);
+    return str
+  }
   }
 
   export function replaceHyphenCapitolize (strData : string){
