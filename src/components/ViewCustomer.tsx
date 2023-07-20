@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import EditProfile from "./EditProfile";
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
@@ -144,7 +143,6 @@ const ViewCustomer = (props: MyComponentProps) => {
           </div>
         </div>
       </div>
-      {/* <EditProfile /> */}
     </>
   );
 };

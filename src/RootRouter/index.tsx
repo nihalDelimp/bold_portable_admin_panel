@@ -3,13 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "../components/Login";
 import Home from "../components/Dashboard";
-import ProductList from "../components/ProductList";
 import CustomersList from "../components/CustomersList";
 import PageNoteFound from "../components/PageNotFound";
 import AdminProfile from "../Common/AdminProfile";
-import ViewProduct from "../components/ViewProduct";
 import ViewCustomer from "../components/ViewCustomer";
-import Orders from "../components/Orders";
 import SubscriptionList from "../components/SubscriptionManage/SubscriptionList";
 import NotificationDetails from "../components/NotificationDetails";
 import SubscriptionDetail from "../components/SubscriptionManage/SubscriptionDetail";
@@ -33,22 +30,6 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <Home />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/products"
-            element={
-              <PrivateRoute>
-                <ProductList />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/view-product/:id"
-            element={
-              <PrivateRoute>
-                <ViewProduct />
               </PrivateRoute>
             }
           />
@@ -77,14 +58,6 @@ function RootRouter() {
             }
           />
           <Route
-            path="/orders"
-            element={
-              <PrivateRoute>
-                <Orders />
-              </PrivateRoute>
-            }
-          />
-          <Route
             path="/quotations"
             element={
               <PrivateRoute>
@@ -101,7 +74,7 @@ function RootRouter() {
             }
           />
           <Route
-            path="/service-request"
+            path="/service-requests"
             element={
               <PrivateRoute>
                 <ServiceRequests />
@@ -140,7 +113,6 @@ function RootRouter() {
               </PrivateRoute>
             }
           />
-
           <Route
             path="/send-email"
             element={

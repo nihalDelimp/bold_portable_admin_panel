@@ -123,7 +123,7 @@ function Sidebar() {
                       pathName === "/service-request" ? "active" : ""
                     }`}
                   >
-                    <Link to="/service-request" className="nk-menu-link">
+                    <Link to="/service-requests" className="nk-menu-link">
                       <span className="nk-menu-text">Service Requests</span>
                     </Link>
                   </li>
