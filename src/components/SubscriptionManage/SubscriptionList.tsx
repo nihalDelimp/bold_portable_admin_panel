@@ -219,7 +219,7 @@ function SubscriptionList(props: MyComponentProps) {
                                         )
                                       }
                                     >
-                                      <span>Inactive</span>
+                                      <span>Completed</span>
                                     </a>
                                   </li>
                                 </ul>
@@ -322,15 +322,13 @@ function SubscriptionList(props: MyComponentProps) {
                         </div> */}
                         <div className="nk-tb-col tb-col-md">
                           <span className="tb-odr-status">
-                            <span
-                              className={`badge badge-dot ${
-                                item.status === "ACTIVE"
-                                  ? "bg-success"
-                                  : "bg-danger"
-                              } `}
-                            >
-                              {item.status}
-                            </span>
+                          <span
+                            className={`badge badge-dot ${
+                              item.status === "ACTIVE" ? "bg-success" : "bg-danger"
+                            }`}
+                          >
+                            {item.status === "ACTIVE" ? item.status : "Completed"}
+                          </span>
                           </span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">

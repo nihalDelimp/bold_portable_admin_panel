@@ -22,7 +22,7 @@ const QuotationsList = (props: MyComponentProps) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [quotationData, setquotationData] = useState<string[]>([]);
+  const [quotationData, setquotationData] = useState<any[]>([]);
   const [quotationId, setQuotationId] = useState<string>("");
   const [quotationType, setQuotationType] = useState<string>("");
 
@@ -264,7 +264,14 @@ const QuotationsList = (props: MyComponentProps) => {
                 </div>
                 {quotationData &&
                   quotationData.length > 0 &&
-                  quotationData.map((item: any, index: number) => (
+                  quotationData
+                  .filter(
+                    (item) =>
+                      item.status === "pending" ||
+                      item.status === "modified" ||
+                      item.status === "cancelled"
+                  )
+                  .map((item: any, index: number) => (
                     <div key={item._id} className="nk-tb-item">
                       <div className="nk-tb-col">
                         <span
