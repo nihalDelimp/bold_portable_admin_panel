@@ -403,16 +403,17 @@ function SubscriptionList(props: MyComponentProps) {
                                         </li>
                                       )
                                     ) : null}
-                                    {item.status === "ACTIVE" && (
-                                      <li>
-                                        <Link
-                                          to={`/assign-qr-code?quoteId=${item.quotationId}&quoteType=${item?.quotationType}`}
-                                        >
-                                          <em className="icon ni ni-move"></em>
-                                          <span>Assign Production</span>
-                                        </Link>
-                                      </li>
-                                    )}
+                                    {item.status === "ACTIVE" &&
+                                      item?.assignedInventoriesCount < 1 && (
+                                        <li>
+                                          <Link
+                                            to={`/assign-qr-code?quoteId=${item.quotationId}&quoteType=${item?.quotationType}`}
+                                          >
+                                            <em className="icon ni ni-move"></em>
+                                            <span>Assign Production</span>
+                                          </Link>
+                                        </li>
+                                      )}
 
                                     {/* {item.status === "ACTIVE" && (
                                       <li>
