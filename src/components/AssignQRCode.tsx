@@ -409,6 +409,7 @@ function InventoryList(props: MyComponentProps) {
                   {listData &&
                     listData.length > 0 &&
                     listData.map((item: any, index) => (
+                      item.status === 'pending' &&
                       <div key={index + 1} className="nk-tb-item">
                         <div className="nk-tb-col nk-tb-col-check">
                           <div className="custom-control custom-control-sm custom-checkbox notext custom-check">
@@ -470,6 +471,7 @@ function InventoryList(props: MyComponentProps) {
                           />
                         </div>
                       </div>
+
                     ))}
                 </div>
                 {listData && listData.length > 0 && totalCount > 0 && (

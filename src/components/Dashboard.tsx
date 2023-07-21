@@ -11,6 +11,7 @@ import {
 } from "../Helper";
 import EditQuotation from "./QuotationManage/EditQuotation";
 import EditEventQuotation from "./QuotationManage/EditEventQuotation";
+import CancelConfirmationModal from "../Common/CancelConfirmation";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -33,6 +34,7 @@ function Dashboard(props: MyComponentProps) {
 
   const [editModal, setEditModal] = useState<boolean>(false);
   const [editEventModal, setEditEventModal] = useState<boolean>(false);
+  const [cancelModal, setCancelModal] = useState<boolean>(false);
 
   useEffect(() => {
     getQuotationData();
@@ -151,6 +153,36 @@ function Dashboard(props: MyComponentProps) {
         setEditModal(true);
       }
     }
+  };
+
+  const handleCancelQuotation = async () => {
+    const payload = { quotationId, quotationType };
+    setLoading(true);
+    await authAxios()
+      .post("quotation/cancel-quotation", payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data.message);
+            setCancelModal(false);
+            getQuotationData();
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        setLoading(false);
+      });
+  };
+
+  const handleCancelModal = (_id: string, quoteType: string) => {
+    setQuotationId(_id);
+    setQuotationType(quoteType);
+    setCancelModal(true);
   };
 
   const setBackgroundColor = (status: string) => {
@@ -373,17 +405,11 @@ function Dashboard(props: MyComponentProps) {
                         </div>
                         {quotationData &&
                           quotationData.length > 0 &&
-                          quotationData.slice(0, 6).map((item: any) => (
+                          quotationData.slice(0, 8).map((item: any) => (
                             <div key={item._id} className="nk-tb-item">
                               <div className="nk-tb-col">
                                 <span className="tb-lead">
-                                  <a href="#"  onClick={() =>
-                                                handleSendInvoice(
-                                                  item._id,
-                                                  item.type,
-                                                  item.status
-                                                )
-                                              }>
+                                  <a href="#">
                                     <div>
                                       {item._id.slice(-8).toUpperCase()}
                                     </div>
@@ -430,7 +456,6 @@ function Dashboard(props: MyComponentProps) {
                                   {CapitalizeFirstLetter(item.status)}
                                 </span>
                               </div>
-
                               <div className="nk-tb-col nk-tb-col-tools">
                                 <ul className="gx-1">
                                   <li>
@@ -444,20 +469,37 @@ function Dashboard(props: MyComponentProps) {
                                       </a>
                                       <div className="dropdown-menu dropdown-menu-end">
                                         <ul className="link-list-opt no-bdr">
-                                          <li>
-                                            <a
-                                              onClick={() =>
-                                                handleSendInvoice(
-                                                  item._id,
-                                                  item.type,
-                                                  item.status
-                                                )
-                                              }
-                                            >
-                                              <em className="icon ni ni-edit"></em>
-                                              <span>Send Invoice</span>
-                                            </a>
-                                          </li>
+                                          {item.status === "pending" && (
+                                            <li>
+                                              <a
+                                                onClick={() =>
+                                                  handleSendInvoice(
+                                                    item._id,
+                                                    item.quotationType,
+                                                    item.status
+                                                  )
+                                                }
+                                              >
+                                                <em className="icon ni ni-edit"></em>
+                                                <span>Send Invoice</span>
+                                              </a>
+                                            </li>
+                                          )}
+                                          {item.status === "pending" && (
+                                            <li>
+                                              <a
+                                                onClick={() =>
+                                                  handleCancelModal(
+                                                    item._id,
+                                                    item.type
+                                                  )
+                                                }
+                                              >
+                                                <em className="icon ni ni-cross-circle"></em>
+                                                <span>Cancel</span>
+                                              </a>
+                                            </li>
+                                          )}
                                         </ul>
                                       </div>
                                     </div>
@@ -479,8 +521,8 @@ function Dashboard(props: MyComponentProps) {
         <EditQuotation
           quotationId={quotationId}
           quotationType={quotationType}
-          editProductModal={editModal}
-          getQuotationData={getQuotationData}
+          modal={editModal}
+          getListingData={getQuotationData}
           closeModal={(isModal: boolean) => setEditModal(isModal)}
         />
       )}
@@ -488,9 +530,17 @@ function Dashboard(props: MyComponentProps) {
         <EditEventQuotation
           quotationId={quotationId}
           quotationType={quotationType}
-          editProductModal={editEventModal}
-          getQuotationData={getQuotationData}
+          modal={editEventModal}
+          getListingData={getQuotationData}
           closeModal={(isModal: boolean) => setEditEventModal(isModal)}
+        />
+      )}
+      {cancelModal && (
+        <CancelConfirmationModal
+          modal={cancelModal}
+          closeModal={(isModal: boolean) => setCancelModal(isModal)}
+          handleSubmit={handleCancelQuotation}
+          actionType="Quotation"
         />
       )}
     </>
