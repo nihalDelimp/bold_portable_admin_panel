@@ -299,11 +299,11 @@ function SubscriptionList(props: MyComponentProps) {
                     invoices.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
                         <div className="nk-tb-col">
-                          <Link to={`/invoice-detail/${item._id}`}>
+                          <a onClick={() => viewInvoiceRedirection(item._id)}>
                             <span className="tb-status text-primary">
                               {item.subscription?.slice(-8)?.toUpperCase()}
                             </span>
-                          </Link>
+                          </a>
                         </div>
                         <div className="nk-tb-col tb-col-md capitalize">
                           <span>{item.user && item.user?.name}</span>
@@ -349,7 +349,6 @@ function SubscriptionList(props: MyComponentProps) {
                             <li>
                               <div className="drodown">
                                 <a
-                                  href="#"
                                   className="dropdown-toggle btn btn-icon btn-trigger"
                                   data-bs-toggle="dropdown"
                                 >

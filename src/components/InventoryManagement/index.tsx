@@ -149,8 +149,10 @@ function InventoryList(props: MyComponentProps) {
   };
 
   const saveInventoryData = (item: any) => {
-    dispatch(saveInventory(item));
-    navigate(`/inventory-detail`);
+    if (item.status !== "pending") {
+      dispatch(saveInventory(item));
+      navigate(`/inventory-detail`);
+    }
   };
 
   return (
@@ -334,7 +336,6 @@ function InventoryList(props: MyComponentProps) {
                             alt="QR Code"
                           />
                         </div>
-
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
                             <li>
@@ -348,15 +349,19 @@ function InventoryList(props: MyComponentProps) {
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
-                                    <li>
-                                      <a
-                                        className="cursor_ponter"
-                                        onClick={() => saveInventoryData(item)}
-                                      >
-                                        <em className="icon ni ni-eye"></em>
-                                        <span>View Detail</span>
-                                      </a>
-                                    </li>
+                                    {item.status !== "pending" && (
+                                      <li>
+                                        <a
+                                          className="cursor_ponter"
+                                          onClick={() =>
+                                            saveInventoryData(item)
+                                          }
+                                        >
+                                          <em className="icon ni ni-eye"></em>
+                                          <span>View Detail</span>
+                                        </a>
+                                      </li>
+                                    )}
                                     <li>
                                       <a onClick={() => handleEditModal(item)}>
                                         <em className="icon ni ni-edit"></em>

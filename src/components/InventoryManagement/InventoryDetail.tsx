@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/rootReducer";
-import { CapitalizeFirstLetter } from "../../Helper";
+import { CapitalizeFirstLetter, getFormatedDate } from "../../Helper";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import { authAxios } from "../../config/config";
@@ -19,7 +19,12 @@ const InventoryDetails = (props: MyComponentProps) => {
   console.log("InventoryData", inventory);
 
   useEffect(() => {
-   // getQuotationDetailsData();
+    if (inventory && inventory.qrCodeValue) {
+      const myArray = inventory.qrCodeValue.split("-");
+      const QuotationId = myArray.pop();
+      console.log("QuotationID", QuotationId);
+      getQuotationDetailsData(QuotationId);
+    }
   }, []);
 
   const [coordinator, setCoordinator] = useState({
@@ -47,7 +52,10 @@ const InventoryDetails = (props: MyComponentProps) => {
     maleWorkers: 0,
     femaleWorkers: 0,
     totalWorkers: 0,
+    quotationType: "",
   });
+
+  console.log("quotation", quotation);
 
   const userFields = ["name", "email", "cellNumber"];
 
@@ -71,11 +79,12 @@ const InventoryDetails = (props: MyComponentProps) => {
     "maleWorkers",
     "femaleWorkers",
     "totalWorkers",
+    "quotationType",
   ];
 
-  const getQuotationDetailsData = async () => {
+  const getQuotationDetailsData = async (QuotationId: string) => {
     setLoading(true);
-    const payload = { quote_id: "quotationId" };
+    const payload = { quote_id: QuotationId };
     await authAxios()
       .post("/quotation/get-specific-quotation-from-all-collection", payload)
       .then(
@@ -140,11 +149,10 @@ const InventoryDetails = (props: MyComponentProps) => {
                           </div>
                         </div>
                       </div>
-
                       <div className="nk-block">
                         <div className="nk-data data-list">
                           <div className="data-head">
-                            <h6 className="overline-title">Basics</h6>
+                            <h6 className="overline-title">Inventory</h6>
                           </div>
                           <div className="data-item">
                             <div className="data-col">
@@ -188,7 +196,6 @@ const InventoryDetails = (props: MyComponentProps) => {
                             </div>
                           </div>
                         </div>
-
                         <div className="nk-data data-list">
                           <div className="data-head">
                             <h6 className="overline-title">Quotation</h6>
@@ -197,15 +204,17 @@ const InventoryDetails = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">Quotation Type</span>
                               <span className="data-value">
-                                {inventory?.productName}
+                                {quotation?.quotationType}
                               </span>
                             </div>
                           </div>
                           <div className="data-item">
                             <div className="data-col">
-                              <span className="data-label">distance From Kelowna</span>
+                              <span className="data-label">
+                                distance From Kelowna
+                              </span>
                               <span className="data-value">
-                                {inventory?.category}
+                                {quotation?.distanceFromKelowna}
                               </span>
                             </div>
                           </div>
@@ -213,8 +222,8 @@ const InventoryDetails = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">placementDate</span>
                               <span className="data-value">
-                                {" "}
-                                10/10/2023
+                                {quotation?.placementDate &&
+                                  getFormatedDate(quotation?.placementDate)}
                               </span>
                             </div>
                           </div>
@@ -222,11 +231,84 @@ const InventoryDetails = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">Status</span>
                               <span className="data-value text-soft">
-                                {inventory?.status}
+                                {quotation?.status}
                               </span>
                             </div>
                           </div>
-                         
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Number of Unit</span>
+                              <span className="data-value text-soft">
+                                {quotation?.numUnits}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Male Workers</span>
+                              <span className="data-value text-soft">
+                                {quotation?.maleWorkers}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Female Workers</span>
+                              <span className="data-value text-soft">
+                                {quotation?.femaleWorkers}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Female Workers</span>
+                              <span className="data-value text-soft">
+                                {quotation?.femaleWorkers}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Total Workers</span>
+                              <span className="data-value text-soft">
+                                {quotation?.totalWorkers}
+                              </span>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div className="nk-data data-list">
+                          <div className="data-head">
+                            <h6 className="overline-title">Project Manger</h6>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Name</span>
+                              <span className="data-value">
+                                {coordinator?.name}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Email</span>
+                              <span className="data-value">
+                                {coordinator?.email}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Phone</span>
+                              <span className="data-value text-soft">
+                                {coordinator?.cellNumber}
+                              </span>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
