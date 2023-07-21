@@ -193,11 +193,11 @@ const InventoryDetails = (props: MyComponentProps) => {
                         </div>
                         <div className="nk-data data-list">
                           <div className="data-head">
-                            <h6 className="overline-title">Quotation</h6>
+                            <h6 className="overline-title">CONTRACT</h6>
                           </div>
                           <div className="data-item">
                             <div className="data-col">
-                              <span className="data-label">Quotation Type</span>
+                              <span className="data-label">Contract Type</span>
                               <span className="data-value">
                                 {quotation?.quotationType}
                               </span>
@@ -206,7 +206,7 @@ const InventoryDetails = (props: MyComponentProps) => {
                           <div className="data-item">
                             <div className="data-col">
                               <span className="data-label">
-                                distance From Kelowna
+                                Distance From Kelowna
                               </span>
                               <span className="data-value">
                                 {quotation?.distanceFromKelowna}
@@ -215,7 +215,7 @@ const InventoryDetails = (props: MyComponentProps) => {
                           </div>
                           <div className="data-item">
                             <div className="data-col">
-                              <span className="data-label">placementDate</span>
+                              <span className="data-label">Placement Date</span>
                               <span className="data-value">
                                 {quotation?.placementDate &&
                                   getFormatedDate(quotation?.placementDate)}

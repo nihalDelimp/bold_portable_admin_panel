@@ -294,7 +294,6 @@ const QuotationsList = (props: MyComponentProps) => {
                     .filter(
                       (item) =>
                         item.status === "pending" ||
-                        item.status === "modified" ||
                         item.status === "cancelled"
                     )
                     .map((item: any, index: number) => (

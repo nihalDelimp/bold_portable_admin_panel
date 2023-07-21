@@ -308,7 +308,7 @@ function Dashboard(props: MyComponentProps) {
                         <div className="card-inner">
                           <div className="card-title-group">
                             <div className="card-title">
-                              <h6 className="title">Subscribers</h6>
+                              <h6 className="title">Contracts</h6>
                             </div>
                           </div>
                           <div className="data">
@@ -340,7 +340,7 @@ function Dashboard(props: MyComponentProps) {
                         <div className="card-inner">
                           <div className="card-title-group">
                             <div className="card-title">
-                              <h6 className="title">Request services</h6>
+                              <h6 className="title">Service Requests</h6>
                             </div>
                           </div>
                           <div className="data">
@@ -354,7 +354,7 @@ function Dashboard(props: MyComponentProps) {
                               </div>
                             </div>
                             <div className="info">
-                              <Link to="/request-services">
+                              <Link to="/service-requests">
                                 <span className="change up text-danger">
                                   More info
                                   <em className="icon ni ni-arrow-long-right"></em>
@@ -371,7 +371,7 @@ function Dashboard(props: MyComponentProps) {
                       <div className="card-inner">
                         <div className="card-title-group">
                           <div className="card-title">
-                            <h6 className="title">Recent Quotation</h6>
+                            <h6 className="title">Recent Quotations</h6>
                           </div>
                         </div>
                       </div>
@@ -405,7 +405,7 @@ function Dashboard(props: MyComponentProps) {
                         </div>
                         {quotationData &&
                           quotationData.length > 0 &&
-                          quotationData.slice(0, 8).map((item: any) => (
+                          quotationData.slice(0, 10).map((item: any) => (
                             <div key={item._id} className="nk-tb-item">
                               <div className="nk-tb-col">
                                 <span className="tb-lead">
