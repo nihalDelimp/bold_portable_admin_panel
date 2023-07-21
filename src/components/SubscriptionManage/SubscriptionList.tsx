@@ -285,7 +285,7 @@ function SubscriptionList(props: MyComponentProps) {
                       <span className="sub-text">Email</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
-                      <span className="sub-text">Assign</span>
+                      <span className="sub-text">Assigned</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Quotation Type</span>
@@ -326,12 +326,12 @@ function SubscriptionList(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-lg">
                           <span
                             className={`tb-status ${
-                              item.assignedInventoriesCount > 0
+                              item?.assignedInventoriesCount > 0
                                 ? "text-success"
                                 : "text-warning"
                             }`}
                           >
-                            {item.assignedInventoriesCount > 0 ? "Yes" : "No"}
+                            {item?.assignedInventoriesCount > 0 ? "Yes" : "No"}
                           </span>
                         </div>
                         <div className="nk-tb-col tb-col-lg">
@@ -440,19 +440,21 @@ function SubscriptionList(props: MyComponentProps) {
                                         <span>View Invoice</span>
                                       </a>
                                     </li>
-                                    <li>
-                                      <a
-                                        onClick={() =>
-                                          viewQuotationInventory(
-                                            item.quotationId,
-                                            item.quotationType
-                                          )
-                                        }
-                                      >
-                                        <em className="icon ni ni-eye"></em>
-                                        <span>View Inventory</span>
-                                      </a>
-                                    </li>
+                                    {item?.assignedInventoriesCount > 0 && (
+                                      <li>
+                                        <a
+                                          onClick={() =>
+                                            viewQuotationInventory(
+                                              item.quotationId,
+                                              item.quotationType
+                                            )
+                                          }
+                                        >
+                                          <em className="icon ni ni-eye"></em>
+                                          <span>View Inventory</span>
+                                        </a>
+                                      </li>
+                                    )}
                                   </ul>
                                 </div>
                               </div>
