@@ -19,6 +19,7 @@ import AssignQRCode from "../components/AssignQRCode";
 import CategoryManagement from "../components/CategoryManagement";
 import InventoryTypeList from "../components/InventoryTypesManage";
 import InventoryDetail from "../components/InventoryManagement/InventoryDetail";
+import QuotationInventories from "../components/SubscriptionManage/QuotationInventories";
 
 function RootRouter() {
   return (
@@ -151,6 +152,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <InventoryDetail />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/quotation-inventories"
+            element={
+              <PrivateRoute>
+                <QuotationInventories />
               </PrivateRoute>
             }
           />

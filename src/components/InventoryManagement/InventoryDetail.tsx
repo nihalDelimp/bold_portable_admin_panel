@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../Redux/rootReducer";
-import { CapitalizeFirstLetter, getFormatedDate } from "../../Helper";
+import { getFormatedDate } from "../../Helper";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import { authAxios } from "../../config/config";
@@ -12,17 +12,13 @@ interface MyComponentProps {
 }
 
 const InventoryDetails = (props: MyComponentProps) => {
-  const { user } = useSelector((state: RootState) => state.auth);
   const { inventory } = useSelector((state: RootState) => state.app);
   const { setLoading } = props;
-
-  console.log("InventoryData", inventory);
 
   useEffect(() => {
     if (inventory && inventory.qrCodeValue) {
       const myArray = inventory.qrCodeValue.split("-");
       const QuotationId = myArray.pop();
-      console.log("QuotationID", QuotationId);
       getQuotationDetailsData(QuotationId);
     }
   }, []);
@@ -55,7 +51,6 @@ const InventoryDetails = (props: MyComponentProps) => {
     quotationType: "",
   });
 
-  console.log("quotation", quotation);
 
   const userFields = ["name", "email", "cellNumber"];
 
