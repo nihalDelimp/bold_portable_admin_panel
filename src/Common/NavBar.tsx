@@ -34,12 +34,12 @@ function NavBar() {
               <a href="html/index.html" className="logo-link">
                 <img
                   className="logo-light logo-img"
-                  src="./images/logo.png"
+                  src={require("../images/bold_port.png")}
                   alt="logo"
                 />
                 <img
                   className="logo-dark logo-img"
-                  src="./images/logo-dark.png"
+                  src={require("../images/bold_port.png")}
                   alt="logo-dark"
                 />
               </a>
