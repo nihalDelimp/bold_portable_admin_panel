@@ -107,7 +107,7 @@ function RootRouter() {
             }
           />
           <Route
-            path="/invoice-detail/:id"
+            path="/invoice-detail"
             element={
               <PrivateRoute>
                 <SubscriptionDetail />

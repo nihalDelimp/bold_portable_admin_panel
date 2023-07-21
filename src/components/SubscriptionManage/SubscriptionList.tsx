@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import Pagination from "../../Common/Pagination";
 import { getFormatedDate, replaceHyphenCapitolize } from "../../Helper";
@@ -10,6 +10,8 @@ import SaveLocation from "./SaveLocation";
 import UpdateLocation from "./UpdateLocation";
 import { CSVLink } from "react-csv";
 import ExportConfirmationModal from "../../Common/ConfirmExportModal";
+import { saveInvoiceId } from "../../Redux/Reducers/appSlice";
+import { useDispatch } from "react-redux";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -30,13 +32,14 @@ const headers = [
 
 function SubscriptionList(props: MyComponentProps) {
   const { setLoading, isLoading } = props;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [invoices, setInvoices] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const [saveLocationModal, setSaveLocationModal] = useState<boolean>(false);
-  const [updateLocationModal, setUpdateLocationModal] =
-    useState<boolean>(false);
+  const [editModal, setEditModal] = useState<boolean>(false);
   const [invoiceData, setInvoiceData] = useState("");
   const [statusName, setStatusName] = useState("");
   const [statusLabel, setStatusLabel] = useState("Status");
@@ -58,6 +61,7 @@ function SubscriptionList(props: MyComponentProps) {
         setExportModal(false);
       }
     }
+    dispatch(saveInvoiceId(""));
   }, [exportData]);
 
   const getSubscriptionListData = async () => {
@@ -120,7 +124,7 @@ function SubscriptionList(props: MyComponentProps) {
 
   const handleUpdateLocationModal = (tracking_id: string) => {
     setTrackingID(tracking_id);
-    setUpdateLocationModal(true);
+    setEditModal(true);
   };
 
   const handleChangeStatus = (name: string, label: string) => {
@@ -154,6 +158,11 @@ function SubscriptionList(props: MyComponentProps) {
       .catch((error) => {
         console.log("errorrrr", error);
       });
+  };
+
+  const viewInvoiceRedirection = (invoiceId: string) => {
+    dispatch(saveInvoiceId(invoiceId));
+    navigate("/invoice-detail");
   };
 
   return (
@@ -322,13 +331,17 @@ function SubscriptionList(props: MyComponentProps) {
                         </div> */}
                         <div className="nk-tb-col tb-col-md">
                           <span className="tb-odr-status">
-                          <span
-                            className={`badge badge-dot ${
-                              item.status === "ACTIVE" ? "bg-success" : "bg-danger"
-                            }`}
-                          >
-                            {item.status === "ACTIVE" ? item.status : "Completed"}
-                          </span>
+                            <span
+                              className={`badge badge-dot ${
+                                item.status === "ACTIVE"
+                                  ? "bg-success"
+                                  : "bg-warning"
+                              }`}
+                            >
+                              {item.status === "ACTIVE"
+                                ? item.status
+                                : "Completed"}
+                            </span>
                           </span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">
@@ -371,32 +384,40 @@ function SubscriptionList(props: MyComponentProps) {
                                         </li>
                                       )
                                     ) : null}
-                                    <li>
-                                      <Link
-                                        to={`/assign-qr-code?quoteId=${item._id}&quoteType=${item?.quotationType}`}
-                                      >
-                                        <em className="icon ni ni-move"></em>
-                                        <span>Assign Production</span>
-                                      </Link>
-                                    </li>
+                                    {item.status === "ACTIVE" && (
+                                      <li>
+                                        <Link
+                                          to={`/assign-qr-code?quoteId=${item.quotationId}&quoteType=${item?.quotationType}`}
+                                        >
+                                          <em className="icon ni ni-move"></em>
+                                          <span>Assign Production</span>
+                                        </Link>
+                                      </li>
+                                    )}
+                                    {item.status === "ACTIVE" && (
+                                      <li>
+                                        <a
+                                          onClick={() =>
+                                            handleAutoAssign(
+                                              item.quotationId,
+                                              item.quotationType
+                                            )
+                                          }
+                                        >
+                                          <em className="icon ni ni-move"></em>
+                                          <span>Auto Assign</span>
+                                        </a>
+                                      </li>
+                                    )}
                                     <li>
                                       <a
                                         onClick={() =>
-                                          handleAutoAssign(
-                                            item._id,
-                                            item.quotationType
-                                          )
+                                          viewInvoiceRedirection(item._id)
                                         }
                                       >
-                                        <em className="icon ni ni-move"></em>
-                                        <span>Auto Assign</span>
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <Link to={`/invoice-detail/${item._id}`}>
                                         <em className="icon ni ni-eye"></em>
-                                        <span>Invoice</span>
-                                      </Link>
+                                        <span>View Invoice</span>
+                                      </a>
                                     </li>
                                   </ul>
                                 </div>
@@ -430,12 +451,12 @@ function SubscriptionList(props: MyComponentProps) {
           closeModal={(isModal: boolean) => setSaveLocationModal(isModal)}
         />
       )}
-      {updateLocationModal && (
+      {editModal && (
         <UpdateLocation
           trackingID={trackingID}
-          modal={updateLocationModal}
+          modal={editModal}
           getListingData={getSubscriptionListData}
-          closeModal={(isModal: boolean) => setUpdateLocationModal(isModal)}
+          closeModal={(isModal: boolean) => setEditModal(isModal)}
         />
       )}
       <ExportConfirmationModal

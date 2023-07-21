@@ -1,11 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AppState {
-  inventory : any
+  inventory : any,
+  invoiceId : string
+  
 }
 
 const initialState: AppState = {
-  inventory : {}
+  inventory : null ,
+  invoiceId : ""
 };
 
 export const appSlice = createSlice({
@@ -15,11 +18,13 @@ export const appSlice = createSlice({
     saveInventory: (state, action: PayloadAction<any>) => {
       state.inventory = action.payload;
     },
-   
+    saveInvoiceId: (state, action: PayloadAction<string>) => {
+      state.invoiceId = action.payload;
+    },
   },
 });
 
-export const { saveInventory } =
+export const { saveInventory , saveInvoiceId } =
 appSlice.actions;
 
 export default appSlice.reducer;

@@ -35,6 +35,10 @@ function InventoryList(props: MyComponentProps) {
     getInventoryListData();
   }, [currentPage, itemsPerPage, status]);
 
+  useEffect(() => {
+    dispatch(saveInventory(null));
+  }, []);
+
   const getInventoryListData = async () => {
     setLoading(true);
     await authAxios()
@@ -129,8 +133,8 @@ function InventoryList(props: MyComponentProps) {
       return "Available";
     } else if (status === "active") {
       return "Assigned";
-    } else if (status === "comppleted") {
-      return "Completed";
+    } else if (status === "completed") {
+      return "Under Maintance";
     } else {
       return status;
     }
@@ -206,7 +210,7 @@ function InventoryList(props: MyComponentProps) {
                                     <a
                                       onClick={() => changeStatus("completed")}
                                     >
-                                      <span>Completed</span>
+                                      <span>Under Maintance</span>
                                     </a>
                                   </li>
                                 </ul>
@@ -350,7 +354,7 @@ function InventoryList(props: MyComponentProps) {
                                         onClick={() => saveInventoryData(item)}
                                       >
                                         <em className="icon ni ni-eye"></em>
-                                        <span>Detail</span>
+                                        <span>View Detail</span>
                                       </a>
                                     </li>
                                     <li>

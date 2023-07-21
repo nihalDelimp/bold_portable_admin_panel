@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import {
   getFormatedDate,
   getDateWithoutTime,
   CapitalizeFirstLetter,
 } from "../../Helper";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Redux/rootReducer";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -16,13 +18,13 @@ interface MyComponentProps {
 
 function SubscriptionDetail(props: MyComponentProps) {
   const { setLoading } = props;
-  const params = useParams();
+  const { invoiceId } = useSelector((state: RootState) => state.app);
   const [paymetData, setPaymentData] = useState<any>(null);
   const [invoiceData, setInvoice] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
   const [subscription, setsubscription] = useState<any>(null);
 
- 
+
   useEffect(() => {
     getSubscriptionDetailsData();
   }, []);
@@ -30,7 +32,7 @@ function SubscriptionDetail(props: MyComponentProps) {
   const getSubscriptionDetailsData = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/payment/subscription/${params.id}`)
+      .get(`/payment/subscription/${invoiceId}`)
       .then(
         (response) => {
           setLoading(false);
@@ -105,7 +107,9 @@ function SubscriptionDetail(props: MyComponentProps) {
                 </div>
                 <div className="invoice-wrap">
                   <div className="text-center">
-                    <h2><u>Bold Potable Invoice</u></h2>
+                    <h2>
+                      <u>Bold Potable Invoice</u>
+                    </h2>
                     {/* <img
                       src={subscription?.qrCode}
                       alt="qr_code"

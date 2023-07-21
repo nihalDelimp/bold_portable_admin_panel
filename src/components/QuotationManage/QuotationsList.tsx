@@ -30,18 +30,18 @@ const QuotationsList = (props: MyComponentProps) => {
   const [editEventModal, setEditEventModal] = useState<boolean>(false);
   const [cancelModal, setCancelModal] = useState<boolean>(false);
 
-  const [statusName, setStatusName] = useState<string>("All");
-  const [quotationStatus, setquotationStatus] = useState<string>("all");
+  const [quotationLabel, setQuotationLabel] = useState<string>("All");
+  const [quotationCategory, setQuotationCategory] = useState<string>("all");
 
   useEffect(() => {
     getQuotationData();
-  }, [currentPage, quotationStatus, itemsPerPage]);
+  }, [currentPage, quotationCategory, itemsPerPage]);
 
   const getQuotationData = async () => {
     setLoading(true);
     await authAxios()
       .get(
-        `quotation/get-quotation-of-user/${quotationStatus}?page=${currentPage}&limit=${itemsPerPage}`
+        `quotation/get-quotation-of-user/${quotationCategory}?page=${currentPage}&limit=${itemsPerPage}`
       )
       .then(
         (response) => {
@@ -86,18 +86,9 @@ const QuotationsList = (props: MyComponentProps) => {
       });
   };
 
-  const onChangeStatus = (status: string) => {
-    setquotationStatus(status);
-    if (!status) {
-      console.log("st", status);
-      setStatusName("all");
-    } else {
-      const status_name = status.charAt(0).toUpperCase() + status.slice(1);
-      var str = status_name;
-      var newStr = str.replace("-", "  ");
-      var finalstr = newStr.replace("-", " ");
-      setStatusName(finalstr);
-    }
+  const onChangeQuotationType = (status: string, label: string) => {
+    setQuotationCategory(status);
+    setQuotationLabel(label);
   };
 
   const handleSendInvoice = (
@@ -171,42 +162,26 @@ const QuotationsList = (props: MyComponentProps) => {
                               className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                               data-bs-toggle="dropdown"
                             >
-                              {statusName}
+                              {quotationLabel}
                             </a>
                             <div className="dropdown-menu dropdown-menu-end">
                               <ul className="link-list-opt no-bdr">
                                 <li>
-                                  <a onClick={() => onChangeStatus("all")}>
+                                  <a
+                                    onClick={() =>
+                                      onChangeQuotationType("all", "All")
+                                    }
+                                  >
                                     <span>All</span>
                                   </a>
                                 </li>
                                 <li>
-                                  <a onClick={() => onChangeStatus("event")}>
-                                    <span>Event</span>
-                                  </a>
-                                </li>
-                                <li>
                                   <a
                                     onClick={() =>
-                                      onChangeStatus("personal-or-business")
-                                    }
-                                  >
-                                    <span>Business</span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a
-                                    onClick={() =>
-                                      onChangeStatus("farm-orchard-winery")
-                                    }
-                                  >
-                                    <span>Orchad Winery</span>
-                                  </a>
-                                </li>
-                                <li>
-                                  <a
-                                    onClick={() =>
-                                      onChangeStatus("construction")
+                                      onChangeQuotationType(
+                                        "construction",
+                                        "Construction"
+                                      )
                                     }
                                   >
                                     <span>Construction</span>
@@ -215,10 +190,61 @@ const QuotationsList = (props: MyComponentProps) => {
                                 <li>
                                   <a
                                     onClick={() =>
-                                      onChangeStatus("disaster-relief")
+                                      onChangeQuotationType(
+                                        "farm-orchard-winery",
+                                        "Farm Orchard Winery"
+                                      )
                                     }
                                   >
-                                    <span>Disaster</span>
+                                    <span>Farm Orchard Winery</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a
+                                    onClick={() =>
+                                      onChangeQuotationType(
+                                        "recreational-site",
+                                        "Recreational Site"
+                                      )
+                                    }
+                                  >
+                                    <span>Recreational Site</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a
+                                    onClick={() =>
+                                      onChangeQuotationType(
+                                        "personal-or-business",
+                                        "Personal Or Business"
+                                      )
+                                    }
+                                  >
+                                    <span>Personal Or Business</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a
+                                    onClick={() =>
+                                      onChangeQuotationType(
+                                        "event",
+                                        "Special Events"
+                                      )
+                                    }
+                                  >
+                                    <span>Special Events</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a
+                                    onClick={() =>
+                                      onChangeQuotationType(
+                                        "disaster-relief",
+                                        "Disaster Relief"
+                                      )
+                                    }
+                                  >
+                                    <span>Disaster Relief</span>
                                   </a>
                                 </li>
                               </ul>
@@ -244,13 +270,13 @@ const QuotationsList = (props: MyComponentProps) => {
                     <span>Customer Email</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                    <span>Distance From Kelowna</span>
+                    <span>Distance</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
                     <span>Total Workers</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
-                    <span>Type</span>
+                    <span>Quotation Type</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
                     <span>Status</span>
@@ -265,114 +291,121 @@ const QuotationsList = (props: MyComponentProps) => {
                 {quotationData &&
                   quotationData.length > 0 &&
                   quotationData
-                  .filter(
-                    (item) =>
-                      item.status === "pending" ||
-                      item.status === "modified" ||
-                      item.status === "cancelled"
-                  )
-                  .map((item: any, index: number) => (
-                    <div key={item._id} className="nk-tb-item">
-                      <div className="nk-tb-col">
-                        <span
-                          style={{ cursor: "pointer" }}
-                          className="tb-status text-primary"
-                          onClick={() =>
-                            handleSendInvoice(item._id, item.type, item.status)
-                          }
-                        >
-                          {item._id?.slice(-8)?.toUpperCase()}
-                        </span>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm capitalize">
-                        <span className="tb-sub">
-                          {item.coordinator && item.coordinator?.name}
-                        </span>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">
-                          {item.coordinator?.email}
-                        </span>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">
-                          {item?.distanceFromKelowna} km
-                        </span>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">{item?.totalWorkers}</span>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">
-                          {item.type && replaceHyphenCapitolize(item.type)}
-                        </span>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm capitalize">
-                        <span className="tb-odr-status">
+                    .filter(
+                      (item) =>
+                        item.status === "pending" ||
+                        item.status === "modified" ||
+                        item.status === "cancelled"
+                    )
+                    .map((item: any, index: number) => (
+                      <div key={item._id} className="nk-tb-item">
+                        <div className="nk-tb-col">
                           <span
-                            className={`badge badge-dot ${setBackgroundColor(
-                              item.status
-                            )}`}
+                            style={{ cursor: "pointer" }}
+                            className="tb-status text-primary"
+                            onClick={() =>
+                              handleSendInvoice(
+                                item._id,
+                                item.type,
+                                item.status
+                              )
+                            }
                           >
-                            {item.status}
+                            {item._id?.slice(-8)?.toUpperCase()}
                           </span>
-                        </span>
-                      </div>
-                      <div className="nk-tb-col tb-col-sm">
-                        <span className="tb-sub">
-                          {getFormatedDate(item.createdAt)}
-                        </span>
-                      </div>
-
-                      <div className="nk-tb-col nk-tb-col-tools">
-                        <ul className="gx-1">
-                          <li>
-                            <div className="drodown me-n1">
-                              <a
-                                href="#"
-                                className="dropdown-toggle btn btn-icon btn-trigger"
-                                data-bs-toggle="dropdown"
-                              >
-                                <em className="icon ni ni-more-h"></em>
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  {item.status === "pending" && (
-                                    <li>
-                                      <a
-                                        onClick={() =>
-                                          handleSendInvoice(
-                                            item._id,
-                                            item.type,
-                                            item.status
-                                          )
-                                        }
-                                      >
-                                        <em className="icon ni ni-edit"></em>
-                                        <span>Send Invoice</span>
-                                      </a>
-                                    </li>
-                                  )}
-                                  {item.status === "pending" && (
-                                    <li>
-                                      <a
-                                        onClick={() =>
-                                          handleCancelModal(item._id, item.type)
-                                        }
-                                      >
-                                        <em className="icon ni ni-cross-circle"></em>
-                                        <span>Cancel</span>
-                                      </a>
-                                    </li>
-                                  )}
-                                </ul>
+                        </div>
+                        <div className="nk-tb-col tb-col-sm capitalize">
+                          <span className="tb-sub">
+                            {item.coordinator && item.coordinator?.name}
+                          </span>
+                        </div>
+                        <div className="nk-tb-col tb-col-sm">
+                          <span className="tb-sub">
+                            {item.coordinator?.email}
+                          </span>
+                        </div>
+                        <div className="nk-tb-col tb-col-sm">
+                          <span className="tb-sub">
+                            {item?.distanceFromKelowna} km
+                          </span>
+                        </div>
+                        <div className="nk-tb-col tb-col-sm">
+                          <span className="tb-sub">{item?.totalWorkers}</span>
+                        </div>
+                        <div className="nk-tb-col tb-col-sm capitalize">
+                          <span className="tb-sub">
+                            {item.quotationType &&
+                              replaceHyphenCapitolize(item.quotationType)}
+                          </span>
+                        </div>
+                        <div className="nk-tb-col tb-col-sm capitalize">
+                          <span className="tb-odr-status">
+                            <span
+                              className={`badge badge-dot ${setBackgroundColor(
+                                item.status
+                              )}`}
+                            >
+                              {item.status}
+                            </span>
+                          </span>
+                        </div>
+                        <div className="nk-tb-col tb-col-sm">
+                          <span className="tb-sub">
+                            {getFormatedDate(item.createdAt)}
+                          </span>
+                        </div>
+                        <div className="nk-tb-col nk-tb-col-tools">
+                          <ul className="gx-1">
+                            <li>
+                              <div className="drodown me-n1">
+                                <a
+                                  href="#"
+                                  className="dropdown-toggle btn btn-icon btn-trigger"
+                                  data-bs-toggle="dropdown"
+                                >
+                                  <em className="icon ni ni-more-h"></em>
+                                </a>
+                                <div className="dropdown-menu dropdown-menu-end">
+                                  <ul className="link-list-opt no-bdr">
+                                    {item.status === "pending" && (
+                                      <li>
+                                        <a
+                                          onClick={() =>
+                                            handleSendInvoice(
+                                              item._id,
+                                              item.type,
+                                              item.status
+                                            )
+                                          }
+                                        >
+                                          <em className="icon ni ni-edit"></em>
+                                          <span>Send Invoice</span>
+                                        </a>
+                                      </li>
+                                    )}
+                                    {item.status === "pending" && (
+                                      <li>
+                                        <a
+                                          onClick={() =>
+                                            handleCancelModal(
+                                              item._id,
+                                              item.type
+                                            )
+                                          }
+                                        >
+                                          <em className="icon ni ni-cross-circle"></em>
+                                          <span>Cancel</span>
+                                        </a>
+                                      </li>
+                                    )}
+                                  </ul>
+                                </div>
                               </div>
-                            </div>
-                          </li>
-                        </ul>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
               </div>
               {quotationData && quotationData.length > 0 && totalCount > 0 && (
                 <Pagination

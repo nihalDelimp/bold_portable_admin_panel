@@ -278,17 +278,19 @@ function InventoryList(props: MyComponentProps) {
                                       <span>All</span>
                                     </a>
                                   </li>
-                                  {categoriesData.map((item: any) => (
-                                    <li>
-                                      <a
-                                        onClick={() =>
-                                          setCategory(item.category)
-                                        }
-                                      >
-                                        <span>{item.category}</span>
-                                      </a>
-                                    </li>
-                                  ))}
+                                  {categoriesData.map(
+                                    (item: any, index: number) => (
+                                      <li key={index + 1}>
+                                        <a
+                                          onClick={() =>
+                                            setCategory(item.category)
+                                          }
+                                        >
+                                          <span>{item.category}</span>
+                                        </a>
+                                      </li>
+                                    )
+                                  )}
                                 </ul>
                               </div>
                             </div>
@@ -308,17 +310,19 @@ function InventoryList(props: MyComponentProps) {
                                       <span>All</span>
                                     </a>
                                   </li>
-                                  {inventoryTypesData.map((item: any) => (
-                                    <li>
-                                      <a
-                                        onClick={() =>
-                                          setInventoryType(item.types)
-                                        }
-                                      >
-                                        <span>{item.types}</span>
-                                      </a>
-                                    </li>
-                                  ))}
+                                  {inventoryTypesData.map(
+                                    (item: any, index: number) => (
+                                      <li key={index + 1}>
+                                        <a
+                                          onClick={() =>
+                                            setInventoryType(item.types)
+                                          }
+                                        >
+                                          <span>{item.types}</span>
+                                        </a>
+                                      </li>
+                                    )
+                                  )}
                                 </ul>
                               </div>
                             </div>
