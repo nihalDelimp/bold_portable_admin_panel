@@ -173,7 +173,7 @@ function SendEmail(props: MyComponentProps) {
                             Subject
                           </label>
                           <span className="form-note">
-                            Write subject here .
+                            Write subject here.
                           </span>
                         </div>
                       </div>
