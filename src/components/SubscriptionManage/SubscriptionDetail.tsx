@@ -61,7 +61,7 @@ function SubscriptionDetail(props: MyComponentProps) {
       <div className="container-fluid">
         <div className="nk-content-inner">
           <div className="nk-content-body">
-            <div className="nk-block-head">
+            {/* <div className="nk-block-head">
               <div className="nk-block-between g-3">
                 <div className="nk-block-head-content">
                   <h3 className="nk-block-title page-title">
@@ -94,49 +94,105 @@ function SubscriptionDetail(props: MyComponentProps) {
                   </Link>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="nk-block">
-              <div className="invoice">
-                <div className="invoice-action">
+              <div className="invoice invoice--container">
+                {/* <div className="invoice-action">
                   <a
                     className="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary"
                     href={paymetData?.invoice_pdf}
                   >
                     <em className="icon ni ni-download"></em>
                   </a>
+                </div> */}
+
+                <div className="invoice--header">
+                  <div className="invoice-logo">
+                    <img
+                      className="logo-dark"
+                      src={require("../../images/invoice-logo.png")}
+                      alt="logo-dark"
+                    />
+                  </div>
+
+                  <div className="invoice-download">
+                    <h3>Invoice</h3> <a
+                      className="btn btn-icon btn-lg btn-white btn-dim btn-outline-primary"
+                      href={paymetData?.invoice_pdf}
+                    >
+                      <em className="icon ni ni-download"></em>
+                    </a>
+                  </div>
+
                 </div>
+
+                <div className="invoice-head-center">
+                  <h3>Invoice</h3>
+                </div>
+
                 <div className="invoice-wrap">
-                  <div className="text-center">
+                  {/* <div className="text-center">
                     <h2>
                       <u>Bold Potable Invoice</u>
                     </h2>
-                    {/* <img
+                    <img
                       src={subscription?.qrCode}
                       alt="qr_code"
-                    /> */}
-                  </div>
+                    />
+                  </div> */}
                   <div className="invoice-head">
                     <div className="invoice-contact">
-                      <span className="overline-title">Invoice To</span>
+                      {/* <span className="overline-title">Invoice To</span> */}
                       <div className="invoice-contact-info">
-                        <h4 className="title">
+                        <h4 className="title heading--invoice">
                           {userData &&
                             userData.name &&
                             CapitalizeFirstLetter(userData?.name)}
                         </h4>
-                        <ul className="list-plain">
-                          <li>
-                            <em className="icon ni ni-map-pin-fill"></em>
-                            <span>{userData?.address}</span>
-                          </li>
-                          <li>
-                            <em className="icon ni ni-call-fill"></em>
-                            <span>{userData?.mobile}</span>
-                          </li>
-                        </ul>
+                        <div className="details--invoice--list">
+                          <ul className="list-plain">
+                            <li>
+                              <img
+                                className="invoice-phone"
+                                src={require("../../images/call-invoice.png")}
+                                alt="invoice-phone"
+                              />
+                              {/* <em className="icon ni ni-call-fill"></em> */}
+                              <span>{userData?.mobile}</span>
+                            </li>
+                            <li>
+                              <img
+                                className="invoice-location"
+                                src={require("../../images/location-invoice.png")}
+                                alt="invoice-location"
+                              />
+                              {/* <em className="icon ni ni-map-pin-fill"></em> */}
+                              <span>{userData?.address}</span>
+                            </li>
+                          </ul>
+
+                          <ul className="list-plain">
+                            <li className="invoice-id">
+                              <span>Subscription ID:</span>
+                              <span>
+                                {subscription?.subscription
+                                  ?.slice(-6)
+                                  ?.toUpperCase()}
+                              </span>
+                            </li>
+                            <li className="invoice-date">
+                              <span>Date:</span>
+                              <span>
+                                {" "}
+                                {getDateWithoutTime(invoiceData?.createdAt)}
+                              </span>
+                            </li>
+                          </ul>
+                        </div>
+
                       </div>
                     </div>
-                    <div className="invoice-desc">
+                    {/* <div className="invoice-desc">
                       <h3 className="title">Invoice</h3>
                       <ul className="list-plain">
                         <li className="invoice-id">
@@ -155,9 +211,122 @@ function SubscriptionDetail(props: MyComponentProps) {
                           </span>
                         </li>
                       </ul>
-                    </div>
+                    </div> */}
                   </div>
-                  <div className="invoice-bills">
+
+
+                  <div className="invoice-bills-table">
+                    <div className="table-responsive">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th className="width-md">Quotation Type</th>
+                            <th className="text-center">Types</th>
+                            <th className="width-small">Male</th>
+                            <th className="width-small">Female</th>
+                            <th className="width-small">Other</th>
+                            <th className="width-md text-center">Units</th>
+                            <th>Price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr className="height-50"></tr>
+                          <tr>
+                            <td>Construction</td>
+                            <td className="text-center">Hand wash</td>
+                            <td className="text-center">2</td>
+                            <td className="text-center border-xside">1</td>
+                            <td className="text-center"></td>
+                            <td className="text-center">3</td>
+                            <td>$10</td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td className="text-center">Wheelchair </td>
+                            <td className="text-center">1</td>
+                            <td className="text-center border-xside">3</td>
+                            <td className="text-center">1</td>
+                            <td className="text-center">5</td>
+                            <td>$10</td>
+                          </tr>
+                          <tr>
+                            <td></td>
+                            <td className="text-center">Hand wash </td>
+                            <td className="text-center"></td>
+                            <td className="text-center border-xside">1</td>
+                            <td className="text-center">1</td>
+                            <td className="text-center">2</td>
+                            <td>$10</td>
+                          </tr>
+                        </tbody>
+
+                      </table>
+
+                      <span className="border--bottom"></span>
+
+                      <div className="total--bill--div">
+                        <table className="table">
+                          <tbody>
+
+
+                            <tr>
+                              <td>Subtotal</td>
+                              <td>$500 </td>
+                            </tr>
+                            <tr>
+                              <td>Processing fee</td>
+                              <td>$10 </td>
+                            </tr>
+
+                            <tr className="border-y">
+                              <td>Grand Total</td>
+                              <td>$510 </td>
+                            </tr>
+
+                          </tbody>
+
+                        </table>
+                      </div>
+
+
+                      <div className="bottom--invoice">
+                        <h4 className="heading--invoice">Bold Portable</h4>
+
+                        <div className="details--invoice--list">
+                          <ul className="list-plain">
+                            <li>
+                              <img
+                                className="invoice-phone"
+                                src={require("../../images/call-invoice.png")}
+                                alt="invoice-phone"
+                              />
+                              {/* <em className="icon ni ni-call-fill"></em> */}
+                              <span>{userData?.mobile}</span>
+                            </li>
+                            <li>
+                              <img
+                                className="invoice-location"
+                                src={require("../../images/location-invoice.png")}
+                                alt="invoice-location"
+                              />
+                              {/* <em className="icon ni ni-map-pin-fill"></em> */}
+                              <span>{userData?.address}</span>
+                            </li>
+                          </ul>
+                        </div>
+
+                        <div className="nk-notes ff-italic fs-12px text-soft">
+                          {" "}
+                          *Invoice was created on a computer and is valid without the signature and seal.{" "}
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                  {/* <div className="invoice-bills">
                     <div className="table-responsive">
                       <table className="table table-striped">
                         <thead>
@@ -207,7 +376,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                         the signature and seal.{" "}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
