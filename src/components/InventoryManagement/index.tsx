@@ -11,7 +11,7 @@ import DeleteConfirmationModal from "../../Common/DeleteConfirmation";
 import { Link, useNavigate } from "react-router-dom";
 import { saveInventory } from "../../Redux/Reducers/appSlice";
 import { useDispatch } from "react-redux";
-
+import { handleDownloadQRCode } from "../../utils";
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
@@ -271,7 +271,7 @@ function InventoryList(props: MyComponentProps) {
                       <span>Status</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">OR code</span>
+                      <span className="sub-text">QR code</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
@@ -330,12 +330,17 @@ function InventoryList(props: MyComponentProps) {
                           </span>
                         </div>
                         <div className="nk-tb-col">
-                          <img
-                            style={{ width: "40%" }}
-                            src={item?.qrCode}
-                            alt="QR Code"
-                          />
-                        </div>
+                        <a
+                          href={item?.qrCode}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleDownloadQRCode(item?.qrCode, `qr_code_${item?._id}.svg`);
+                          }}
+                          download={`qr_code_${item?._id}.svg`}
+                        >
+                          <img style={{ width: "40%" }} src={item?.qrCode} alt="QR Code" />
+                        </a>
+                      </div>
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
                             <li>

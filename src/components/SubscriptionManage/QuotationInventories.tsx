@@ -186,7 +186,7 @@ function QuotationInventoryList(props: MyComponentProps) {
                       <span>Status</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">OR code</span>
+                      <span className="sub-text">QR code</span>
                     </div>
                     {/* <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Action</span>
