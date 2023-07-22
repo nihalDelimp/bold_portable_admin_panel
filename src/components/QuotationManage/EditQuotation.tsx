@@ -67,7 +67,7 @@ function EditQuotation(props: MyComponentProps) {
     weeklyHoursCost: 0,
     pickUpPrice: 0,
   });
-  
+
   useEffect(() => {
     getProductDetailsData();
   }, []);
@@ -170,9 +170,11 @@ function EditQuotation(props: MyComponentProps) {
     setServicesPrice((prev) => ({ ...prev, [name]: parseInt(value) }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const payload = { costDetails: servicesPrice };
+  const handleSubmit = async (requestType: string) => {
+    let payload: any = { costDetails: servicesPrice };
+    if (requestType === "save") {
+      payload["type"] = "save";
+    }
     let endPoint: string = "quotation/update-quotation-for-construction";
     if (quotationType === "construction") {
       endPoint = "quotation/update-quotation-for-construction";
@@ -254,7 +256,7 @@ function EditQuotation(props: MyComponentProps) {
             <div className="tab-content">
               {activeStep === 1 && (
                 <div className="tab-pane active">
-                  <form onSubmit={handleSubmit}>
+                  <form>
                     <div className="row gy-4">
                       <div className="col-md-6">
                         <div className="form-group">
@@ -322,7 +324,6 @@ function EditQuotation(props: MyComponentProps) {
                             Designated Workers
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.designatedWorkers ? "Yes" : "No"}
                             onChange={handleChangeQuotation}
@@ -376,7 +377,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-4">
                         <div className="form-group">
                           <label
@@ -386,7 +386,6 @@ function EditQuotation(props: MyComponentProps) {
                             Male workers
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.maleWorkers}
                             onChange={handleChangeQuotation}
@@ -428,7 +427,6 @@ function EditQuotation(props: MyComponentProps) {
                             Total workers
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.totalWorkers}
                             onChange={handleChangeQuotation}
@@ -440,7 +438,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -450,7 +447,6 @@ function EditQuotation(props: MyComponentProps) {
                             Distance
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.distanceFromKelowna}
                             onChange={handleChangeQuotation}
@@ -462,7 +458,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -483,7 +478,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -553,7 +547,7 @@ function EditQuotation(props: MyComponentProps) {
               )}
               {activeStep === 2 && (
                 <div className="tab-pane active">
-                  <form onSubmit={handleSubmit}>
+                  <form>
                     <div className="row gy-4">
                       <div className="col-md-3">
                         <div className="form-group">
@@ -701,7 +695,6 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -752,7 +745,6 @@ function EditQuotation(props: MyComponentProps) {
                             Hand Sanitizer Pump
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.handSanitizerPump ? "Yes" : "No"}
                             onChange={handleChangeQuotation}
@@ -794,7 +786,6 @@ function EditQuotation(props: MyComponentProps) {
                             Twice Weekly Service
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.twiceWeeklyService ? "Yes" : "No"}
                             onChange={handleChangeQuotation}
@@ -916,7 +907,6 @@ function EditQuotation(props: MyComponentProps) {
                             Pickup Price
                           </label>
                           <input
-                            required
                             min={1}
                             value={servicesPrice.pickUpPrice}
                             onChange={handleChangeServicePrice}
@@ -926,6 +916,28 @@ function EditQuotation(props: MyComponentProps) {
                             id="inputEmail4"
                             placeholder="Enter pickup Price"
                           />
+                        </div>
+                      </div>
+
+                      <div className="col-md-3">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="Pickup Price"
+                          >
+                            Pickup Price <span>50$</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="col-md-3 total-price">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="Pickup Price"
+                          >
+                            Total Price <span>50$</span>
+                          </label>
                         </div>
                       </div>
 
@@ -941,7 +953,20 @@ function EditQuotation(props: MyComponentProps) {
                             </button>
                           </li>
                           <li>
-                            <button type="submit" className="btn btn-success">
+                            <button
+                              type="button"
+                              onClick={() => handleSubmit("save")}
+                              className="btn btn-success"
+                            >
+                              Save Invoice
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              type="button"
+                              onClick={() => handleSubmit("send invoice")}
+                              className="btn btn-warning"
+                            >
                               Send Invoice
                             </button>
                           </li>

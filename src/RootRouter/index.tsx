@@ -20,6 +20,7 @@ import CategoryManagement from "../components/CategoryManagement";
 import InventoryTypeList from "../components/InventoryTypesManage";
 import InventoryDetail from "../components/InventoryManagement/InventoryDetail";
 import QuotationInventories from "../components/SubscriptionManage/QuotationInventories";
+import QuotationDetail from "../components/QuotationManage/QuotationDetail";
 
 function RootRouter() {
   return (
@@ -160,6 +161,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <QuotationInventories />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/quotation-detail"
+            element={
+              <PrivateRoute>
+                <QuotationDetail />
               </PrivateRoute>
             }
           />

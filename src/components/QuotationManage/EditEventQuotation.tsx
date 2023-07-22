@@ -142,7 +142,7 @@ function EditEventQuotation(props: MyComponentProps) {
             const resCoordinateData = response.data.data.quotation?.coordinator;
             const quotationData = response.data.data.quotation;
             const costDetails = response.data.data.quotation?.costDetails;
-            const vipSectionData = response.data.data.quotation?.vipSection
+            const vipSectionData = response.data.data.quotation?.vipSection;
 
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
@@ -171,7 +171,6 @@ function EditEventQuotation(props: MyComponentProps) {
                 [field]: vipSectionData[field],
               }));
             });
-
           }
         },
         (error) => {
@@ -204,9 +203,11 @@ function EditEventQuotation(props: MyComponentProps) {
     setServicesPrice((prev) => ({ ...prev, [name]: parseInt(value) }));
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const payload = { costDetails: servicesPrice };
+  const handleSubmit = async (requestType: string) => {
+    let payload: any = { costDetails: servicesPrice };
+    if (requestType === "save") {
+      payload["type"] = "save";
+    }
     setLoading(true);
     await authAxios()
       .put(`/quotation/update-quotation-for-event/${quotationId}`, payload)
@@ -276,7 +277,7 @@ function EditEventQuotation(props: MyComponentProps) {
             <div className="tab-content">
               {activeStep === 1 && (
                 <div className="tab-pane active">
-                  <form onSubmit={handleSubmit}>
+                  <form>
                     <div className="row gy-4">
                       <div className="col-md-6">
                         <div className="form-group">
@@ -289,7 +290,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             type="text"
                             disabled
                             name="name"
-                            className="form-control"                           
+                            className="form-control"
                             placeholder="User name"
                           />
                         </div>
@@ -308,7 +309,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             onChange={handleChangeCoordinator}
                             type="email"
                             name="email"
-                            className="form-control"                           
+                            className="form-control"
                             placeholder="Email address"
                           />
                         </div>
@@ -341,7 +342,6 @@ function EditEventQuotation(props: MyComponentProps) {
                             Designated Workers
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.designatedWorkers ? "Yes" : "No"}
                             onChange={handleChangeQuotation}
@@ -401,7 +401,6 @@ function EditEventQuotation(props: MyComponentProps) {
                             Male workers
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.maleWorkers}
                             onChange={handleChangeQuotation}
@@ -443,7 +442,6 @@ function EditEventQuotation(props: MyComponentProps) {
                             Total workers
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.totalWorkers}
                             onChange={handleChangeQuotation}
@@ -464,7 +462,6 @@ function EditEventQuotation(props: MyComponentProps) {
                             Distance
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.distanceFromKelowna}
                             onChange={handleChangeQuotation}
@@ -475,7 +472,6 @@ function EditEventQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -495,7 +491,6 @@ function EditEventQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -563,7 +558,7 @@ function EditEventQuotation(props: MyComponentProps) {
               )}
               {activeStep === 2 && (
                 <div className="tab-pane active">
-                  <form onSubmit={handleSubmit}>
+                  <form>
                     <div className="row gy-4">
                       <div className="col-md-3">
                         <div className="form-group">
@@ -751,7 +746,6 @@ function EditEventQuotation(props: MyComponentProps) {
                             Hand Sanitizer Pump
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.handSanitizerPump ? "Yes" : "No"}
                             onChange={handleChangeQuotation}
@@ -791,7 +785,6 @@ function EditEventQuotation(props: MyComponentProps) {
                             Twice Weekly Service
                           </label>
                           <input
-                            required
                             disabled
                             value={quotation.twiceWeeklyService ? "Yes" : "No"}
                             onChange={handleChangeQuotation}
@@ -901,7 +894,6 @@ function EditEventQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
@@ -941,7 +933,7 @@ function EditEventQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-                     <div className="col-md-3">
+                      <div className="col-md-3">
                         <div className="form-group">
                           <label
                             className="form-label"
@@ -1075,6 +1067,27 @@ function EditEventQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
+                      <div className="col-md-3">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="Pickup Price"
+                          >
+                            Pickup Price <span>50$</span>
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className="col-md-3 total-price">
+                        <div className="form-group">
+                          <label
+                            className="form-label"
+                            htmlFor="Pickup Price"
+                          >
+                            Total Price <span>50$</span>
+                          </label>
+                        </div>
+                      </div>
 
                       <div className="col-12">
                         <ul className="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
@@ -1088,7 +1101,20 @@ function EditEventQuotation(props: MyComponentProps) {
                             </button>
                           </li>
                           <li>
-                            <button type="submit" className="btn btn-success">
+                            <button
+                              type="button"
+                              onClick={() => handleSubmit("save")}
+                              className="btn btn-success"
+                            >
+                              Save Invoice
+                            </button>
+                          </li>
+                          <li>
+                            <button
+                              type="button"
+                              onClick={() => handleSubmit("send invoice")}
+                              className="btn btn-warning"
+                            >
                               Send Invoice
                             </button>
                           </li>

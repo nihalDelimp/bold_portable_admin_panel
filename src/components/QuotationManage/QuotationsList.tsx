@@ -6,12 +6,11 @@ import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import EditQuotation from "./EditQuotation";
 import EditEventQuotation from "./EditEventQuotation";
 import Pagination from "../../Common/Pagination";
-import {
-  CapitalizeFirstLetter,
-  getFormatedDate,
-  replaceHyphenCapitolize,
-} from "../../Helper";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { getFormatedDate, replaceHyphenCapitolize } from "../../Helper";
 import CancelConfirmationModal from "../../Common/CancelConfirmation";
+import { saveQuotation } from "../../Redux/Reducers/appSlice";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -19,6 +18,8 @@ interface MyComponentProps {
 
 const QuotationsList = (props: MyComponentProps) => {
   const { setLoading } = props;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -129,6 +130,11 @@ const QuotationsList = (props: MyComponentProps) => {
     } else {
       return "bg-primary";
     }
+  };
+
+  const viewQuotationDetail = (_id: string, type: string) => {
+    dispatch(saveQuotation({ _id, type }));
+    navigate("/quotation-detail");
   };
 
   return (
@@ -293,8 +299,7 @@ const QuotationsList = (props: MyComponentProps) => {
                   quotationData
                     .filter(
                       (item) =>
-                        item.status === "pending" ||
-                        item.status === "cancelled"
+                        item.status === "pending" || item.status === "cancelled"
                     )
                     .map((item: any, index: number) => (
                       <div key={item._id} className="nk-tb-item">
@@ -382,6 +387,20 @@ const QuotationsList = (props: MyComponentProps) => {
                                         </a>
                                       </li>
                                     )}
+                                    <li>
+                                      <a
+                                        onClick={() =>
+                                          viewQuotationDetail(
+                                            item._id,
+                                            item.type
+                                          )
+                                        }
+                                      >
+                                        <em className="icon ni ni-eye"></em>
+                                        <span>View Quotation</span>
+                                      </a>
+                                    </li>
+
                                     {item.status === "pending" && (
                                       <li>
                                         <a

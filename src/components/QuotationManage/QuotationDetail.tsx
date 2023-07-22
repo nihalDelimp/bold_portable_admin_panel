@@ -11,17 +11,19 @@ interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
 
-const InventoryDetails = (props: MyComponentProps) => {
-  const { inventory } = useSelector((state: RootState) => state.app);
+const QuotationDetail = (props: MyComponentProps) => {
+  const quote = useSelector((state: RootState) => state.app.quotation);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  console.log("quote", quote);
+
   const { setLoading } = props;
 
   useEffect(() => {
-    if (inventory && inventory.qrCodeValue) {
-      const myArray = inventory.qrCodeValue.split("-");
-      const QuotationId = myArray.pop();
-      getQuotationDetailsData(QuotationId);
+    if (quote && quote._id) {
+      getQuotationDetailsData(quote._id);
     }
-  }, []);
+  }, [quote]);
 
   const [coordinator, setCoordinator] = useState({
     name: "",
@@ -51,6 +53,20 @@ const InventoryDetails = (props: MyComponentProps) => {
     quotationType: "",
   });
 
+  const [servicesPrice, setServicesPrice] = useState({
+    deliveryPrice: 0,
+    pickUpPrice: 0,
+    specialRequirementsCost: 0,
+    numberOfUnitsCost: 0,
+    useAtNightCost: 0,
+    useInWinterCost: 0,
+    handWashingCost: 0,
+    handSanitizerPumpCost: 0,
+    twiceWeeklyServicing: 0,
+    serviceFrequencyCost: 0,
+    weeklyHoursCost: 0,
+    workersCost: 0,
+  });
 
   const userFields = ["name", "email", "cellNumber"];
 
@@ -77,6 +93,21 @@ const InventoryDetails = (props: MyComponentProps) => {
     "quotationType",
   ];
 
+  const servicePriceFields = [
+    "workersCost",
+    "deliveryPrice",
+    "specialRequirementsCost",
+    "numberOfUnitsCost",
+    "useAtNightCost",
+    "useInWinterCost",
+    "handWashingCost",
+    "handSanitizerPumpCost",
+    "twiceWeeklyServicing",
+    "serviceFrequencyCost",
+    "weeklyHoursCost",
+    "pickUpPrice",
+  ];
+
   const getQuotationDetailsData = async (QuotationId: string) => {
     setLoading(true);
     const payload = { quote_id: QuotationId };
@@ -86,9 +117,13 @@ const InventoryDetails = (props: MyComponentProps) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resCoordinateData = response.data.data.quotation?.coordinator;
             const resData = response.data.data.quotation;
-            const costDetails = response.data.data.quotation?.costDetails;
+            const resCoordinateData = resData?.coordinator;
+            const costDetails = resData?.costDetails;
+            const totalPrice = resData?.costDetailsSum;
+            if (totalPrice) {
+              setTotalPrice(totalPrice);
+            }
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
                 ...prev,
@@ -100,6 +135,13 @@ const InventoryDetails = (props: MyComponentProps) => {
               setQuotation((prev) => ({
                 ...prev,
                 [field]: resData[field],
+              }));
+            });
+
+            servicePriceFields.forEach((field) => {
+              setServicesPrice((prev) => ({
+                ...prev,
+                [field]: costDetails[field],
               }));
             });
           }
@@ -127,7 +169,7 @@ const InventoryDetails = (props: MyComponentProps) => {
                       <div className="nk-block-head">
                         <div className="nk-block-between d-flex justify-content-between">
                           <div className="nk-block-head-content">
-                            <h4 className="nk-block-title">Inventory Detail</h4>
+                            <h4 className="nk-block-title">Quotation Detail</h4>
                             <div className="nk-block-des"></div>
                           </div>
                           <div className="d-flex align-center">
@@ -144,54 +186,8 @@ const InventoryDetails = (props: MyComponentProps) => {
                           </div>
                         </div>
                       </div>
-                      <div className="nk-block">
-                        <div className="nk-data data-list">
-                          <div className="data-head">
-                            <h6 className="overline-title">Inventory</h6>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Product Name</span>
-                              <span className="data-value">
-                                {inventory?.productName}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Category</span>
-                              <span className="data-value">
-                                {inventory?.category}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Gender</span>
-                              <span className="data-value">
-                                {" "}
-                                {inventory?.gender}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Status</span>
-                              <span className="data-value text-soft">
-                                {inventory?.status}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Inventory Type</span>
-                              <span className="data-value text-soft">
-                                {inventory?.type}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
 
+                      <div className="nk-block">
                         <div className="nk-data data-list">
                           <div className="data-head">
                             <h6 className="overline-title">Project Manger</h6>
@@ -295,6 +291,130 @@ const InventoryDetails = (props: MyComponentProps) => {
                           </div>
                         </div>
 
+                        <div className="nk-data data-list">
+                          <div className="data-head">
+                            <h6 className="overline-title">Production Price</h6>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Delivery Price</span>
+                              <span className="data-value">
+                                {servicesPrice?.deliveryPrice}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Pick Up Price</span>
+                              <span className="data-value">
+                                {servicesPrice?.pickUpPrice}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">
+                                Number Of Units Cost
+                              </span>
+                              <span className="data-value">
+                                {servicesPrice?.numberOfUnitsCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Use Night Cost</span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.useAtNightCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">
+                                Use Winter Cost
+                              </span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.useInWinterCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">
+                                Hand Washing Cost
+                              </span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.handWashingCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">
+                                Hand Sanitizer Pump Cost
+                              </span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.handSanitizerPumpCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">
+                                Twice Weekly Servicing
+                              </span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.twiceWeeklyServicing}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">
+                                Service Frequency Cost
+                              </span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.serviceFrequencyCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">
+                                Weekly Hours Cost
+                              </span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.weeklyHoursCost}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Workers Cost</span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.workersCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Special Requirements Cost</span>
+                              <span className="data-value text-soft">
+                                {servicesPrice?.specialRequirementsCost}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label bold">Total Cost</span>
+                              <span className="data-value text-soft">
+                                {totalPrice}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -308,4 +428,4 @@ const InventoryDetails = (props: MyComponentProps) => {
   );
 };
 
-export default IsLoadingHOC(IsLoggedinHOC(InventoryDetails));
+export default IsLoadingHOC(IsLoggedinHOC(QuotationDetail));
