@@ -6,9 +6,10 @@ import io, { Socket } from "socket.io-client";
 import dayjs from "dayjs";
 import { useDispatch } from "react-redux";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { saveAllNotification } from "../Redux/Reducers/notificationSlice";
 import { RootState } from "../Redux/rootReducer";
+import { saveNotificationId } from "../Redux/Reducers/appSlice";
 import { useSelector } from "react-redux";
 dayjs.extend(relativeTime);
 
@@ -23,6 +24,7 @@ const Notification = (props: MyComponentProps) => {
   );
   console.log("allNotification", allNotification);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const socket = useRef<Socket>();
   socket.current = io(`${process.env.REACT_APP_SOCKET}`);
 
@@ -111,6 +113,11 @@ const Notification = (props: MyComponentProps) => {
       });
   };
 
+  const viewNotificationDetail = (_id: string) => {
+    dispatch(saveNotificationId(_id));
+    navigate("/notification-details");
+  };
+
   return (
     <li className="dropdown notification-dropdown">
       <a
@@ -149,12 +156,12 @@ const Notification = (props: MyComponentProps) => {
                       className="nk-notification-item dropdown-inner"
                       style={{ padding: "20px 10px 20px" }}
                     >
-                      <Link to={`/notification-details/${item._id}`}>
+                      <a onClick={() => viewNotificationDetail(item._id)}>
                         <div className="nk-notification-icon">
                           <em className="icon icon-circle  ni bg-warning-dim ni-file-docs "></em>
                         </div>
-                      </Link>
-                      <Link to={`/notification-details/${item._id}`}>
+                      </a>
+                      <a onClick={() => viewNotificationDetail(item._id)}>
                         <div className="nk-notification-content">
                           <div className="nk-notification-text">
                             {" "}
@@ -167,7 +174,7 @@ const Notification = (props: MyComponentProps) => {
                             <span>{dayjs(item.createdAt).fromNow()}</span>
                           </div>
                         </div>
-                      </Link>
+                      </a>
                       <a
                         style={{ marginLeft: "auto" }}
                         onClick={() => markSpecificNotificationSeen(item._id)}

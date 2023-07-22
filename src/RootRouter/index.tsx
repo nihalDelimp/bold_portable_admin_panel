@@ -36,7 +36,7 @@ function RootRouter() {
             }
           />
           <Route
-            path="/view-user/:id"
+            path="/view-user"
             element={
               <PrivateRoute>
                 <ViewCustomer />
@@ -100,7 +100,7 @@ function RootRouter() {
             }
           />
           <Route
-            path="/notification-details/:id"
+            path="/notification-details"
             element={
               <PrivateRoute>
                 <NotificationDetails />

@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import Pagination from "../Common/Pagination";
 import { getDateWithoutTime } from "../Helper";
 import { CSVLink } from "react-csv";
 import ExportConfirmationModal from "../Common/ConfirmExportModal";
+import { saveCustomerId } from "../Redux/Reducers/appSlice";
+import { useDispatch } from "react-redux";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -26,6 +28,8 @@ const headers = [
 
 function CustomersList(props: MyComponentProps) {
   const { setLoading, isLoading } = props;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [customers, setCustomers] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -96,6 +100,11 @@ function CustomersList(props: MyComponentProps) {
         });
     }
     setExportData(totalRecords);
+  };
+
+  const viewCustomerDetail = (customerId: string) => {
+    dispatch(saveCustomerId(customerId));
+    navigate("/view-user");
   };
 
   return (
@@ -181,11 +190,11 @@ function CustomersList(props: MyComponentProps) {
                     customers.map((item: any, index) => (
                       <div key={index + 1} className="nk-tb-item">
                         <div className="nk-tb-col">
-                          <Link to={`/view-user/${item._id}`}>
+                          <a onClick={() => viewCustomerDetail(item._id)}>
                             <span className="tb-status text-primary">
                               {item._id?.slice(-8)?.toUpperCase()}
                             </span>
-                          </Link>
+                          </a>
                         </div>
                         <div className="nk-tb-col tb-col-md capitalize ">
                           <span>{item?.name}</span>
@@ -218,10 +227,14 @@ function CustomersList(props: MyComponentProps) {
                                 <div className="dropdown-menu dropdown-menu-end">
                                   <ul className="link-list-opt no-bdr">
                                     <li>
-                                      <Link to={`/view-user/${item._id}`}>
+                                      <a
+                                        onClick={() =>
+                                          viewCustomerDetail(item._id)
+                                        }
+                                      >
                                         <em className="icon ni ni-eye"></em>
                                         <span>View Details</span>
-                                      </Link>
+                                      </a>
                                     </li>
                                   </ul>
                                 </div>

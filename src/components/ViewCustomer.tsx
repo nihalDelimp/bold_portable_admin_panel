@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../Redux/rootReducer";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
-import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import { CapitalizeFirstLetter } from "../Helper";
@@ -14,8 +13,7 @@ interface MyComponentProps {
 
 const ViewCustomer = (props: MyComponentProps) => {
   const { setLoading } = props;
-  const params = useParams();
-  const { user } = useSelector((state: RootState) => state.auth);
+  const { customerId } = useSelector((state: RootState) => state.app);
 
   const [customer, setCustomer] = useState({
     name: "",
@@ -26,13 +24,15 @@ const ViewCustomer = (props: MyComponentProps) => {
   });
 
   useEffect(() => {
-    getCustomerDetailsData();
+    if (customerId) {
+      getCustomerDetailsData();
+    }
   }, []);
 
   const getCustomerDetailsData = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/auth/get-specific-user/${params.id}`)
+      .get(`/auth/get-specific-user/${customerId}`)
       .then(
         (response) => {
           setLoading(false);

@@ -3,13 +3,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface AppState {
   inventory : any,
   invoiceId : string ,
-  quotation : any
+  quotation : any,
+  customerId : string,
+  notificationId :  string
 }
 
 const initialState: AppState = {
   inventory : null ,
   invoiceId : "",
-  quotation :  null
+  quotation :  null,
+  customerId : "",
+  notificationId : ""
 };
 
 export const appSlice = createSlice({
@@ -25,10 +29,16 @@ export const appSlice = createSlice({
     saveQuotation: (state, action: PayloadAction<any>) => {
       state.quotation = action.payload;
     },
+    saveCustomerId: (state, action: PayloadAction<string>) => {
+      state.customerId = action.payload;
+    },
+    saveNotificationId: (state, action: PayloadAction<string>) => {
+      state.notificationId = action.payload;
+    },
   },
 });
 
-export const { saveInventory , saveInvoiceId , saveQuotation } =
+export const { saveInventory , saveInvoiceId , saveQuotation , saveCustomerId , saveNotificationId } =
 appSlice.actions;
 
 export default appSlice.reducer;

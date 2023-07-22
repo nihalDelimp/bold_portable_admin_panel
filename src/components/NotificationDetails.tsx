@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import IsLoadingHOC from "../Common/IsLoadingHOC";
 import { authAxios } from "../config/config";
 import { toast } from "react-toastify";
@@ -7,6 +6,8 @@ import IsLoggedinHOC from "../Common/IsLoggedInHOC";
 import { useDispatch } from "react-redux";
 import { saveAllNotification } from "../Redux/Reducers/notificationSlice";
 import { CapitalizeFirstLetter, replaceHyphenCapitolize } from "../Helper";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/rootReducer";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -16,14 +17,15 @@ const NotificationDetails = (props: MyComponentProps) => {
   const [notification, setNotifaction] = useState<any>({});
   const [coordinator, setCoordinator] = useState<any>({});
   const [quotation, setQuotation] = useState<any>({});
+  const { notificationId } = useSelector((state: RootState) => state.app);
   const dispatch = useDispatch();
-
   const { setLoading } = props;
-  const params = useParams();
 
   useEffect(() => {
-    getSpecificNotification();
-  }, [params]);
+    if(notificationId){
+      getSpecificNotification();
+    }
+  }, [notificationId]);
 
   const markSpecificNotificationSeen = async (_id: any) => {
     setLoading(true);
@@ -68,7 +70,7 @@ const NotificationDetails = (props: MyComponentProps) => {
   const getSpecificNotification = async () => {
     setLoading(true);
     await authAxios()
-      .get(`/notification/get-specific-unseen-notfications/${params.id}`)
+      .get(`/notification/get-specific-unseen-notfications/${notificationId}`)
       .then(
         (response) => {
           setLoading(false);
@@ -82,7 +84,7 @@ const NotificationDetails = (props: MyComponentProps) => {
             ) {
               setCoordinator(resData?.quote_id?.coordinator);
               setQuotation(resData?.quote_id);
-              markSpecificNotificationSeen(params.id);
+              markSpecificNotificationSeen(notificationId);
             }
           }
         },
