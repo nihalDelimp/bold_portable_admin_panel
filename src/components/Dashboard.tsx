@@ -12,7 +12,9 @@ import {
 import EditQuotation from "./QuotationManage/EditQuotation";
 import EditEventQuotation from "./QuotationManage/EditEventQuotation";
 import CancelConfirmationModal from "../Common/CancelConfirmation";
-
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { saveQuotation } from "../Redux/Reducers/appSlice";
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
@@ -35,7 +37,12 @@ function Dashboard(props: MyComponentProps) {
   const [editModal, setEditModal] = useState<boolean>(false);
   const [editEventModal, setEditEventModal] = useState<boolean>(false);
   const [cancelModal, setCancelModal] = useState<boolean>(false);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const viewQuotationDetail = (_id: string, type: string) => {
+    dispatch(saveQuotation({ _id, type }));
+    navigate("/quotation-detail");
+  };
   useEffect(() => {
     getQuotationData();
     getCustomerCount();
@@ -407,15 +414,20 @@ function Dashboard(props: MyComponentProps) {
                           quotationData.length > 0 &&
                           quotationData.slice(0, 10).map((item: any) => (
                             <div key={item._id} className="nk-tb-item">
-                              <div className="nk-tb-col">
-                                <span className="tb-lead">
-                                  <a href="#">
-                                    <div>
-                                      {item._id.slice(-8).toUpperCase()}
-                                    </div>
-                                  </a>
-                                </span>
-                              </div>
+                                <div className="nk-tb-col">
+                              <span
+                                style={{ cursor: "pointer" }}
+                                className="tb-status text-primary"
+                                onClick={() =>
+                                  viewQuotationDetail(
+                                    item._id,
+                                    item.type
+                                  )
+                                }
+                              >
+                                {item._id?.slice(-8)?.toUpperCase()}
+                              </span>
+                            </div>
                               <div className="nk-tb-col tb-col-sm">
                                 <div className="user-card">
                                   <div className="user-name">

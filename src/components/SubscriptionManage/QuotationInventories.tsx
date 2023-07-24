@@ -123,7 +123,7 @@ function QuotationInventoryList(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">
-                      Quotation Assign Inventories
+                    Inventory Assigned
                     </h3>
                   </div>
                   <div className="nk-block-head-content">
