@@ -6,6 +6,25 @@ import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import moment from "moment";
 import { socketService } from "../../config/socketService";
 
+interface ServicesPrice {
+  workersCost: number;
+  deliveryPrice: number;
+  specialRequirementsCost: number;
+  numberOfUnitsCost: number;
+  useAtNightCost: number;
+  useInWinterCost: number;
+  handWashingCost: number;
+  handSanitizerPumpCost: number;
+  twiceWeeklyServicing: number;
+  serviceFrequencyCost: number;
+  weeklyHoursCost: number;
+  pickUpPrice: number;
+  alcoholServed : number;
+  payPerUse : number
+  fencedOff: number,
+  activelyCleaned: number,
+}
+
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   quotationId: string;
@@ -60,7 +79,7 @@ function EditEventQuotation(props: MyComponentProps) {
     activelyCleaned: false,
   });
 
-  const [servicesPrice, setServicesPrice] = useState({
+  const [servicesPrice, setServicesPrice] = useState<ServicesPrice>({
     workersCost: 0,
     deliveryPrice: 0,
     specialRequirementsCost: 0,
@@ -236,6 +255,13 @@ function EditEventQuotation(props: MyComponentProps) {
         console.log("errorrrr", error);
       });
   };
+
+   // Function to calculate the total price
+ const calculateAnObjValues = (obj: ServicesPrice) => {
+  const total = Object.values(obj).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  return total;
+};
+
 
   return (
     <div

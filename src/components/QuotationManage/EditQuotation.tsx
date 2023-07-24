@@ -6,6 +6,21 @@ import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import moment from "moment";
 import { socketService } from "../../config/socketService";
 
+interface ServicesPrice {
+  workersCost: number;
+  deliveryPrice: number;
+  specialRequirementsCost: number;
+  numberOfUnitsCost: number;
+  useAtNightCost: number;
+  useInWinterCost: number;
+  handWashingCost: number;
+  handSanitizerPumpCost: number;
+  twiceWeeklyServicing: number;
+  serviceFrequencyCost: number;
+  weeklyHoursCost: number;
+  pickUpPrice: number;
+}
+
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
   quotationId: string;
@@ -53,7 +68,7 @@ function EditQuotation(props: MyComponentProps) {
     totalWorkers: 0,
   });
 
-  const [servicesPrice, setServicesPrice] = useState({
+  const [servicesPrice, setServicesPrice] = useState<ServicesPrice>({
     workersCost: 0,
     deliveryPrice: 0,
     specialRequirementsCost: 0,
@@ -216,6 +231,13 @@ function EditQuotation(props: MyComponentProps) {
       });
   };
 
+ // Function to calculate the total price
+ const calculateAnObjValues = (obj: ServicesPrice) => {
+  const total = Object.values(obj).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+  return total;
+};
+
+ 
   return (
     <div
       className={`modal fade ${modal ? "show" : "hide"}`}
@@ -918,29 +940,26 @@ function EditQuotation(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                       <div className="col-md-3">
                         <div className="form-group">
                           <label
                             className="form-label"
                             htmlFor="Pickup Price"
                           >
-                            Pickup Price <span>50$</span>
+                            Pickup Price <span>{servicesPrice.pickUpPrice}</span>
                           </label>
                         </div>
                       </div>
-
                       <div className="col-md-3 total-price">
                         <div className="form-group">
                           <label
                             className="form-label"
                             htmlFor="Pickup Price"
                           >
-                            Total Price <span>50$</span>
+                            Total Price <span>{calculateAnObjValues(servicesPrice)}</span>
                           </label>
                         </div>
                       </div>
-
                       <div className="col-12">
                         <ul className="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                           <li>
