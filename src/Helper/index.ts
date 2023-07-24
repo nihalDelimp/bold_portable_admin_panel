@@ -79,3 +79,8 @@ export const CapitalizeFirstLetter = (data : any) => {
     }, {});
 }
 
+// Calculate An Object Values of key
+export function calculateAnObjValues (obj : any) {
+  const total = Object.values(obj).reduce((accumulator : any ,currentValue : any) => accumulator + currentValue, 0);
+  return total;
+};
