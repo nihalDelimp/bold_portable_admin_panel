@@ -169,9 +169,9 @@ function ServiceRequests(props: MyComponentProps) {
                     <div className="nk-tb-col">
                       <span className="sub-text">User Email</span>
                     </div>
-                    <div className="nk-tb-col">
+                    {/* <div className="nk-tb-col">
                       <span className="sub-text">Location</span>
-                    </div>
+                    </div> */}
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Service Requirement</span>
                     </div>
@@ -216,7 +216,7 @@ function ServiceRequests(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-lg">
                           <span>{item?.email}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        {/* <div className="nk-tb-col tb-col-lg">
                           <span>
                             {`${
                               item.address
@@ -228,7 +228,7 @@ function ServiceRequests(props: MyComponentProps) {
                                 : ""
                             } `}
                           </span>
-                        </div>
+                        </div> */}
                         <div className="nk-tb-col tb-col-md">
                           {item.serviceTypes &&
                             item.serviceTypes.length > 0 &&
