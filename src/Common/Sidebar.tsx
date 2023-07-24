@@ -25,7 +25,7 @@ function Sidebar() {
             />
             <img
               className="logo-small logo-img logo-img-small"
-              src={require("../images/bold_port.png")}
+              src={require("../images/favicon.png")}
               alt="logo-small"
             />
           </Link>
