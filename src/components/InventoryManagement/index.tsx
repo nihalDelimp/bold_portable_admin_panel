@@ -434,7 +434,7 @@ function InventoryList(props: MyComponentProps) {
                                             handleMoveModal(item._id)
                                           }
                                         >
-                                          <em className="icon ni ni-trash"></em>
+                                          <em className="icon ni ni-move"></em>
                                           <span>Move</span>
                                         </a>
                                       </li>
