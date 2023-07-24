@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { saveInventory } from "../../Redux/Reducers/appSlice";
 import { useDispatch } from "react-redux";
 import { handleDownloadQRCode } from "../../utils";
+import MoveConfirmationModal from "../../Common/MoveConfirmation";
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
 }
@@ -27,6 +28,7 @@ function InventoryList(props: MyComponentProps) {
   const [addModal, setAddModal] = useState<boolean>(false);
   const [editModal, setEditModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  const [moveModal, setMoveModal] = useState(false);
   const [elementData, setElementData] = useState(null);
   const [elementID, setElementID] = useState<string>("");
   const [status, setStatus] = useState("pending");
@@ -84,6 +86,11 @@ function InventoryList(props: MyComponentProps) {
     setDeleteModal(true);
   };
 
+  const handleMoveModal = (_id: string) => {
+    setElementID(_id);
+    setMoveModal(true);
+  };
+
   const handleDeleteItem = async () => {
     setLoading(true);
     await authAxios()
@@ -94,6 +101,32 @@ function InventoryList(props: MyComponentProps) {
           if (response.data.status === 1) {
             toast.success(response.data?.message);
             setDeleteModal(false);
+            getInventoryListData();
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
+  const handleMoveeItem = async () => {
+    const payload = { inventory_id: elementID };
+    setLoading(true);
+    await authAxios()
+      .post(`/inventory/reinitialize-qr-code-value`, payload)
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            toast.success(response.data?.message);
+            setMoveModal(false);
             getInventoryListData();
           } else {
             toast.error(response.data?.message);
@@ -330,17 +363,24 @@ function InventoryList(props: MyComponentProps) {
                           </span>
                         </div>
                         <div className="nk-tb-col">
-                        <a
-                          href={item?.qrCode}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleDownloadQRCode(item?.qrCode, `qr_code_${item?._id}.svg`);
-                          }}
-                          download={`qr_code_${item?._id}.svg`}
-                        >
-                          <img style={{ width: "40%" }} src={item?.qrCode} alt="QR Code" />
-                        </a>
-                      </div>
+                          <a
+                            href={item?.qrCode}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleDownloadQRCode(
+                                item?.qrCode,
+                                `qr_code_${item?._id}.svg`
+                              );
+                            }}
+                            download={`qr_code_${item?._id}.svg`}
+                          >
+                            <img
+                              style={{ width: "40%" }}
+                              src={item?.qrCode}
+                              alt="QR Code"
+                            />
+                          </a>
+                        </div>
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
                             <li>
@@ -372,18 +412,33 @@ function InventoryList(props: MyComponentProps) {
                                         <em className="icon ni ni-edit"></em>
                                         <span>Edit</span>
                                       </a>
-                                    </li>{" "}
-                                    <li>
-                                      <a
-                                        className="cursor_ponter"
-                                        onClick={() =>
-                                          handleDeleteModal(item._id)
-                                        }
-                                      >
-                                        <em className="icon ni ni-trash"></em>
-                                        <span>Remove</span>
-                                      </a>
                                     </li>
+                                    {item.status === "pending" && (
+                                      <li>
+                                        <a
+                                          className="cursor_ponter"
+                                          onClick={() =>
+                                            handleDeleteModal(item._id)
+                                          }
+                                        >
+                                          <em className="icon ni ni-trash"></em>
+                                          <span>Remove</span>
+                                        </a>
+                                      </li>
+                                    )}
+                                    {item.status === "active" && (
+                                      <li>
+                                        <a
+                                          className="cursor_ponter"
+                                          onClick={() =>
+                                            handleMoveModal(item._id)
+                                          }
+                                        >
+                                          <em className="icon ni ni-trash"></em>
+                                          <span>Move</span>
+                                        </a>
+                                      </li>
+                                    )}
                                   </ul>
                                 </div>
                               </div>
@@ -428,6 +483,14 @@ function InventoryList(props: MyComponentProps) {
           modal={deleteModal}
           closeModal={(isModal: boolean) => setDeleteModal(isModal)}
           confirmedDelete={handleDeleteItem}
+          actionType="production"
+        />
+      )}
+      {moveModal && (
+        <MoveConfirmationModal
+          modal={moveModal}
+          closeModal={(isModal: boolean) => setMoveModal(isModal)}
+          handleSubmit={handleMoveeItem}
           actionType="production"
         />
       )}
