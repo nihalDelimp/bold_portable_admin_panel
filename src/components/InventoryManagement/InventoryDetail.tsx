@@ -17,10 +17,9 @@ const InventoryDetails = (props: MyComponentProps) => {
 
   useEffect(() => {
     if (inventory && inventory.qrCodeValue) {
-      const myArray = inventory.qrCodeValue;
+      const str = inventory.qrCodeValue;
       const quoteIdRegex = /quotationId=([^&]+)/;
-      const match = myArray.match(quoteIdRegex);
-
+      const match = str.match(quoteIdRegex);
       // Check if there is a match and get the value
       const quoteIdValue = match ? match[1] : null;
       getQuotationDetailsData(quoteIdValue);

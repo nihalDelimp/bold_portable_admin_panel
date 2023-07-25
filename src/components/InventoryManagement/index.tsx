@@ -173,11 +173,13 @@ function InventoryList(props: MyComponentProps) {
     }
   };
 
-  const getSeconLastdValueWithStr = (qrCodeValue: string, status: string) => {
+  const getQuotationTypeByLink = (qrCodeValue: string, status: string) => {
     if (qrCodeValue && status === "active") {
-      const myArray = qrCodeValue.split("-");
-      const secondLastValue = myArray[myArray.length - 2];
-      return secondLastValue;
+      const str = qrCodeValue;
+      const quoteIdRegex = /quotationType=([^&]+)/;
+      const match = str.match(quoteIdRegex);
+      const quotationType = match ? match[1] : null;
+      return quotationType;
     }
   };
 
@@ -287,14 +289,14 @@ function InventoryList(props: MyComponentProps) {
                       <span className="sub-text">Category</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
-                      <span className="sub-text">Type</span>
+                      <span className="sub-text">Inventory Type</span>
                     </div>
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Gender</span>
                     </div>
                     {status === "active" && (
                       <div className="nk-tb-col tb-col-md">
-                        <span>Quotation</span>
+                        <span>Quotation Type</span>
                       </div>
                     )}
                     <div className="nk-tb-col tb-col-md">
@@ -341,7 +343,7 @@ function InventoryList(props: MyComponentProps) {
                         {item.status === "active" && (
                           <div className="nk-tb-col tb-col-lg capitalize">
                             <span className="tb-status text-info">
-                              {getSeconLastdValueWithStr(
+                              {getQuotationTypeByLink(
                                 item?.qrCodeValue,
                                 item.status
                               )}
