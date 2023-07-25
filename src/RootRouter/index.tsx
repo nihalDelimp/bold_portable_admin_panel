@@ -21,7 +21,7 @@ import InventoryTypeList from "../components/InventoryTypesManage";
 import InventoryDetail from "../components/InventoryManagement/InventoryDetail";
 import QuotationInventories from "../components/SubscriptionManage/QuotationInventories";
 import QuotationDetail from "../components/QuotationManage/QuotationDetail";
-
+import ServiceDetails from "../components/ServiceManagement/ServiceDetails";
 function RootRouter() {
   return (
     <React.Fragment>
@@ -65,6 +65,14 @@ function RootRouter() {
             element={
               <PrivateRoute>
                 <QuotationsList />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/request-service-details"
+            element={
+              <PrivateRoute>
+                <ServiceDetails />
               </PrivateRoute>
             }
           />
