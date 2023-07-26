@@ -210,7 +210,7 @@ function InventoryList(props: MyComponentProps) {
 
   const getStatusName = (status: string) => {
     if (status === "pending") {
-      return "Available";
+      return "Unassigned";
     } else if (status === "active") {
       return "Assigned";
     } else if (status === "comppleted") {
@@ -269,13 +269,13 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {category || "All"}
+                                {category || "All category"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
                                     <a onClick={() => setCategory("")}>
-                                      <span>All</span>
+                                      <span>All category</span>
                                     </a>
                                   </li>
                                   {categoriesData.map(
@@ -301,13 +301,13 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {inventoryType || "All"}
+                                {inventoryType || "All type"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
                                     <a onClick={() => setInventoryType("")}>
-                                      <span>All</span>
+                                      <span>All type</span>
                                     </a>
                                   </li>
                                   {inventoryTypesData.map(
@@ -334,13 +334,13 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {gender || "All"}
+                                {gender || "All gender"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
                                     <a onClick={() => setGender("")}>
-                                      <span>All</span>
+                                      <span>All gender</span>
                                     </a>
                                   </li>
                                   <li>
@@ -470,7 +470,6 @@ function InventoryList(props: MyComponentProps) {
                           />
                         </div>
                       </div>
-
                     ))}
                 </div>
                 {listData && listData.length > 0 && totalCount > 0 && (
