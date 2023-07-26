@@ -7,9 +7,11 @@ import Pagination from "../Common/Pagination";
 import { getFormatedDate, replaceHyphenCapitolize } from "../Helper";
 import { addressLimit } from "../Helper/constants";
 import { socketService } from "../config/socketService";
-
+import {saveServiceId} from "../Redux/Reducers/appSlice"
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface MyComponentProps {
   setLoading: (isComponentLoading: boolean) => void;
@@ -17,6 +19,8 @@ interface MyComponentProps {
 
 function ServiceRequests(props: MyComponentProps) {
   const { setLoading } = props;
+  const dispatch= useDispatch();
+  const navigate= useNavigate();
   const [services, setServices] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -44,6 +48,12 @@ function ServiceRequests(props: MyComponentProps) {
     getServicesListData();
   }, [currentPage, itemsPerPage]);
 
+const viewServiceRequestDetails=(id:any)=>{
+  dispatch(saveServiceId(id))
+  navigate("/request-service-details")
+}
+
+  
   const getServicesListData = async () => {
     setLoading(true);
     await authAxios()
@@ -287,6 +297,16 @@ function ServiceRequests(props: MyComponentProps) {
                                       >
                                         <em className="icon ni ni-thumbs-up"></em>
                                         <span>Resolve</span>
+                                      </a>
+                                    </li>
+                                     <li>
+                                      <a
+                                        onClick={() =>
+                                          viewServiceRequestDetails(item._id)
+                                        }
+                                      >
+                                        <em className="icon ni ni-eye"></em>
+                                        <span>View Details</span>
                                       </a>
                                     </li>
                                   </ul>
