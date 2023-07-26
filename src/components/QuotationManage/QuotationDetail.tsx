@@ -295,125 +295,160 @@ const QuotationDetail = (props: MyComponentProps) => {
                           <div className="data-head">
                             <h6 className="overline-title">Production Price</h6>
                           </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Delivery Price</span>
-                              <span className="data-value">
-                                {servicesPrice?.deliveryPrice}
-                              </span>
+                          {servicesPrice?.deliveryPrice > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Delivery Price
+                                </span>
+                                <span className="data-value">
+                                  {servicesPrice?.deliveryPrice}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Pick Up Price</span>
-                              <span className="data-value">
-                                {servicesPrice?.pickUpPrice}
-                              </span>
+                          )}
+                          {servicesPrice?.pickUpPrice > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Pick Up Price
+                                </span>
+                                <span className="data-value">
+                                  {servicesPrice?.pickUpPrice}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Number Of Units Cost
-                              </span>
-                              <span className="data-value">
-                                {servicesPrice?.numberOfUnitsCost}
-                              </span>
+                          )}
+                          {servicesPrice?.numberOfUnitsCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Number Of Units Cost
+                                </span>
+                                <span className="data-value">
+                                  {servicesPrice?.numberOfUnitsCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Use Night Cost</span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.useAtNightCost}
-                              </span>
+                          )}
+                          {servicesPrice?.useAtNightCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Use Night Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.useAtNightCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Use Winter Cost
-                              </span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.useInWinterCost}
-                              </span>
+                          )}
+                          {servicesPrice?.useInWinterCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Use Winter Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.useInWinterCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Hand Washing Cost
-                              </span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.handWashingCost}
-                              </span>
+                          )}
+                          {servicesPrice?.handWashingCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Hand Washing Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.handWashingCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Hand Sanitizer Pump Cost
-                              </span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.handSanitizerPumpCost}
-                              </span>
+                          )}
+                          {servicesPrice?.handSanitizerPumpCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Hand Sanitizer Pump Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.handSanitizerPumpCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Twice Weekly Servicing
-                              </span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.twiceWeeklyServicing}
-                              </span>
+                          )}
+                          {servicesPrice?.twiceWeeklyServicing > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Twice Weekly Servicing
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.twiceWeeklyServicing}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Service Frequency Cost
-                              </span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.serviceFrequencyCost}
-                              </span>
+                          )}
+                          {servicesPrice?.serviceFrequencyCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Service Frequency Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.serviceFrequencyCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">
-                                Weekly Hours Cost
-                              </span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.weeklyHoursCost}
-                              </span>
+                          )}
+                          {servicesPrice?.weeklyHoursCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Weekly Hours Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.weeklyHoursCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Workers Cost</span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.workersCost}
-                              </span>
+                          )}
+                          {servicesPrice?.workersCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">Workers Cost</span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.workersCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label">Special Requirements Cost</span>
-                              <span className="data-value text-soft">
-                                {servicesPrice?.specialRequirementsCost}
-                              </span>
+                          )}
+                          {servicesPrice?.specialRequirementsCost > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label">
+                                  Special Requirements Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {servicesPrice?.specialRequirementsCost}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                          <div className="data-item">
-                            <div className="data-col">
-                              <span className="data-label bold">Total Cost</span>
-                              <span className="data-value text-soft">
-                                {totalPrice}
-                              </span>
+                          )}
+                          {totalPrice > 0 && (
+                            <div className="data-item">
+                              <div className="data-col">
+                                <span className="data-label bold">
+                                  Total Cost
+                                </span>
+                                <span className="data-value text-soft">
+                                  {totalPrice}
+                                </span>
+                              </div>
                             </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                     </div>
