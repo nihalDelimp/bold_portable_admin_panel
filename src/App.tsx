@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
-console.log("Worked on Gallery box")
+console.log("Fixed Toggle issue")
 
 function App() {
   return (
