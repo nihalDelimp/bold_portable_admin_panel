@@ -233,15 +233,18 @@
 
     // Compact Sidebar @v1.0
     NioApp.sbCompact = function () {
-        var toggle = '.nk-nav-compact', $toggle = $(toggle), $content = $('[data-content]');
-
+        var toggle = '.nk-nav-compact';
+        var $toggle = $(toggle);
+        var $content = $('[data-content]');
+    
         $toggle.on('click', function (e) {
             e.preventDefault();
-            var $self = $(this), get_target = $self.data('target'),
-                $self_content = $('[data-content=' + get_target + ']');
-
-            $self.classList.toggle()('compact-active');
-            $self_content.classList.toggle()('is-compact');
+            var $self = $(this);
+            var get_target = $self.data('target');
+            var $self_content = $('[data-content=' + get_target + ']');
+    
+            $self.toggleClass('compact-active');
+            $self_content.toggleClass('is-compact');
         });
     };
 
