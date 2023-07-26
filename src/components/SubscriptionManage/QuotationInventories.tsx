@@ -98,9 +98,11 @@ function QuotationInventoryList(props: MyComponentProps) {
 
   const getSeconLastdValueWithStr = (qrCodeValue: string, status: string) => {
     if (qrCodeValue && status === "active") {
-      const myArray = qrCodeValue.split("-");
-      const secondLastValue = myArray[myArray.length - 2];
-      return secondLastValue;
+      const str = qrCodeValue
+      const quoteIdRegex = /quotationType=([^&]+)/;
+      const match = str.match(quoteIdRegex);
+      const quotationType = match ? match[1] : null;
+      return quotationType;
     }
   };
 
