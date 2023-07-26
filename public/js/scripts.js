@@ -240,8 +240,8 @@
             var $self = $(this), get_target = $self.data('target'),
                 $self_content = $('[data-content=' + get_target + ']');
 
-            $self.toggleClass('compact-active');
-            $self_content.toggleClass('is-compact');
+            $self.classList.toggle()('compact-active');
+            $self_content.classList.toggle()('is-compact');
         });
     };
 
