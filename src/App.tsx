@@ -2,8 +2,6 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
-console.log("testing toggle worked 1")
-
 function App() {
   return (
     <div className="nk-app-root">

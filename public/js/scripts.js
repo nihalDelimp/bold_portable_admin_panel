@@ -864,7 +864,7 @@
         NioApp.coms.docReady.push(NioApp.Picker.init);
         NioApp.coms.docReady.push(NioApp.Addons.Init);
         NioApp.coms.docReady.push(NioApp.Wizard);
-        // NioApp.coms.docReady.push(NioApp.sbCompact);
+        // NioApp.coms.docReady.push(NioApp.sbCompact); comment this code
         NioApp.coms.docReady.push(NioApp.Stepper.init);
         NioApp.coms.winLoad.push(NioApp.ModeSwitch);
     }
