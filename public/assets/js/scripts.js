@@ -282,19 +282,26 @@
   };
 
   // Compact Sidebar @v1.0
-  NioApp.sbCompact = function () {
-    var toggle = '.nk-nav-compact',
-      $toggle = $(toggle),
-      $content = $('[data-content]');
-    $toggle.on('click', function (e) {
-      e.preventDefault();
-      var $self = $(this),
-        get_target = $self.data('target'),
-        $self_content = $('[data-content=' + get_target + ']');
-      $self.toggleClass('compact-active');
-      $self_content.toggleClass('is-compact');
+  // NioApp.sbCompact = function () {
+  //   var toggle = '.nk-nav-compact',
+  //     $toggle = $(toggle),
+  //     $content = $('[data-content]');
+  //   $toggle.on('click', function (e) {
+  //     e.preventDefault();
+  //     var $self = $(this),
+  //       get_target = $self.data('target'),
+  //       $self_content = $('[data-content=' + get_target + ']');
+  //     $self.toggleClass('compact-active');
+  //     $self_content.toggleClass('is-compact');
+  //   });
+  // };
+
+  setTimeout(() => {
+    $('.nk-nav-compact').on('click', function (event) {
+      $('.nk-sidebar').toggleClass('is-compact');
+      $(this).toggleClass('compact-active');
     });
-  };
+  }, 1000);
 
   // Animate FormSearch @v1.0
   NioApp.Ani.formSearch = function (elm, opt) {
