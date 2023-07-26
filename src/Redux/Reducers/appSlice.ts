@@ -5,7 +5,8 @@ interface AppState {
   invoiceId : string ,
   quotation : any,
   customerId : string,
-  notificationId :  string
+  notificationId :  string,
+  serviceId: string
 }
 
 const initialState: AppState = {
@@ -13,7 +14,8 @@ const initialState: AppState = {
   invoiceId : "",
   quotation :  null,
   customerId : "",
-  notificationId : ""
+  notificationId : "",
+  serviceId:""
 };
 
 export const appSlice = createSlice({
@@ -35,10 +37,13 @@ export const appSlice = createSlice({
     saveNotificationId: (state, action: PayloadAction<string>) => {
       state.notificationId = action.payload;
     },
+    saveServiceId: (state, action: PayloadAction<string>) => {
+      state.serviceId = action.payload;
+    },
   },
 });
 
-export const { saveInventory , saveInvoiceId , saveQuotation , saveCustomerId , saveNotificationId } =
+export const { saveInventory , saveInvoiceId , saveQuotation , saveCustomerId , saveNotificationId, saveServiceId } =
 appSlice.actions;
 
 export default appSlice.reducer;
