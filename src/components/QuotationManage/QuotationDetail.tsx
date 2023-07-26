@@ -441,7 +441,7 @@ const QuotationDetail = (props: MyComponentProps) => {
                             <div className="data-item">
                               <div className="data-col">
                                 <span className="data-label bold">
-                                  Total Cost
+                                  Total Cost 
                                 </span>
                                 <span className="data-value text-soft">
                                   {totalPrice}

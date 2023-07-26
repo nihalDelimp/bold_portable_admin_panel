@@ -31,7 +31,7 @@ function InventoryList(props: MyComponentProps) {
   const [moveModal, setMoveModal] = useState(false);
   const [elementData, setElementData] = useState(null);
   const [elementID, setElementID] = useState<string>("");
-  const [status, setStatus] = useState("pending");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     getInventoryListData();
@@ -163,7 +163,7 @@ function InventoryList(props: MyComponentProps) {
 
   const getStatusName = (status: string) => {
     if (status === "pending") {
-      return "Available";
+      return "Unassigned ";
     } else if (status === "active") {
       return "Assigned";
     } else if (status === "completed") {
@@ -183,7 +183,7 @@ function InventoryList(props: MyComponentProps) {
     }
   };
 
-  const saveInventoryData = (item: any) => {
+  const handleViewInventoryDetails = (item: any) => {
     if (item.status !== "pending") {
       dispatch(saveInventory(item));
       navigate(`/inventory-detail`);
@@ -224,23 +224,23 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {getStatusName(status)}
+                                {getStatusName(status) || 'View all'}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <a>
-                                      <span>Select Status</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a onClick={() => changeStatus("pending")}>
-                                      <span>Available</span>
+                                    <a onClick={() => changeStatus("")} >
+                                      <span>View all</span>
                                     </a>
                                   </li>
                                   <li>
                                     <a onClick={() => changeStatus("active")}>
                                       <span>Assigned</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => changeStatus("pending")}>
+                                      <span>Unassigned</span>
                                     </a>
                                   </li>
                                   <li>
@@ -294,11 +294,9 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Gender</span>
                     </div>
-                    {status === "active" && (
                       <div className="nk-tb-col tb-col-md">
-                        <span>Quotation Type</span>
+                        <span>Assigned To</span>
                       </div>
-                    )}
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
@@ -319,7 +317,7 @@ function InventoryList(props: MyComponentProps) {
                         <div className="nk-tb-col">
                           <a>
                             <span
-                              onClick={() => saveInventoryData(item)}
+                              onClick={() => handleViewInventoryDetails(item)}
                               className="tb-status text-primary"
                             >
                               {item._id?.slice(-8)?.toUpperCase()}
@@ -340,7 +338,7 @@ function InventoryList(props: MyComponentProps) {
                         <div className="nk-tb-col tb-col-lg capitalize">
                           <span>{item?.gender}</span>
                         </div>
-                        {item.status === "active" && (
+                        {item.status === "active" ? (
                           <div className="nk-tb-col tb-col-lg capitalize">
                             <span className="tb-status text-info">
                               {getQuotationTypeByLink(
@@ -349,7 +347,13 @@ function InventoryList(props: MyComponentProps) {
                               )}
                             </span>
                           </div>
-                        )}
+                        ) :
+                        <div className="nk-tb-col tb-col-lg capitalize">
+                        <span className="tb-status text-warning">
+                          N/A
+                        </span>
+                      </div>
+                      }
                         <div className="nk-tb-col tb-col-lg">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
@@ -401,7 +405,7 @@ function InventoryList(props: MyComponentProps) {
                                         <a
                                           className="cursor_ponter"
                                           onClick={() =>
-                                            saveInventoryData(item)
+                                            handleViewInventoryDetails(item)
                                           }
                                         >
                                           <em className="icon ni ni-eye"></em>
