@@ -304,19 +304,15 @@ const QuotationsList = (props: MyComponentProps) => {
                     .map((item: any, index: number) => (
                       <div key={item._id} className="nk-tb-item">
                         <div className="nk-tb-col">
-                          <span
-                            style={{ cursor: "pointer" }}
-                            className="tb-status text-primary"
+                          <a
                             onClick={() =>
-                              handleSendInvoice(
-                                item._id,
-                                item.type,
-                                item.status
-                              )
+                              viewQuotationDetail(item._id, item.type)
                             }
                           >
-                            {item._id?.slice(-8)?.toUpperCase()}
-                          </span>
+                            <span className="tb-status text-primary">
+                              {item._id?.slice(-8)?.toUpperCase()}
+                            </span>
+                          </a>
                         </div>
                         <div className="nk-tb-col tb-col-sm capitalize">
                           <span className="tb-sub">

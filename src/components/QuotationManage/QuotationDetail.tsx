@@ -41,6 +41,8 @@ const QuotationDetail = (props: MyComponentProps) => {
     handwashing: false,
     handSanitizerPump: false,
     twiceWeeklyService: false,
+    restrictedAccess: false,
+    restrictedAccessDescription: "",
     dateTillUse: "",
     placementDate: "",
     status: "",
@@ -80,6 +82,8 @@ const QuotationDetail = (props: MyComponentProps) => {
     "handwashing",
     "handSanitizerPump",
     "twiceWeeklyService",
+    "restrictedAccess",
+    "restrictedAccessDescription",
     "placementDate",
     "dateTillUse",
     "status",
@@ -285,8 +289,20 @@ const QuotationDetail = (props: MyComponentProps) => {
                               </span>
                             </div>
                           </div>
+                          {quotation.restrictedAccess &&
+                            quotation.restrictedAccessDescription && (
+                              <div className="data-item">
+                                <div className="data-col">
+                                  <span className="data-label">
+                                  Restricted Access
+                                  </span>
+                                  <span className="data-value text-soft">
+                                    {quotation.restrictedAccessDescription}
+                                  </span>
+                                </div>
+                              </div>
+                            )}
                         </div>
-
                         <div className="nk-data data-list">
                           <div className="data-head">
                             <h6 className="overline-title">Production Price</h6>
@@ -437,7 +453,7 @@ const QuotationDetail = (props: MyComponentProps) => {
                             <div className="data-item">
                               <div className="data-col">
                                 <span className="data-label bold">
-                                  Total Cost 
+                                  Total Cost
                                 </span>
                                 <span className="data-value text-soft">
                                   {totalPrice}
