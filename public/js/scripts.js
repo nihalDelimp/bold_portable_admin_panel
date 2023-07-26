@@ -232,18 +232,18 @@
     };
 
     // Compact Sidebar @v1.0
-    NioApp.sbCompact = function () {
-        var toggle = '.nk-nav-compact', $toggle = $(toggle), $content = $('[data-content]');
+    // NioApp.sbCompact = function () {
+    //     var toggle = '.nk-nav-compact', $toggle = $(toggle), $content = $('[data-content]');
 
-        $toggle.on('click', function (e) {
-            e.preventDefault();
-            var $self = $(this), get_target = $self.data('target'),
-                $self_content = $('[data-content=' + get_target + ']');
+    //     $toggle.on('click', function (e) {
+    //         e.preventDefault();
+    //         var $self = $(this), get_target = $self.data('target'),
+    //             $self_content = $('[data-content=' + get_target + ']');
 
-            $self.classList.toggle()('compact-active');
-            $self_content.classList.toggle()('is-compact');
-        });
-    };
+    //         $self.classList.toggle()('compact-active');
+    //         $self_content.classList.toggle()('is-compact');
+    //     });
+    // };
 
 
     // Animate FormSearch @v1.0
@@ -864,7 +864,7 @@
         NioApp.coms.docReady.push(NioApp.Picker.init);
         NioApp.coms.docReady.push(NioApp.Addons.Init);
         NioApp.coms.docReady.push(NioApp.Wizard);
-        NioApp.coms.docReady.push(NioApp.sbCompact);
+        // NioApp.coms.docReady.push(NioApp.sbCompact);
         NioApp.coms.docReady.push(NioApp.Stepper.init);
         NioApp.coms.winLoad.push(NioApp.ModeSwitch);
     }
