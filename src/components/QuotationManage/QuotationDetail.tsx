@@ -14,9 +14,6 @@ interface MyComponentProps {
 const QuotationDetail = (props: MyComponentProps) => {
   const quote = useSelector((state: RootState) => state.app.quotation);
   const [totalPrice, setTotalPrice] = useState<number>(0);
-
-  console.log("quote", quote);
-
   const { setLoading } = props;
 
   useEffect(() => {
@@ -186,7 +183,6 @@ const QuotationDetail = (props: MyComponentProps) => {
                           </div>
                         </div>
                       </div>
-
                       <div className="nk-block">
                         <div className="nk-data data-list">
                           <div className="data-head">

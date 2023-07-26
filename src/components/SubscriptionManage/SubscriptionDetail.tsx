@@ -189,7 +189,6 @@ function SubscriptionDetail(props: MyComponentProps) {
           <div className="nk-content-body">
             <div className="nk-block">
               <div className="invoice invoice--container">
-               
                 <div className="invoice--header">
                   <div className="invoice-logo">
                     <img
@@ -269,9 +268,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                             <th className="width-small">Male</th>
                             <th className="width-small">Female</th>
                             <th className="width-small">Total Worker</th>
-                            <th className="width-small">
-                              Number of Unit
-                            </th>
+                            <th className="width-small">Number of Unit</th>
                             <th className="text-center">Usage</th>
                             <th>Price</th>
                           </tr>
@@ -371,7 +368,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.handSanitizerPumpCost}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.twiceWeeklyServicing > 0 && (
                             <tr>
                               <td></td>
@@ -385,7 +381,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.twiceWeeklyServicing}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.serviceFrequencyCost > 0 && (
                             <tr>
                               <td></td>
@@ -399,7 +394,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.serviceFrequencyCost}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.weeklyHoursCost > 0 && (
                             <tr>
                               <td></td>
@@ -411,7 +405,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.weeklyHoursCost}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.workersCost > 0 && (
                             <tr>
                               <td></td>
@@ -423,7 +416,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.workersCost}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.alcoholServed > 0 && (
                             <tr>
                               <td></td>
@@ -435,7 +427,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.alcoholServed}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.payPerUse > 0 && (
                             <tr>
                               <td></td>
@@ -447,7 +438,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.payPerUse}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.fencedOff > 0 && (
                             <tr>
                               <td></td>
@@ -459,7 +449,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.fencedOff}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.activelyCleaned > 0 && (
                             <tr>
                               <td></td>
@@ -471,7 +460,6 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td>{servicesPrice?.activelyCleaned}</td>
                             </tr>
                           )}
-
                           {servicesPrice?.specialRequirementsCost > 0 && (
                             <tr>
                               <td></td>
@@ -524,7 +512,9 @@ function SubscriptionDetail(props: MyComponentProps) {
                                 src={require("../../images/location-invoice.png")}
                                 alt="invoice-location"
                               />
-                              <span>#6 8860 Jim Bailey Crescent, Kelowna BC V4V 2L7</span>
+                              <span>
+                                #6 8860 Jim Bailey Crescent, Kelowna BC V4V 2L7
+                              </span>
                             </li>
                           </ul>
                         </div>

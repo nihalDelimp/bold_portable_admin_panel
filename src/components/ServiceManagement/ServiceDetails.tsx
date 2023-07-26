@@ -17,13 +17,13 @@ const ServiceDetails = (props: MyComponentProps) => {
 const [serviceDetails, setServiceDetails] =useState<any>({})
 const [inventory, setInventory] =useState<any>({})
 const [quotation, setQuotationDetails] =useState<any>({})
+
+
   useEffect(() => {
     if(serviceId){
         getQuotationDetailsData()
     }
   }, []);
-
- 
 
   const getQuotationDetailsData = async () => {
     setLoading(true);

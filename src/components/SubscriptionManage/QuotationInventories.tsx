@@ -5,7 +5,7 @@ import IsLoadingHOC from "../../Common/IsLoadingHOC";
 import IsLoggedinHOC from "../../Common/IsLoggedInHOC";
 import Pagination from "../../Common/Pagination";
 import { getFormatedDate, replaceHyphenCapitolize } from "../../Helper";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { saveInventory } from "../../Redux/Reducers/appSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -17,7 +17,6 @@ interface MyComponentProps {
 
 function QuotationInventoryList(props: MyComponentProps) {
   const { setLoading } = props;
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [listData, setListData] = useState<any[]>([]);
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -25,7 +24,6 @@ function QuotationInventoryList(props: MyComponentProps) {
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const { quotation } = useSelector((state: RootState) => state.app);
 
-  console.log("quotation", quotation);
 
   useEffect(() => {
     if (quotation && quotation._id && quotation.type) {
@@ -106,13 +104,6 @@ function QuotationInventoryList(props: MyComponentProps) {
     }
   };
 
-  const saveInventoryData = (item: any) => {
-    if (item.status !== "pending") {
-      dispatch(saveInventory(item));
-      navigate(`/inventory-detail`);
-    }
-  };
-
   return (
     <>
       <div className="nk-content">
@@ -174,11 +165,9 @@ function QuotationInventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-lg">
                       <span className="sub-text">Gender</span>
                     </div>
-
                     <div className="nk-tb-col tb-col-md">
                       <span>Quotation</span>
                     </div>
-
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
@@ -188,9 +177,6 @@ function QuotationInventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">QR code</span>
                     </div>
-                    {/* <div className="nk-tb-col tb-col-md">
-                      <span className="sub-text">Action</span>
-                    </div> */}
                   </div>
                   {listData &&
                     listData.length > 0 &&
@@ -199,7 +185,6 @@ function QuotationInventoryList(props: MyComponentProps) {
                         <div className="nk-tb-col">
                           <a>
                             <span
-                              //   onClick={() => saveInventoryData(item)}
                               className="tb-status text-primary"
                             >
                               {item._id?.slice(-8)?.toUpperCase()}
@@ -251,39 +236,6 @@ function QuotationInventoryList(props: MyComponentProps) {
                             alt="QR Code"
                           />
                         </div>
-
-                        {/* <div className="nk-tb-col nk-tb-col-tools">
-                          <ul className="gx-1">
-                            <li>
-                              <div className="drodown">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle btn btn-icon btn-trigger"
-                                  data-bs-toggle="dropdown"
-                                >
-                                  <em className="icon ni ni-more-h"></em>
-                                </a>
-                                <div className="dropdown-menu dropdown-menu-end">
-                                  <ul className="link-list-opt no-bdr">
-                                    {item.status !== "pending" && (
-                                      <li>
-                                        <a
-                                          className="cursor_ponter"
-                                          onClick={() =>
-                                            saveInventoryData(item)
-                                          }
-                                        >
-                                          <em className="icon ni ni-eye"></em>
-                                          <span>View Detail</span>
-                                        </a>
-                                      </li>
-                                    )}
-                                  </ul>
-                                </div>
-                              </div>
-                            </li>
-                          </ul>
-                        </div> */}
                       </div>
                     ))}
                 </div>
