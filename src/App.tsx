@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
-console.log('toggle testing added refresh')
+console.log('toggle testing added refresh 2')
 
 function App() {
   return (
