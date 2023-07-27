@@ -326,6 +326,10 @@
     setTimeout(applyIOSSpecificCode, 1000);
   }
 
+  document.getElementById('myButton').onclick = function () {
+    this.classList.toggle('active');
+  }
+
 },1000);
 
   // Animate FormSearch @v1.0
