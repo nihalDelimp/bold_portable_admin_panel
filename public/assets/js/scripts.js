@@ -297,7 +297,7 @@
   };
 
   function isIOS() {
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    return /iPad|iPhone|iPod/.test(navigator.platform);
   }
 
   function applyIOSSpecificCode() {
