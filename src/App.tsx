@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
-console.log('added new code for safari')
+console.log('added ontouchend code')
 
 function App() {
   return (

@@ -297,9 +297,10 @@
   };
 
   function isIOS() {
-    return /iPad|iPhone|iPod/.test(navigator.platform);
+    return 'ontouchend' in document && !/Macintosh/i.test(navigator.platform);
   }
 
+  // Wrap your original code inside this function
   function applyIOSSpecificCode() {
     $('.nk-nav-toggle').on('click', function (event) {
       $('.nk-sidebar').toggleClass('nk-sidebar-active');
