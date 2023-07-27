@@ -52,7 +52,7 @@ const Login = (props: MyComponentProps) => {
               dispatch(setAccessToken(resData.token));
               dispatch(setuser(resData.user));
               dispatch(setIsAuthenticated(true));
-              window.location.reload();
+              // window.location.reload();
               navigate("/");
             } else {
               toast.error(`You don't have authorization!!`);
