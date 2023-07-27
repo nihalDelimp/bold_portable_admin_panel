@@ -2,6 +2,8 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
+console.log('toggle testing added refresh')
+
 function App() {
   return (
     <div className="nk-app-root">
