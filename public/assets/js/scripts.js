@@ -296,20 +296,38 @@
     });
   };
 
-  // setTimeout(() => {
-  //   $('.nk-nav-compact').on('click', function (event) {
-  //     $('.nk-sidebar').toggleClass('is-compact');
-  //     $(this).toggleClass('compact-active');
-  //   });
-  // }, 1000);
+  function isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  }
+
+  function applyIOSSpecificCode() {
+    $('.nk-nav-toggle').on('click', function (event) {
+      $('.nk-sidebar').toggleClass('nk-sidebar-active');
+    });
+
+    $('.nk-sidebar-element .nk-menu .has-sub').on('click', function () {
+      $(this).toggleClass('active-sub-menu');
+      $(this).siblings('.nk-menu-item').removeClass('active');
+    });
+
+    $('.nk-sidebar-element .nk-menu .nk-menu-item').on('click', function (event) {
+      event.stopPropagation(); // Prevent the event from bubbling up to the parent elements
+      $(this).toggleClass('active');
+      $(this).siblings('.has-sub').removeClass('active-sub-menu');
+    });
+  }
+
+  if (isIOS()) {
+    setTimeout(applyIOSSpecificCode, 1000);
+  }
 
   // Animate FormSearch @v1.0
   NioApp.Ani.formSearch = function (elm, opt) {
     var def = {
-        active: 'active',
-        timeout: 400,
-        target: '[data-search]'
-      },
+      active: 'active',
+      timeout: 400,
+      target: '[data-search]'
+    },
       attr = opt ? extend(def, opt) : def;
     var $elem = $(elm),
       $target = $(attr.target);
@@ -348,8 +366,8 @@
   // Animate FormElement @v1.0
   NioApp.Ani.formElm = function (elm, opt) {
     var def = {
-        focus: 'focused'
-      },
+      focus: 'focused'
+    },
       attr = opt ? extend(def, opt) : def;
     if ($(elm).exists()) {
       $(elm).each(function () {
@@ -376,8 +394,8 @@
     if ($(elm).exists()) {
       $(elm).each(function () {
         var def = {
-            errorElement: "span"
-          },
+          errorElement: "span"
+        },
           attr = opt ? extend(def, opt) : def;
         $(this).validate(attr);
       });
@@ -418,11 +436,11 @@
         var acceptedFiles = $(elm).data('accepted-files'),
           acceptedFiles = acceptedFiles ? acceptedFiles : null;
         var def = {
-            autoDiscover: false,
-            maxFiles: maxFiles,
-            maxFilesize: maxFileSize,
-            acceptedFiles: acceptedFiles
-          },
+          autoDiscover: false,
+          maxFiles: maxFiles,
+          maxFilesize: maxFileSize,
+          acceptedFiles: acceptedFiles
+        },
           attr = opt ? extend(def, opt) : def;
         $(this).addClass('dropzone').dropzone(attr);
       });
@@ -499,24 +517,24 @@
         var dom_separate = '<"row justify-between g-2' + btn_cls + '"<"col-7 col-sm-4 text-start"f><"col-5 col-sm-8 text-end"<"datatable-filter"<"d-flex justify-content-end g-2"' + btn + 'l>>>><"my-3"t><"row align-items-center"<"col-7 col-sm-12 col-md-9"p><"col-5 col-sm-12 col-md-3 text-start text-md-end"i>>';
         var dom = $(this).hasClass('is-separate') ? dom_separate : dom_normal;
         var def = {
-            responsive: true,
-            autoWidth: false,
-            dom: dom,
-            language: {
-              search: "",
-              searchPlaceholder: "Type in to Search",
-              lengthMenu: "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
-              info: "_START_ -_END_ of _TOTAL_",
-              infoEmpty: "0",
-              infoFiltered: "( Total _MAX_  )",
-              paginate: {
-                "first": "First",
-                "last": "Last",
-                "next": "Next",
-                "previous": "Prev"
-              }
+          responsive: true,
+          autoWidth: false,
+          dom: dom,
+          language: {
+            search: "",
+            searchPlaceholder: "Type in to Search",
+            lengthMenu: "<span class='d-none d-sm-inline-block'>Show</span><div class='form-control-select'> _MENU_ </div>",
+            info: "_START_ -_END_ of _TOTAL_",
+            infoEmpty: "0",
+            infoFiltered: "( Total _MAX_  )",
+            paginate: {
+              "first": "First",
+              "last": "Last",
+              "next": "Next",
+              "previous": "Prev"
             }
-          },
+          }
+        },
           attr = opt ? extend(def, opt) : def;
         attr = auto_responsive === false ? extend(attr, {
           responsive: false
@@ -612,8 +630,8 @@
   NioApp.Knob = function (elm, opt) {
     if ($(elm).exists() && typeof $.fn.knob === 'function') {
       var def = {
-          min: 0
-        },
+        min: 0
+      },
         attr = opt ? extend(def, opt) : def;
       $(elm).each(function () {
         $(this).knob(attr);
@@ -667,19 +685,19 @@
         console.log(_tooltip);
         var target = document.getElementById(self_id);
         var def = {
-            start: _start,
-            connect: _connect,
-            direction: NioApp.State.isRTL ? "rtl" : "ltr",
-            range: {
-              'min': _min,
-              'max': _max
-            },
-            margin: _min_distance,
-            limit: _max_distance,
-            step: _step,
-            orientation: _orientation,
-            tooltips: _tooltip
+          start: _start,
+          connect: _connect,
+          direction: NioApp.State.isRTL ? "rtl" : "ltr",
+          range: {
+            'min': _min,
+            'max': _max
           },
+          margin: _min_distance,
+          limit: _max_distance,
+          step: _step,
+          orientation: _orientation,
+          tooltips: _tooltip
+        },
           attr = opt ? extend(def, opt) : def;
         noUiSlider.create(target, attr);
       });
@@ -700,10 +718,10 @@
     if ($(elm).exists() && typeof $.fn.slick === 'function') {
       $(elm).each(function () {
         var def = {
-            'prevArrow': '<div class="slick-arrow-prev"><a href="javascript:void(0);" class="slick-prev"><em class="icon ni ni-chevron-left"></em></a></div>',
-            'nextArrow': '<div class="slick-arrow-next"><a href="javascript:void(0);" class="slick-next"><em class="icon ni ni-chevron-right"></em></a></div>',
-            rtl: NioApp.State.isRTL
-          },
+          'prevArrow': '<div class="slick-arrow-prev"><a href="javascript:void(0);" class="slick-prev"><em class="icon ni ni-chevron-left"></em></a></div>',
+          'nextArrow': '<div class="slick-arrow-next"><a href="javascript:void(0);" class="slick-next"><em class="icon ni ni-chevron-right"></em></a></div>',
+          rtl: NioApp.State.isRTL
+        },
           attr = opt ? extend(def, opt) : def;
         $(this).slick(attr);
       });
@@ -819,23 +837,23 @@
     if (element.length > 0) {
       element.forEach(function (item, index) {
         var def = {
-            selectors: {
-              nav: 'stepper-nav',
-              progress: 'stepper-progress',
-              content: 'stepper-steps',
-              prev: 'step-prev',
-              next: 'step-next',
-              submit: 'step-submit'
-            },
-            classes: {
-              nav_current: 'current',
-              nav_done: 'done',
-              step_active: 'active',
-              step_done: 'done',
-              active_step: 'active'
-            },
-            current_step: 1
+          selectors: {
+            nav: 'stepper-nav',
+            progress: 'stepper-progress',
+            content: 'stepper-steps',
+            prev: 'step-prev',
+            next: 'step-next',
+            submit: 'step-submit'
           },
+          classes: {
+            nav_current: 'current',
+            nav_done: 'done',
+            step_active: 'active',
+            step_done: 'done',
+            active_step: 'active'
+          },
+          current_step: 1
+        },
           attr = opt ? extend(def, opt) : def;
         NioApp.Custom.Stepper(item, attr);
         NioApp.Validate.OnChange('.js-select2');
