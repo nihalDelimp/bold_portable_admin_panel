@@ -30,7 +30,7 @@ function Sidebar() {
             />
           </Link>
         </div>
-        <div className="nk-menu-trigger me-n2" id="myButton">
+        <div className="nk-menu-trigger me-n2" id="toggle--button">
           <a
             className="nk-nav-toggle nk-quick-nav-icon d-xl-none"
             data-target="sidebarMenu"

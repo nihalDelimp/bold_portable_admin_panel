@@ -296,32 +296,29 @@
     });
   };
 
-  setTimeout(() =>{
+  setTimeout(() => {
 
-document.querySelector('.nk-nav-toggle').addEventListener('click', function (event) {
-  document.querySelector('.nk-sidebar').classList.toggle('nk-sidebar-active');
-});
+    document.querySelectorAll('.nk-sidebar-element .nk-menu .has-sub').forEach(function (item) {
+      item.addEventListener('click', function () {
+        this.classList.toggle('active-sub-menu');
+        this.nextElementSibling.classList.remove('active');
+      });
+    });
 
-document.querySelectorAll('.nk-sidebar-element .nk-menu .has-sub').forEach(function (item) {
-  item.addEventListener('click', function () {
-    this.classList.toggle('active-sub-menu');
-    this.nextElementSibling.classList.remove('active');
-  });
-});
+    document.querySelectorAll('.nk-sidebar-element .nk-menu .nk-menu-item').forEach(function (item) {
+      item.addEventListener('click', function (event) {
+        event.stopPropagation();
+        this.classList.toggle('active');
+        this.previousElementSibling.classList.remove('active-sub-menu');
+      });
+    });
 
-document.querySelectorAll('.nk-sidebar-element .nk-menu .nk-menu-item').forEach(function (item) {
-  item.addEventListener('click', function (event) {
-    event.stopPropagation();
-    this.classList.toggle('active');
-    this.previousElementSibling.classList.remove('active-sub-menu');
-  });
-});
+    document.getElementById('toggle--button').onclick = function () {
+      document.querySelector('.nk-sidebar').classList.toggle('is-compact');
+      document.querySelector('.nk-nav-compact').classList.toggle('compact-active');
+    }
 
-  document.getElementById('myButton').onclick = function () {
-    this.classList.toggle('active');
-  }
-
-},1000);
+  }, 1000);
 
   // Animate FormSearch @v1.0
   NioApp.Ani.formSearch = function (elm, opt) {

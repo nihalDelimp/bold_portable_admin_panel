@@ -2,7 +2,7 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
-console.log('added ontouchend code settime out new in javascript')
+console.log('added ontouchend code settime out new in javascript new')
 
 function App() {
   return (
