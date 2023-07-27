@@ -296,29 +296,41 @@
     });
   };
 
-  setTimeout(() => {
+  setTimeout(() =>{
 
-    document.querySelectorAll('.nk-sidebar-element .nk-menu .has-sub').forEach(function (item) {
-      item.addEventListener('click', function () {
-        this.classList.toggle('active-sub-menu');
-        this.nextElementSibling.classList.remove('active');
-      });
+  
+
+  function isIOS() {
+    return 'ontouchend' in document && !/Macintosh/i.test(navigator.platform);
+  }
+
+  // Wrap your original code inside this function
+  function applyIOSSpecificCode() {
+    $('.nk-nav-toggle').on('click', function (event) {
+      $('.nk-sidebar').toggleClass('nk-sidebar-active');
     });
 
-    document.querySelectorAll('.nk-sidebar-element .nk-menu .nk-menu-item').forEach(function (item) {
-      item.addEventListener('click', function (event) {
-        event.stopPropagation();
-        this.classList.toggle('active');
-        this.previousElementSibling.classList.remove('active-sub-menu');
-      });
+    $('.nk-sidebar-element .nk-menu .has-sub').on('click', function () {
+      $(this).toggleClass('active-sub-menu');
+      $(this).siblings('.nk-menu-item').removeClass('active');
     });
 
-    document.getElementById('toggle--button').onclick = function () {
-      document.querySelector('.nk-sidebar').classList.toggle('is-compact');
-      document.querySelector('.nk-nav-compact').classList.toggle('compact-active');
-    }
+    $('.nk-sidebar-element .nk-menu .nk-menu-item').on('click', function (event) {
+      event.stopPropagation(); // Prevent the event from bubbling up to the parent elements
+      $(this).toggleClass('active');
+      $(this).siblings('.has-sub').removeClass('active-sub-menu');
+    });
+  }
 
-  }, 1000);
+  if (isIOS()) {
+    setTimeout(applyIOSSpecificCode, 1000);
+  }
+
+  document.getElementById('myButton').onclick = function () {
+    this.classList.toggle('active');
+  }
+
+},1000);
 
   // Animate FormSearch @v1.0
   NioApp.Ani.formSearch = function (elm, opt) {
