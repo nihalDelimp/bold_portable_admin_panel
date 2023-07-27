@@ -296,6 +296,10 @@
     });
   };
 
+  setTimeout(() =>{
+
+  
+
   function isIOS() {
     return 'ontouchend' in document && !/Macintosh/i.test(navigator.platform);
   }
@@ -321,6 +325,8 @@
   if (isIOS()) {
     setTimeout(applyIOSSpecificCode, 1000);
   }
+
+},1000);
 
   // Animate FormSearch @v1.0
   NioApp.Ani.formSearch = function (elm, opt) {
