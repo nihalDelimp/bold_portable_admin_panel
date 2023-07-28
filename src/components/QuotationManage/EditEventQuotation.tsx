@@ -257,10 +257,10 @@ function EditEventQuotation(props: MyComponentProps) {
   };
 
    // Function to calculate the total price
- const calculateAnObjValues = (obj: ServicesPrice) => {
-  const total = Object.values(obj).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-  return total;
-};
+   const calculateAnObjValues = (obj: ServicesPrice) => {
+    const total = Object.values(obj).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+    return total;
+  };
 
 
   return (
@@ -1099,7 +1099,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             className="form-label"
                             htmlFor="Pickup Price"
                           >
-                            Pickup Price <span>50$</span>
+                            Pickup Price <span>{servicesPrice.pickUpPrice}</span>
                           </label>
                         </div>
                       </div>
@@ -1110,7 +1110,7 @@ function EditEventQuotation(props: MyComponentProps) {
                             className="form-label"
                             htmlFor="Pickup Price"
                           >
-                            Total Price <span>50$</span>
+                          Total Price <span>{calculateAnObjValues(servicesPrice)}</span>
                           </label>
                         </div>
                       </div>
