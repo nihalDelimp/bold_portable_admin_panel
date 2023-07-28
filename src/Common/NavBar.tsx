@@ -31,7 +31,7 @@ function NavBar() {
               </a>
             </div>
             <div className="nk-header-brand d-xl-none">
-              <a href="html/index.html" className="logo-link">
+              <Link to="/" className="logo-link">
                 <img
                   className="logo-light logo-img"
                   src={require("../images/bold_port.png")}
@@ -42,7 +42,7 @@ function NavBar() {
                   src={require("../images/bold_port.png")}
                   alt="logo-dark"
                 />
-              </a>
+              </Link>
             </div>
             <div className="nk-header-search ms-3 ms-xl-0"></div>
             <div className="nk-header-tools">
