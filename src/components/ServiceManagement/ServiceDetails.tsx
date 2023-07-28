@@ -18,7 +18,6 @@ const [serviceDetails, setServiceDetails] =useState<any>({})
 const [inventory, setInventory] =useState<any>({})
 const [quotation, setQuotationDetails] =useState<any>({})
 
-
   useEffect(() => {
     if(serviceId){
         getQuotationDetailsData()
@@ -59,7 +58,7 @@ const [quotation, setQuotationDetails] =useState<any>({})
                 <div className="card">
                   <div className="card-aside-wrap">
                     <div className="card-inner card-inner-lg">
-                      <div className="nk-block-head">
+                      <div className="nk-block-hsetServiceDetailsead">
                         <div className="nk-block-between d-flex justify-content-between">
                           <div className="nk-block-head-content">
                             <h4 className="nk-block-title">Service Request Detail</h4>
@@ -88,7 +87,7 @@ const [quotation, setQuotationDetails] =useState<any>({})
                             <div className="data-col">
                               <span className="data-label">Name</span>
                               <span className="data-value">
-                                {quotation?.userService?.name}
+                                {serviceDetails?.userService?.name}
                               </span>
                             </div>
                           </div>
@@ -96,7 +95,7 @@ const [quotation, setQuotationDetails] =useState<any>({})
                             <div className="data-col">
                               <span className="data-label">Email</span>
                               <span className="data-value">
-                                {quotation?.userService?.email}
+                                {serviceDetails?.userService?.email}
                               </span>
                             </div>
                           </div>
@@ -104,7 +103,7 @@ const [quotation, setQuotationDetails] =useState<any>({})
                             <div className="data-col">
                               <span className="data-label">Phone</span>
                               <span className="data-value text-soft">
-                                {quotation?.userService?.phone}
+                                {serviceDetails?.userService?.phone}
                               </span>
                             </div>
                           </div>
