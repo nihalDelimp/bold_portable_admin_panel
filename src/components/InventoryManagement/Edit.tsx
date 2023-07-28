@@ -158,7 +158,7 @@ function EditInventory(props: MyComponentProps) {
       style={{ display: modal ? "block" : "none" }}
       role="dialog"
     >
-      <div className="modal-dialog modal-lg modal-dialog-top" role="document">
+      <div className="modal-dialog modal-dialog-top" role="document">
         <div className="modal-content">
           <a
             className="close cursor_ponter"

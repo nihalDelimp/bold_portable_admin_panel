@@ -240,7 +240,7 @@ function EditQuotation(props: MyComponentProps) {
  
   return (
     <div
-      className={`modal fade ${modal ? "show" : "hide"}`}
+      className={`modal max-modal-size fade ${modal ? "show" : "hide"}`}
       style={{ display: modal ? "block" : "none" }}
       role="dialog"
     >

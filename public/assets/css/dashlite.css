@@ -5533,7 +5533,7 @@ div.dataTables_wrapper div.dataTables_filter .input-group.has-validation > .form
     --bs-modal-box-shadow: 0px 0px 1px 0px rgba(82, 100, 132, 0.2), 0px 8px 15.52px 0.48px rgba(28, 43, 70, 0.15);
   }
   .modal-dialog {
-    max-width: var(--bs-modal-width-quotation);
+    max-width: var(--bs-modal-width);
     margin-right: auto;
     margin-left: auto;
   }
@@ -39782,6 +39782,11 @@ button.close {
   .chat-profile-head, .chat-profile-body-inner {
     padding-right: 1.75rem;
     padding-left: 1.75rem;
+  }
+}
+@media (max-width: 991px){
+  .max-modal-size > .modal-dialog {
+    max-width: 720px;
   }
 }
 @media (min-width: 1540px) {
