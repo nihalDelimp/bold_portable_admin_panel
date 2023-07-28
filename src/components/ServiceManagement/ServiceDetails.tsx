@@ -18,6 +18,8 @@ const [serviceDetails, setServiceDetails] =useState<any>({})
 const [inventory, setInventory] =useState<any>({})
 const [quotation, setQuotationDetails] =useState<any>({})
 
+console.log("serviceDetails" , serviceDetails)
+
   useEffect(() => {
     if(serviceId){
         getQuotationDetailsData()
@@ -87,7 +89,7 @@ const [quotation, setQuotationDetails] =useState<any>({})
                             <div className="data-col">
                               <span className="data-label">Name</span>
                               <span className="data-value">
-                                {serviceDetails?.userService?.name}
+                                {serviceDetails?.name}
                               </span>
                             </div>
                           </div>
@@ -95,7 +97,7 @@ const [quotation, setQuotationDetails] =useState<any>({})
                             <div className="data-col">
                               <span className="data-label">Email</span>
                               <span className="data-value">
-                                {serviceDetails?.userService?.email}
+                                {serviceDetails?.email}
                               </span>
                             </div>
                           </div>
@@ -103,7 +105,7 @@ const [quotation, setQuotationDetails] =useState<any>({})
                             <div className="data-col">
                               <span className="data-label">Phone</span>
                               <span className="data-value text-soft">
-                                {serviceDetails?.userService?.phone}
+                                {serviceDetails?.phone}
                               </span>
                             </div>
                           </div>
