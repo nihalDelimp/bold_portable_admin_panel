@@ -119,7 +119,7 @@
     NioApp.Passcode('.passcode-switch');
   };
 
-  // Toastr Message @v1.0 
+  // Toastr Message @v1.0
   NioApp.Toast = function (msg, ttype, opt) {
     var ttype = ttype ? ttype : 'info',
       msi = '',
@@ -296,17 +296,17 @@
     });
   };
 
-  setTimeout(() =>{
+  setTimeout(() => {
 
-  
 
-  function isIOS() {
-    return 'ontouchend' in document && !/Macintosh/i.test(navigator.platform);
-  }
 
-  // Wrap your original code inside this function
-  function applyIOSSpecificCode() {
+    // function isIOS() {
+    //   return 'ontouchend' in document && !/Macintosh/i.test(navigator.platform);
+    // }
+
+    // function applyIOSSpecificCode() {
     $('.nk-nav-toggle').on('click', function (event) {
+      event.preventDefault();
       $('.nk-sidebar').toggleClass('nk-sidebar-active');
     });
 
@@ -315,22 +315,22 @@
       $(this).siblings('.nk-menu-item').removeClass('active');
     });
 
-    $('.nk-sidebar-element .nk-menu .nk-menu-item').on('click', function (event) {
-      event.stopPropagation(); // Prevent the event from bubbling up to the parent elements
+    $('.nk-sidebar-element .nk-menu .nk-menu-item').on('click', function () {
+      // event.stopPropagation(); // Prevent the event from bubbling up to the parent elements
       $(this).toggleClass('active');
       $(this).siblings('.has-sub').removeClass('active-sub-menu');
     });
-  }
+    // }
 
-  if (isIOS()) {
-    setTimeout(applyIOSSpecificCode, 1000);
-  }
+    // if (isIOS()) {
+    //   setTimeout(applyIOSSpecificCode, 1000);
+    // }
 
-  document.getElementById('myButton').onclick = function () {
-    this.classList.toggle('active');
-  }
+    // document.getElementById('myButton').onclick = function () {
+    //   this.classList.toggle('active');
+    // }
 
-},1000);
+  }, 1000);
 
   // Animate FormSearch @v1.0
   NioApp.Ani.formSearch = function (elm, opt) {
