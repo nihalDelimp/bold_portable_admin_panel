@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import TopNavBar from "../../Common/NavBar";
 import Footer from "../../Common/Footer";
-import Sidebar from "../../Common/Sidebar";
+import NewSidebar from "../../Common/NewSidebar";
 
 export interface LayoutProps {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ export interface LayoutProps {
 const PrivateLayout = ({ children }: LayoutProps) => {
   return (
     <Fragment>
-      <Sidebar />
+      <NewSidebar />
       <div className="nk-wrap">
         <TopNavBar />
         {children}

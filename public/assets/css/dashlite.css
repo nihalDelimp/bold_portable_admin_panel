@@ -29768,6 +29768,91 @@ body.nav-shown {
   flex-grow: 1;
   display: inline-block;
 }
+
+.nk-sidebar.nk-sidebar-minsize {
+  transform: translateX(0);
+}
+
+
+
+.nk-sidebar > .nk-sidebar-element .nk-menu > li.nk-menu-item-menu {
+  padding: 4px 12px;
+}
+
+.nk-sidebar > .nk-sidebar-element .nk-menu > li.nk-menu-item-menu > .nk-menu-sub {
+  display: none !important;
+}
+.nk-sidebar > .nk-sidebar-element .nk-menu > li.nk-menu-item-menu > .nk-menu-link {
+  vertical-align: middle;
+  display: flex;
+  position: relative;
+  align-items: center;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.nk--toggle-link:after{
+  position: absolute;
+  font-family: "Nioicon";
+  top: 50%;
+  content: "\e9d3";
+  right: 1.25rem;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #8094ae;
+  transition: transform 0.3s, color 0.1s, opacity 0.3s ease 0.3s;
+}
+
+.nk-sidebar > .nk-sidebar-element .nk-menu > li.nk-menu-item-menu.nk-menu-item-menu-active > .sub-menu-active {
+  display: block !important;
+}
+
+.nk-sidebar > .nk-sidebar-element .nk-menu > li.nk-menu-item-menu > .nk-menu-link {
+  cursor: pointer;
+}
+.nk-sidebar > .nk-sidebar-element .nk-menu > li.nk-menu-item-menu.nk-menu-item-menu-active > .nk-menu-link {
+  color: #9769ff;
+  background: #ebeef2;
+}
+
+.nk-sidebar-main--overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: rgb(0 0 0 / 61%);
+  top: 0px;
+  z-index: 1010;
+}
+
+@media(min-width: 1200px){
+  .nk-sidebar.nk-sidebar-minsize {
+    width: 76px;
+  }
+  
+  .nk-sidebar.nk-sidebar-minsize + .nk-wrap {
+    padding-left: 76px;
+  }
+  
+  .nk-sidebar.nk-sidebar-minsize + .nk-wrap > .nk-header-fixed {
+    left: 76px;
+  }
+  .nk-sidebar.nk-sidebar-minsize > .nk-sidebar-head > .nk-sidebar-brand {
+    display: none;
+  }
+  
+  .nk-sidebar.nk-sidebar-minsize > .nk-sidebar-element .nk-menu > li > a > .nk-menu-text {
+    opacity: 0;
+    transition: 0.4s linear;
+    white-space: nowrap;
+  }
+  
+  
+  .nk-sidebar.nk-sidebar-minsize > .nk-sidebar-element .nk-menu > li > a:after {
+    transition: none;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
 .nk-menu-badge {
   border-radius: 3px;
   padding: 0 0.4rem;

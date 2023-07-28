@@ -17,7 +17,10 @@ function NavBar() {
   };
 
 const handleSidebar=()=>{
-  document.getElementById('nk-sidebar-main')?.classList.toggle('nk-sidebar-main-active');
+  document.getElementById('nk-sidebar-main')?.classList.toggle('nk-sidebar-minsize');
+  const newElement = document.createElement("div");
+    newElement.classList.add("nk-sidebar-main--overlay");
+    document.querySelector(".nk-main")?.appendChild(newElement);
 }
 
 
@@ -26,15 +29,7 @@ const handleSidebar=()=>{
       <div className="nk-header nk-header-fixed is-light">
         <div className="container-fluid">
           <div className="nk-header-wrap">
-            {/* <div className="nk-menu-trigger d-xl-none ms-n1">
-              <a
-                href="#"
-                className="nk-nav-toggle nk-quick-nav-icon"
-                data-target="sidebarMenu"
-              >
-                <em className="icon ni ni-menu"></em>
-              </a>
-            </div> */}
+            
              <div className="nk-menu-trigger d-xl-none ms-n1">
               <span
                 onClick={()=>handleSidebar()}
