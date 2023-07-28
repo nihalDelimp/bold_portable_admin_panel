@@ -2,8 +2,6 @@ import React from "react";
 import { ToastContainer } from "react-toastify";
 import RootRouter from "./RootRouter";
 
-console.log("new code ");
-
 function App() {
   return (
     <div className="nk-app-root">
