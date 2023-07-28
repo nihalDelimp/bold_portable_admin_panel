@@ -282,31 +282,31 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col">
                       <span className="sub-text">ID</span>
                     </div>
-                    <div className="nk-tb-col">
+                    <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">Product Name</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">Category</span>
                     </div>
-                    <div className="nk-tb-col tb-col-lg">
+                    <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">Inventory Type</span>
                     </div>
-                    <div className="nk-tb-col tb-col-lg">
+                    <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">Gender</span>
                     </div>
-                      <div className="nk-tb-col tb-col-md">
+                      <div className="nk-tb-col">
                         <span>Assigned To</span>
                       </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">Created At</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span>Status</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">QR code</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
@@ -324,22 +324,22 @@ function InventoryList(props: MyComponentProps) {
                             </span>
                           </a>
                         </div>
-                        <div className="nk-tb-col tb-col-lg capitalize">
+                        <div className="nk-tb-col capitalize hide-sm-nk">
                           <span>
                             {replaceHyphenCapitolize(item?.productName)}
                           </span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg capitalize">
+                        <div className="nk-tb-col capitalize hide-sm-nk">
                           <span>{item?.category}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg capitalize">
+                        <div className="nk-tb-col capitalize hide-sm-nk">
                           <span>{item.type}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg capitalize">
+                        <div className="nk-tb-col capitalize hide-sm-nk">
                           <span>{item?.gender}</span>
                         </div>
                         {item.status === "active" ? (
-                          <div className="nk-tb-col tb-col-lg capitalize">
+                          <div className="nk-tb-col capitalize">
                             <span className="tb-status text-info">
                               {getQuotationTypeByLink(
                                 item?.qrCodeValue,
@@ -348,16 +348,16 @@ function InventoryList(props: MyComponentProps) {
                             </span>
                           </div>
                         ) :
-                        <div className="nk-tb-col tb-col-lg capitalize">
+                        <div className="nk-tb-col capitalize">
                         <span className="tb-status text-warning">
                           N/A
                         </span>
                       </div>
                       }
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col hide-sm-nk">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm">
+                        <div className="nk-tb-col">
                           <span className="tb-odr-status">
                             <span
                               className={`badge badge-dot ${setBackgroundColor(
@@ -368,7 +368,7 @@ function InventoryList(props: MyComponentProps) {
                             </span>
                           </span>
                         </div>
-                        <div className="nk-tb-col">
+                        <div className="nk-tb-col hide-sm-nk">
                           <a
                             href={item?.qrCode}
                             onClick={(e) => {
