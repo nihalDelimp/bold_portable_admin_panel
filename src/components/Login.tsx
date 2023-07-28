@@ -30,6 +30,7 @@ const Login = (props: MyComponentProps) => {
   });
 
   useEffect(() => {
+    console.log('shivakar login')
     if (accessToken) {
       navigate("/");
     }
