@@ -151,13 +151,13 @@ function ServicesList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Service Requirement</span>
                     </div>
-                    <div className="nk-tb-col tb-col-lg">
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Description</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
@@ -190,7 +190,7 @@ function ServicesList(props: MyComponentProps) {
                               </React.Fragment>
                             ))}
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>
                             {` ${
                               item.description
@@ -204,7 +204,7 @@ function ServicesList(props: MyComponentProps) {
                             }  `}
                           </span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">

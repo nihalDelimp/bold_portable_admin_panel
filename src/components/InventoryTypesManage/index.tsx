@@ -157,10 +157,10 @@ function InventoryTypeList(props: MyComponentProps) {
                     <div className="nk-tb-col">
                       <span className="sub-text">Inventory Type</span>
                     </div>
-                    <div className="nk-tb-col">
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created at</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
@@ -183,7 +183,7 @@ function InventoryTypeList(props: MyComponentProps) {
                             </div>
                           </div>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
                         <div className="nk-tb-col nk-tb-col-tools">

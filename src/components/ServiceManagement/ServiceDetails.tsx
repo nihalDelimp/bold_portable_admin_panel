@@ -61,7 +61,7 @@ console.log("serviceDetails" , serviceDetails)
                   <div className="card-aside-wrap">
                     <div className="card-inner card-inner-lg">
                       <div className="nk-block-hsetServiceDetailsead">
-                        <div className="nk-block-between d-flex justify-content-between">
+                        <div className="nk-block-between d-flex justify-content-between nk-block-head-sm">
                           <div className="nk-block-head-content">
                             <h4 className="nk-block-title">Service Request Detail</h4>
                             <div className="nk-block-des"></div>

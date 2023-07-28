@@ -269,10 +269,10 @@ const QuotationsList = (props: MyComponentProps) => {
                   <div className="nk-tb-col">
                     <span className="sub-text">ID</span>
                   </div>
-                  <div className="nk-tb-col tb-col-md">
-                    <span className="d-none d-sm-block">Customer Name</span>
+                  <div className="nk-tb-col">
+                    <span>Customer Name</span>
                   </div>
-                  <div className="nk-tb-col tb-col-sm">
+                  <div className="nk-tb-col tb-col-md">
                     <span>Customer Email</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
@@ -284,13 +284,13 @@ const QuotationsList = (props: MyComponentProps) => {
                   <div className="nk-tb-col tb-col-md">
                     <span>Quotation Type</span>
                   </div>
-                  <div className="nk-tb-col tb-col-md">
+                  <div className="nk-tb-col">
                     <span>Status</span>
                   </div>
                   <div className="nk-tb-col tb-col-md">
                     <span>Created At</span>
                   </div>
-                  <div className="nk-tb-col tb-col-md">
+                  <div className="nk-tb-col">
                     <span className="sub-text">Action</span>
                   </div>
                 </div>
@@ -314,31 +314,31 @@ const QuotationsList = (props: MyComponentProps) => {
                             </span>
                           </a>
                         </div>
-                        <div className="nk-tb-col tb-col-sm capitalize">
+                        <div className="nk-tb-col capitalize">
                           <span className="tb-sub">
                             {item.coordinator && item.coordinator?.name}
                           </span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm">
+                        <div className="nk-tb-col tb-col-md">
                           <span className="tb-sub">
                             {item.coordinator?.email}
                           </span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm">
+                        <div className="nk-tb-col tb-col-md">
                           <span className="tb-sub">
                             {item?.distanceFromKelowna} km
                           </span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm">
+                        <div className="nk-tb-col tb-col-md">
                           <span className="tb-sub">{item?.totalWorkers}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm capitalize">
+                        <div className="nk-tb-col tb-col-md capitalize">
                           <span className="tb-sub">
                             {item.quotationType &&
                               replaceHyphenCapitolize(item.quotationType)}
                           </span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm capitalize">
+                        <div className="nk-tb-col capitalize">
                           <span className="tb-odr-status">
                             <span
                               className={`badge badge-dot ${setBackgroundColor(
@@ -349,7 +349,7 @@ const QuotationsList = (props: MyComponentProps) => {
                             </span>
                           </span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm">
+                        <div className="nk-tb-col tb-col-md">
                           <span className="tb-sub">
                             {getFormatedDate(item.createdAt)}
                           </span>

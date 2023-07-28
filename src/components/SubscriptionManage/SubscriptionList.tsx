@@ -296,10 +296,10 @@ function SubscriptionList(props: MyComponentProps) {
                     {/* <div className="nk-tb-col">
                       <span className="sub-text">QR Code</span>
                     </div> */}
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col ">
                       <span className="sub-text">Status</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
@@ -314,7 +314,7 @@ function SubscriptionList(props: MyComponentProps) {
                             </span>
                           </a>
                         </div>
-                        <div className="nk-tb-col tb-col-md capitalize">
+                        <div className="nk-tb-col capitalize">
                           <span>{item.user && item.user?.name}</span>
                         </div>
                         <div className="nk-tb-col tb-col-md">
@@ -349,7 +349,7 @@ function SubscriptionList(props: MyComponentProps) {
                             alt="QR Code"
                           />
                         </div> */}
-                        <div className="nk-tb-col tb-col-md">
+                        <div className="nk-tb-col">
                           <span className="tb-odr-status">
                             <span
                               className={`badge badge-dot ${

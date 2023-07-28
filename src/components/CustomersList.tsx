@@ -181,7 +181,7 @@ function CustomersList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
@@ -196,7 +196,7 @@ function CustomersList(props: MyComponentProps) {
                             </span>
                           </a>
                         </div>
-                        <div className="nk-tb-col tb-col-md capitalize ">
+                        <div className="nk-tb-col capitalize ">
                           <span>{item?.name}</span>
                         </div>
                         <div className="nk-tb-col tb-col-md">

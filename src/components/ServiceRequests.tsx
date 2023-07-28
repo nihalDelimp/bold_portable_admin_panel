@@ -170,13 +170,13 @@ const viewServiceRequestDetails=(id:any)=>{
                     <div className="nk-tb-col">
                       <span className="sub-text">Service Name</span>
                     </div>
-                    <div className="nk-tb-col">
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">User Name</span>
                     </div>
-                    <div className="nk-tb-col">
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">User Phone</span>
                     </div>
-                    <div className="nk-tb-col">
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">User Email</span>
                     </div>
                     {/* <div className="nk-tb-col">
@@ -191,10 +191,10 @@ const viewServiceRequestDetails=(id:any)=>{
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span className="sub-text">Status</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span className="sub-text">Action</span>
                     </div>
                   </div>
@@ -217,16 +217,16 @@ const viewServiceRequestDetails=(id:any)=>{
                             </div>
                           </div>
                         </div>
-                        <div className="nk-tb-col tb-col-lg capitalize">
+                        <div className="nk-tb-col tb-col-md capitalize">
                           <span>{item?.name}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{item?.phone}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{item?.email}</span>
                         </div>
-                        {/* <div className="nk-tb-col tb-col-lg">
+                        {/* <div className="nk-tb-col tb-col-md">
                           <span>
                             {`${
                               item.address
@@ -251,7 +251,7 @@ const viewServiceRequestDetails=(id:any)=>{
                               )
                             )}
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           {item.images &&
                             item.images.length > 0 &&
                             item.images.map((element: any, index: number) => (
@@ -264,7 +264,7 @@ const viewServiceRequestDetails=(id:any)=>{
                               />
                             ))}
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
                         <div className="nk-tb-col capitalize">
