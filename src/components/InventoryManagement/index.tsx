@@ -224,12 +224,12 @@ function InventoryList(props: MyComponentProps) {
                                 className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
                                 data-bs-toggle="dropdown"
                               >
-                                {getStatusName(status) || 'View all'}
+                                {getStatusName(status) || "View all"}
                               </a>
                               <div className="dropdown-menu dropdown-menu-end">
                                 <ul className="link-list-opt no-bdr">
                                   <li>
-                                    <a onClick={() => changeStatus("")} >
+                                    <a onClick={() => changeStatus("")}>
                                       <span>View all</span>
                                     </a>
                                   </li>
@@ -294,9 +294,9 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">Gender</span>
                     </div>
-                      <div className="nk-tb-col">
-                        <span>Assigned To</span>
-                      </div>
+                    <div className="nk-tb-col">
+                      <span>Assigned To</span>
+                    </div>
                     <div className="nk-tb-col hide-sm-nk">
                       <span className="sub-text">Created At</span>
                     </div>
@@ -347,13 +347,11 @@ function InventoryList(props: MyComponentProps) {
                               )}
                             </span>
                           </div>
-                        ) :
-                        <div className="nk-tb-col capitalize">
-                        <span className="tb-status text-warning">
-                          N/A
-                        </span>
-                      </div>
-                      }
+                        ) : (
+                          <div className="nk-tb-col capitalize">
+                            <span className="tb-status text-warning">N/A</span>
+                          </div>
+                        )}
                         <div className="nk-tb-col hide-sm-nk">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
@@ -368,25 +366,37 @@ function InventoryList(props: MyComponentProps) {
                             </span>
                           </span>
                         </div>
-                        <div className="nk-tb-col hide-sm-nk">
-                          <a
-                            href={item?.qrCode}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleDownloadQRCode(
-                                item?.qrCode,
-                                `qr_code_${item?._id}.svg`
-                              );
-                            }}
-                            download={`qr_code_${item?._id}.svg`}
-                          >
-                            <img
-                              style={{ width: "40%" }}
-                              src={item?.qrCode}
-                              alt="QR Code"
-                            />
-                          </a>
-                        </div>
+                        {item.status === "pending" ? (
+                          <div className="nk-tb-col hide-sm-nk">
+                            <a
+                              href={item?.qrCode}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleDownloadQRCode(
+                                  item?.qrCode,
+                                  `qr_code_${item?._id}.svg`
+                                );
+                              }}
+                              download={`qr_code_${item?._id}.svg`}
+                            >
+                              <img
+                                style={{ width: "40%" }}
+                                src={item?.qrCode}
+                                alt="QR Code"
+                              />
+                            </a>
+                          </div>
+                        ) : (
+                          <div className="nk-tb-col hide-sm-nk">
+                            <a>
+                              <img
+                                style={{ width: "40%" }}
+                                src={item?.qrCode}
+                                alt="QR Code"
+                              />
+                            </a>
+                          </div>
+                        )}
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
                             <li>
