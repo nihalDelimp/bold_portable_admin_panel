@@ -16,12 +16,17 @@ function NavBar() {
     navigate("/");
   };
 
+const handleSidebar=()=>{
+  document.getElementById('nk-sidebar-main')?.classList.toggle('nk-sidebar-main-active');
+}
+
+
   return (
     <>
       <div className="nk-header nk-header-fixed is-light">
         <div className="container-fluid">
           <div className="nk-header-wrap">
-            <div className="nk-menu-trigger d-xl-none ms-n1">
+            {/* <div className="nk-menu-trigger d-xl-none ms-n1">
               <a
                 href="#"
                 className="nk-nav-toggle nk-quick-nav-icon"
@@ -29,7 +34,16 @@ function NavBar() {
               >
                 <em className="icon ni ni-menu"></em>
               </a>
-            </div>
+            </div> */}
+             <div className="nk-menu-trigger d-xl-none ms-n1">
+              <span
+                onClick={()=>handleSidebar()}
+                className="nk-quick-nav-icon"
+                data-target="sidebarMenu"
+              >
+                <em className="icon ni ni-menu"></em>
+              </span>
+            </div> 
             <div className="nk-header-brand d-xl-none">
               <Link to="/" className="logo-link">
                 <img
