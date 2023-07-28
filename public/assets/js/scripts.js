@@ -246,40 +246,40 @@
   };
 
   // Show Menu @v1.0
-  NioApp.TGL.showmenu = function (elm, opt) {
-    var toggle = elm ? elm : '.nk-nav-toggle',
-      $toggle = $(toggle),
-      $contentD = $('[data-content]'),
-      toggleBreak = $contentD.hasClass(_header_menu) ? _break.lg : _break.xl,
-      toggleOlay = _sidebar + '-overlay',
-      toggleClose = {
-        profile: true,
-        menu: false
-      },
-      def = {
-        active: 'toggle-active',
-        content: _sidebar + '-active',
-        body: 'nav-shown',
-        overlay: toggleOlay,
-        "break": toggleBreak,
-        close: toggleClose
-      },
-      attr = opt ? extend(def, opt) : def;
-    $toggle.on('click', function (e) {
-      NioApp.Toggle.trigger($(this).data('target'), attr);
-      e.preventDefault();
-    });
-    $doc.on('mouseup', function (e) {
-      if (!$toggle.is(e.target) && $toggle.has(e.target).length === 0 && !$contentD.is(e.target) && $contentD.has(e.target).length === 0 && NioApp.Win.width < toggleBreak) {
-        NioApp.Toggle.removed($toggle.data('target'), attr);
-      }
-    });
-    $win.on('resize', function () {
-      if (NioApp.Win.width < _break.xl || NioApp.Win.width < toggleBreak) {
-        NioApp.Toggle.removed($toggle.data('target'), attr);
-      }
-    });
-  };
+  // NioApp.TGL.showmenu = function (elm, opt) {
+  //   var toggle = elm ? elm : '.nk-nav-toggle',
+  //     $toggle = $(toggle),
+  //     $contentD = $('[data-content]'),
+  //     toggleBreak = $contentD.hasClass(_header_menu) ? _break.lg : _break.xl,
+  //     toggleOlay = _sidebar + '-overlay',
+  //     toggleClose = {
+  //       profile: true,
+  //       menu: false
+  //     },
+  //     def = {
+  //       active: 'toggle-active',
+  //       content: _sidebar + '-active',
+  //       body: 'nav-shown',
+  //       overlay: toggleOlay,
+  //       "break": toggleBreak,
+  //       close: toggleClose
+  //     },
+  //     attr = opt ? extend(def, opt) : def;
+  //   $toggle.on('click', function (e) {
+  //     NioApp.Toggle.trigger($(this).data('target'), attr);
+  //     e.preventDefault();
+  //   });
+  //   $doc.on('mouseup', function (e) {
+  //     if (!$toggle.is(e.target) && $toggle.has(e.target).length === 0 && !$contentD.is(e.target) && $contentD.has(e.target).length === 0 && NioApp.Win.width < toggleBreak) {
+  //       NioApp.Toggle.removed($toggle.data('target'), attr);
+  //     }
+  //   });
+  //   $win.on('resize', function () {
+  //     if (NioApp.Win.width < _break.xl || NioApp.Win.width < toggleBreak) {
+  //       NioApp.Toggle.removed($toggle.data('target'), attr);
+  //     }
+  //   });
+  // };
 
   // Compact Sidebar @v1.0
   NioApp.sbCompact = function () {
