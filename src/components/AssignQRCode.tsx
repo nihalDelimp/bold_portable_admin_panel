@@ -390,16 +390,16 @@ function InventoryList(props: MyComponentProps) {
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Category</span>
                     </div>
-                    <div className="nk-tb-col tb-col-lg">
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Type</span>
                     </div>
-                    <div className="nk-tb-col tb-col-lg">
+                    <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Gender</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
                       <span className="sub-text">Created At</span>
                     </div>
-                    <div className="nk-tb-col tb-col-md">
+                    <div className="nk-tb-col">
                       <span>Status</span>
                     </div>
                     <div className="nk-tb-col tb-col-md">
@@ -439,19 +439,19 @@ function InventoryList(props: MyComponentProps) {
                             </div>
                           </div>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{CapitalizeFirstLetter(item?.category)}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{CapitalizeFirstLetter(item.type)}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{CapitalizeFirstLetter(item.gender)}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-lg">
+                        <div className="nk-tb-col tb-col-md">
                           <span>{getFormatedDate(item.createdAt)}</span>
                         </div>
-                        <div className="nk-tb-col tb-col-sm">
+                        <div className="nk-tb-col">
                           <span className="tb-odr-status">
                             <span
                               className={`badge badge-dot ${setBackgroundColor(
@@ -462,7 +462,7 @@ function InventoryList(props: MyComponentProps) {
                             </span>
                           </span>
                         </div>
-                        <div className="nk-tb-col">
+                        <div className="nk-tb-col tb-col-md">
                           <img
                             style={{ width: "40%" }}
                             src={item?.qrCode}
