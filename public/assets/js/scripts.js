@@ -300,35 +300,32 @@
 
 
 
-    // function isIOS() {
-    //   return 'ontouchend' in document && !/Macintosh/i.test(navigator.platform);
-    // }
+    function isIOS() {
+      return 'ontouchend' in document && !/Macintosh/i.test(navigator.platform);
+    }
 
-    // function applyIOSSpecificCode() {
-    $('.nk-nav-toggle').on('click', function (event) {
-      event.preventDefault();
-      $('.nk-sidebar').toggleClass('nk-sidebar-active');
-    });
+    // Wrap your original code inside this function
+    function applyIOSSpecificCode() {
+      $('.nk-nav-toggle').on('click', function (event) {
+        $('.nk-sidebar').toggleClass('nk-sidebar-active');
+        event.preventDefault();
+      });
 
-    $('.nk-sidebar-element .nk-menu .has-sub').on('click', function () {
-      $(this).toggleClass('active-sub-menu');
-      $(this).siblings('.nk-menu-item').removeClass('active');
-    });
+      $('.nk-sidebar-element .nk-menu .has-sub').on('click', function () {
+        $(this).toggleClass('active-sub-menu');
+        $(this).siblings('.nk-menu-item').removeClass('active');
+      });
 
-    $('.nk-sidebar-element .nk-menu .nk-menu-item').on('click', function () {
-      // event.stopPropagation(); // Prevent the event from bubbling up to the parent elements
-      $(this).toggleClass('active');
-      $(this).siblings('.has-sub').removeClass('active-sub-menu');
-    });
-    // }
+      $('.nk-sidebar-element .nk-menu .nk-menu-item').on('click', function (event) {
+        event.stopPropagation(); // Prevent the event from bubbling up to the parent elements
+        $(this).toggleClass('active');
+        $(this).siblings('.has-sub').removeClass('active-sub-menu');
+      });
+    }
 
-    // if (isIOS()) {
-    //   setTimeout(applyIOSSpecificCode, 1000);
-    // }
-
-    // document.getElementById('myButton').onclick = function () {
-    //   this.classList.toggle('active');
-    // }
+    if (isIOS()) {
+      setTimeout(applyIOSSpecificCode, 1000);
+    }
 
   }, 1000);
 
