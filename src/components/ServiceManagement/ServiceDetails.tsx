@@ -82,6 +82,33 @@ const [quotation, setQuotationDetails] =useState<any>({})
                       <div className="nk-block">
                         <div className="nk-data data-list">
                           <div className="data-head">
+                            <h6 className="overline-title">Service Request User Detail</h6>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Name</span>
+                              <span className="data-value">
+                                {quotation?.userService?.name}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Email</span>
+                              <span className="data-value">
+                                {quotation?.userService?.email}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-item">
+                            <div className="data-col">
+                              <span className="data-label">Phone</span>
+                              <span className="data-value text-soft">
+                                {quotation?.userService?.phone}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="data-head">
                             <h6 className="overline-title">Inventory</h6>
                           </div>
                           <div className="data-item">
