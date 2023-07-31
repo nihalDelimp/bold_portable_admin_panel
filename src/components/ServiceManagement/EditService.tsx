@@ -148,6 +148,7 @@ function EditService(props: MyComponentProps) {
                             Farm orchard winery
                           </option>
                           <option value="event">Special event</option>
+                          <option value="recreational-site">Recreational Site</option>
                         </select>
                       </div>
                     </div>
