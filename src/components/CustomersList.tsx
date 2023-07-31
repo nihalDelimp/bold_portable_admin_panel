@@ -36,6 +36,8 @@ function CustomersList(props: MyComponentProps) {
   const [itemsPerPage, setItemPerPage] = useState<number>(10);
   const [exportData, setExportData] = useState<any[]>([]);
   const [exportModal, setExportModal] = useState<boolean>(false);
+  const [inputvalue, setinputvalue] = useState("")
+
   const csvLink = useRef<any>(null);
 
   useEffect(() => {
@@ -106,7 +108,30 @@ function CustomersList(props: MyComponentProps) {
     dispatch(saveCustomerId(customerId));
     navigate("/view-user");
   };
+  
+  const handleSearch = async()=>{
 
+    await authAxios()
+    .get(`/user/find-user?query=${inputvalue}`)
+    .then(
+      (response) => {
+        setLoading(false);
+        if (response.data.status === 1) {
+          const resData = response.data;
+          setCustomers(resData.data);
+          setTotalCount(resData?.count);
+        }
+      },
+      (error) => {
+        setLoading(false);
+        toast.error(error.response.data?.message);
+      }
+    )
+    .catch((error) => {
+      console.log("error", error);
+    });
+
+  }
   return (
     <>
       <div className="nk-content">
@@ -117,6 +142,8 @@ function CustomersList(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">Customers</h3>
+                    <input type="text" value={inputvalue} onChange={e=>setinputvalue(e.target.value)}/>
+                    <button onClick={handleSearch} >Search</button>
                   </div>
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">
