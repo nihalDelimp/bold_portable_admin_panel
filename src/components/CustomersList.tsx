@@ -142,8 +142,10 @@ function CustomersList(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">Customers</h3>
+                    <div className="search--customer">
                     <input type="text" value={inputvalue} onChange={e=>setinputvalue(e.target.value)}/>
-                    <button onClick={handleSearch} >Search</button>
+                    <button onClick={handleSearch} className="btn">Search</button>
+                    </div>
                   </div>
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">

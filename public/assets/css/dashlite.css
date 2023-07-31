@@ -41756,3 +41756,36 @@ div.dataTables_wrapper div.dataTables_filter .dark-mode .nk-header-search input,
 .ReactModalPortal .ReactModal__Overlay {
   z-index: 9999 !important;
 }
+
+.search--customer > input {
+  border-radius: 50px 0px 0px 50px;
+  box-shadow: none;
+  border: 1px solid #f5f6fa;
+  min-height: 45px;
+  padding: 0px 25px;
+}
+
+.search--customer {
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    box-shadow: 3px 3px 7px 0px #0000001a;
+    margin-top: 25px;
+}
+
+.search--customer > button {
+    background: #854fff;
+    color: #fff;
+    border-radius: 0px 50px 50px 0px;
+    min-height: 45px;
+}
+
+.search--customer > button:hover {
+    background: #854fff;
+    color: #fff;
+}
+
+.search--customer > input:focus-visible {
+    box-shadow: none;
+    outline: none;
+}
