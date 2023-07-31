@@ -110,7 +110,7 @@ function CustomersList(props: MyComponentProps) {
   };
   
   const handleSearch = async()=>{
-
+    setLoading(true);
     await authAxios()
     .get(`/user/find-user?query=${inputvalue}`)
     .then(
