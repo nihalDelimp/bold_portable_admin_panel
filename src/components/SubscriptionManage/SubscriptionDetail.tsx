@@ -294,7 +294,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               {quotation.numUnits}
                             </td>
                             <td className="text-center">Delivery</td>
-                            <td>{servicesPrice.deliveryPrice}</td>
+                            <td>${servicesPrice.deliveryPrice}</td>
                           </tr>
                           {servicesPrice.pickUpPrice > 0 && (
                             <tr>
@@ -305,7 +305,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Pickup</td>
-                              <td>{servicesPrice.pickUpPrice}</td>
+                              <td>${servicesPrice.pickUpPrice}</td>
                             </tr>
                           )}
                           {servicesPrice.numberOfUnitsCost > 0 && (
@@ -316,7 +316,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Number Of Units</td>
-                              <td>{servicesPrice.numberOfUnitsCost}</td>
+                              <td>${servicesPrice.numberOfUnitsCost}</td>
                             </tr>
                           )}
                           {servicesPrice.useAtNightCost > 0 && (
@@ -327,7 +327,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Night Use</td>
-                              <td>{servicesPrice.useAtNightCost}</td>
+                              <td>${servicesPrice.useAtNightCost}</td>
                             </tr>
                           )}
 
@@ -339,7 +339,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Winter Use</td>
-                              <td>{servicesPrice?.useInWinterCost}</td>
+                              <td>${servicesPrice?.useInWinterCost}</td>
                             </tr>
                           )}
 
@@ -351,7 +351,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Hand Washing</td>
-                              <td>{servicesPrice?.handWashingCost}</td>
+                              <td>${servicesPrice?.handWashingCost}</td>
                             </tr>
                           )}
 
@@ -365,7 +365,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center">
                                 Hand Sanitizer Pump
                               </td>
-                              <td>{servicesPrice?.handSanitizerPumpCost}</td>
+                              <td>${servicesPrice?.handSanitizerPumpCost}</td>
                             </tr>
                           )}
                           {servicesPrice?.twiceWeeklyServicing > 0 && (
@@ -378,7 +378,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center">
                                 Twice Weekly Servicing
                               </td>
-                              <td>{servicesPrice?.twiceWeeklyServicing}</td>
+                              <td>${servicesPrice?.twiceWeeklyServicing}</td>
                             </tr>
                           )}
                           {servicesPrice?.serviceFrequencyCost > 0 && (
@@ -391,7 +391,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center">
                                 service Frequency Cost
                               </td>
-                              <td>{servicesPrice?.serviceFrequencyCost}</td>
+                              <td>${servicesPrice?.serviceFrequencyCost}</td>
                             </tr>
                           )}
                           {servicesPrice?.weeklyHoursCost > 0 && (
@@ -402,7 +402,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Weekly Hours</td>
-                              <td>{servicesPrice?.weeklyHoursCost}</td>
+                              <td>${servicesPrice?.weeklyHoursCost}</td>
                             </tr>
                           )}
                           {servicesPrice?.workersCost > 0 && (
@@ -413,7 +413,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Workers</td>
-                              <td>{servicesPrice?.workersCost}</td>
+                              <td>${servicesPrice?.workersCost}</td>
                             </tr>
                           )}
                           {servicesPrice?.alcoholServed > 0 && (
@@ -424,7 +424,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Alcohol Served</td>
-                              <td>{servicesPrice?.alcoholServed}</td>
+                              <td>${servicesPrice?.alcoholServed}</td>
                             </tr>
                           )}
                           {servicesPrice?.payPerUse > 0 && (
@@ -435,7 +435,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Pay Per Use</td>
-                              <td>{servicesPrice?.payPerUse}</td>
+                              <td>${servicesPrice?.payPerUse}</td>
                             </tr>
                           )}
                           {servicesPrice?.fencedOff > 0 && (
@@ -446,7 +446,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Fenced Off</td>
-                              <td>{servicesPrice?.fencedOff}</td>
+                              <td>${servicesPrice?.fencedOff}</td>
                             </tr>
                           )}
                           {servicesPrice?.activelyCleaned > 0 && (
@@ -457,7 +457,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center"></td>
                               <td className="text-center"></td>
                               <td className="text-center">Actively Cleaned</td>
-                              <td>{servicesPrice?.activelyCleaned}</td>
+                              <td>${servicesPrice?.activelyCleaned}</td>
                             </tr>
                           )}
                           {servicesPrice?.specialRequirementsCost > 0 && (
@@ -470,7 +470,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                               <td className="text-center">
                                 Special Requirements
                               </td>
-                              <td>{servicesPrice?.specialRequirementsCost}</td>
+                              <td>${servicesPrice?.specialRequirementsCost}</td>
                             </tr>
                           )}
                         </tbody>
@@ -481,7 +481,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                           <tbody>
                             <tr>
                               <td>Subtotal</td>
-                              <td>{totalPrice}</td>
+                              <td>${totalPrice}</td>
                             </tr>
                             {/* <tr>
                               <td>Processing fee</td>
@@ -489,7 +489,7 @@ function SubscriptionDetail(props: MyComponentProps) {
                             </tr> */}
                             <tr className="border-y">
                               <td>Grand Total</td>
-                              <td>{totalPrice}</td>
+                              <td>${totalPrice}</td>
                             </tr>
                           </tbody>
                         </table>
