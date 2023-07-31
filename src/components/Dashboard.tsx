@@ -234,7 +234,7 @@ function Dashboard(props: MyComponentProps) {
                           <li className="nk-block-tools-opt">
                             <Link to="/quotations" className="btn btn-primary">
                               <em className="icon ni ni-reports"></em>
-                              <span>View All Quotation </span>
+                              <span>View All Quotations </span>
                             </Link>
                           </li>
                         </ul>
