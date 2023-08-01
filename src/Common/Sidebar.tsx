@@ -127,6 +127,15 @@ function Sidebar() {
                       <span className="nk-menu-text">Service Requests</span>
                     </Link>
                   </li>
+                  <li
+                    className={`nk-menu-item ${
+                      pathName === "/service-category" ? "active" : ""
+                    }`}
+                  >
+                    <Link to="/service-category" className="nk-menu-link">
+                      <span className="nk-menu-text">Service Category</span>
+                    </Link>
+                  </li>
                 </ul>
               </li>
               <li

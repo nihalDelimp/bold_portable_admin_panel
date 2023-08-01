@@ -16,7 +16,9 @@ interface MyComponentProps {
 function EditService(props: MyComponentProps) {
   const { setLoading, modal, itemData, closeModal, getListingData } = props;
   const [selectedOption, setSelectedOption] = useState(null);
-
+  const [currentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(10);
+  const [categories, setCategories] = useState([]);
   const [options, setOptions] = useState([]);
 
   const [serviceData, setServiceData] = useState({
@@ -25,6 +27,36 @@ function EditService(props: MyComponentProps) {
     description: "",
   });
 
+  const getCategoryData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/service-category/list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data.serviceCategories;
+            setCategories(resData);
+            const categoryOptions = resData.map((item:any) => ({
+              value: item.category,
+              label: item.category,
+            }));
+            setOptions(categoryOptions);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
   useEffect(() => {
     if (itemData && itemData.name) {
       setServiceData((prev) => ({
@@ -41,6 +73,7 @@ function EditService(props: MyComponentProps) {
         setSelectedOption(selectedItem);
       }
     }
+    getCategoryData();
   }, [itemData]);
 
   const handleSelectChange = (options: any) => {
@@ -63,12 +96,19 @@ function EditService(props: MyComponentProps) {
   };
 
   const handleChangeSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, options } = e.target;
+    const selectedCategories: string[] = [];
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
+        selectedCategories.push(options[i].value);
+      }
+    }
     setServiceData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: selectedCategories, // Use an array to store selected categories
     }));
   };
+  
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -154,16 +194,20 @@ function EditService(props: MyComponentProps) {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="phone-no">
-                          Service categories
+                        <label className="form-label" htmlFor="full-name">
+                          Category
                         </label>
-                        <CreatableSelect
-                          isMulti
-                          value={selectedOption}
-                          options={options}
-                          onChange={handleSelectChange}
-                          placeholder="Createable"
-                        />
+                        <div className="form-group">
+                          <label className="form-label" htmlFor="full-name">
+                            Category
+                          </label>
+                          <CreatableSelect
+                            isMulti
+                            value={selectedOption}
+                            options={options}
+                            onChange={handleSelectChange}
+                          />
+                      </div>
                       </div>
                     </div>
                     <div className="col-md-12">

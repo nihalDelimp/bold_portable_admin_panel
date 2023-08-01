@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { authAxios } from "../../config/config";
 import { toast } from "react-toastify";
 import IsLoadingHOC from "../../Common/IsLoadingHOC";
@@ -15,7 +15,9 @@ interface MyComponentProps {
 function AddService(props: MyComponentProps) {
   const { setLoading, modal, closeModal, getListingData } = props;
   const [selectedOption, setSelectedOption] = useState(null);
-
+  const [currentPage] = useState<number>(1);
+  const [itemsPerPage] = useState<number>(100);
+  const [categories, setCategories] = useState([]);
   const [options, setOptions] = useState([]);
 
   const [serviceData, setServiceData] = useState({
@@ -23,6 +25,42 @@ function AddService(props: MyComponentProps) {
     categories: [],
     description: "",
   });
+
+  useEffect(()=>{
+    getCategoryData();
+  },[])
+const getCategoryData = async () => {
+    setLoading(true);
+    await authAxios()
+      .get(
+        `/service-category/list?page=${currentPage}&limit=${itemsPerPage}`
+      )
+      .then(
+        (response) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            const resData = response.data.data.serviceCategories;
+            console.log(resData,"Nihal")
+            setCategories(resData);
+            const categoryOptions = resData.map((item:any) => ({
+              value: item.category,
+              label: item.category,
+            }));
+            setOptions(categoryOptions);
+          } else {
+            toast.error(response.data.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  };
+
 
   const handleSelectChange = (options: any) => {
     setSelectedOption(options);
