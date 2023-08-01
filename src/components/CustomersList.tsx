@@ -28,6 +28,7 @@ const headers = [
 
 function CustomersList(props: MyComponentProps) {
   const { setLoading, isLoading } = props;
+  const inputRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [customers, setCustomers] = useState<any[]>([]);
@@ -108,7 +109,11 @@ function CustomersList(props: MyComponentProps) {
     dispatch(saveCustomerId(customerId));
     navigate("/view-user");
   };
-  
+  const handleKeyDown = (event:any) => {
+    if (event.keyCode === 13) {
+      handleSearch();
+    }
+  };
   const handleSearch = async()=>{
     setLoading(true);
     await authAxios()
@@ -143,7 +148,7 @@ function CustomersList(props: MyComponentProps) {
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">Customers</h3>
                     <div className="search--customer">
-                    <input type="text" value={inputvalue} onChange={e=>setinputvalue(e.target.value)}/>
+                    <input type="text" value={inputvalue}  ref={inputRef} onChange={e=>setinputvalue(e.target.value)} onKeyDown={handleKeyDown}/>
                     <button onClick={handleSearch} className="btn">Search</button>
                     </div>
                   </div>
