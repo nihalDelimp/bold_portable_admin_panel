@@ -50,6 +50,7 @@ function EditEventQuotation(props: MyComponentProps) {
     email: "",
     cellNumber: "",
   });
+  const [eventDetails , setEventDetails] = useState({eventDate : ''})
   const [quotation, setQuotation] = useState({
     maxWorkers: "",
     weeklyHours: "",
@@ -158,10 +159,12 @@ function EditEventQuotation(props: MyComponentProps) {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resCoordinateData = response.data.data.quotation?.coordinator;
-            const quotationData = response.data.data.quotation;
-            const costDetails = response.data.data.quotation?.costDetails;
-            const vipSectionData = response.data.data.quotation?.vipSection;
+            const resData = response.data.data.quotation
+            const resCoordinateData = resData?.coordinator;
+            const quotationData = resData;
+            const costDetails = resData?.costDetails;
+            const vipSectionData = resData?.vipSection;
+            setEventDetails(resData.eventDetails)
 
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
@@ -403,18 +406,18 @@ function EditEventQuotation(props: MyComponentProps) {
                             className="form-label"
                             htmlFor="personal-email"
                           >
-                            Placement Date
+                            Event Date
                           </label>
                           <input
                             disabled
-                            value={moment(quotation.placementDate).format(
+                            value={moment(eventDetails && eventDetails?.eventDate).format(
                               "MMMM Do YYYY"
                             )}
                             onChange={handleChangeQuotation}
                             type="text"
                             name="placementDate"
                             className="form-control"
-                            placeholder="Placement Date"
+                            placeholder="Event Date"
                           />
                         </div>
                       </div>

@@ -31,6 +31,7 @@ const InventoryDetails = (props: MyComponentProps) => {
     email: "",
     cellNumber: "",
   });
+  const [eventDetails, setEventDetails] = useState({ eventDate: "" });
   const [quotation, setQuotation] = useState({
     maxWorkers: "",
     weeklyHours: "",
@@ -53,7 +54,6 @@ const InventoryDetails = (props: MyComponentProps) => {
     totalWorkers: 0,
     quotationType: "",
   });
-
 
   const userFields = ["name", "email", "cellNumber"];
 
@@ -89,9 +89,10 @@ const InventoryDetails = (props: MyComponentProps) => {
         (response) => {
           setLoading(false);
           if (response.data.status === 1) {
-            const resCoordinateData = response.data.data.quotation?.coordinator;
             const resData = response.data.data.quotation;
-            const costDetails = response.data.data.quotation?.costDetails;
+            const resCoordinateData = resData?.coordinator;
+            const costDetails = resData?.costDetails;
+            setEventDetails(resData.eventDetails);
             userFields.forEach((field) => {
               setCoordinator((prev) => ({
                 ...prev,
@@ -251,8 +252,10 @@ const InventoryDetails = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">Placement Date</span>
                               <span className="data-value">
-                                {quotation?.placementDate &&
-                                  getFormatedDate(quotation?.placementDate)}
+                                {getFormatedDate(
+                                  quotation?.placementDate ||
+                                    eventDetails?.eventDate
+                                )}
                               </span>
                             </div>
                           </div>
@@ -297,7 +300,6 @@ const InventoryDetails = (props: MyComponentProps) => {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>

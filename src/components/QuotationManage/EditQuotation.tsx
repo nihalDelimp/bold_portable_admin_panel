@@ -390,7 +390,6 @@ function EditQuotation(props: MyComponentProps) {
                             value={moment(quotation.placementDate).format(
                               "MMMM Do YYYY"
                             )}
-                            onChange={handleChangeQuotation}
                             type="text"
                             name="placementDate"
                             className="form-control"

@@ -14,15 +14,14 @@ interface MyComponentProps {
 const ServiceDetails = (props: MyComponentProps) => {
   const { serviceId } = useSelector((state: RootState) => state.app);
   const { setLoading } = props;
-const [serviceDetails, setServiceDetails] =useState<any>({})
-const [inventory, setInventory] =useState<any>({})
-const [quotation, setQuotationDetails] =useState<any>({})
-
-console.log("serviceDetails" , serviceDetails)
+  const [serviceDetails, setServiceDetails] = useState<any>({});
+  const [inventory, setInventory] = useState<any>({});
+  const [quotation, setQuotationDetails] = useState<any>({});
+  const [eventDetails, setEventDetails] = useState({ eventDate: "" });
 
   useEffect(() => {
-    if(serviceId){
-        getQuotationDetailsData()
+    if (serviceId) {
+      getQuotationDetailsData();
     }
   }, []);
 
@@ -33,12 +32,12 @@ console.log("serviceDetails" , serviceDetails)
       .get(`/user-service/detail/${serviceId}`)
       .then(
         (response) => {
-            setLoading(false);
-            console.log(response.data)
-            setServiceDetails(response.data.data.userService)  
-            setQuotationDetails(response.data.data.quotation)  
-            setInventory(response.data.data.inventory)  
-            
+          setLoading(false);
+          const resData = response.data.data;
+          setServiceDetails(resData.userService);
+          setQuotationDetails(resData.quotation);
+          setInventory(resData.inventory);
+          setEventDetails(resData.quotation?.eventDetails);
         },
         (error) => {
           setLoading(false);
@@ -63,7 +62,9 @@ console.log("serviceDetails" , serviceDetails)
                       <div className="nk-block-hsetServiceDetailsead">
                         <div className="nk-block-between d-flex justify-content-between nk-block-head-sm">
                           <div className="nk-block-head-content">
-                            <h4 className="nk-block-title">Service Request Detail</h4>
+                            <h4 className="nk-block-title">
+                              Service Request Detail
+                            </h4>
                             <div className="nk-block-des"></div>
                           </div>
                           <div className="d-flex align-center">
@@ -83,7 +84,9 @@ console.log("serviceDetails" , serviceDetails)
                       <div className="nk-block">
                         <div className="nk-data data-list">
                           <div className="data-head">
-                            <h6 className="overline-title">Service Request User Detail</h6>
+                            <h6 className="overline-title">
+                              Service Request User Detail
+                            </h6>
                           </div>
                           <div className="data-item">
                             <div className="data-col">
@@ -211,8 +214,10 @@ console.log("serviceDetails" , serviceDetails)
                             <div className="data-col">
                               <span className="data-label">Placement Date</span>
                               <span className="data-value">
-                                {quotation?.placementDate &&
-                                  getFormatedDate(quotation?.placementDate)}
+                                {getFormatedDate(
+                                  quotation?.placementDate ||
+                                    eventDetails?.eventDate
+                                )}
                               </span>
                             </div>
                           </div>
@@ -257,7 +262,6 @@ console.log("serviceDetails" , serviceDetails)
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>

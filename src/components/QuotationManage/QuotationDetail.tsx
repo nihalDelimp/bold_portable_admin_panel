@@ -27,6 +27,8 @@ const QuotationDetail = (props: MyComponentProps) => {
     email: "",
     cellNumber: "",
   });
+  const [eventDetails, setEventDetails] = useState({ eventDate: "" });
+  console.log("eventDetails", eventDetails);
   const [quotation, setQuotation] = useState({
     maxWorkers: "",
     weeklyHours: "",
@@ -122,6 +124,7 @@ const QuotationDetail = (props: MyComponentProps) => {
             const resCoordinateData = resData?.coordinator;
             const costDetails = resData?.costDetails;
             const totalPrice = resData?.costDetailsSum;
+            setEventDetails(resData?.eventDetails);
             if (totalPrice) {
               setTotalPrice(totalPrice);
             }
@@ -244,8 +247,10 @@ const QuotationDetail = (props: MyComponentProps) => {
                             <div className="data-col">
                               <span className="data-label">Placement Date</span>
                               <span className="data-value">
-                                {quotation?.placementDate &&
-                                  getFormatedDate(quotation?.placementDate)}
+                                {getFormatedDate(
+                                  quotation?.placementDate ||
+                                    eventDetails?.eventDate
+                                )}
                               </span>
                             </div>
                           </div>
@@ -294,7 +299,7 @@ const QuotationDetail = (props: MyComponentProps) => {
                               <div className="data-item">
                                 <div className="data-col">
                                   <span className="data-label">
-                                  Restricted Access
+                                    Restricted Access
                                   </span>
                                   <span className="data-value text-soft">
                                     {quotation.restrictedAccessDescription}
