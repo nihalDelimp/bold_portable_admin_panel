@@ -410,7 +410,7 @@ function SubscriptionList(props: MyComponentProps) {
                                             to={`/assign-qr-code?quoteId=${item.quotationId}&quoteType=${item?.quotationType}`}
                                           >
                                             <em className="icon ni ni-move"></em>
-                                            <span>Assign Production</span>
+                                            <span>Assign Inventory</span>
                                           </Link>
                                         </li>
                                       )}

@@ -230,7 +230,7 @@ function InventoryList(props: MyComponentProps) {
                 <div className="nk-block-between">
                   <div className="nk-block-head-content">
                     <h3 className="nk-block-title page-title">
-                      Assign Production to Quotation
+                      Assign Inventory to Contract
                     </h3>
                   </div>
                   <div className="nk-block-head-content">
