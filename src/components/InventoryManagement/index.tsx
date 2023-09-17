@@ -91,6 +91,13 @@ function InventoryList(props: MyComponentProps) {
     setMoveModal(true);
   };
 
+  function getSVGContentFromDataURL(dataUrl:string) {
+    const prefix = "data:image/svg+xml;utf8,";
+    return dataUrl.startsWith(prefix) 
+        ? decodeURIComponent(dataUrl.slice(prefix.length))
+        : null;
+}
+
   const handleDeleteItem = async () => {
     setLoading(true);
     await authAxios()
@@ -366,37 +373,32 @@ function InventoryList(props: MyComponentProps) {
                             </span>
                           </span>
                         </div>
-                        {item.status === "pending" ? (
-                          <div className="nk-tb-col hide-sm-nk">
-                            <a
-                              href={item?.qrCode}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleDownloadQRCode(
-                                  item?.qrCode,
-                                  `qr_code_${item?._id}.svg`
-                                );
-                              }}
-                              download={`qr_code_${item?._id}.svg`}
-                            >
-                              <img
-                                style={{ width: "40%" }}
-                                src={item?.qrCode}
-                                alt="QR Code"
-                              />
-                            </a>
-                          </div>
-                        ) : (
-                          <div className="nk-tb-col hide-sm-nk">
-                            <a>
-                              <img
-                                style={{ width: "40%" }}
-                                src={item?.qrCode}
-                                alt="QR Code"
-                              />
-                            </a>
-                          </div>
-                        )}
+                        {
+    item.status === "pending" ? (
+        <div className="nk-tb-col hide-sm-nk">
+            <a
+                href={item?.qrCode}
+                onClick={(e) => {
+                    e.preventDefault();
+                    handleDownloadQRCode(
+                        item?.qrCode,
+                        `qr_code_${item?._id}.svg`
+                    );
+                }}
+                download={`qr_code_${item?._id}.svg`}
+            >
+                <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
+
+            </a>
+        </div>
+    ) : (
+        <div className="nk-tb-col hide-sm-nk">
+            <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
+
+        </div>
+    )
+}
+
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
                             <li>
