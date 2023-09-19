@@ -32,6 +32,8 @@ function InventoryList(props: MyComponentProps) {
   const [elementData, setElementData] = useState(null);
   const [elementID, setElementID] = useState<string>("");
   const [status, setStatus] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [filterName, setFilterName] = useState("productName");
 
   useEffect(() => {
     getInventoryListData();
@@ -108,7 +110,8 @@ function InventoryList(props: MyComponentProps) {
           if (response.data.status === 1) {
             toast.success(response.data?.message);
             setDeleteModal(false);
-            getInventoryListData();
+            // getInventoryListData();
+            setListData(response.data?.inventories);
           } else {
             toast.error(response.data?.message);
           }
@@ -168,6 +171,11 @@ function InventoryList(props: MyComponentProps) {
     setStatus(name);
   };
 
+  const changeFilter = (name: string) => {
+    setCurrentPage(1);
+    setFilterName(name);
+  };
+
   const getStatusName = (status: string) => {
     if (status === "pending") {
       return "Unassigned ";
@@ -197,6 +205,50 @@ function InventoryList(props: MyComponentProps) {
     }
   };
 
+  
+const getFilterDetails=(filterName:string)=>{
+  if (filterName === "productName") {
+    return "Name ";
+  } else if (filterName === "category") {
+    return "Category";
+  } else if (filterName === "type") {
+    return "Type";
+  } else if (filterName === "gender") {
+    return "Gender";
+  } else if (filterName === "status") {
+    return "Status";
+  } else {
+    return filterName;
+  }
+}
+  const handleSearch=async()=>{
+    setLoading(true);
+    await authAxios().get(`/inventory/list-by-qr-id?${filterName}=${searchText}&page=1&limit=10`)
+      .then(
+        (response :any) => {
+          setLoading(false);
+          if (response.data.status === 1) {
+            setMoveModal(false);
+            if(response?.data?.data?.inventories.length===0){
+            toast.error("No record found");
+            }else{
+              toast.success(response.data?.message);
+              setListData(response?.data?.data?.inventories)
+            }
+          } else {
+            toast.error(response.data?.message);
+          }
+        },
+        (error) => {
+          setLoading(false);
+          toast.error(error.response.data?.message);
+        }
+      )
+      .catch((error) => {
+        console.log("errorrrr", error);
+      });
+  }
+  
   return (
     <>
       <div className="nk-content">
@@ -210,6 +262,65 @@ function InventoryList(props: MyComponentProps) {
                       Inventory Management
                     </h3>
                   </div>
+
+                  <div
+                        data-content="more-options"
+                      >
+                        <ul className="nk-block-tools g-3">
+                          <li>
+                            <div className="drodown">
+                              <a
+                                href="#"
+                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                                data-bs-toggle="dropdown"
+                              >
+                                {getFilterDetails(filterName) || "Name"}
+                              </a>
+                              <div className="dropdown-menu dropdown-menu-end">
+                                <ul className="link-list-opt no-bdr">
+                                  <li>
+                                    <a onClick={() => changeFilter("productName")}>
+                                      <span>Name</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => changeFilter("gender")}>
+                                      <span>Gender</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a onClick={() => changeFilter("type")}>
+                                      <span>Type</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      onClick={() => changeFilter("category")}
+                                    >
+                                      <span>Category</span>
+                                    </a>
+                                  </li>
+                                  <li>
+                                    <a
+                                      onClick={() => changeFilter("status")}
+                                    >
+                                      <span>Status</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </li>
+                          <li >
+                          <div className="search--customer">
+                          <input type="text" value={searchText} onChange={(e)=>setSearchText(e.target.value)} />
+                    <button onClick={handleSearch} className="btn">Search</button>
+                    </div>
+                          </li>
+                        </ul>
+                      </div>
+
+                 
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">
                       <a
@@ -388,13 +499,14 @@ function InventoryList(props: MyComponentProps) {
                 download={`qr_code_${item?._id}.svg`}
             >
                 <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
+                {/* <p>{item.qrId}</p> */}
 
             </a>
         </div>
     ) : (
         <div className="nk-tb-col hide-sm-nk">
             <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
-
+{/* <p>{item.qrId}</p> */}
         </div>
     )
 }
