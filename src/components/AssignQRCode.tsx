@@ -65,6 +65,12 @@ function InventoryList(props: MyComponentProps) {
         console.log("errorrrr", error);
       });
   };
+  function getSVGContentFromDataURL(dataUrl:string) {
+    const prefix = "data:image/svg+xml;utf8,";
+    return dataUrl.startsWith(prefix) 
+        ? decodeURIComponent(dataUrl.slice(prefix.length))
+        : null;
+  }
 
   const getInventoryTypeData = async () => {
     setLoading(true);
@@ -463,11 +469,7 @@ function InventoryList(props: MyComponentProps) {
                           </span>
                         </div>
                         <div className="nk-tb-col tb-col-md">
-                          <img
-                            style={{ width: "40%" }}
-                            src={item?.qrCode}
-                            alt="QR Code"
-                          />
+                        <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
                         </div>
                       </div>
                     ))}
