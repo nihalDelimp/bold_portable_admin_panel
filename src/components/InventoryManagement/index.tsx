@@ -95,10 +95,10 @@ function InventoryList(props: MyComponentProps) {
 
   function getSVGContentFromDataURL(dataUrl:string) {
     const prefix = "data:image/svg+xml;utf8,";
-    return dataUrl.startsWith(prefix) 
-        ? decodeURIComponent(dataUrl.slice(prefix.length))
-        : null;
-}
+    return dataUrl.startsWith(prefix)
+      ? decodeURIComponent(dataUrl.slice(prefix.length))
+      : null;
+  }
 
   const handleDeleteItem = async () => {
     setLoading(true);
@@ -205,22 +205,22 @@ function InventoryList(props: MyComponentProps) {
     }
   };
 
-  
+
 const getFilterDetails=(filterName:string)=>{
-  if (filterName === "productName") {
-    return "Name ";
-  } else if (filterName === "category") {
-    return "Category";
-  } else if (filterName === "type") {
-    return "Type";
-  } else if (filterName === "gender") {
-    return "Gender";
-  } else if (filterName === "status") {
-    return "Status";
-  } else {
-    return filterName;
+    if (filterName === "productName") {
+      return "Name ";
+    } else if (filterName === "category") {
+      return "Category";
+    } else if (filterName === "type") {
+      return "Type";
+    } else if (filterName === "gender") {
+      return "Gender";
+    } else if (filterName === "status") {
+      return "Status";
+    } else {
+      return filterName;
+    }
   }
-}
   const handleSearch=async()=>{
     setLoading(true);
     await authAxios().get(`/inventory/list-by-qr-id?${filterName}=${searchText}&page=1&limit=10`)
@@ -230,7 +230,7 @@ const getFilterDetails=(filterName:string)=>{
           if (response.data.status === 1) {
             setMoveModal(false);
             if(response?.data?.data?.inventories.length===0){
-            toast.error("No record found");
+              toast.error("No record found");
             }else{
               toast.success(response.data?.message);
               setListData(response?.data?.data?.inventories)
@@ -248,7 +248,7 @@ const getFilterDetails=(filterName:string)=>{
         console.log("errorrrr", error);
       });
   }
-  
+
   return (
     <>
       <div className="nk-content">
@@ -261,66 +261,71 @@ const getFilterDetails=(filterName:string)=>{
                     <h3 className="nk-block-title page-title">
                       Inventory Management
                     </h3>
-                  </div>
 
-                  <div
-                        data-content="more-options"
-                      >
-                        <ul className="nk-block-tools g-3">
-                          <li>
-                            <div className="drodown">
-                              <a
-                                href="#"
-                                className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
-                                data-bs-toggle="dropdown"
-                              >
-                                {getFilterDetails(filterName) || "Name"}
-                              </a>
-                              <div className="dropdown-menu dropdown-menu-end">
-                                <ul className="link-list-opt no-bdr">
-                                  <li>
-                                    <a onClick={() => changeFilter("productName")}>
-                                      <span>Name</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a onClick={() => changeFilter("gender")}>
-                                      <span>Gender</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a onClick={() => changeFilter("type")}>
-                                      <span>Type</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() => changeFilter("category")}
-                                    >
-                                      <span>Category</span>
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a
-                                      onClick={() => changeFilter("status")}
-                                    >
-                                      <span>Status</span>
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
+                    <div data-content="more-options" className="d-flex align-items-center gap-3 h-auto mt-3">
+                      <ul className="select--dropdown">
+                        <li>
+                          <div className="drodown">
+                            <a
+                              href="#"
+                              className="dropdown-toggle dropdown-indicator btn btn-outline-light btn-white"
+                              data-bs-toggle="dropdown"
+                            >
+                              {getFilterDetails(filterName) || "Name"}
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-start">
+                              <ul className="link-list-opt no-bdr">
+                                <li>
+                                  <a onClick={() => changeFilter("productName")}>
+                                    <span>Name</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a onClick={() => changeFilter("gender")}>
+                                    <span>Gender</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a onClick={() => changeFilter("type")}>
+                                    <span>Type</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a
+                                    onClick={() => changeFilter("category")}
+                                  >
+                                    <span>Category</span>
+                                  </a>
+                                </li>
+                                <li>
+                                  <a
+                                    onClick={() => changeFilter("status")}
+                                  >
+                                    <span>Status</span>
+                                  </a>
+                                </li>
+                                
+                                <li>
+                                  <a
+                                    onClick={() => changeFilter("qrid")}
+                                  >
+                                    <span>QR Id</span>
+                                  </a>
+                                </li>
+
+                              </ul>
                             </div>
-                          </li>
-                          <li >
-                          <div className="search--customer">
-                          <input type="text" value={searchText} onChange={(e)=>setSearchText(e.target.value)} />
-                    <button onClick={handleSearch} className="btn">Search</button>
-                    </div>
-                          </li>
-                        </ul>
+                          </div>
+                        </li>
+                      </ul>
+                      <div className="search--customer mt-0">
+                        <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+                        <button onClick={handleSearch} className="btn">Search</button>
                       </div>
+                    </div>
 
-                 
+
+                  </div>
                   <div className="nk-block-head-content">
                     <div className="toggle-wrap nk-block-tools-toggle">
                       <a
@@ -485,31 +490,31 @@ const getFilterDetails=(filterName:string)=>{
                           </span>
                         </div>
                         {
-    item.status === "pending" ? (
-        <div className="nk-tb-col hide-sm-nk">
-            <a
-                href={item?.qrCode}
-                onClick={(e) => {
-                    e.preventDefault();
-                    handleDownloadQRCode(
-                        item?.qrCode,
-                        `qr_code_${item?._id}.svg`
-                    );
-                }}
-                download={`qr_code_${item?._id}.svg`}
-            >
-                <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
-                {/* <p>{item.qrId}</p> */}
+                          item.status === "pending" ? (
+                            <div className="nk-tb-col hide-sm-nk" style={{width: '150px'}}>
+                              <a
+                                href={item?.qrCode}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDownloadQRCode(
+                                    item?.qrCode,
+                                    `qr_code_${item?._id}.svg`
+                                  );
+                                }}
+                                download={`qr_code_${item?._id}.svg`}
+                              >
+                                <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
+                                <p className="text-center">{item.qrId}</p>
 
-            </a>
-        </div>
-    ) : (
-        <div className="nk-tb-col hide-sm-nk">
-            <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
-{/* <p>{item.qrId}</p> */}
-        </div>
-    )
-}
+                              </a>
+                            </div>
+                          ) : (
+                            <div className="nk-tb-col hide-sm-nk">
+                              <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
+                              <p>{item.qrId}</p>
+                            </div>
+                          )
+                        }
 
                         <div className="nk-tb-col nk-tb-col-tools">
                           <ul className="gx-1">
