@@ -25,6 +25,7 @@ function SubscriptionDetail(props: MyComponentProps) {
   const [userData, setUserData] = useState<any>(null);
   const [subscription, setsubscription] = useState<any>(null);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [inventoriesList, setInventoriesList] = useState<any>(null);
 
   const [quotation, setQuotation] = useState({
     maxWorkers: "",
@@ -126,6 +127,7 @@ function SubscriptionDetail(props: MyComponentProps) {
             const resData = response.data.data.quotation;
             const costDetails = resData?.costDetails;
             const totalPrice = resData?.costDetailsSum;
+            setInventoriesList(response?.data?.data?.quotation?.inventories)
             if (totalPrice) {
               setTotalPrice(totalPrice);
             }
@@ -493,6 +495,10 @@ function SubscriptionDetail(props: MyComponentProps) {
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <div>{inventoriesList?.map((item:any,index:any)=>( 
+                        <p key={index}>{item?.qrId}</p>
+                      ))}
                       </div>
                       <div className="bottom--invoice">
                         <h4 className="heading--invoice">Bold Portable</h4>
