@@ -269,8 +269,8 @@ function SubscriptionDetail(props: MyComponentProps) {
                             <th className="width-md">Quotation Type</th>
                             <th className="width-small">Male</th>
                             <th className="width-small">Female</th>
-                            <th className="width-small">Total Worker</th>
-                            <th className="width-small">Number of Unit</th>
+                            <th className="width-small" style={{ width: '100px' }}>Total Worker</th>
+                            <th className="width-small" style={{ width: '150px' }}>Number of Unit</th>
                             <th className="text-center">Usage</th>
                             <th>Price</th>
                           </tr>
@@ -496,10 +496,16 @@ function SubscriptionDetail(props: MyComponentProps) {
                           </tbody>
                         </table>
                       </div>
-                      <div>{inventoriesList?.map((item:any,index:any)=>( 
-                        <p key={index}>{item?.qrId}</p>
-                      ))}
-                      </div>
+                      {inventoriesList && 
+                      (<div className="inventoryListKey">
+                        <h3>Assign Inventory (QR ID)</h3>
+                        <div className="list--button-key">
+                        {inventoriesList?.map((item:any,index:any)=>( 
+                        <button className="list--invertory-key" key={index}>
+                        {item?.qrId}
+                        </button>))}
+                        </div>
+                      </div>)}
                       <div className="bottom--invoice">
                         <h4 className="heading--invoice">Bold Portable</h4>
                         <div className="details--invoice--list">
