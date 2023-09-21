@@ -217,7 +217,7 @@ const getFilterDetails=(filterName:string)=>{
       return "Gender";
     } else if (filterName === "status") {
       return "Status";
-    } else if (filterName === "qrid") {
+    } else if (filterName === "qrId") {
       return "QR Id";
     } else {
       return filterName;
@@ -309,7 +309,7 @@ const getFilterDetails=(filterName:string)=>{
                                 
                                 <li>
                                   <a
-                                    onClick={() => changeFilter("qrid")}
+                                    onClick={() => changeFilter("qrId")}
                                   >
                                     <span>QR Id</span>
                                   </a>
