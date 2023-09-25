@@ -110,7 +110,7 @@ function InventoryList(props: MyComponentProps) {
           if (response.data.status === 1) {
             toast.success(response.data?.message);
             setDeleteModal(false);
-            // getInventoryListData();
+            getInventoryListData();
             setListData(response.data?.inventories);
           } else {
             toast.error(response.data?.message);
@@ -218,7 +218,7 @@ const getFilterDetails=(filterName:string)=>{
     } else if (filterName === "status") {
       return "Status";
     } else if (filterName === "qrId") {
-      return "QR Id";
+      return "QR ID";
     } else {
       return filterName;
     }
@@ -311,7 +311,7 @@ const getFilterDetails=(filterName:string)=>{
                                   <a
                                     onClick={() => changeFilter("qrId")}
                                   >
-                                    <span>QR Id</span>
+                                    <span>QR ID</span>
                                   </a>
                                 </li>
 
@@ -445,7 +445,7 @@ const getFilterDetails=(filterName:string)=>{
                               onClick={() => handleViewInventoryDetails(item)}
                               className="tb-status text-primary"
                             >
-                              {item._id?.slice(-8)?.toUpperCase()}
+                              {item.qrId?.slice(-8)?.toUpperCase()}
                             </span>
                           </a>
                         </div>
@@ -506,14 +506,14 @@ const getFilterDetails=(filterName:string)=>{
                                 download={`qr_code_${item?._id}.svg`}
                               >
                                 <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
-                                <p className="text-center">{item.qrId}</p>
+                                {/* <p className="text-center">{item.qrId}</p> */}
 
                               </a>
                             </div>
                           ) : (
                             <div className="nk-tb-col hide-sm-nk">
                               <div dangerouslySetInnerHTML={{ __html: getSVGContentFromDataURL(item?.qrCode) || '' }} />
-                              <p>{item.qrId}</p>
+                              {/* <p>{item.qrId}</p> */}
                             </div>
                           )
                         }

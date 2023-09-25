@@ -496,16 +496,18 @@ function SubscriptionDetail(props: MyComponentProps) {
                           </tbody>
                         </table>
                       </div>
-                      {inventoriesList && 
-                      (<div className="inventoryListKey">
-                        <h3>Assign Inventory (QR ID)</h3>
-                        <div className="list--button-key">
-                        {inventoriesList?.map((item:any,index:any)=>( 
-                        <button className="list--invertory-key" key={index}>
-                        {item?.qrId}
-                        </button>))}
+                      {inventoriesList && inventoriesList.length > 0 && (
+                        <div className="inventoryListKey">
+                          <h3>INVENTORY ASSIGNED (QR ID)</h3>
+                          <div className="list--button-key">
+                            {inventoriesList.map((item:any, index:any) => (
+                              <button className="list--inventory-key" key={index}>
+                                {item.qrId}
+                              </button>
+                            ))}
+                          </div>
                         </div>
-                      </div>)}
+                      )}
                       <div className="bottom--invoice">
                         <h4 className="heading--invoice">Bold Portable</h4>
                         <div className="details--invoice--list">
